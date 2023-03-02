@@ -1,24 +1,35 @@
-﻿namespace HealthModeApp;
+﻿using System.Diagnostics;
+using HealthModeApp.DataServices;
+
+namespace HealthModeApp;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    private IRestDataService _dataService;
 
-	public MainPage()
+    public MainPage(IRestDataService dataService)
 	{
 		InitializeComponent();
+
+		_dataService = dataService;
 	}
 
-	private void OnCounterClicked(object sender, EventArgs e)
+	protected async override void OnAppearing()
 	{
-		count++;
+		base.OnAppearing();
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
+		dataList.ItemsSource = await _dataService.GetAllNutritionInfoAsync();
 	}
+
+	async void OnAddDataClicked(object sender, EventArgs e)
+	{
+		Debug.WriteLine("----> Add button clicked");
+	}
+
+	async void OnEditDataClicked(object sender, SelectionChangedEventArgs e)
+	{
+		Debug.WriteLine("----> Edit button clicked");
+
+    }
 }
 

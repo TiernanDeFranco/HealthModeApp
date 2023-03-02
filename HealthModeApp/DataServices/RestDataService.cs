@@ -59,9 +59,33 @@ namespace HealthModeApp.DataServices
             return;
         }
 
-        public Task DeleteNutritionInfoAsync(int foodId)
+        public async Task DeleteNutritionInfoAsync(int foodId)
         {
-            throw new NotImplementedException();
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return;
+            }
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/healthmode{foodId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Successfully deleted entry");
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+            }
+
+            return;
         }
 
         public async Task<List<NutritionModel>> GetAllNutritionInfoAsync()
@@ -96,9 +120,36 @@ namespace HealthModeApp.DataServices
             return nutritionList;
         }
 
-        public Task UpdateNutritionInfoAsync(NutritionModel nutritionModel)
+        public async Task UpdateNutritionInfoAsync(NutritionModel nutritionModel)
         {
-            throw new NotImplementedException();
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return;
+            }
+
+            try
+            {
+                string jsonNutrition = JsonSerializer.Serialize<NutritionModel>(nutritionModel, _jsonSerializerOptions);
+                StringContent content = new StringContent(jsonNutrition, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/healthmode/{nutritionModel.FoodId}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Successfully added to database");
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+            }
+
+            return;
         }
     }
 }
