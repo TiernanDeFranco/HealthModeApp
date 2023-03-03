@@ -31,6 +31,13 @@ public partial class MainPage : ContentPage
 		Debug.WriteLine("----> Edit button clicked");
 
     }
+
+    async void OnRefreshClicked(object sender, EventArgs e)
+    {
+        Debug.WriteLine("----> Update button clicked");
+        dataList.ItemsSource = await _dataService.GetAllNutritionInfoAsync();
+    }
+
 }
 
 //test

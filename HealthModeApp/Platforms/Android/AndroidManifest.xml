@@ -27,5 +27,6 @@
 		<provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="1999999999" android:authorities="app.healthmode.healthmodeapp.mono.MonoRuntimeProvider.__mono_init__" />
 	</application>
 	<!--suppress UsesMinSdkAttributes-->
-	<uses-sdk android:minSdkVersion="22" />
+	<uses-sdk android:minSdkVersion="22"
+			android:targetSdkVersion="31"/>
 </manifest>

@@ -5,6 +5,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add Nutrition Info" Clicked="OnAddDataClicked"/>
+        <ToolbarItem Text="Refresh" Clicked="OnRefreshClicked"/>
 
     </ContentPage.ToolbarItems>
 
