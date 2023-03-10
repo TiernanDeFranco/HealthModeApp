@@ -1,4 +1,5 @@
 ﻿using HealthModeApp.DataServices;
+using HealthModeApp.Pages;
 
 namespace HealthModeApp;
 
@@ -18,6 +19,8 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IRestDataService, RestDataService>();
 
 		builder.Services.AddSingleton<MainPage>();
+		builder.Services.AddTransient<BarcodeScan>();
+		builder.Services.AddTransient<AddFoodEntry>(); 
 
 		return builder.Build();
 	}

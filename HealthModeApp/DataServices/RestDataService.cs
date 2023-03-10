@@ -20,6 +20,7 @@ namespace HealthModeApp.DataServices
             _baseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5209" : "https://localhost:7002";
             _url = $"{_baseAddress}/api";
 
+
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -40,15 +41,22 @@ namespace HealthModeApp.DataServices
                 string jsonNutrition = JsonSerializer.Serialize<NutritionModel>(nutritionModel, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonNutrition, Encoding.UTF8, "application/json");
 
+               
+
+                //StringContent content = new StringContent("{\n\t\"barcode\": \"33\",\n\t\"foodName\": \"33\",\n\t\"servingSize\": \"25\",\n\t\"servingType\": \"g\",\n\t\"calories\": \"100\",\n\t\"protein\": \"6\",\n\t\"carbs\": \"3\",\n\t\"fat\": \"5\",\n\t\"satFat\": \"1.5\",\n\t\"cholesterol\": \"185\",\n\t\"sodium\": \"70\",\n\t\"calcium\": \"2\",\n\t\"iron\": \"4\",\n\t\"potassium\": \"70\",\n\t\"vitaminA\": \"6\",\n\t\"FolicAcid\": \"2\"\n}", Encoding.UTF8, "application/json");
+                Debug.WriteLine(jsonNutrition);
+
                 HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/healthmode", content);
 
-                if(response.IsSuccessStatusCode)
+
+                if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Successfully added to database");
                 }
                 else
                 {
-                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                    Debug.WriteLine("-----> Non-Http 2xx Response StatusCode Failed");
+
                 }
             }
             catch(Exception ex)

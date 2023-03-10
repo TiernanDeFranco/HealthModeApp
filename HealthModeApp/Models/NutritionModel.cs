@@ -25,11 +25,14 @@ namespace HealthModeApp.Models
         string _foodname;
         public string FoodName { get => _foodname; set { if (_foodname == value) return; _foodname = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FoodName))); } }
 
+        string _brand;
+        public string Brand { get => _brand; set { if (_brand == value) return; _brand = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Brand))); } }
+
         decimal _servingsize;
         public decimal ServingSize { get => _servingsize; set { if (_servingsize == value) return; _servingsize = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ServingSize))); } }
 
-        string _servingtype;
-        public  string ServingType { get => _servingtype; set { if (_servingtype == value) return; _servingtype = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ServingType))); } }
+        string _servingname;
+        public string ServingName { get => _servingname; set { if (_servingname == value) return; _servingname = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ServingName))); } }
 
         int _calories;
         public int Calories { get => _calories; set { if (_calories == value) return; _calories = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Calories))); } }
@@ -94,6 +97,32 @@ namespace HealthModeApp.Models
         decimal _vitamind;
         public decimal VitaminD { get => _vitamind; set { if (_vitamind == value) return; _vitamind = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VitaminD))); } }
 
+        decimal _vitamink;
+        public decimal VitaminK { get => _vitamink; set { if (_vitamink == value) return; _vitamink = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VitaminK))); } }
+
+        decimal _thiamin;
+        public decimal Thiamin { get => _thiamin; set { if (_thiamin == value) return; _thiamin = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Thiamin))); } }
+
+        decimal _riboflavin;
+        public decimal Riboflavin { get => _riboflavin; set { if (_riboflavin == value) return; _riboflavin = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Riboflavin))); } }
+
+        decimal _niacin;
+        public decimal Niacin { get => _niacin; set { if (_niacin == value) return; _niacin  = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Niacin))); } }
+
+        decimal _b5;
+        public decimal B5 { get => _b5; set { if (_b5 == value) return; _b5 = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(B5))); } }
+
+        decimal _b6;
+        public decimal B6 { get => _b6; set { if (_b6 == value) return; _b6 = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(B6))); } }
+
+        decimal _b7;
+        public decimal B7 { get => _b7; set { if (_b7 == value) return; _b7 = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(B7))); } }
+
+        decimal _b12;
+        public decimal B12 { get => _b12; set { if (_b12 == value) return; _b12 = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(B12))); } }
+
+        decimal _folicacid;
+        public decimal FolicAcid { get => _folicacid; set { if (_folicacid == value) return; _folicacid = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FolicAcid))); } }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

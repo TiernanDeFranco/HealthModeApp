@@ -55,10 +55,12 @@
 	  <None Remove="Models\" />
 	  <None Remove="DataServices\" />
 	  <None Remove="Platforms\Android\Resources\xml\" />
+	  <None Remove="Pages\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
 	  <Folder Include="DataServices\" />
 	  <Folder Include="Platforms\Android\Resources\xml\" />
+	  <Folder Include="Pages\" />
 	</ItemGroup>
 </Project>
