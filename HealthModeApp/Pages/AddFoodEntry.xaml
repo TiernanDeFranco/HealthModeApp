@@ -15,50 +15,64 @@
         <StackLayout x:Name="FoodPage1">
         <HorizontalStackLayout>
          <Label Text="Barcode:"/>
-        <Entry Text="{Binding Path=Food.Barcode}" Margin="75,0,0,0" Placeholder="Barcode"/>
+        <Entry Text="{Binding Path=Food.Barcode}" Margin="170,-5,0,0" Placeholder="Barcode"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout>
         <Label Text="Food Name:"/>
-        <Entry Text="{Binding Path=Food.FoodName}" Margin="75,0,0,0"  Placeholder="ex. Potato Chips"/>
+        <Entry Text="{Binding Path=Food.FoodName}" Margin="150,-5,0,0"  Placeholder="ex. Potato Chips"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout>
         <Label Text="Brand Name:"/>
-        <Entry Text="{Binding Path=Food.Brand}" Margin="75,0,0,0"  Placeholder="ex. Lays"/>
+        <Entry Text="{Binding Path=Food.Brand}" Margin="142.5,-5,0,0"  Placeholder="ex. Lays"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout>
         <Label Text="Serving Size (g):"/>
-        <Entry Text="{Binding Path=Food.ServingSize}" Margin="85,0,0,0"  Placeholder="ex. 28"/>
+        <Entry Text="{Binding Path=Food.ServingSize}" Margin="129,-5,0,0"  Placeholder="ex. 28"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout>
         <Label Text="Serving Size Alt:"/>
-        <Entry Text="{Binding Path=Food.ServingName}" Margin="85,0,0,0"  Placeholder="ex. About 15 chips"/>
+        <Entry Text="{Binding Path=Food.ServingName}" Margin="127,-10,0,0"  Placeholder="ex. About 15 chips"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout>
         <Label Text="Calories" Margin="0,25,0,0"/>
-        <Entry Text="{Binding Path=Food.Calories}"/>
+        <Entry Text="{Binding Path=Food.Calories}" Margin="176,15,0,0"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout>
         <Label Text="Protein (g)" Margin="0,15,0,0"/>
-        <Entry Text="{Binding Path=Food.Protein}"/>
+        <Entry Text="{Binding Path=Food.Protein}" Margin="162,7,0,0"/>
         </HorizontalStackLayout>
 
-
+        <HorizontalStackLayout>
         <Label Text="Carbs (g)" Margin="0,25,0,0"/>
-        <Entry Text="{Binding Path=Food.Carbs}"/>
+        <Entry Text="{Binding Path=Food.Carbs}" Margin="172,15,0,0"/>
+        </HorizontalStackLayout>
+            
+        <HorizontalStackLayout>
         <Label Text="Sugar (g)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.Sugar}" Margin="15,0,0,0"/>
+        <Entry Text="{Binding Path=Food.Sugar}" Margin="157,-10,0,0"/>
+        </HorizontalStackLayout>
+        
+        <HorizontalStackLayout>    
         <Label Text="Added Sugar (g)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.AddSugar}" Margin="15,0,0,0"/>
+        <Entry Text="{Binding Path=Food.AddSugar}" Margin="111.5,-10,0,0"/>
+        </HorizontalStackLayout>    
+        
+        <HorizontalStackLayout>    
         <Label Text="Sugar Alcohol (g)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.SugarAlc}" Margin="15,0,0,0"/>
+        <Entry Text="{Binding Path=Food.SugarAlc}" Margin="106,-9,0,0"/>
+        </HorizontalStackLayout>    
+        
+        <HorizontalStackLayout>    
         <Label Text="Fiber (g)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.Fiber}" Margin="15,0,0,0"/>
+        <Entry Text="{Binding Path=Food.Fiber}" Margin="161,-9,0,0"/>
+        </HorizontalStackLayout>    
+           
         <Label Text="Net Carbs (g)" Margin="15,0,0,0"/>
         <Entry Text="{Binding Path=Food.NetCarb}" Margin="15,0,0,0"/>
 
