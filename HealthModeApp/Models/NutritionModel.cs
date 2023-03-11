@@ -97,6 +97,9 @@ namespace HealthModeApp.Models
         decimal _vitamind;
         public decimal VitaminD { get => _vitamind; set { if (_vitamind == value) return; _vitamind = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VitaminD))); } }
 
+        decimal _vitamine;
+        public decimal VitaminE { get => _vitamine; set { if (_vitamine == value) return; _vitamine = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VitaminE))); } }
+
         decimal _vitamink;
         public decimal VitaminK { get => _vitamink; set { if (_vitamink == value) return; _vitamink = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VitaminK))); } }
 
