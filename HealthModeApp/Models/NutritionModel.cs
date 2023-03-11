@@ -37,14 +37,14 @@ namespace HealthModeApp.Models
         int _calories;
         public int Calories { get => _calories; set { if (_calories == value) return; _calories = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Calories))); } }
 
-        int _protein;
-        public int Protein { get => _protein; set { if (_protein == value) return; _protein = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Protein))); } }
+        decimal _protein;
+        public decimal Protein { get => _protein; set { if (_protein == value) return; _protein = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Protein))); } }
 
-        int _carbs;
-        public int Carbs { get => _carbs; set { if (_carbs == value) return; _carbs = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Carbs))); } }
+        decimal _carbs;
+        public decimal Carbs { get => _carbs; set { if (_carbs == value) return; _carbs = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Carbs))); } }
 
-        int _fat;
-        public int Fat { get => _fat; set { if (_fat == value) return; _fat = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Fat))); } }
+        decimal _fat;
+        public decimal Fat { get => _fat; set { if (_fat == value) return; _fat = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Fat))); } }
 
         decimal _satfat;
         public decimal SatFat { get => _satfat; set { if (_satfat == value) return; _satfat = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SatFat))); } }
