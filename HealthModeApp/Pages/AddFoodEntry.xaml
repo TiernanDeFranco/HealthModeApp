@@ -13,98 +13,98 @@
     <VerticalStackLayout>
         
         <StackLayout x:Name="FoodPage1">
-        <HorizontalStackLayout Margin="0,5,0,0">
+        <HorizontalStackLayout Margin="0,15,0,0">
          <Label Text="Barcode:"/>
-        <Entry Text="{Binding Path=Food.Barcode}" Margin="170,-9.5,0,0" Placeholder="Barcode" HeightRequest="25" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.Barcode}" Margin="170,0,0,0" Placeholder="Barcode" HeightRequest="25" WidthRequest="150"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Margin="0,9,0,0">
         <Label Text="Food Name:"/>
-        <Entry Text="{Binding Path=Food.FoodName}" Margin="150,-10,0,0"  Placeholder="ex. Potato Chips" HeightRequest="25" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.FoodName}" Margin="150,0,0,0"  Placeholder="ex. Potato Chips" HeightRequest="25" WidthRequest="150"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Margin="0,9,0,0">
         <Label Text="Brand Name:"/>
-        <Entry Text="{Binding Path=Food.Brand}" Margin="143,-10,0,0"  Placeholder="ex. Lays" HeightRequest="25" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.Brand}" Margin="143,0,0,0"  Placeholder="ex. Lays" HeightRequest="25" WidthRequest="150"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Margin="0,9,0,0">
         <Label Text="Serving Size (g):"/>
-        <Entry Text="{Binding Path=Food.ServingSize}" Margin="129,-5,0,0"  Placeholder="ex. 28" HeightRequest="25" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.ServingSize}" Margin="129,0,0,0"  Placeholder="ex. 28" HeightRequest="25" WidthRequest="150"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Margin="0,10,0,0">
         <Label Text="Serving Size Alt:"/>
-        <Entry Text="{Binding Path=Food.ServingName}" Margin="127,-10,0,0"  Placeholder="ex. About 15 chips" HeightRequest="25" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.ServingName}" Margin="127,0,0,0"  Placeholder="ex. About 15 chips" HeightRequest="25" WidthRequest="150"/>
         </HorizontalStackLayout>
 
-        <HorizontalStackLayout Margin="0,25,0,0">
+        <HorizontalStackLayout Margin="0,20,0,0">
         <Label Text="Calories:"/>
-        <Entry Text="{Binding Path=Food.Calories}" Margin="173,-10,0,0" HeightRequest="25" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.Calories}" Margin="173,0,0,0" HeightRequest="25" WidthRequest="150"/>
         </HorizontalStackLayout>
 
-        <HorizontalStackLayout Margin="0,15,0,0">
+        <HorizontalStackLayout Margin="0,20,0,0">
         <Label Text="Protein (g)"/>
-        <Entry Text="{Binding Path=Food.Protein}" Margin="163,-9,0,0" HeightRequest="25" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.Protein}" Margin="163,0,0,0" HeightRequest="25" WidthRequest="150"/>
         </HorizontalStackLayout>
         
         
-        <HorizontalStackLayout Margin="0,15,0,0">
+        <HorizontalStackLayout Margin="0,20,0,0">
         <Label Text="Carbs (g)"/>
-        <Entry Text="{Binding Path=Food.Carbs}" Margin="173,-9,0,0" HeightRequest="25" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.Carbs}" Margin="173,0,0,0" HeightRequest="25" WidthRequest="150"/>
         </HorizontalStackLayout>
          
-        <VerticalStackLayout Margin="20,13,0,0">
+        <VerticalStackLayout Margin="20,10,0,0">
         <HorizontalStackLayout Margin="0,5,0,0">
         <Label Text="Sugar (g)"/>
-        <Entry Text="{Binding Path=Food.Sugar}" Margin="153,-9,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.Sugar}" Margin="153,0,0,0" HeightRequest="22" WidthRequest="150"/>
         </HorizontalStackLayout>
         
         <HorizontalStackLayout Margin="0,10,0,0">    
         <Label Text="Added Sugar (g)"/>
-        <Entry Text="{Binding Path=Food.AddSugar}" Margin="108,-9,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.AddSugar}" Margin="108,0,0,0" HeightRequest="22" WidthRequest="150"/>
         </HorizontalStackLayout>    
         
         <HorizontalStackLayout Margin="0,10,0,0">    
         <Label Text="Sugar Alcohol (g)"/>
-        <Entry Text="{Binding Path=Food.SugarAlc}" Margin="101.5,-9,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.SugarAlc}" Margin="101.5,0,0,0" HeightRequest="22" WidthRequest="150"/>
         </HorizontalStackLayout>    
         
         <HorizontalStackLayout Margin="0,10,0,0">    
         <Label Text="Fiber (g)"/>
-        <Entry Text="{Binding Path=Food.Fiber}" Margin="157,-9,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.Fiber}" Margin="157,0,0,0" HeightRequest="22" WidthRequest="150"/>
         </HorizontalStackLayout>    
         
         <HorizontalStackLayout Margin="0,10,0,0">   
         <Label Text="Net Carbs (g)"/>
-        <Entry Text="{Binding Path=Food.NetCarb}" Margin="126,-9,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.NetCarb}" Margin="126,0,0,0" HeightRequest="22" WidthRequest="150"/>
         </HorizontalStackLayout> 
         </VerticalStackLayout>
 
         <HorizontalStackLayout Margin="0,25,0,0">
         <Label Text="Fat (g)"/>
-        <Entry Text="{Binding Path=Food.Fat}" Margin="0,0,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.Fat}" Margin="190,0,0,0" HeightRequest="25" WidthRequest="150"/>
         </HorizontalStackLayout>
 
-        <VerticalStackLayout Margin="20,13,0,0">
+        <VerticalStackLayout Margin="20,10,0,0">
          <HorizontalStackLayout Margin="0,5,0,0">
         <Label Text="Saturated Fat (g)" />
-        <Entry Text="{Binding Path=Food.SatFat}" Margin="0,0,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.SatFat}" Margin="100,0,0,0" HeightRequest="22" WidthRequest="150"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Margin="0,10,0,0">
         <Label Text="Polyunsaturated Fat (g)" />
-        <Entry Text="{Binding Path=Food.PUnSatFat}" Margin="0,0,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.PUnSatFat}" Margin="58,0,0,0" HeightRequest="22" WidthRequest="150"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Margin="0,10,0,0">
         <Label Text="Monounsaturated Fat (g)" />
-        <Entry Text="{Binding Path=Food.MUnSatFat}" Margin="0,0,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.MUnSatFat}" Margin="48,0,0,0" HeightRequest="22" WidthRequest="150"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Margin="0,10,0,0">
         <Label Text="Trans Fat (g)" />
-        <Entry Text="{Binding Path=Food.TransFat}" Margin="0,0,0,0" HeightRequest="22" WidthRequest="150"/>
+        <Entry Text="{Binding Path=Food.TransFat}" Margin="130,0,0,0" HeightRequest="22" WidthRequest="150"/>
         </HorizontalStackLayout>
         </VerticalStackLayout>
 
