@@ -15,7 +15,7 @@ public partial class MainPage : ContentPage
     async void OnScanFoodClicked(object sender, EventArgs e)
     {
      
-        await Shell.Current.GoToAsync(nameof(AddFoodEntry));
+        await Shell.Current.GoToAsync(nameof(BarcodeScan));
     }
 }
 
