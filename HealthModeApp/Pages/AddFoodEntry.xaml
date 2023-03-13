@@ -9,149 +9,183 @@
                      Clicked="OnUploadEntryClicked"/>
 
     </ContentPage.ToolbarItems>
-    <ScrollView  Margin="15,25,15,15">
-    <VerticalStackLayout>
-        
-        <StackLayout x:Name="FoodPage1">
-        <HorizontalStackLayout Margin="0,15,0,0">
-         <Label Text="Barcode:"/>
-        <Entry Text="{Binding Path=Food.Barcode}" Margin="170,0,0,0" Placeholder="Barcode" HeightRequest="25" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <ScrollView  Margin="25">
+    <StackLayout>
+            <Grid>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width=".75*" />
+    </Grid.ColumnDefinitions>
 
-        <HorizontalStackLayout Margin="0,9,0,0">
-        <Label Text="Food Name:"/>
-        <Entry Text="{Binding Path=Food.FoodName}" Margin="150,0,0,0"  Placeholder="ex. Potato Chips" HeightRequest="25" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
 
-        <HorizontalStackLayout Margin="0,9,0,0">
-        <Label Text="Brand Name:"/>
-        <Entry Text="{Binding Path=Food.Brand}" Margin="143,0,0,0"  Placeholder="ex. Lays" HeightRequest="25" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <Label Grid.Row="0" Grid.Column="0" Text="Barcode:" />
+    <Entry Grid.Row="0" Grid.Column="1" />
 
-        <HorizontalStackLayout Margin="0,9,0,0">
-        <Label Text="Serving Size (g):"/>
-        <Entry Text="{Binding Path=Food.ServingSize}" Margin="129,0,0,0"  Placeholder="ex. 28" HeightRequest="25" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <Label Grid.Row="1" Grid.Column="0" Text="Food Name:" />
+    <Entry Grid.Row="1" Grid.Column="1" Placeholder="ex. Potato Chips"/>
 
-        <HorizontalStackLayout Margin="0,10,0,0">
-        <Label Text="Serving Size Alt:"/>
-        <Entry Text="{Binding Path=Food.ServingName}" Margin="127,0,0,0"  Placeholder="ex. About 15 chips" HeightRequest="25" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <Label Grid.Row="2" Grid.Column="0" Text="Brand Name:" />
+    <Entry Grid.Row="2" Grid.Column="1" Placeholder="ex. Lays"/>
 
-        <HorizontalStackLayout Margin="0,20,0,0">
-        <Label Text="Calories:"/>
-        <Entry Text="{Binding Path=Food.Calories}" Margin="173,0,0,0" HeightRequest="25" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <Label Grid.Row="3" Grid.Column="0" Text="Serving Size (g):" />
+    <Entry Grid.Row="3" Grid.Column="1" Placeholder="ex. 28" Keyboard="Numeric"/>
 
-        <HorizontalStackLayout Margin="0,20,0,0">
-        <Label Text="Protein (g)"/>
-        <Entry Text="{Binding Path=Food.Protein}" Margin="163,0,0,0" HeightRequest="25" WidthRequest="150"/>
-        </HorizontalStackLayout>
-        
-        
-        <HorizontalStackLayout Margin="0,20,0,0">
-        <Label Text="Carbs (g)"/>
-        <Entry Text="{Binding Path=Food.Carbs}" Margin="173,0,0,0" HeightRequest="25" WidthRequest="150"/>
-        </HorizontalStackLayout>
-         
-        <VerticalStackLayout Margin="20,10,0,0">
-        <HorizontalStackLayout Margin="0,5,0,0">
-        <Label Text="Sugar (g)"/>
-        <Entry Text="{Binding Path=Food.Sugar}" Margin="153,0,0,0" HeightRequest="22" WidthRequest="150"/>
-        </HorizontalStackLayout>
-        
-        <HorizontalStackLayout Margin="0,10,0,0">    
-        <Label Text="Added Sugar (g)"/>
-        <Entry Text="{Binding Path=Food.AddSugar}" Margin="108,0,0,0" HeightRequest="22" WidthRequest="150"/>
-        </HorizontalStackLayout>    
-        
-        <HorizontalStackLayout Margin="0,10,0,0">    
-        <Label Text="Sugar Alcohol (g)"/>
-        <Entry Text="{Binding Path=Food.SugarAlc}" Margin="101.5,0,0,0" HeightRequest="22" WidthRequest="150"/>
-        </HorizontalStackLayout>    
-        
-        <HorizontalStackLayout Margin="0,10,0,0">    
-        <Label Text="Fiber (g)"/>
-        <Entry Text="{Binding Path=Food.Fiber}" Margin="157,0,0,0" HeightRequest="22" WidthRequest="150"/>
-        </HorizontalStackLayout>    
-        
-        <HorizontalStackLayout Margin="0,10,0,0">   
-        <Label Text="Net Carbs (g)"/>
-        <Entry Text="{Binding Path=Food.NetCarb}" Margin="126,0,0,0" HeightRequest="22" WidthRequest="150"/>
-        </HorizontalStackLayout> 
-        </VerticalStackLayout>
+    <Label Grid.Row="4" Grid.Column="0" Text="Serving Name:" />
+    <Entry Grid.Row="4" Grid.Column="1" Placeholder="ex. About 15 chips"/>
 
-        <HorizontalStackLayout Margin="0,25,0,0">
-        <Label Text="Fat (g)"/>
-        <Entry Text="{Binding Path=Food.Fat}" Margin="190,0,0,0" HeightRequest="25" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <Label Grid.Row="5" Grid.Column="0" Text="Calories:" Margin="0,15,0,0" />
+    <Entry Grid.Row="5" Grid.Column="1" Margin="0,15,0,0" Keyboard="Numeric"/>
 
-        <VerticalStackLayout Margin="20,10,0,0">
-         <HorizontalStackLayout Margin="0,5,0,0">
-        <Label Text="Saturated Fat (g)" />
-        <Entry Text="{Binding Path=Food.SatFat}" Margin="100,0,0,0" HeightRequest="22" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <Label Grid.Row="6" Grid.Column="0" Text="   " />
+    <Label Grid.Row="6" Grid.Column="1" Text="   " />
 
-        <HorizontalStackLayout Margin="0,10,0,0">
-        <Label Text="Polyunsaturated Fat (g)" />
-        <Entry Text="{Binding Path=Food.PUnSatFat}" Margin="58,0,0,0" HeightRequest="22" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <Label Grid.Row="7" Grid.Column="0" Text="Carbohydrates (g):" />
+    <Entry Grid.Row="7" Grid.Column="1" Keyboard="Numeric" />
 
-        <HorizontalStackLayout Margin="0,10,0,0">
-        <Label Text="Monounsaturated Fat (g)" />
-        <Entry Text="{Binding Path=Food.MUnSatFat}" Margin="48,0,0,0" HeightRequest="22" WidthRequest="150"/>
-        </HorizontalStackLayout>
+    <Label Grid.Row="8" Grid.Column="0" Text="Sugar (g):" />
+    <Entry Grid.Row="8" Grid.Column="1" Keyboard="Numeric" />
 
-        <HorizontalStackLayout Margin="0,10,0,0">
-        <Label Text="Trans Fat (g)" />
-        <Entry Text="{Binding Path=Food.TransFat}" Margin="130,0,0,0" HeightRequest="22" WidthRequest="150"/>
-        </HorizontalStackLayout>
-        </VerticalStackLayout>
+    <Label Grid.Row="9" Grid.Column="0" Text="Added Sugar (g):" />
+    <Entry Grid.Row="9" Grid.Column="1" Keyboard="Numeric" />
 
-        <Label Text="Iron (mg)" Margin="0,25,0,0"/>
-        <Entry Text="{Binding Path=Food.Iron}"/>
-        <Label Text="Calcium (mg)"/>
-        <Entry Text="{Binding Path=Food.Calcium}"/>
-        <Label Text="Potassium (mg)"/>
-        <Entry Text="{Binding Path=Food.Potassium}"/>
-        <Label Text="Sodium (mg)"/>
-        <Entry Text="{Binding Path=Food.Sodium}"/>
-        <Label Text="Cholesterol (mg)"/>
-        <Entry Text="{Binding Path=Food.Cholesterol}"/>
+    <Label Grid.Row="10" Grid.Column="0" Text="Sugar Alcohol (g):" />
+    <Entry Grid.Row="10" Grid.Column="1" Keyboard="Numeric" />
 
-        <Label Text="Vitamin A (%)" Margin="0,25,0,0"/>
-        <Entry Text="{Binding Path=Food.VitaminA}"/>
+    <Label Grid.Row="11" Grid.Column="0" Text="Fiber (g):" />
+    <Entry Grid.Row="11" Grid.Column="1" Keyboard="Numeric" />
 
-        <Label Text="Vitamin B:" Margin="0,15,0,0"/>
-        <Label Text="Vitamin B1 [Thiamin] (%)" Margin="15,10,0,0"/>
-        <Entry Text="{Binding Path=Food.Thiamin}" Margin="15,0,0,0"/>
-        <Label Text="Vitamin B2 [Riboflavin] (%)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.Riboflavin}" Margin="15,0,0,0"/>
-        <Label Text="Vitamin B3 [Niacin] (%)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.Niacin}" Margin="15,0,0,0"/>
-        <Label Text="Vitamin B5 [Panthothenic Acid] (%)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.B5}" Margin="15,0,0,0"/>
-        <Label Text="Vitamin B6 [Pyridoxin] (%)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.B6}" Margin="15,0,0,0"/>
-        <Label Text="Vitamin B7 [Biotin] (%)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.B7}" Margin="15,0,0,0"/>
-        <Label Text="Vitamin B9 [Folic Acid] (%)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.FolicAcid}" Margin="15,0,0,0"/>
-        <Label Text="Vitamin B12 [Cobalamin] (%)" Margin="15,0,0,0"/>
-        <Entry Text="{Binding Path=Food.B12}" Margin="15,0,0,0"/>
+    <Label Grid.Row="12" Grid.Column="0" Text="Net Carbs (g):" />
+    <Entry Grid.Row="12" Grid.Column="1" Keyboard="Numeric" />
 
-        <Label Text="Vitamin C (%)" Margin="0,15,0,0"/>
-        <Entry Text="{Binding Path=Food.VitaminC}"/>
-        <Label Text="Vitamin D (%)" Margin="0,5,0,0"/>
-        <Entry Text="{Binding Path=Food.VitaminD}"/>
-        <Label Text="Vitamin E (%)" Margin="0,5,0,0"/>
-        <Entry Text="{Binding Path=Food.VitaminE}"/>
-        <Label Text="Vitamin K (%)" Margin="0,5,0,0"/>
-        <Entry Text="{Binding Path=Food.VitaminK}"/>
+    <Label Grid.Row="13" Grid.Column="0" Text="  " />
+    <Label Grid.Row="13" Grid.Column="1" Text="  " />
 
-        </StackLayout>
+    <Label Grid.Row="14" Grid.Column="0" Text="Fat (g):" />
+    <Entry Grid.Row="14" Grid.Column="1" Keyboard="Numeric" />
 
-       
-    </VerticalStackLayout>
+    <Label Grid.Row="15" Grid.Column="0" Text="Saturated Fat (g):" />
+    <Entry Grid.Row="15" Grid.Column="1" Keyboard="Numeric" />
+
+    <Label Grid.Row="16" Grid.Column="0" Text="Polyunsaturated Fat (g):" />
+    <Entry Grid.Row="16" Grid.Column="1" Keyboard="Numeric" />
+
+    <Label Grid.Row="17" Grid.Column="0" Text="Monounsaturated Fat (g):" />
+    <Entry Grid.Row="17" Grid.Column="1" Keyboard="Numeric" />
+
+    <Label Grid.Row="18" Grid.Column="0" Text="Trans Fat (g):" />
+    <Entry Grid.Row="18" Grid.Column="1" Keyboard="Numeric" />
+
+    <Label Grid.Row="19" Grid.Column="0" Text="  " />
+    <Label Grid.Row="19" Grid.Column="1" Text="  "/>
+
+    <Label Grid.Row="20" Grid.Column="0" Text="Protein (g):" />
+    <Entry Grid.Row="20" Grid.Column="1" Keyboard="Numeric" />
+
+    <Label Grid.Row="21" Grid.Column="0" Text="Iron (mg):" Margin="0,15,0,0"/>
+    <Entry Grid.Row="21" Grid.Column="1" Margin="0,15,0,0" Keyboard="Numeric"/>
+
+    <Label Grid.Row="22" Grid.Column="0" Text="Calcium (mg):" />
+    <Entry Grid.Row="22" Grid.Column="1" Keyboard="Numeric" />
+
+    <Label Grid.Row="23" Grid.Column="0" Text="Potassium (mg):" />
+    <Entry Grid.Row="23" Grid.Column="1" Keyboard="Numeric" />
+
+    <Label Grid.Row="24" Grid.Column="0" Text="Sodium (mg):" />
+    <Entry Grid.Row="24" Grid.Column="1" Keyboard="Numeric" />
+
+    <Label Grid.Row="25" Grid.Column="0" Text="Cholesterol (mg):" />
+    <Entry Grid.Row="25" Grid.Column="1" Keyboard="Numeric" />
+
+    <Label Grid.Row="26" Grid.Column="0" Text="   " />
+<Label Grid.Row="26" Grid.Column="1" Text="   "/>
+
+<Label Grid.Row="27" Grid.Column="0" Text="Vitamin A (%):" />
+<Entry Grid.Row="27" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="28" Grid.Column="0" Text="Vitamin B1 [Thiamin] (%):" />
+<Entry Grid.Row="28" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="29" Grid.Column="0" Text="Vitamin B2 [Riboflavin] (%):" />
+<Entry Grid.Row="29" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="30" Grid.Column="0" Text="Vitamin B3 [Niacin] (%):" />
+<Entry Grid.Row="30" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="31" Grid.Column="0" Text="Vitamin B5 [Panthothenic Acid] (%):" FontSize="13"/>
+<Entry Grid.Row="31" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="32" Grid.Column="0" Text="Vitamin B6 [Pyridoxin] (%):" />
+<Entry Grid.Row="32" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="33" Grid.Column="0" Text="Vitamin B7 [Biotin] (%):" />
+<Entry Grid.Row="33" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="34" Grid.Column="0" Text="Vitamin B9 [Folic Acid] (%):" />
+<Entry Grid.Row="34" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="35" Grid.Column="0" Text="Vitamin B12 [Cobalamin] (%):" />
+<Entry Grid.Row="35" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="36" Grid.Column="0" Text="Vitamin C (%):" />
+<Entry Grid.Row="36" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="37" Grid.Column="0" Text="Vitamin D (%):" />
+<Entry Grid.Row="37" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="38" Grid.Column="0" Text="Vitamin E (%):" />
+<Entry Grid.Row="38" Grid.Column="1" Keyboard="Numeric" />
+
+<Label Grid.Row="39" Grid.Column="0" Text="Vitamin K (%):" />
+<Entry Grid.Row="39" Grid.Column="1" Keyboard="Numeric" />
+
+    
+    </Grid>
+
+
+    </StackLayout>
     </ScrollView>
 </ContentPage>
