@@ -14,12 +14,8 @@ public partial class MainPage : ContentPage
 
     async void OnScanFoodClicked(object sender, EventArgs e)
     {
-        var navigationParameter = new Dictionary<string, object>
-        {
-            {nameof(NutritionModel), new NutritionModel() }
-        };
-
-        await Shell.Current.GoToAsync(nameof(AddFoodEntry), navigationParameter);
+     
+        await Shell.Current.GoToAsync(nameof(AddFoodEntry));
     }
 }
 

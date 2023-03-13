@@ -33,6 +33,9 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -62,5 +65,8 @@
 	  <Folder Include="DataServices\" />
 	  <Folder Include="Platforms\Android\Resources\xml\" />
 	  <Folder Include="Pages\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="ZXing.Net.Maui.CG" Version="1.0.2" />
 	</ItemGroup>
 </Project>

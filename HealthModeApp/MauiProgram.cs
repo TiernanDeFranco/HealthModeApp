@@ -1,5 +1,6 @@
 ﻿using HealthModeApp.DataServices;
 using HealthModeApp.Pages;
+using ZXing.Net.Maui;
 
 namespace HealthModeApp;
 
@@ -10,6 +11,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseBarcodeReader()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

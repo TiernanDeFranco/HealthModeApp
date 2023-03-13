@@ -28,5 +28,7 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+	<key>NSCameraUsageDescription</key>
+	<string>HealthMode uses barcode scanning to make logging food easier as well as collecting the barcode number for adding food to the database.</string>
 </dict>
 </plist>
