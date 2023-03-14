@@ -2,21 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI"
-             x:Class="HealthModeApp.Pages.BarcodeScan"
-             Title="Scan Barcode">
+             x:Class="HealthModeApp.Pages.BarcodeScan">
     <VerticalStackLayout>
         <zxing:CameraBarcodeReaderView
             x:Name="barcodeScanner"
-            WidthRequest="500"
-            FlowDirection="RightToLeft"
-            BarcodesDetected="BarcodesDetected"
-            Margin="200"
-            
-            
-            IsDetecting="True"
-            IsTorchOn="True"
-            
-            />
+            HeightRequest="900"
+            WidthRequest="700"
+            BarcodesDetected="barcodesDetected"/>
 
     </VerticalStackLayout>
 </ContentPage>

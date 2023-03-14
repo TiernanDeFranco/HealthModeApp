@@ -9,9 +9,13 @@
             VerticalOptions="Center">
 
        <Button
-          BackgroundColor="CornflowerBlue"
           Text="Scan Food"
           Clicked="OnScanFoodClicked"/>
+
+         <Button
+          Text="Direct Upload"
+          Clicked="OnDirectClicked"/>
+     
      
             
 

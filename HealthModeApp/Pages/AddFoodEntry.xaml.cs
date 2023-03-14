@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using HealthModeApp.DataServices;
 using HealthModeApp.Models;
+using ZXing.QrCode.Internal;
 
 namespace HealthModeApp.Pages;
 
@@ -10,6 +11,8 @@ public partial class AddFoodEntry : ContentPage
 {
 	private readonly IRestDataService _dataService;
 	NutritionModel _nutritionModel;
+
+
 
 	public NutritionModel Food
 	{
@@ -21,20 +24,31 @@ public partial class AddFoodEntry : ContentPage
 		}
 	}
 
-	public AddFoodEntry(IRestDataService dataService)
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+		
+
+    }
+
+    public AddFoodEntry(IRestDataService dataService)
 	{
 		InitializeComponent();
 		_nutritionModel = new NutritionModel();
 		_dataService = dataService;
-		BindingContext = this;
-	}
+        BindingContext = this;
+
+		
+
+    }
 
 	async void OnUploadEntryClicked(object sender, EventArgs e)
 	{
 		Debug.WriteLine("Uploading data");
 		Debug.WriteLine(Food);
 		await _dataService.AddNutritionInfoAsync(Food);
-	}
+        await Navigation.PopAsync();
+    }
 
 
 }

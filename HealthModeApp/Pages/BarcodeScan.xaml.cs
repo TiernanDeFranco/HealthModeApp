@@ -6,21 +6,38 @@ namespace HealthModeApp.Pages;
 
 public partial class BarcodeScan : ContentPage
 {
-	public BarcodeScan()
+    public BarcodeScan()
     {
-		InitializeComponent();
+        InitializeComponent();
         barcodeScanner.Options = new BarcodeReaderOptions()
         {
-            AutoRotate = true,
             Formats = BarcodeFormats.OneDimensional,
-        };
-    
-    }
+            TryHarder = true
 
-    void BarcodesDetected(object sender, BarcodeDetectionEventArgs e)
-    {
+        };
+        barcodeScanner.AutoFocus();
+    }
+    protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+        barcodeScanner.IsDetecting = true;
+        barcodeScanner.IsEnabled = true;
         
-        Shell.Current.GoToAsync(nameof(AddFoodEntry));
+    }
+            
+         
+
+    
+
+    void barcodesDetected(System.Object sender, ZXing.Net.Maui.BarcodeDetectionEventArgs e)
+    {
+        barcodeScanner.IsDetecting = false;
+        barcodeScanner.IsEnabled = false;
+        Dispatcher.Dispatch( () =>
+        {
+          Shell.Current.GoToAsync(nameof(AddFoodEntry));
+        });
     }
 
 }

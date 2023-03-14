@@ -17,6 +17,12 @@ public partial class MainPage : ContentPage
      
         await Shell.Current.GoToAsync(nameof(BarcodeScan));
     }
+
+    async void OnDirectClicked(object sender, EventArgs e)
+    {
+
+        await Shell.Current.GoToAsync(nameof(AddFoodEntry));
+    }
 }
 
 //test t2

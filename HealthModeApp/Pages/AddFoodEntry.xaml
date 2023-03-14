@@ -9,12 +9,12 @@
                      Clicked="OnUploadEntryClicked"/>
 
     </ContentPage.ToolbarItems>
-    <ScrollView  Margin="25">
+    <ScrollView  Margin="12,15">
     <StackLayout>
             <Grid>
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
-        <ColumnDefinition Width=".75*" />
+        <ColumnDefinition Width=".70*" />
     </Grid.ColumnDefinitions>
 
     <Grid.RowDefinitions>
@@ -63,126 +63,123 @@
     </Grid.RowDefinitions>
 
     <Label Grid.Row="0" Grid.Column="0" Text="Barcode:" />
-    <Entry Grid.Row="0" Grid.Column="1" />
+    <Entry Grid.Row="0" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Barcode, Mode=OneWayToSource}"/>
 
-    <Label Grid.Row="1" Grid.Column="0" Text="Food Name:" />
-    <Entry Grid.Row="1" Grid.Column="1" Placeholder="ex. Potato Chips"/>
+    <Label Grid.Row="1" Grid.Column="0" Text="Food Name:" Margin="0,15,0,0" />
+    <Entry Grid.Row="1" Grid.Column="1" Placeholder="ex. Potato Chips" Margin="0,15,0,0" Text="{Binding Food.FoodName, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="2" Grid.Column="0" Text="Brand Name:" />
-    <Entry Grid.Row="2" Grid.Column="1" Placeholder="ex. Lays"/>
+    <Entry Grid.Row="2" Grid.Column="1" Placeholder="ex. Lays" Text="{Binding Food.Brand, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="3" Grid.Column="0" Text="Serving Size (g):" />
-    <Entry Grid.Row="3" Grid.Column="1" Placeholder="ex. 28" Keyboard="Numeric"/>
+    <Entry Grid.Row="3" Grid.Column="1" Placeholder="ex. 28" Keyboard="Numeric" Text="{Binding Food.ServingSize, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="4" Grid.Column="0" Text="Serving Name:" />
-    <Entry Grid.Row="4" Grid.Column="1" Placeholder="ex. About 15 chips"/>
+    <Entry Grid.Row="4" Grid.Column="1" Placeholder="ex. About 15 chips" Text="{Binding Food.ServingName, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="5" Grid.Column="0" Text="Calories:" Margin="0,15,0,0" />
-    <Entry Grid.Row="5" Grid.Column="1" Margin="0,15,0,0" Keyboard="Numeric"/>
+    <Entry Grid.Row="5" Grid.Column="1" Margin="0,15,0,0" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Calories, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="6" Grid.Column="0" Text="   " />
     <Label Grid.Row="6" Grid.Column="1" Text="   " />
 
     <Label Grid.Row="7" Grid.Column="0" Text="Carbohydrates (g):" />
-    <Entry Grid.Row="7" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="7" Grid.Column="1" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Carbs, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="8" Grid.Column="0" Text="Sugar (g):" />
-    <Entry Grid.Row="8" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="8" Grid.Column="1" Keyboard="Numeric"  Placeholder="Required" Text="{Binding Food.Sugar, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="9" Grid.Column="0" Text="Added Sugar (g):" />
-    <Entry Grid.Row="9" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="9" Grid.Column="1" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.AddSugar, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="10" Grid.Column="0" Text="Sugar Alcohol (g):" />
-    <Entry Grid.Row="10" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="10" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.SugarAlc, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="11" Grid.Column="0" Text="Fiber (g):" />
-    <Entry Grid.Row="11" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="11" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Fiber, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="12" Grid.Column="0" Text="Net Carbs (g):" />
-    <Entry Grid.Row="12" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="12" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.NetCarbs, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="13" Grid.Column="0" Text="  " />
     <Label Grid.Row="13" Grid.Column="1" Text="  " />
 
     <Label Grid.Row="14" Grid.Column="0" Text="Fat (g):" />
-    <Entry Grid.Row="14" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="14" Grid.Column="1" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Fat, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="15" Grid.Column="0" Text="Saturated Fat (g):" />
-    <Entry Grid.Row="15" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="15" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.SatFat, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="16" Grid.Column="0" Text="Polyunsaturated Fat (g):" />
-    <Entry Grid.Row="16" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="16" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.PUnSatFat, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="17" Grid.Column="0" Text="Monounsaturated Fat (g):" />
-    <Entry Grid.Row="17" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="17" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.MUnSatFat, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="18" Grid.Column="0" Text="Trans Fat (g):" />
-    <Entry Grid.Row="18" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="18" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.TransFat, Mode=OneWayToSource}"/>
 
     <Label Grid.Row="19" Grid.Column="0" Text="  " />
     <Label Grid.Row="19" Grid.Column="1" Text="  "/>
 
     <Label Grid.Row="20" Grid.Column="0" Text="Protein (g):" />
-    <Entry Grid.Row="20" Grid.Column="1" Keyboard="Numeric" />
+    <Entry Grid.Row="20" Grid.Column="1" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Protein, Mode=OneWayToSource}"/>
 
-    <Label Grid.Row="21" Grid.Column="0" Text="Iron (mg):" Margin="0,15,0,0"/>
-    <Entry Grid.Row="21" Grid.Column="1" Margin="0,15,0,0" Keyboard="Numeric"/>
+<Label Grid.Row="21" Grid.Column="0" Text="Iron (mg):" Margin="0,15,0,0"/>
+<Entry Grid.Row="21" Grid.Column="1" Margin="0,15,0,0" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.Iron, Mode=OneWayToSource}"/>
 
-    <Label Grid.Row="22" Grid.Column="0" Text="Calcium (mg):" />
-    <Entry Grid.Row="22" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="22" Grid.Column="0" Text="Calcium (mg):" />
+<Entry Grid.Row="22" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Calcium, Mode=OneWayToSource}"/>
 
-    <Label Grid.Row="23" Grid.Column="0" Text="Potassium (mg):" />
-    <Entry Grid.Row="23" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="23" Grid.Column="0" Text="Potassium (mg):" />
+<Entry Grid.Row="23" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Potassium, Mode=OneWayToSource}"/>
 
-    <Label Grid.Row="24" Grid.Column="0" Text="Sodium (mg):" />
-    <Entry Grid.Row="24" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="24" Grid.Column="0" Text="Sodium (mg):" />
+<Entry Grid.Row="24" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Sodium, Mode=OneWayToSource}"/>
 
-    <Label Grid.Row="25" Grid.Column="0" Text="Cholesterol (mg):" />
-    <Entry Grid.Row="25" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="25" Grid.Column="0" Text="Cholesterol (mg):" />
+<Entry Grid.Row="25" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Cholesterol, Mode=OneWayToSource}"/>
 
-    <Label Grid.Row="26" Grid.Column="0" Text="   " />
-<Label Grid.Row="26" Grid.Column="1" Text="   "/>
+<Label Grid.Row="27" Grid.Column="0" Text="Vitamin A (μg/mcg):" />
+<Entry Grid.Row="27" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminA, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="27" Grid.Column="0" Text="Vitamin A (%):" />
-<Entry Grid.Row="27" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="28" Grid.Column="0" Text="Vitamin B1 [Thiamin] (μg/mcg):" />
+<Entry Grid.Row="28" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Thiamin, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="28" Grid.Column="0" Text="Vitamin B1 [Thiamin] (%):" />
-<Entry Grid.Row="28" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="29" Grid.Column="0" Text="Vitamin B2 [Riboflavin] (μg/mcg):" />
+<Entry Grid.Row="29" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Riboflavin, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="29" Grid.Column="0" Text="Vitamin B2 [Riboflavin] (%):" />
-<Entry Grid.Row="29" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="30" Grid.Column="0" Text="Vitamin B3 [Niacin] (μg/mcg):" />
+<Entry Grid.Row="30" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Niacin, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="30" Grid.Column="0" Text="Vitamin B3 [Niacin] (%):" />
-<Entry Grid.Row="30" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="31" Grid.Column="0" Text="Vitamin B5 [Panthothenic Acid] (μg/mcg):" FontSize="12"/>
+<Entry Grid.Row="31" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B5, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="31" Grid.Column="0" Text="Vitamin B5 [Panthothenic Acid] (%):" FontSize="13"/>
-<Entry Grid.Row="31" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="32" Grid.Column="0" Text="Vitamin B6 [Pyridoxin] (μg/mcg):" />
+<Entry Grid.Row="32" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B6, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="32" Grid.Column="0" Text="Vitamin B6 [Pyridoxin] (%):" />
-<Entry Grid.Row="32" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="33" Grid.Column="0" Text="Vitamin B7 [Biotin] (μg/mcg):" />
+<Entry Grid.Row="33" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B7, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="33" Grid.Column="0" Text="Vitamin B7 [Biotin] (%):" />
-<Entry Grid.Row="33" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="34" Grid.Column="0" Text="Vitamin B9 [Folic Acid] (μg/mcg):" />
+<Entry Grid.Row="34" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.FolicAcid, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="34" Grid.Column="0" Text="Vitamin B9 [Folic Acid] (%):" />
-<Entry Grid.Row="34" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="35" Grid.Column="0" Text="Vitamin B12 [Cobalamin] (μg/mcg):" />
+<Entry Grid.Row="35" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B12, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="35" Grid.Column="0" Text="Vitamin B12 [Cobalamin] (%):" />
-<Entry Grid.Row="35" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="36" Grid.Column="0" Text="Vitamin C (mg):" />
+<Entry Grid.Row="36" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminC, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="36" Grid.Column="0" Text="Vitamin C (%):" />
-<Entry Grid.Row="36" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="37" Grid.Column="0" Text="Vitamin D (μg/mcg):" />
+<Entry Grid.Row="37" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminD, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="37" Grid.Column="0" Text="Vitamin D (%):" />
-<Entry Grid.Row="37" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="38" Grid.Column="0" Text="Vitamin E (mg):" />
+<Entry Grid.Row="38" Grid.Column="1" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.VitaminE, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="38" Grid.Column="0" Text="Vitamin E (%):" />
-<Entry Grid.Row="38" Grid.Column="1" Keyboard="Numeric" />
+<Label Grid.Row="39" Grid.Column="0" Text="Vitamin K (μg/mcg):" />
+<Entry Grid.Row="39" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminK, Mode=OneWayToSource}"/>
 
-<Label Grid.Row="39" Grid.Column="0" Text="Vitamin K (%):" />
-<Entry Grid.Row="39" Grid.Column="1" Keyboard="Numeric" />
-
-    
+  <Label Grid.Row="40" Grid.Column="0" Text="   "  Margin="0,255,0,0"/>
     </Grid>
 
 
