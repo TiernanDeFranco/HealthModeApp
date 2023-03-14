@@ -17,7 +17,7 @@ namespace HealthModeApp.DataServices
         public RestDataService()
         {
             _httpClient = new HttpClient();
-            _baseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5209" : "https://localhost:7002";
+            _baseAddress = "https://5uaf5dsar5omec7tcg4k2v5zoi0tcbfw.lambda-url.us-east-2.on.aws";
             _url = $"{_baseAddress}/api";
 
 
