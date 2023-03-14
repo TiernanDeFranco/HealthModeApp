@@ -46,7 +46,7 @@ namespace HealthModeApp.DataServices
                 //StringContent content = new StringContent("{\n\t\"barcode\": \"33\",\n\t\"foodName\": \"33\",\n\t\"servingSize\": \"25\",\n\t\"servingType\": \"g\",\n\t\"calories\": \"100\",\n\t\"protein\": \"6\",\n\t\"carbs\": \"3\",\n\t\"fat\": \"5\",\n\t\"satFat\": \"1.5\",\n\t\"cholesterol\": \"185\",\n\t\"sodium\": \"70\",\n\t\"calcium\": \"2\",\n\t\"iron\": \"4\",\n\t\"potassium\": \"70\",\n\t\"vitaminA\": \"6\",\n\t\"FolicAcid\": \"2\"\n}", Encoding.UTF8, "application/json");
                 Debug.WriteLine(jsonNutrition);
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/healthmode", content);
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/healthmode/food", content);
 
 
                 if (response.IsSuccessStatusCode)
@@ -77,7 +77,7 @@ namespace HealthModeApp.DataServices
 
             try
             {
-                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/healthmode{foodId}");
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/healthmode/food/{foodId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -107,7 +107,7 @@ namespace HealthModeApp.DataServices
 
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/healthmode");
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/healthmode/food");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -141,7 +141,7 @@ namespace HealthModeApp.DataServices
                 string jsonNutrition = JsonSerializer.Serialize<NutritionModel>(nutritionModel, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonNutrition, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/healthmode/{nutritionModel.FoodId}", content);
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/healthmode/food/{nutritionModel.FoodId}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
