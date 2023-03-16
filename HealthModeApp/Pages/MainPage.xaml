@@ -4,13 +4,14 @@
              x:Class="HealthModeApp.MainPage">
       <ScrollView>
         <VerticalStackLayout
-            Spacing="25"
+            Spacing="45"
             Padding="30,0"
             VerticalOptions="Center">
 
        <Button
           Text="Scan Food"
-          Clicked="OnScanFoodClicked"/>
+          Clicked="OnScanFoodClicked"
+          IsVisible="False"/>
 
          <Button
           Text="Direct Upload"

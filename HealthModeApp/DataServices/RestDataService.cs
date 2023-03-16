@@ -17,8 +17,8 @@ namespace HealthModeApp.DataServices
         public RestDataService()
         {
             _httpClient = new HttpClient();
-            _baseAddress = "https://5uaf5dsar5omec7tcg4k2v5zoi0tcbfw.lambda-url.us-east-2.on.aws";
-            _url = $"{_baseAddress}/api";
+            _baseAddress = "https://localhost:7002";
+            _url = $"{_baseAddress}/api/healthmode";
 
 
             _jsonSerializerOptions = new JsonSerializerOptions
@@ -27,7 +27,7 @@ namespace HealthModeApp.DataServices
             };
         }
 
-
+ #region NutritionInfoDBRegion
         public async Task AddNutritionInfoAsync(NutritionModel nutritionModel)
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
@@ -39,14 +39,16 @@ namespace HealthModeApp.DataServices
             try
             {
                 string jsonNutrition = JsonSerializer.Serialize<NutritionModel>(nutritionModel, _jsonSerializerOptions);
-                StringContent content = new StringContent(jsonNutrition, Encoding.UTF8, "application/json");
+               StringContent content = new StringContent(jsonNutrition, Encoding.UTF8, "application/json");
 
                
 
                 //StringContent content = new StringContent("{\n\t\"barcode\": \"33\",\n\t\"foodName\": \"33\",\n\t\"servingSize\": \"25\",\n\t\"servingType\": \"g\",\n\t\"calories\": \"100\",\n\t\"protein\": \"6\",\n\t\"carbs\": \"3\",\n\t\"fat\": \"5\",\n\t\"satFat\": \"1.5\",\n\t\"cholesterol\": \"185\",\n\t\"sodium\": \"70\",\n\t\"calcium\": \"2\",\n\t\"iron\": \"4\",\n\t\"potassium\": \"70\",\n\t\"vitaminA\": \"6\",\n\t\"FolicAcid\": \"2\"\n}", Encoding.UTF8, "application/json");
+                Debug.WriteLine("JSON Nutrition:");
                 Debug.WriteLine(jsonNutrition);
+            
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/healthmode/food", content);
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/food", content);
 
 
                 if (response.IsSuccessStatusCode)
@@ -77,7 +79,7 @@ namespace HealthModeApp.DataServices
 
             try
             {
-                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/healthmode/food/{foodId}");
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/food/{foodId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -107,7 +109,7 @@ namespace HealthModeApp.DataServices
 
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/healthmode/food");
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/food");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -159,6 +161,7 @@ namespace HealthModeApp.DataServices
 
             return;
         }
+     #endregion 
     }
 }
 

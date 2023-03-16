@@ -1,11 +1,13 @@
 ﻿using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
+using ZXing;
 using System;
 
 namespace HealthModeApp.Pages;
 
 public partial class BarcodeScan : ContentPage
 {
+    
     public BarcodeScan()
     {
         InitializeComponent();
@@ -24,7 +26,7 @@ public partial class BarcodeScan : ContentPage
         barcodeScanner.IsDetecting = true;
         barcodeScanner.IsEnabled = true;
         
-    }
+        }
             
          
 

@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using HealthModeApp.DataServices;
 using HealthModeApp.Models;
-using ZXing.QrCode.Internal;
+using ZXing.Net.Maui;
+using ZXing.Net.Maui.Controls;
+using ZXing;
 
 namespace HealthModeApp.Pages;
 
@@ -11,10 +13,12 @@ public partial class AddFoodEntry : ContentPage
 {
 	private readonly IRestDataService _dataService;
 	NutritionModel _nutritionModel;
+    public string barcodeResult { get; set; }
 
 
 
-	public NutritionModel Food
+
+    public NutritionModel Food
 	{
 		get => _nutritionModel;
 		set
@@ -24,12 +28,15 @@ public partial class AddFoodEntry : ContentPage
 		}
 	}
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-		
 
-    }
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+		
+		
+	}
+    
+
 
     public AddFoodEntry(IRestDataService dataService)
 	{
@@ -45,10 +52,17 @@ public partial class AddFoodEntry : ContentPage
 	async void OnUploadEntryClicked(object sender, EventArgs e)
 	{
 		Debug.WriteLine("Uploading data");
-		Debug.WriteLine(Food);
+		if (BarcodeEntry.Text == null)
+		{
+			Food.Barcode = Food.FoodName;
+		}
+
 		await _dataService.AddNutritionInfoAsync(Food);
         await Navigation.PopAsync();
+
+		
     }
 
 
 }
+

@@ -20,7 +20,7 @@ public partial class MainPage : ContentPage
 
     async void OnDirectClicked(object sender, EventArgs e)
     {
-
+       
         await Shell.Current.GoToAsync(nameof(AddFoodEntry));
     }
 }
