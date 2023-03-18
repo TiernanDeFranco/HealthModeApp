@@ -1,14 +1,37 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Shell
     x:Class="HealthModeApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:HealthModeApp"
+    xmlns:local="clr-namespace:HealthModeApp.Pages"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+
+
+    <TabBar x:Name="TabBar">
+        <Tab Title="Food Journal">
+            <ShellContent ContentTemplate="{DataTemplate local:FoodJournal}" Route="FoodJournal"/>
+
+        </Tab>
+
+        <Tab Title="Workouts">
+            <ShellContent ContentTemplate="{DataTemplate local:Workouts}" Route="Workouts"/>
+        </Tab>
+
+        <Tab Title="Dashboard">
+            <ShellContent ContentTemplate="{DataTemplate local:Dashboard}" Route="Dashboard"/>
+
+        </Tab>
+
+        <Tab Title="Challenges">
+            <ShellContent ContentTemplate="{DataTemplate local:Challenges}" Route="Challenges"/>
+        </Tab>
+
+        <Tab Title="More">
+            <ShellContent ContentTemplate="{DataTemplate local:MorePage}" Route="MorePage"/>
+        </Tab>
+
+    </TabBar>
+
 
 </Shell>

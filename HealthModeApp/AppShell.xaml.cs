@@ -10,5 +10,8 @@ public partial class AppShell : Shell
 
 		Routing.RegisterRoute(nameof(BarcodeScan), typeof(BarcodeScan));
 		Routing.RegisterRoute(nameof(AddFoodEntry), typeof(AddFoodEntry));
+        Routing.RegisterRoute(nameof(Dashboard), typeof(Dashboard));
+
+        TabBar.CurrentItem = TabBar.Items[2];
     }
 }

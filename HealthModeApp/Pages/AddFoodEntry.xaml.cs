@@ -11,7 +11,7 @@ namespace HealthModeApp.Pages;
 [QueryProperty(nameof(Food), "Food")]
 public partial class AddFoodEntry : ContentPage
 {
-	private readonly IRestDataService _dataService;
+	public readonly IRestDataService _dataService;
 	NutritionModel _nutritionModel;
     public string barcodeResult { get; set; }
 
@@ -32,10 +32,12 @@ public partial class AddFoodEntry : ContentPage
 	protected override void OnAppearing()
 	{
 		base.OnAppearing();
-		
-		
-	}
-    
+
+        // Hide the TabBar on this page
+        Shell.SetTabBarIsVisible(this, false);
+
+    }
+
 
 
     public AddFoodEntry(IRestDataService dataService)

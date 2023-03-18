@@ -32,16 +32,16 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<IRestDataService, RestDataService>();
 
-		builder.Services.AddSingleton<MainPage>();
 		builder.Services.AddTransient<BarcodeScan>();
 		builder.Services.AddTransient<AddFoodEntry>();
-
-
-	
-
+        builder.Services.AddTransient<Dashboard>();
 
 
 
-		return builder.Build();
+
+
+
+
+        return builder.Build();
 	}
 }
