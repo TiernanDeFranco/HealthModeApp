@@ -39,10 +39,8 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -60,12 +58,20 @@
 	  <None Remove="DataServices\" />
 	  <None Remove="Platforms\Android\Resources\xml\" />
 	  <None Remove="Pages\" />
+	  <None Remove="Resources\AppIcon\appicon.svg" />
+	  <None Remove="Resources\Splash\splash.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
 	  <Folder Include="DataServices\" />
 	  <Folder Include="Platforms\Android\Resources\xml\" />
 	  <Folder Include="Pages\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiIcon Include="Resources\AppIcon\appicon.svg" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#3f80b6" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="ZXing.Net.Maui.CG" Version="1.0.2" />
