@@ -33,6 +33,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	  <CodesignKey>iPhone Developer: Tiernan DeFranco (FZJ7MX33UK)</CodesignKey>
+	  <MtouchLink>SdkOnly</MtouchLink>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
@@ -60,6 +61,8 @@
 	  <None Remove="Pages\" />
 	  <None Remove="Resources\AppIcon\appicon.svg" />
 	  <None Remove="Resources\Splash\splash.svg" />
+	  <None Remove="Resources\Fonts\Lato-Bold.ttf" />
+	  <None Remove="Resources\Fonts\Lato-Regular.ttf" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
@@ -75,5 +78,9 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="ZXing.Net.Maui.CG" Version="1.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+	  <BundleResource Include="Resources\Fonts\Lato-Bold.ttf" />
+	  <BundleResource Include="Resources\Fonts\Lato-Regular.ttf" />
 	</ItemGroup>
 </Project>

@@ -4,19 +4,22 @@
              x:Class="HealthModeApp.Pages.Dashboard"
              Title="Dashboard">
 
-      <ScrollView>
-        <VerticalStackLayout
-            Spacing="45"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <ScrollView>
+     <Grid x:Name="dashboardGrid" Margin="35">
+  <Grid.RowDefinitions>
+    <RowDefinition Height="*"/>
+    <RowDefinition Height="*"/>
+  </Grid.RowDefinitions>
 
-  
-            
-
-        </VerticalStackLayout>
-    </ScrollView>
-
-
+    <StackLayout Spacing="15" Grid.Row="0">
+      <Frame CornerRadius="20" HeightRequest="{Binding Width, Source={x:Reference dashboardGrid}}" WidthRequest="{Binding Width, Source={x:Reference dashboardGrid}}">
+          <Label Text="Dashboard" FontSize="Medium" FontFamily="Lato-Bold"/>
+           
+      </Frame>
+    </StackLayout>
+        
+</Grid>
+</ScrollView>
 </ContentPage>
 
 

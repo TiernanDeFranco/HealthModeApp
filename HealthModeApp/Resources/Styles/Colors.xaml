@@ -5,10 +5,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Color x:Key="Primary">#3f80b6</Color>
+    <Color x:Key="DarkPrimary">#2e4b63</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#808080</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
+    <Color x:Key="BlueGray">#404f5c</Color>
+    <Color x:Key="BlueGrayMid">#2f3f4d</Color>
+    <Color x:Key="BlueGrayDark">#232f38</Color>
+    <Color x:Key="WSmoke">#F5F5F5</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
     <Color x:Key="Gray300">#ACACAC</Color>
