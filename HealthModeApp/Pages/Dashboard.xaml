@@ -7,13 +7,23 @@
     <ScrollView>
      <Grid x:Name="dashboardGrid" Margin="35">
   <Grid.RowDefinitions>
-    <RowDefinition Height="*"/>
+    <RowDefinition Height="Auto"/>
     <RowDefinition Height="*"/>
   </Grid.RowDefinitions>
 
     <StackLayout Spacing="15" Grid.Row="0">
-      <Frame CornerRadius="20" HeightRequest="{Binding Width, Source={x:Reference dashboardGrid}}" WidthRequest="{Binding Width, Source={x:Reference dashboardGrid}}">
-          <Label Text="Dashboard" FontSize="Medium" FontFamily="Lato-Bold"/>
+                <Frame CornerRadius="20" HeightRequest="{Binding Width, Source={x:Reference dashboardGrid}}" WidthRequest="{Binding Width, Source={x:Reference dashboardGrid}}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="1" Text="Hello"/>
+                    </Grid>
            
       </Frame>
     </StackLayout>
