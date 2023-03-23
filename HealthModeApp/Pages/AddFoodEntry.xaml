@@ -71,7 +71,7 @@
     <Entry Grid.Row="0" Grid.Column="1" Keyboard="Numeric" x:Name="BarcodeEntry" Placeholder="Optional" Text="{Binding Path=Food.Barcode}" MaxLength="14"/>
 
     <Label Grid.Row="1" Grid.Column="0" Text="Food Name:" Margin="0,15,0,0" />
-    <Entry Grid.Row="1" Grid.Column="1" x:Name="FoodEntry" Placeholder="ex. Potato Chips" Margin="0,15,0,0" Text="{Binding Path=Food.FoodName, Mode=OneWayToSource}" MaxLength="50"  />
+    <Entry Grid.Row="1" Grid.Column="1" x:Name="FoodEntry" Placeholder="ex. Potato Chips" Margin="0,15,0,0" Text="{Binding Path=Food.FoodName, Mode=OneWayToSource}" MaxLength="35"  />
 
     <Label Grid.Row="2" Grid.Column="0" Text="Brand Name:" />
     <Entry Grid.Row="2" Grid.Column="1" Placeholder="ex. Lays" Text="{Binding Food.Brand, Mode=OneWayToSource}" MaxLength="50"/>

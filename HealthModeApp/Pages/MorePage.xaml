@@ -4,17 +4,12 @@
              x:Class="HealthModeApp.Pages.MorePage"
              Title="More">
 
-      <ScrollView>
-        <VerticalStackLayout
-            Spacing="45"
-            Padding="30,0"
-            VerticalOptions="Center">
-
-  
-            
-
-        </VerticalStackLayout>
-    </ScrollView>
+      <Grid>
+        <ScrollView>
+            <Frame HeightRequest="1500" CornerRadius="20"/>
+        </ScrollView>
+        <Button Text="My Button" HorizontalOptions="FillAndExpand" VerticalOptions="End" />
+    </Grid>
 
 
 </ContentPage>

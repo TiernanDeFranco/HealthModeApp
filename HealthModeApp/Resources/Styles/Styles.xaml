@@ -198,7 +198,7 @@
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="ProgressColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WSmoke}, Dark={StaticResource BlueGrayDark}}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>

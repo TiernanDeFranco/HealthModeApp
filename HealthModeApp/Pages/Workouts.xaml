@@ -2,21 +2,103 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.Workouts"
-             Title="Workout">
-
-      <ScrollView>
-        <VerticalStackLayout
-            Spacing="45"
-            Padding="30,0"
-            VerticalOptions="Center">
-
-  
-            
-
-        </VerticalStackLayout>
-    </ScrollView>
+             Title="Workouts">
 
 
+
+    <Grid x:Name="MasterGrid" Padding="10" Margin="2">
+        <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="0.07*"/> </Grid.RowDefinitions>
+    <Grid Grid.Row="0" Padding="3" RowSpacing="3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+    
+            <Frame x:Name="WorkoutDash" Grid.Row="0" Padding="10" CornerRadius="20">
+                <Grid ColumnSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Text="7825" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent1}, Dark={StaticResource DarkAccent1}}" HorizontalOptions="Center"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Steps" FontSize="Medium"  HorizontalOptions="Center"/>
+                    <ProgressBar Margin="5" Grid.Row="2" Grid.Column="0" Progress="0.78" ProgressColor="{AppThemeBinding Light={StaticResource Accent1}, Dark={StaticResource DarkAccent1}}"/> 
+
+                    <Label Grid.Row="0" Grid.Column="1" Text="540" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent2}, Dark={StaticResource DarkAccent2}}" HorizontalOptions="Center"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="Calories" FontSize="Medium" HorizontalOptions="Center"/>
+                    <ProgressBar Margin="5"  Grid.Row="2" Grid.Column="1" Progress="1" ProgressColor="{AppThemeBinding Light={StaticResource Accent2}, Dark={StaticResource DarkAccent2}}"/>
+
+                    <Label Grid.Row="0" Grid.Column="2" Text="30" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent3}, Dark={StaticResource DarkAccent3}}" HorizontalOptions="Center"/>
+                    <Label Grid.Row="1" Grid.Column="2" Text="Exercise" FontSize="Medium" HorizontalOptions="Center"/>
+                    <ProgressBar Margin="5"  Grid.Row="2" Grid.Column="2" Progress="0.5" ProgressColor="{AppThemeBinding Light={StaticResource Accent3}, Dark={StaticResource DarkAccent3}}"/>
+
+                </Grid>
+
+            </Frame>
+        <Frame x:Name="WorkoutAd" Margin="5" IsVisible="True" Grid.Row="1" Padding="10" CornerRadius="20" BackgroundColor="WhiteSmoke" HeightRequest="70"> 
+        <Label Text="Ad" FontSize="Large" FontFamily="Lato-Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+       
+        </Frame>
+   <Frame x:Name="WorkoutNoAd" Margin="2" IsVisible="False" Grid.Row="1" Padding="5" CornerRadius="20" BackgroundColor="WhiteSmoke" Opacity="0" HeightRequest="10"/>
+      
+      <ScrollView Grid.Row="2" Grid.ColumnSpan="3" MinimumHeightRequest="{Binding Height, Source={x:Reference MasterGrid}}">
+                 <Grid x:Name="WorkoutGrid" ColumnSpacing="8" RowSpacing="8" Margin="3">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=".7*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Frame Grid.Row="0" Grid.Column="0" Padding="5" CornerRadius="20">
+                    <Label Text="My Workouts" FontFamily="Lato-Bold" HorizontalOptions="Center" VerticalOptions="Start"/>
+                </Frame>
+
+                <Frame x:Name="Recovery" Grid.Row="1" Grid.Column="0" Padding="5" CornerRadius="20">
+                    <Label Text="Recovery" FontFamily="Lato-Bold" HorizontalOptions="Center" VerticalOptions="Start"/>
+                </Frame>
+
+                <Frame x:Name="Progress" Grid.RowSpan="2" Grid.Column="1" Padding="5" CornerRadius="20" HeightRequest="{Binding Width, Source={x:Reference Progress}}">
+                    <Label Text="Progress" FontFamily="Lato-Bold" HorizontalOptions="Center" VerticalOptions="Start"/>
+                </Frame>
+
+                    <Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="5" CornerRadius="20" HeightRequest="{Binding Width, Source={x:Reference Recovery}}">
+                    <Label Text="Warmups and Stretches" FontFamily="Lato-Bold" HorizontalOptions="Center" VerticalOptions="Start"/>
+                </Frame>
+
+                    <Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Padding="5" CornerRadius="20" HeightRequest="{Binding Width, Source={x:Reference Recovery}}">
+                    <Label Text="Exercise Library" FontFamily="Lato-Bold" HorizontalOptions="Center" VerticalOptions="Start"/>
+                </Frame>
+                    
+        </Grid>
+                
+
+</ScrollView>
+
+    </Grid>
+    <Button Grid.Row="1" IsVisible="True" VerticalOptions="Center" HeightRequest="50" Text="Start Workout" BackgroundColor="{StaticResource Accent3}"/>
+</Grid>
 </ContentPage>
 
 
