@@ -23,7 +23,7 @@
 
         </Tab>
 
-        <Tab Title="Challenges">
+        <Tab Title="Other Tab idk">
             <ShellContent ContentTemplate="{DataTemplate local:Challenges}" Route="Challenges"/>
         </Tab>
 

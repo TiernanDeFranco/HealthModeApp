@@ -1,5 +1,7 @@
-﻿using HealthModeApp.DataServices;
+﻿using HealthModeApp.Data;
+using HealthModeApp.DataServices;
 using HealthModeApp.Pages;
+using Microsoft.EntityFrameworkCore;
 using ZXing.Net.Maui;
 
 namespace HealthModeApp;
@@ -24,6 +26,8 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+				fonts.AddFont("Lato-Bold.ttf", "Lato-Bold");
+				fonts.AddFont("Lato-Regular.ttf", "Lato-Regular");
 			});
 
 		
@@ -35,6 +39,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<BarcodeScan>();
 		builder.Services.AddTransient<AddFoodEntry>();
         builder.Services.AddTransient<Dashboard>();
+
+		builder.Services.AddDbContext<AppDBContext>(opt =>opt.UseSqlite("Data Source=healthmodelocal.db"));
 
 
 
