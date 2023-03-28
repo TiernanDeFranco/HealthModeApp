@@ -8,7 +8,6 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 
-		Routing.RegisterRoute(nameof(BarcodeScan), typeof(BarcodeScan));
 		Routing.RegisterRoute(nameof(AddFoodEntry), typeof(AddFoodEntry));
         Routing.RegisterRoute(nameof(Dashboard), typeof(Dashboard));
 

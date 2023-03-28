@@ -2,9 +2,6 @@
 using System.Diagnostics;
 using HealthModeApp.DataServices;
 using HealthModeApp.Models;
-using ZXing.Net.Maui;
-using ZXing.Net.Maui.Controls;
-using ZXing;
 
 namespace HealthModeApp.Pages;
 

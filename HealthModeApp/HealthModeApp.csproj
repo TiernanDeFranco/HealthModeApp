@@ -81,14 +81,6 @@
 	  <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#3f80b6" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="ZXing.Net.Maui.CG" Version="1.0.2" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.4" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	    <PrivateAssets>all</PrivateAssets>
-	  </PackageReference>
-	</ItemGroup>
-	<ItemGroup>
 	  <BundleResource Include="Resources\Fonts\Lato-Bold.ttf" />
 	  <BundleResource Include="Resources\Fonts\Lato-Regular.ttf" />
 	  <BundleResource Include="Resources\Fonts\Lato-Bold.ttf" />
