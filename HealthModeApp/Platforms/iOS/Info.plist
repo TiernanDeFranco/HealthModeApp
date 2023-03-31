@@ -28,5 +28,11 @@
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>NSCameraUsageDescription</key>
 	<string>HealthMode uses barcode scanning to make logging food easier as well as collecting the barcode number for adding food to the database.</string>
+	<key>NSFileProtectionKey</key>
+	<string>NSFileProtectionCompleteUnlessOpen</string>
+	<key>NSFileManager</key>
+	<string>HealthMode needs permission to create and manage local databases on the device for the app to work.</string>
+	<key>NSLocalUsageDescription</key>
+	<string>HealthMode needs permission to create and manage local databases on the device for the app to work.</string>
 </dict>
 </plist>

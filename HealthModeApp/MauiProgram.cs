@@ -1,6 +1,7 @@
 ﻿
 using HealthModeApp.DataServices;
 using HealthModeApp.Pages;
+using SQLite;
 
 namespace HealthModeApp;
 
@@ -25,8 +26,12 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<IRestDataService, RestDataService>();
 
-		builder.Services.AddTransient<AddFoodEntry>();
+        builder.Services.AddSingleton<ISQLiteDataService, SQLiteDataService>();
+
+
+        builder.Services.AddTransient<AddFoodEntry>();
         builder.Services.AddTransient<Dashboard>();
+        builder.Services.AddTransient<FoodJournal>();
 
 
 

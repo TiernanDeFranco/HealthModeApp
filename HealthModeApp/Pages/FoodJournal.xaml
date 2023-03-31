@@ -15,7 +15,7 @@
   <Frame Grid.Row="0" Padding="3" CornerRadius="20">
      <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -28,7 +28,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-            <DatePicker FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yyyy" HorizontalOptions="Center" Grid.Row="0" Grid.ColumnSpan="5"/>
+            <DatePicker x:Name="DatePicker" DateSelected="DatePicker_DateSelected"  FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yyyy" HorizontalOptions="Center" Grid.Row="0" Grid.ColumnSpan="5"/>
           
 
                 <Label Text="2000" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold" FontSize="20" HorizontalTextAlignment="Center"/>
@@ -80,10 +80,10 @@
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
                 <Entry Grid.Row="0" Grid.Column="0" Text="Meal 1" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                <Label x:Name="meal1CalLabel" Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
-                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0">
+                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0" x:Name="Meal1Grid">
                          <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -119,10 +119,10 @@
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
                 <Entry Grid.Row="0" Grid.Column="0" Text="Meal 2" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                <Label x:Name="meal2CalLabel" Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
-                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0">
+                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0" x:Name="Meal2Grid">
                          <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -158,10 +158,10 @@
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
                 <Entry Grid.Row="0" Grid.Column="0" Text="Meal 3" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                <Label x:Name="meal3CalLabel"  Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
-                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0">
+                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0" x:Name="Meal3Grid">
                          <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -197,10 +197,10 @@
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
                 <Entry Grid.Row="0" Grid.Column="0" Text="Meal 4" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                <Label x:Name="meal4CalLabel"  Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
-                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0">
+                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0" x:Name="Meal4Grid">
                          <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -236,10 +236,10 @@
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
                 <Entry Grid.Row="0" Grid.Column="0" Text="Meal 5" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                <Label x:Name="meal5CalLabel"  Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
-                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0">
+                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0" x:Name="Meal5Grid">
                          <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -275,10 +275,10 @@
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
                 <Entry Grid.Row="0" Grid.Column="0" Text="Meal 6" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                <Label x:Name="meal6CalLabel"  Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
-                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0">
+                       <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0" x:Name="Meal6Grid">
                          <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
