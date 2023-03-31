@@ -17,7 +17,7 @@ namespace HealthModeApp.DataServices
 
         private async void SetUpDB()
 		{
-            if (db != null)
+            if (db == null)
             {
 
                 string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "HealthModeDB.db3");

@@ -80,7 +80,7 @@
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
                 <Entry Grid.Row="0" Grid.Column="0" Text="Meal 1" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
-                <Label x:Name="meal1CalLabel" Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                <Label x:Name="meal1CalLabel" Grid.Row="0" Grid.Column="1" Text="5" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
                        <Grid RowSpacing="3" ColumnSpacing="5" Margin="0,5,0,0" x:Name="Meal1Grid">
