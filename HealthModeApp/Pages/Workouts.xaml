@@ -35,13 +35,13 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="7825" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent1}, Dark={StaticResource DarkAccent1}}" HorizontalOptions="Center"/>
+                    <Label Grid.Row="0" Grid.Column="0" Text="7825" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent2}, Dark={StaticResource DarkAccent2}}" HorizontalOptions="Center"/>
                     <Label Grid.Row="1" Grid.Column="0" Text="Steps" FontSize="Medium"  HorizontalOptions="Center"/>
-                    <ProgressBar Margin="5" Grid.Row="2" Grid.Column="0" Progress="0.78" ProgressColor="{AppThemeBinding Light={StaticResource Accent1}, Dark={StaticResource DarkAccent1}}"/> 
+                    <ProgressBar Margin="5" Grid.Row="2" Grid.Column="0" Progress="0.78" ProgressColor="{AppThemeBinding Light={StaticResource Accent2}, Dark={StaticResource DarkAccent2}}"/> 
 
-                    <Label Grid.Row="0" Grid.Column="1" Text="540" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent2}, Dark={StaticResource DarkAccent2}}" HorizontalOptions="Center"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="540" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent1}, Dark={StaticResource DarkAccent1}}" HorizontalOptions="Center"/>
                     <Label Grid.Row="1" Grid.Column="1" Text="Calories" FontSize="Medium" HorizontalOptions="Center"/>
-                    <ProgressBar Margin="5"  Grid.Row="2" Grid.Column="1" Progress="1" ProgressColor="{AppThemeBinding Light={StaticResource Accent2}, Dark={StaticResource DarkAccent2}}"/>
+                    <ProgressBar Margin="5"  Grid.Row="2" Grid.Column="1" Progress="1" ProgressColor="{AppThemeBinding Light={StaticResource Accent1}, Dark={StaticResource DarkAccent1}}"/>
 
                     <Label Grid.Row="0" Grid.Column="2" Text="30" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent3}, Dark={StaticResource DarkAccent3}}" HorizontalOptions="Center"/>
                     <Label Grid.Row="1" Grid.Column="2" Text="Exercise" FontSize="Medium" HorizontalOptions="Center"/>

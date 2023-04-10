@@ -75,6 +75,7 @@ namespace HealthModeApp.Models.SQLite
             public DateTime Time { get; set; }
 
             public decimal ServingAmount { get; set; }
+            public decimal TotalGrams { get; set; }
 
             public int FoodID { get; set; }
 
@@ -122,6 +123,19 @@ namespace HealthModeApp.Models.SQLite
             public decimal VitaminD { get; set; }
             public decimal VitaminE { get; set; }
             public decimal VitaminK { get; set; }
+        }
+
+
+
+        [SQLiteTable("PopUpMemory")]
+        public class PopUpMemory
+        {
+            [PrimaryKey, AutoIncrement]
+            public int PopUpMemID { get; set; }
+
+            public string PopUpName { get; set; }
+
+            public bool Seen { get; set; }
         }
     }
 }

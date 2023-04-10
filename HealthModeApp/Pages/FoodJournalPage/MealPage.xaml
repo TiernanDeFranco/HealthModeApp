@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.FoodJournalPage.MealPage">
+  
+  
+<Grid Padding="25,2" RowSpacing="5" Grid.Row="1">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" /> <!-- Define the first row to automatically adjust to its content -->   <!-- Define the second row to fill the remaining space -->
+        <RowDefinition Height="*" />
+    
+    </Grid.RowDefinitions>
+    <Frame x:Name="mealInfoFrame" Margin="5" Grid.Row="0" Padding="10" CornerRadius="25" HeightRequest="{Binding Width, Source={x:Reference mealInfoFrame}}" WidthRequest="{Binding Width, Source={x:Reference mealInfoFrame}}"> <!-- Add the Frame to the first row -->
+        <Grid Padding="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" /> <!-- Define the first row to automatically adjust to its content -->   <!-- Define the second row to fill the remaining space -->
+            <RowDefinition Height="*" />
+             
+    </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+
+            <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Meal Details" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="18"/>
+                 
+        </Grid>
+    </Frame>
+
+    <Frame Grid.Row="1" CornerRadius="25" Margin="5">
+    <ListView x:Name="mealInfoList"
+          HorizontalOptions="Center"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}">
+    </ListView>
+    </Frame>
+
+</Grid>
+
+
+</ContentPage>

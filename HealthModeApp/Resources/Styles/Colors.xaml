@@ -17,13 +17,19 @@
     <Color x:Key="WSmoke">#F5F5F5</Color>
 
     <Color x:Key="Accent1">#EA526F</Color>
-    <Color x:Key="Accent2">#f5b700</Color>
+    <Color x:Key="Accent2">#0074D9</Color>
     <Color x:Key="Accent3">#74A57F</Color>
 
     <Color x:Key="DarkAccent1">#F71735</Color>
-    <Color x:Key="DarkAccent2">#ffcd38</Color>
+    <Color x:Key="DarkAccent2">#55A2E6</Color>
     <Color x:Key="DarkAccent3">#D6F599</Color>
 
+    <Color x:Key="CalLight">#F71735</Color>
+    <Color x:Key="CarbsLight">#F5A623</Color>
+    <Color x:Key="FatLight">#4A90E2</Color>
+    <Color x:Key="ProteinLight">#7ED321</Color>
+
+ 
 
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
