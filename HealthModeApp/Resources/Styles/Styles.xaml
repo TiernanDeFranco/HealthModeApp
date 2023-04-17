@@ -61,6 +61,9 @@
         </Setter>
     </Style>
 
+  
+
+
     <Style TargetType="DatePicker">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
@@ -124,7 +127,7 @@
         <Setter Property="HasShadow" Value="False" />
         <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}"/>
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="CornerRadius" Value="20" />
     </Style>
 
     <Style TargetType="ImageButton">
@@ -208,7 +211,8 @@
 
     <Style TargetType="RadioButton">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" />
         <Setter Property="FontFamily" Value="Lato-Regular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="VisualStateManager.VisualStateGroups">

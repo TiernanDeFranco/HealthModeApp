@@ -4,12 +4,9 @@
              x:Class="HealthModeApp.Pages.MorePage"
              Title="More">
 
-      <Grid>
-        <ScrollView>
-            <Frame HeightRequest="1500" CornerRadius="20"/>
-        </ScrollView>
-        <Button Text="My Button" HorizontalOptions="FillAndExpand" VerticalOptions="End" />
-    </Grid>
+     
+        <Button Text="Log Out" VerticalOptions="Center" Margin="15" Clicked="Button_Clicked"/>
+
 
 
 </ContentPage>

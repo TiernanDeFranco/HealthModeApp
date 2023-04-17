@@ -4,6 +4,8 @@
              x:Class="HealthModeApp.Pages.Dashboard"
              Title="Dashboard">
 
+   
+
     <ScrollView>
      <Grid x:Name="dashboardGrid" Margin="30">
   <Grid.RowDefinitions>

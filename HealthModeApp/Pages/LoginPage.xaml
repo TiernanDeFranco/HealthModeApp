@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.LoginPage"
+             Title="LoginPage"
+             BackgroundColor="{AppThemeBinding Light={StaticResource WSmoke}, Dark={StaticResource BlueGrayDark}}">
+    <ScrollView>
+        <Grid RowSpacing="15" Padding="10,0,10,25" VerticalOptions="CenterAndExpand" HeightRequest="800">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                 <RowDefinition Height="Auto"/>
+                 <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+        <Frame Grid.Row="0" CornerRadius="25"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}">
+             <Image Source="hmlogo" WidthRequest="500" HeightRequest="150"/>
+        </Frame>
+       
+    <Frame x:Name="LoginFrame" Grid.Row="1" CornerRadius="20">
+        <Grid RowSpacing="12" Padding="10,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                 <RowDefinition Height="Auto"/>
+                 <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+             <Entry Grid.Row="0" Placeholder="Email" Keyboard="Email" FontSize="Body" x:Name="EmailLogin"/>
+             <Entry Grid.Row="1" Placeholder="Password" IsPassword="True" FontSize="Body" x:Name="PasswordLogin"/>
+             <Button Grid.Row="2" Text="Login" FontSize="Body" Clicked="LoginButton_Clicked"  Margin="0,10,0,0" HorizontalOptions="CenterAndExpand" WidthRequest="200"/>
+        </Grid>
+    </Frame>
+        <Grid x:Name="SignUpGrid" Grid.Row="2" RowSpacing="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                 <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+         <Label Grid.Row="0" Text="Or Sign Up" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource BlueGray}, Dark={StaticResource WSmoke}}"/>
+        <Button Grid.Row="1" Text="Sign Up" FontSize="Body" Clicked="RegisterButton_Clicked" Margin="0" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" BackgroundColor="Transparent"/>
+        </Grid>
+
+
+
+       
+
+      
+  </Grid>
+</ScrollView>
+
+</ContentPage>

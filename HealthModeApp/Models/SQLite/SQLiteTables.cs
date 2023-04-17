@@ -67,6 +67,8 @@ namespace HealthModeApp.Models.SQLite
             [PrimaryKey, AutoIncrement]
             public int LoggedFoodID { get; set; }
 
+            public int UserID { get; set; }
+
             [Indexed]
             public DateTime Date { get; set; }
 
@@ -136,6 +138,51 @@ namespace HealthModeApp.Models.SQLite
             public string PopUpName { get; set; }
 
             public bool Seen { get; set; }
+        }
+
+        [SQLiteTable("UserData")]
+        public class UserData
+        {
+            [PrimaryKey, AutoIncrement]
+            public int DataID { get; set; }
+
+            public int UserID { get; set; }
+
+            public string Email { get; set; }
+
+            public string Username { get; set; }
+
+            public string Password { get; set; }
+
+            public bool SeesAds { get; set; }
+
+            public int WeightPlan { get; set; }
+
+            public string MainGoals { get; set; }
+
+            public string Units { get; set; }
+
+            public int Sex { get; set; }
+
+            public decimal HeightCm { get; set; }
+
+            public DateTime Birthday { get; set; }
+
+            public int Weight { get; set; }
+
+            public int GoalWeight { get; set; }
+
+            public int ActivityLevel { get; set; }
+        }
+
+        [SQLiteTable("Goals")]
+        public class Goals
+        {
+            [PrimaryKey, AutoIncrement]
+            public int GoalID { get; set; }
+
+            public int CalorieGoal { get; set; }
+                  
         }
     }
 }

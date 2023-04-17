@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.MainPage"
+             Title="MainPage"
+             xmlns:local="clr-namespace:HealthModeApp.Pages"
+             Shell.FlyoutBehavior="Disabled">
+
+
+
+    <TabBar x:Name="TabBar">
+        <Tab Title="Food Journal">
+            <Tab.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="foodjournalicon"/>
+                    <On Platform="Android" Value="foodjournalicon_android"/>
+                </OnPlatform>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:FoodJournal}" Route="FoodJournal"/>
+
+        </Tab>
+
+        <Tab Title="Workouts">
+            <Tab.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="workouticon"/>
+                    <On Platform="Android" Value="workouticon_android"/>
+                </OnPlatform>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:Workouts}" Route="Workouts"/>
+        </Tab>
+
+        <Tab Title="Dashboard">
+            <Tab.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="dashboardicon"/>
+                    <On Platform="Android" Value="dashboardicon_android"/>
+                </OnPlatform>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:Dashboard}" Route="Dashboard"/>
+            
+        </Tab>
+
+        <Tab Title="Other Tab idk">
+            <ShellContent ContentTemplate="{DataTemplate local:Challenges}" Route="Challenges"/>
+        </Tab>
+
+        <Tab Title="More">
+            <ShellContent ContentTemplate="{DataTemplate local:MorePage}" Route="MorePage"/>
+        </Tab>
+
+    </TabBar>
+</Shell>

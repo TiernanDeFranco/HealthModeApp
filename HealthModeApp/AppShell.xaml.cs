@@ -1,4 +1,5 @@
-﻿using HealthModeApp.Pages;
+﻿
+using HealthModeApp.Pages;
 using HealthModeApp.Pages.FoodJournalPage;
 using SQLite;
 
@@ -11,12 +12,10 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
 
-        Routing.RegisterRoute(nameof(AddFoodEntry), typeof(AddFoodEntry));
-        Routing.RegisterRoute(nameof(MealPage), typeof(MealPage));
-        Routing.RegisterRoute(nameof(FoodJournal), typeof(FoodJournal));
+       
 
 
-        TabBar.CurrentItem = TabBar.Items[2];
+
     }
 
     protected override void OnAppearing()
@@ -25,6 +24,7 @@ public partial class AppShell : Shell
     }
 
    
+
 }
 
    

@@ -6,32 +6,6 @@
     xmlns:local="clr-namespace:HealthModeApp.Pages"
     Shell.FlyoutBehavior="Disabled">
 
-
-
-    <TabBar x:Name="TabBar">
-        <Tab Title="Food Journal" Icon="foodjournalicon">
-            <ShellContent ContentTemplate="{DataTemplate local:FoodJournal}" Route="FoodJournal"/>
-
-        </Tab>
-
-        <Tab Title="Workouts" Icon="workouticon">
-            <ShellContent ContentTemplate="{DataTemplate local:Workouts}" Route="Workouts"/>
-        </Tab>
-
-        <Tab Title="Dashboard" Icon="dashboardicon">
-            <ShellContent ContentTemplate="{DataTemplate local:Dashboard}" Route="Dashboard"/>
-            
-        </Tab>
-
-        <Tab Title="Other Tab idk">
-            <ShellContent ContentTemplate="{DataTemplate local:Challenges}" Route="Challenges"/>
-        </Tab>
-
-        <Tab Title="More">
-            <ShellContent ContentTemplate="{DataTemplate local:MorePage}" Route="MorePage"/>
-        </Tab>
-
-    </TabBar>
-
+   
 
 </Shell>

@@ -29,13 +29,13 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ISQLiteDataService, SQLiteDataService>();
 
-      
 
-
+        builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<AddFoodEntry>();
         builder.Services.AddTransient<Dashboard>();
         builder.Services.AddTransient<FoodJournal>();
 		builder.Services.AddTransient<MealPage>();
+        builder.Services.AddTransient<MorePage>();
 
 
 

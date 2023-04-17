@@ -29,17 +29,20 @@ public partial class FoodJournal : ContentPage
     List<int> meal5FoodIDs = new List<int>();
     List<int> meal6FoodIDs = new List<int>();
 
+    public int userID;
+
     public FoodJournal()
     {
         InitializeComponent();
     }
 
-    public FoodJournal(ISQLiteDataService dataService)
+    public FoodJournal(ISQLiteDataService localData)
     {
         InitializeComponent();
-        _localData = dataService;
-      //_localData.AddLoggedFood(DateTime.Today, 1, DateTime.Today, 1, 24, 1, "1", "Food Name That Is Very Long Yeah", "Brand", 24, "Name", 94, 6, 2, 3, 1, 1, 1, 2, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1);
+        _localData = localData;
+       // _localData.AddLoggedFood(4, DateTime.Today, 1, DateTime.Today, 1, 24, 1, "1", "Food Name That Is Very Long Yeah", "Brand", 24, "Name", 94, 6, 2, 3, 1, 1, 1, 2, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1);
         DatePicker.Date = DateTime.Today;
+        
         PopulateMealGrids(DatePicker.Date);
     }
 
@@ -95,7 +98,9 @@ public partial class FoodJournal : ContentPage
         meal5Cal = 0;
         meal6Cal = 0;
 
-        var loggedFoods = await _localData.GetLoggedFoods(selectedDate);
+        userID = await _localData.GetUserID();
+
+        var loggedFoods = await _localData.GetLoggedFoods(userID, selectedDate);
         // Populate meal1 grid
         var meal1Foods = loggedFoods.Where(f => f.MealType == 1);
         meal1FoodIDs = meal1Foods.Select(f => f.LoggedFoodID).ToList();
@@ -548,6 +553,8 @@ public partial class FoodJournal : ContentPage
         ConsumedLabel.Text = consumedCal.ToString();
         remainingCal = goalCal - consumedCal;
         RemainingLabel.Text = remainingCal.ToString();
+
+  
 
     }
 

@@ -58,6 +58,35 @@
 	  <MauiImage Remove="Resources\Images\faticon.svg" />
 	  <MauiImage Remove="Resources\Images\calicon.svg" />
 	  <MauiImage Remove="Resources\Images\carbicon.svg" />
+	  <MauiImage Remove="Resources\Images\workouticon.svg" />
+	  <MauiImage Remove="Resources\Images\dashboardicon.svg" />
+	  <MauiImage Remove="Resources\Images\proteinicon.svg" />
+	  <MauiImage Remove="Resources\Images\faticon.svg" />
+	  <MauiImage Remove="Resources\Images\calicon.svg" />
+	  <MauiImage Remove="Resources\Images\carbicon.svg" />
+	  <MauiImage Remove="Resources\Images\foodjournalicon.svg" />
+	  <MauiImage Remove="Resources\Images\workouticon.svg" />
+	  <MauiImage Remove="Resources\Images\dashboardicon.svg" />
+	  <MauiImage Remove="Resources\Images\proteinicon.svg" />
+	  <MauiImage Remove="Resources\Images\faticon.svg" />
+	  <MauiImage Remove="Resources\Images\calicon.svg" />
+	  <MauiImage Remove="Resources\Images\carbicon.svg" />
+	  <MauiImage Remove="Resources\Images\foodjournalicon.svg" />
+	  <MauiImage Remove="Resources\Images\workouticon.svg" />
+	  <MauiImage Remove="Resources\Images\dashboardicon.svg" />
+	  <MauiImage Remove="Resources\Images\proteinicon.svg" />
+	  <MauiImage Remove="Resources\Images\faticon.svg" />
+	  <MauiImage Remove="Resources\Images\calicon.svg" />
+	  <MauiImage Remove="Resources\Images\carbicon.svg" />
+	  <MauiImage Remove="Resources\Images\foodjournalicon.svg" />
+	  <MauiImage Remove="Resources\Images\workouticon.svg" />
+	  <MauiImage Remove="Resources\Images\dashboardicon.svg" />
+	  <MauiImage Remove="Resources\Images\proteinicon.svg" />
+	  <MauiImage Remove="Resources\Images\faticon.svg" />
+	  <MauiImage Remove="Resources\Images\calicon.svg" />
+	  <MauiImage Remove="Resources\Images\carbicon.svg" />
+	  <MauiImage Remove="Resources\Images\foodjournalicon.svg" />
+	  <MauiImage Remove="Resources\Images\dashboardicon_android.svg" />
 	</ItemGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -98,6 +127,14 @@
 	  <None Remove="Resources\Images\house-user-solid.svg" />
 	  <None Remove="Resources\Images\dumbbell-solid.svg" />
 	  <None Remove="Resources\Images\book-solid.svg" />
+	  <None Remove="Resources\Images\workouticon.svg" />
+	  <None Remove="Resources\Images\dashboardicon.svg" />
+	  <None Remove="Resources\Images\foodjournalicon.svg" />
+	  <None Remove="Resources\Images\dashboardicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\dashboardicon_android.svg" />
+	  <None Remove="Resources\Images\workouticon %28copy%29.svg" />
+	  <None Remove="Resources\Images\foodjournalicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\HMWTextTrans_50.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
@@ -151,6 +188,43 @@
 	  <BundleResource Include="Resources\Images\dashboardicon.svg" />
 	  <BundleResource Include="Resources\Images\workouticon.svg" />
 	  <BundleResource Include="Resources\Images\foodjournalicon.svg" />
+	  <BundleResource Include="Resources\Images\workouticon.svg" />
+	  <BundleResource Include="Resources\Images\dashboardicon.svg" />
+	  <BundleResource Include="Resources\Images\foodjournalicon.svg" />
+	  <BundleResource Include="Resources\Images\workouticon.svg" />
+	  <BundleResource Include="Resources\Images\dashboardicon.svg" />
+	  <BundleResource Include="Resources\Images\proteinicon.svg" />
+	  <BundleResource Include="Resources\Images\faticon.svg" />
+	  <BundleResource Include="Resources\Images\calicon.svg" />
+	  <BundleResource Include="Resources\Images\carbicon.svg" />
+	  <BundleResource Include="Resources\Images\foodjournalicon.svg" />
+	  <BundleResource Include="Resources\Images\workouticon.svg" />
+	  <BundleResource Include="Resources\Images\dashboardicon.svg" />
+	  <BundleResource Include="Resources\Images\proteinicon.svg" />
+	  <BundleResource Include="Resources\Images\faticon.svg" />
+	  <BundleResource Include="Resources\Images\calicon.svg" />
+	  <BundleResource Include="Resources\Images\carbicon.svg" />
+	  <BundleResource Include="Resources\Images\foodjournalicon.svg" />
+	  <BundleResource Include="Resources\Images\workouticon.svg" />
+	  <BundleResource Include="Resources\Images\dashboardicon.svg" />
+	  <BundleResource Include="Resources\Images\proteinicon.svg" />
+	  <BundleResource Include="Resources\Images\faticon.svg" />
+	  <BundleResource Include="Resources\Images\calicon.svg" />
+	  <BundleResource Include="Resources\Images\carbicon.svg" />
+	  <BundleResource Include="Resources\Images\foodjournalicon.svg" />
+	  <BundleResource Include="Resources\Images\dashboardicon_android.svg" />
+	  <BundleResource Include="Resources\Images\dashboardicon_android.svg" />
+	  <BundleResource Include="Resources\Images\workouticon.svg" />
+	  <BundleResource Include="Resources\Images\dashboardicon.svg" />
+	  <BundleResource Include="Resources\Images\proteinicon.svg" />
+	  <BundleResource Include="Resources\Images\faticon.svg" />
+	  <BundleResource Include="Resources\Images\calicon.svg" />
+	  <BundleResource Include="Resources\Images\carbicon.svg" />
+	  <BundleResource Include="Resources\Images\foodjournalicon.svg" />
+	  <BundleResource Include="Resources\Images\dashboardicon_android.svg" />
+	  <BundleResource Include="Resources\Images\workouticon_android.svg" />
+	  <BundleResource Include="Resources\Images\foodjournalicon_android.svg" />
+	  <BundleResource Include="Resources\Images\hmlogo.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiFont Remove="Resources\Fonts\Lato-Bold.ttf" />

@@ -26,12 +26,12 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.2*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-            <DatePicker x:Name="DatePicker" Margin="5" DateSelected="DatePicker_DateSelected"  FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yyyy" HorizontalOptions="Center" Grid.Row="0" Grid.Column="2" />
-                <Button x:Name="TodayButton" Text="Jump To Today" Clicked="TodayButtonClicked" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="25,2,25,2" HorizontalOptions="CenterAndExpand" HeightRequest="{Binding Height, Source={x:Reference DatePicker}}"/>
+            <DatePicker x:Name="DatePicker" Margin="5" DateSelected="DatePicker_DateSelected"  FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yy" HorizontalOptions="Center" Grid.Row="0" Grid.Column="2" />
+                <Button x:Name="TodayButton" Text="Jump To Today" Clicked="TodayButtonClicked" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="10,2,10,2" HorizontalOptions="CenterAndExpand" HeightRequest="{Binding Height, Source={x:Reference DatePicker}}" WidthRequest="123"/>
 
                 <Label x:Name="GoalLabel" Text="2000" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold" FontSize="20" HorizontalTextAlignment="Center"/>
                 <Label Text="Goal" Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>

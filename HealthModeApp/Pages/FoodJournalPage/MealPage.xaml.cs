@@ -10,9 +10,10 @@ namespace HealthModeApp.Pages.FoodJournalPage
     public partial class MealPage : ContentPage
     {
         private readonly ISQLiteDataService _localData;
-        private readonly List<int> id;
         public IList<LoggedFoodTable> LoggedFoods { get; set; }
         public int totalCal = 0;
+
+        int userID;
  
 
         public MealPage(ISQLiteDataService dataService, List<int> MealIDs)
@@ -35,6 +36,7 @@ namespace HealthModeApp.Pages.FoodJournalPage
 
         public async void PopulateList(List<int> loggedFoodIDs)
         {
+            userID = await _localData.GetUserID();
             List<LoggedFoodTable> loggedFoods = new List<LoggedFoodTable>();
             var listView = mealInfoList;
 
@@ -42,7 +44,7 @@ namespace HealthModeApp.Pages.FoodJournalPage
 
             foreach (int loggedFoodID in loggedFoodIDs)
             {
-                LoggedFoodTable loggedFood = await _localData.GetLoggedFoodDetails(loggedFoodID, "MealPage");
+                LoggedFoodTable loggedFood = await _localData.GetLoggedFoodDetails(userID, loggedFoodID, "MealPage");
 
                 items.Add(loggedFood);
 
@@ -240,7 +242,7 @@ namespace HealthModeApp.Pages.FoodJournalPage
                 {
                     HorizontalOptions = LayoutOptions.Center,
                     Orientation = StackOrientation.Horizontal,
-                    Spacing = 9,
+                    Spacing = 5,
                     Children = { macrosLayout, calLayout }
                 };
 
