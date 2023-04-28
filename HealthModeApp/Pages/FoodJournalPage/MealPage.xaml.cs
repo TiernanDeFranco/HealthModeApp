@@ -14,28 +14,38 @@ namespace HealthModeApp.Pages.FoodJournalPage
         public int totalCal = 0;
 
         int userID;
+        int _mealType;
  
 
-        public MealPage(ISQLiteDataService dataService, List<int> MealIDs)
+        public MealPage(ISQLiteDataService localData, List<int> MealIDs, int mealType)
         {
             InitializeComponent();
-            _localData = dataService;
+            _localData = localData;
+            _mealType = mealType;
             PopulateList(MealIDs);
+            SeesAds();
         }
 
-       
+        async void SeesAds()
+        {
+            
+            Ad.IsVisible = await _localData.GetSeesAds();
+           
+        }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
             totalCal = 0;
             Shell.SetTabBarIsVisible(this, false);
+            SeesAds();
         }
 
 
 
         public async void PopulateList(List<int> loggedFoodIDs)
         {
+            
             userID = await _localData.GetUserID();
             List<LoggedFoodTable> loggedFoods = new List<LoggedFoodTable>();
             var listView = mealInfoList;

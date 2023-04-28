@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.FoodJournalPage.NutritionalBreakdown"> 
+
+    <Grid Padding="15" RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Frame Margin="5,5,5,0" x:Name="breakdownFrame" Grid.Row="0" CornerRadius="20" HeightRequest="{Binding Width, Source={x:Reference breakdownFrame}}">
+            <Grid RowSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                     <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <DatePicker Grid.Row="0" Grid.Column="1" x:Name="DateSelect" FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yy" HorizontalOptions="Center" VerticalOptions="Start" DateSelected="DateSelect_DateSelected"/>
+                <Button Grid.Row="0" Grid.Column="2" x:Name="TodayButton" Text="Jump to Today" IsVisible="False" Clicked="TodayButton_Clicked" HorizontalOptions="Center" VerticalOptions="Start"/>
+            </Grid>
+          
+        </Frame>
+
+    
+
+    </Grid>
+
+
+
+</ContentPage>

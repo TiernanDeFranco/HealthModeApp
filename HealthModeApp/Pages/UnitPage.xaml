@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.UnitPage"
+             Title="Unit Page">
+
+    <Grid RowSpacing="20" Padding="10,0,10,25" VerticalOptions="Center" HeightRequest="800" x:Name="Grid3" Margin="0,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+             <RowDefinition Height="Auto"/>
+             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+         
+        <Frame Grid.Row="0" CornerRadius="25">
+
+        <StackLayout>
+            <Label Text="Units of Measurment" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Body"/>
+
+            <StackLayout Orientation="Vertical">
+            <Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Label Text="Weight" Grid.Row="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center"/>
+    <Button x:Name="LbsButton" Clicked="LbsClicked" Text="Lbs" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="KgButton" Clicked="KgClicked" Text="Kg" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+</Grid>
+
+<Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Label Text="Water" Grid.Row="0"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
+    <Button x:Name="FlOzButton" Clicked="FlOzClicked" Text="Fl Oz" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="CupsButton" Clicked="CupsClicked" Text="Cups" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="mLButton" Clicked="MLClicked" Text="mL" Grid.Row="1" Grid.Column="2" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+</Grid>
+
+    <Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+       <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Label Text="Food Energy" Grid.Row="0"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
+    <Button x:Name="KcalButton" Clicked="kCalClicked" Text="kcal" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="CaloriesButton" Clicked="CaloriesClicked" Text="Calories" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="KjButton" Clicked="kJClicked" Text="kJ" Grid.Row="1" Grid.Column="2" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+</Grid>
+
+<Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+       <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Label Text="Exercise Energy" Grid.Row="0"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
+    <Button x:Name="EKcalButton" Clicked="EkCalClicked" Text="kcal" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="ECaloriesButton" Clicked="ECaloriesClicked" Text="Calories" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="EKjButton" Clicked="EkJClicked" Text="kJ" Grid.Row="1" Grid.Column="2" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+</Grid>
+
+<Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+       <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Label Text="Date Format" Grid.Row="0"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
+    <Button x:Name="YmdButton" Clicked="YMDClicked" Text="YY/MM/dd" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/> 
+    <Button x:Name="MdyButton" Clicked="MDYClicked" Text="MM/dd/YY" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="DmyButton" Clicked="DMYClicked" Text="dd/MM/YY" Grid.Row="1" Grid.Column="2" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Label x:Name="DateDisplay" Text="Date Format" Grid.Row="2"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
+</Grid>
+</StackLayout>
+</StackLayout>
+            </Frame>
+
+        <Button Text="Save" Clicked="Button_Clicked" Grid.Row="1" HorizontalOptions="Center"/>
+        </Grid>
+   </ContentPage>

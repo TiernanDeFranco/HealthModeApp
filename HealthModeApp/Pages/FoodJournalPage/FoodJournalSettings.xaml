@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.FoodJournalPage.FoodJournalSettings"
+             Title="Food Journal Settings">
+
+    <Grid Padding="10" RowSpacing="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+        <Frame Grid.Row="0" Padding="15" CornerRadius="15">
+            <Grid RowSpacing="5" ColumnSpacing="10" Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Text="Meal 1 Name:" VerticalOptions="Center"/>
+                <Entry Grid.Row="0" Grid.Column="1" Placeholder="Meal 1" x:Name="Meal1Name"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Meal 2 Name:" VerticalOptions="Center"/>
+                <Entry Grid.Row="1" Grid.Column="1" Placeholder="Meal 2" x:Name="Meal2Name"/>
+
+                <Label Grid.Row="2" Grid.Column="0" Text="Meal 3 Name:" VerticalOptions="Center"/>
+                <Entry Grid.Row="2" Grid.Column="1" Placeholder="Meal 3" x:Name="Meal3Name"/>
+
+                <Label Grid.Row="3" Grid.Column="0" Text="Meal 4 Name:" VerticalOptions="Center"/>
+                <Entry Grid.Row="3" Grid.Column="1" Placeholder="Meal 4" x:Name="Meal4Name"/>
+
+                <Label Grid.Row="4" Grid.Column="0" Text="Meal 5 Name:" VerticalOptions="Center"/>
+                <Entry Grid.Row="4" Grid.Column="1" Placeholder="Meal 5" x:Name="Meal5Name"/>
+
+                <Label Grid.Row="5" Grid.Column="0" Text="Meal 6 Name:" VerticalOptions="Center"/>
+                <Entry Grid.Row="5" Grid.Column="1" Placeholder="Meal 6" x:Name="Meal6Name"/>
+
+            </Grid>
+
+        </Frame>
+
+        <Button Grid.Row="1" Text="Save" Clicked="Button_Clicked"/>
+
+    </Grid>
+
+</ContentPage>

@@ -19,7 +19,7 @@ namespace HealthModeApp.DataServices
         public RestDataService()
         {
             _httpClient = new HttpClient();
-            _baseAddress = "https://localhost:7002";
+            _baseAddress = "https://5vw1lstyzd.execute-api.us-east-2.amazonaws.com/beta";
             _url = $"{_baseAddress}/api/healthmode";
 
 
@@ -48,16 +48,15 @@ namespace HealthModeApp.DataServices
             try
             {
                 string jsonNutrition = JsonSerializer.Serialize<NutritionModel>(nutritionModel, _jsonSerializerOptions);
-               StringContent content = new StringContent(jsonNutrition, Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(jsonNutrition, Encoding.UTF8, "application/json");
 
-               
 
-                //StringContent content = new StringContent("{\n\t\"barcode\": \"33\",\n\t\"foodName\": \"33\",\n\t\"servingSize\": \"25\",\n\t\"servingType\": \"g\",\n\t\"calories\": \"100\",\n\t\"protein\": \"6\",\n\t\"carbs\": \"3\",\n\t\"fat\": \"5\",\n\t\"satFat\": \"1.5\",\n\t\"cholesterol\": \"185\",\n\t\"sodium\": \"70\",\n\t\"calcium\": \"2\",\n\t\"iron\": \"4\",\n\t\"potassium\": \"70\",\n\t\"vitaminA\": \"6\",\n\t\"FolicAcid\": \"2\"\n}", Encoding.UTF8, "application/json");
-                Debug.WriteLine("JSON Nutrition:");
+
+                //StringContent content = new StringContent("{\n\t\"barcode\": \"test\",\n\t\"foodName\": \"Food NameTest\",\n\t\"mealType\": \"0\",\n\t\"servingUnit\": \"mL\",\n\t\"grams\": \"28\",\n\t\"calories\": \"100\",\n\t\"brand\": \"Brand\",\n\t\"servingSize\": \"28\",\n\t\"servingName\": \"About 15 chips\",\n\t\"carbs\": \"5\",\n\t\"fat\": \"7\",\n\t\"protein\": \"4\",\n\t\"category\": \"Processed/Packaged\"\n\n\t\n}");    Debug.WriteLine("JSON Nutrition:");
                 Debug.WriteLine(jsonNutrition);
             
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/food", content);
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/uploadedfood", content);
 
 
                 if (response.IsSuccessStatusCode)
@@ -107,7 +106,7 @@ namespace HealthModeApp.DataServices
             return;
         }
 
-        public async Task<List<NutritionModel>> GetAllNutritionInfoAsync()
+        public async Task<List<NutritionModel>> GetNutritionInfoNameAsync(string name, int limit = 50, int offset = 0)
         {
             List<NutritionModel> nutritionList = new List<NutritionModel>();
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
@@ -118,7 +117,7 @@ namespace HealthModeApp.DataServices
 
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/food");
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/food?name={name}&limit={limit}&offset={offset}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -131,13 +130,49 @@ namespace HealthModeApp.DataServices
                     Debug.WriteLine("-----> Non-Http 2xx Response");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine($"Whoops, exception: {ex.Message}");
 
             }
             return nutritionList;
         }
+
+        public async Task<NutritionModel> GetNutritionInfoBarcodeAsync(string barcode)
+        {
+            NutritionModel nutritionItem = null;
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return nutritionItem;
+            }
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/food/bybarcode/{barcode}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    nutritionItem = JsonSerializer.Deserialize<NutritionModel>(content, _jsonSerializerOptions);
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    Debug.WriteLine("-----> Resource Not Found");
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+            }
+            return nutritionItem;
+        }
+
 
         public async Task UpdateNutritionInfoAsync(NutritionModel nutritionModel)
         {
@@ -172,7 +207,7 @@ namespace HealthModeApp.DataServices
         }
         #endregion
 
-        public async Task<bool> AddUserAsync(string email, string username, string hashedPassword, string salt, int weightPlan, string mainGoals, string units, int sex, decimal heightCm, DateTime birthday, int weight, int goalWeight, int activityLevel)
+        public async Task<bool> AddUserAsync(string email, string username, string hashedPassword, string salt, int weightPlan, string mainGoals, string units, int sex, decimal heightCm, DateTime birthday, int weight, int goalWeight, int activityLevel, int calorieGoal)
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
@@ -196,7 +231,8 @@ namespace HealthModeApp.DataServices
                     Birthday = birthday,
                     Weight = weight,
                     GoalWeight = goalWeight,
-                    ActivityLevel = activityLevel
+                    ActivityLevel = activityLevel,
+                    CalorieGoal = calorieGoal
                 };
 
                 string jsonUser = JsonSerializer.Serialize<UserInfo>(userInfo, _jsonSerializerOptions);
@@ -225,7 +261,7 @@ namespace HealthModeApp.DataServices
             }
         }
 
-
+      
 
         public async Task DeleteUserAsync(int userId)
         {
@@ -266,10 +302,28 @@ namespace HealthModeApp.DataServices
 
             try
             {
-                string jsonUserInfo = JsonSerializer.Serialize<UserInfo>(userInfoModel, _jsonSerializerOptions);
+                UserInfo userInfo = new UserInfo()
+                {
+                    Email = userInfoModel.Email,
+                    Username = userInfoModel.Username,
+                    Password = userInfoModel.Password,
+                    Salt = userInfoModel.Salt,
+                    WeightPlan = userInfoModel.WeightPlan,
+                    MainGoals = userInfoModel.MainGoals,
+                    Units = userInfoModel.Units,
+                    Sex = userInfoModel.Sex,
+                    HeightCm = userInfoModel.HeightCm,
+                    Birthday = userInfoModel.Birthday,
+                    Weight = userInfoModel.Weight,
+                    GoalWeight = userInfoModel.GoalWeight,
+                    ActivityLevel = userInfoModel.ActivityLevel,
+                    CalorieGoal = userInfoModel.CalorieGoal
+                };
+
+                string jsonUserInfo = JsonSerializer.Serialize<UserInfo>(userInfo, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonUserInfo, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/healthmode/userinfo/{userInfoModel.UserID}", content);
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/userinfo/userID/{userInfoModel.UserID}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -286,7 +340,43 @@ namespace HealthModeApp.DataServices
             }
         }
 
-       
+
+        public async Task UpdateExpDateAsync(int userID, double hoursToAdd)
+        {
+            Debug.WriteLine($"Updating user {userID} with {hoursToAdd} hours");
+
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return;
+            }
+
+            try
+            {
+                var json = JsonSerializer.Serialize(hoursToAdd);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/userinfo/userID/{userID}/expDate/{hoursToAdd}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Successfully updated user ExpDate");
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+            }
+        }
+
+
+
+
+
 
 
 
@@ -348,6 +438,39 @@ namespace HealthModeApp.DataServices
                     Debug.WriteLine(responseObj.SeesAds);
                     Debug.WriteLine(responseObj.UserInfo);
                     return (responseObj.UserInfo, responseObj.SeesAds);
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+            }
+
+            return result;
+        }
+
+        public async Task<bool> GetSeesAdsAsync(int userID)
+        {
+            bool result = true;
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return result;
+            }
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userinfo/userID/{userID}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    var responseObj = JsonSerializer.Deserialize<UserInfoResponse>(content, _jsonSerializerOptions);
+                    Debug.WriteLine(responseObj.SeesAds);
+                    return responseObj.SeesAds;
                 }
                 else
                 {

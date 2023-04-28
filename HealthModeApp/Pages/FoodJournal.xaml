@@ -2,25 +2,32 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.FoodJournal"
-             Title="Food Journal">
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
+             Title="Food Journal"
+             >
 
-   
+ 
+ <ContentPage.ToolbarItems>
+    <ToolbarItem
+                 Text="Log Food"
+                 Clicked="LogFoodClicked"/>
+</ContentPage.ToolbarItems>
 
-    <Grid Margin="3,10,3,3">
+    <Grid Margin="3,7,3,7" Padding="0,0,0,5">
   <Grid.RowDefinitions>
     <RowDefinition Height="Auto"/>
     <RowDefinition Height="Auto"/>
     <RowDefinition Height="*"/>
   </Grid.RowDefinitions>
 
-  <Frame Grid.Row="0" Padding="2" CornerRadius="20">
+  <Frame x:Name="InfoFrame" Grid.Row="0" Padding="2" CornerRadius="20" Margin="0,0,0,2">
      <Grid ColumnSpacing="2.5" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
             
         <Grid.ColumnDefinitions>
@@ -30,8 +37,14 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+             <HorizontalStackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="End" Spacing="-10" Margin="5,0,0,0">
+                 <ImageButton Source="gearicon" Clicked="SettingsClicked" Aspect="AspectFit" WidthRequest="21" HeightRequest="21"/>
+                 <Button Text="Settings" Clicked="SettingsClicked" TextColor="{StaticResource LightPrimary}" BackgroundColor="Transparent" BorderColor="Transparent"/>
+             </HorizontalStackLayout>
+
+        
             <DatePicker x:Name="DatePicker" Margin="5" DateSelected="DatePicker_DateSelected"  FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yy" HorizontalOptions="Center" Grid.Row="0" Grid.Column="2" />
-                <Button x:Name="TodayButton" Text="Jump To Today" Clicked="TodayButtonClicked" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="10,2,10,2" HorizontalOptions="CenterAndExpand" HeightRequest="{Binding Height, Source={x:Reference DatePicker}}" WidthRequest="123"/>
+                <Button x:Name="TodayButton" IsVisible="False" Text="Jump To Today" Clicked="TodayButtonClicked" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="10,2,10,2" HorizontalOptions="CenterAndExpand" HeightRequest="{Binding Height, Source={x:Reference DatePicker}}" WidthRequest="123"/>
 
                 <Label x:Name="GoalLabel" Text="2000" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold" FontSize="20" HorizontalTextAlignment="Center"/>
                 <Label Text="Goal" Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
@@ -52,16 +65,23 @@
 
             
      </Grid>
-
+      <Frame.GestureRecognizers>
+          <TapGestureRecognizer Tapped="FoodInfoTapped"/>
+      </Frame.GestureRecognizers>
   </Frame>
+
         
 
-  <Frame x:Name="JournalAd" Margin="5" IsVisible="True" Grid.Row="1" Padding="10" CornerRadius="20" BackgroundColor="WhiteSmoke" HeightRequest="60"> 
-    <Label Text="Ad" FontSize="Large" FontFamily="Lato-Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-       
-  </Frame>
-   <Frame x:Name="JournalNoAd" IsVisible="False" Grid.Row="1" Padding="5" CornerRadius="20" BackgroundColor="WhiteSmoke" Opacity="0" HeightRequest="10"/>
-
+ <Grid Margin="5" IsVisible="True" Grid.Row="1" Padding="1" BackgroundColor="Transparent"> 
+    <controls:MTAdView  BackgroundColor="Transparent"
+                        x:Name="JournalAd"
+                        AdsId="ca-app-pub-3940256099942544/6300978111"
+                        AdSize="Banner"
+                        IsVisible="true"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        />
+</Grid>
 
     <Grid ColumnSpacing="5" RowSpacing="5" Margin="3" Grid.Row="2">
       <Grid.RowDefinitions>
@@ -112,7 +132,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
-                <Entry Grid.Row="0" Grid.Column="0" Text="Meal 1" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
+                <Label x:Name="Meal1Name" Margin="10,0,0,0" Grid.Row="0" Grid.Column="0" Text="Meal 1" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
                 <Label x:Name="meal1CalLabel" Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalOptions="FillAndExpand">
@@ -148,7 +168,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
-                <Entry Grid.Row="0" Grid.Column="0" Text="Meal 2" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
+                <Label x:Name="Meal2Name" Margin="10,0,0,0" Grid.Row="0" Grid.Column="0" Text="Meal 2"  FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
                 <Label x:Name="meal2CalLabel" Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalOptions="FillAndExpand">
@@ -179,7 +199,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
-                <Entry Grid.Row="0" Grid.Column="0" Text="Meal 3" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
+                <Label x:Name="Meal3Name" Margin="10,0,0,0" Grid.Row="0" Grid.Column="0" Text="Meal 3" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
                 <Label x:Name="meal3CalLabel" Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="End" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
 
 
@@ -213,7 +233,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
-                <Entry Grid.Row="0" Grid.Column="0" Text="Meal 4" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
+                <Label x:Name="Meal4Name" Margin="10,0,0,0" Grid.Row="0" Grid.Column="0" Text="Meal 4" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
                 <Label x:Name="meal4CalLabel"  Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical">
@@ -243,7 +263,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
-                <Entry Grid.Row="0" Grid.Column="0" Text="Meal 5" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
+                <Label x:Name="Meal5Name" Margin="10,0,0,0" Grid.Row="0" Grid.Column="0" Text="Meal bob" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
                 <Label x:Name="meal5CalLabel"  Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalOptions="FillAndExpand">
@@ -273,7 +293,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
              </Grid.ColumnDefinitions>
-                <Entry Grid.Row="0" Grid.Column="0" Text="Meal 6" WidthRequest="125" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
+                <Label x:Name="Meal6Name" Margin="10,0,0,0" Grid.Row="0" Grid.Column="0" Text="Meal 6" FontSize="Medium" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
                 <Label x:Name="meal6CalLabel"  Grid.Row="0" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalOptions="FillAndExpand">

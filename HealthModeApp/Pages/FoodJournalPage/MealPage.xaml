@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              x:Class="HealthModeApp.Pages.FoodJournalPage.MealPage">
+
+
   
-  
-<Grid Padding="25,2" RowSpacing="5" Grid.Row="1">
+<Grid Padding="25,2" RowSpacing="5">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" /> <!-- Define the first row to automatically adjust to its content -->   <!-- Define the second row to fill the remaining space -->
         <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
     
     </Grid.RowDefinitions>
     <Frame x:Name="mealInfoFrame" Margin="5" Grid.Row="0" Padding="10" CornerRadius="25" HeightRequest="{Binding Width, Source={x:Reference mealInfoFrame}}" WidthRequest="{Binding Width, Source={x:Reference mealInfoFrame}}"> <!-- Add the Frame to the first row -->
@@ -28,14 +31,24 @@
         </Grid>
     </Frame>
 
-    <Frame Grid.Row="1" CornerRadius="25" Margin="5">
+    <Frame Grid.Row="1" CornerRadius="25" Margin="5,5,5,0">
     <ListView x:Name="mealInfoList"
           HorizontalOptions="Center"
           BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}">
     </ListView>
     </Frame>
 
-</Grid>
+     <Grid x:Name="Ad" Margin="0,4,0,0" IsVisible="True" Grid.Row="2" BackgroundColor="Transparent"> 
+    <controls:MTAdView  BackgroundColor="Transparent"
+                        x:Name="myAds"
+                        AdsId="ca-app-pub-3940256099942544/6300978111"
+                        AdSize="Banner"
+                        IsVisible="true"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        />
+         </Grid>
+   </Grid>
 
 
 </ContentPage>

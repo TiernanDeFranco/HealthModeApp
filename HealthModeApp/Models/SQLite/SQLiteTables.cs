@@ -7,8 +7,8 @@ namespace HealthModeApp.Models.SQLite
 {
 	public class SQLiteTables
 	{
-        [SQLiteTable("FoodBaseTable")]
-        public class FoodBaseTable
+        [SQLiteTable("CustomFoods")]
+        public class CustomFoods
         {
             [PrimaryKey, AutoIncrement]
             public int FoodID { get; set; }
@@ -18,6 +18,9 @@ namespace HealthModeApp.Models.SQLite
             public string FoodName { get; set; }
             public string Brand { get; set; }
             public decimal ServingSize { get; set; }
+          
+            public string ServingUnit { get; set; }
+            public decimal Grams { get; set; }
             public string ServingName { get; set; }
 
             public decimal Calories { get; set; }
@@ -57,6 +60,9 @@ namespace HealthModeApp.Models.SQLite
             public decimal VitaminD { get; set; }
             public decimal VitaminE { get; set; }
             public decimal VitaminK { get; set; }
+
+            public int MealType { get; set; }
+            public string Category { get; set; }
         }
 
        
@@ -86,6 +92,8 @@ namespace HealthModeApp.Models.SQLite
             public string FoodName { get; set; }
             public string Brand { get; set; }
             public decimal ServingSize { get; set; }
+            public decimal ServingUnit{ get; set; }
+            public decimal Grams { get; set; }
             public string ServingName { get; set; }
 
             public decimal Calories { get; set; }
@@ -143,7 +151,7 @@ namespace HealthModeApp.Models.SQLite
         [SQLiteTable("UserData")]
         public class UserData
         {
-            [PrimaryKey, AutoIncrement]
+            [PrimaryKey]
             public int DataID { get; set; }
 
             public int UserID { get; set; }
@@ -175,15 +183,84 @@ namespace HealthModeApp.Models.SQLite
             public int ActivityLevel { get; set; }
         }
 
-        [SQLiteTable("Goals")]
-        public class Goals
+     
+
+        [SQLiteTable("MealNames")]
+        public class MealNames
+        {
+            [PrimaryKey, AutoIncrement]
+            public int MealID { get; set; }
+
+            public string MealName { get; set; }
+
+        }
+
+
+        [SQLiteTable("NutritionGoals")]
+        public class NutritionGoals
         {
             [PrimaryKey, AutoIncrement]
             public int GoalID { get; set; }
 
+            public int UserID { get; set; }
+
+            public DateTime DateSet { get; set; }
+
             public int CalorieGoal { get; set; }
-                  
+
+            public int CarbGoal { get; set; }
+
+            public int FatGoal { get; set; }
+
+            public int ProteinGoal { get; set; }
+
+            public int SatdFatGoal { get; set; }
+
+            public int PUnSatFatGoal { get; set; }
+
+            public int MUnSatFatGoal { get; set; }
+
+            public int TransFatGoal { get; set; }
+
+            public int SugarGoal { get; set; }
+
+            public int IronGoal { get; set; }
+
+            public int CalciumGoal { get; set; }
+
+            public int PotassiumGoal { get; set; }
+
+            public int SodiumGoal { get; set; }
+
+            public int CholesterolGoal { get; set; }
+
+            public int VitaminAGoal { get; set; }
+
+            public int ThiaminGoal { get; set; }
+
+            public int RiboflavinGoal { get; set; }
+
+            public int NiacinGoal { get; set; }
+
+            public int VitaminB5Goal { get; set; }
+
+            public int VitaminB6Goal { get; set; }
+
+            public int BiotinGoal { get; set; }
+
+            public int CobalamineGoal { get; set; }
+
+            public int FolicAcidGoal { get; set; }
+
+            public int VitaminCGoal { get; set; }
+
+            public int VitaminDGoal { get; set; }
+
+            public int VitaminEGoal { get; set; }
+
+            public int VitaminKGoal { get; set; }
         }
+
     }
 }
 

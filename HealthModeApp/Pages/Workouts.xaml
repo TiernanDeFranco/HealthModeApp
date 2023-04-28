@@ -2,12 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.Workouts"
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              Title="Workouts">
 
 
 
-    <Grid x:Name="MasterGrid" Padding="10" Margin="2">
-        <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="0.07*"/> </Grid.RowDefinitions>
+    <Grid x:Name="MasterGrid" Padding="5" Margin="2">
+        <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="0.1*"/>  <RowDefinition Height="Auto"/> </Grid.RowDefinitions>
     <Grid Grid.Row="0" Padding="3" RowSpacing="3">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -50,12 +51,16 @@
                 </Grid>
 
             </Frame>
-        <Frame x:Name="WorkoutAd" Margin="5" IsVisible="True" Grid.Row="1" Padding="10" CornerRadius="20" BackgroundColor="WhiteSmoke" HeightRequest="70"> 
-        <Label Text="Ad" FontSize="Large" FontFamily="Lato-Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-       
-        </Frame>
-   <Frame x:Name="WorkoutNoAd" Margin="2" IsVisible="False" Grid.Row="1" Padding="5" CornerRadius="20" BackgroundColor="WhiteSmoke" Opacity="0" HeightRequest="10"/>
-      
+     <Grid x:Name="Ad" Margin="0,4,0,4" IsVisible="True" Grid.Row="1" Padding="1" BackgroundColor="Transparent"> 
+    <controls:MTAdView  BackgroundColor="Transparent"
+                        x:Name="myAds"
+                        AdsId="ca-app-pub-3940256099942544/6300978111"
+                        AdSize="AnchoredAdaptive"
+                        IsVisible="true"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        />
+         </Grid>
       <ScrollView Grid.Row="2" Grid.ColumnSpan="3" MinimumHeightRequest="{Binding Height, Source={x:Reference MasterGrid}}">
                  <Grid x:Name="WorkoutGrid" ColumnSpacing="8" RowSpacing="8" Margin="3">
         <Grid.RowDefinitions>

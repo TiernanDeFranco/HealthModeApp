@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
+             x:Class="HealthModeApp.Pages.FoodJournalPage.CategorySearch"
+             Title="Search by Category">
+  
+    <Grid Padding="3" RowSpacing="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+ 
+        <Frame Grid.Row="0" Padding="8" Margin="5">
+    <Grid RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.ColumnSpan="3" Grid.Row="0" HeightRequest="45" Margin="0,5,0,5">
+             <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.2*" />
+        </Grid.ColumnDefinitions>
+
+       
+
+       
+        </Grid>
+
+       
+    </Grid>
+</Frame>
+
+
+         <controls:MTAdView  BackgroundColor="Transparent"
+                        x:Name="Ad1"
+                        AdsId="ca-app-pub-3940256099942544/6300978111"
+                        AdSize="AnchoredAdaptive"
+                        IsVisible="true"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Grid.Row="1"
+                        Margin="0,5,0,3"/>
+
+
+        <Frame Grid.Row="2" Padding="10" Margin="15,10,15,10">
+            <VerticalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}">
+                <ActivityIndicator
+                    x:Name="LoadingBar"
+                    IsRunning="False"
+                    IsVisible="False"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"/>
+
+            <ListView
+                HorizontalOptions="Center"
+                BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}"
+                x:Name="SearchResultList"
+                IsVisible="False"/>
+            </VerticalStackLayout>
+        </Frame>
+
+    </Grid>
+  
+
+</ContentPage>

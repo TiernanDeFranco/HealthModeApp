@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst;</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
@@ -87,6 +87,11 @@
 	  <MauiImage Remove="Resources\Images\carbicon.svg" />
 	  <MauiImage Remove="Resources\Images\foodjournalicon.svg" />
 	  <MauiImage Remove="Resources\Images\dashboardicon_android.svg" />
+	  <MauiImage Remove="Resources\Images\barcodeicon.svg" />
+	  <MauiImage Remove="Resources\Images\barcodeicon.svg" />
+	  <MauiImage Remove="Resources\Images\barcodeicon.svg" />
+	  <MauiImage Remove="Resources\Images\barcodeicon.svg" />
+	  <MauiImage Remove="Resources\Images\barcodeicon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -135,6 +140,10 @@
 	  <None Remove="Resources\Images\workouticon %28copy%29.svg" />
 	  <None Remove="Resources\Images\foodjournalicon %28copy%29.svg" />
 	  <None Remove="Resources\Images\HMWTextTrans_50.svg" />
+	  <None Remove="Dependencies\" />
+	  <None Remove="Resources\Images\calicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\barcodeicon.svg" />
+	  <None Remove="Resources\Images\gear-solid.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
@@ -144,6 +153,7 @@
 	  <Folder Include="Models\SQLite\" />
 	  <Folder Include="Data\" />
 	  <Folder Include="Pages\FoodJournalPage\" />
+	  <Folder Include="Dependencies\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiIcon Include="Resources\AppIcon\appicon.svg" />
@@ -225,6 +235,22 @@
 	  <BundleResource Include="Resources\Images\workouticon_android.svg" />
 	  <BundleResource Include="Resources\Images\foodjournalicon_android.svg" />
 	  <BundleResource Include="Resources\Images\hmlogo.svg" />
+	  <BundleResource Include="Resources\Styles\Styles.xaml">
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+	  </BundleResource>
+	  <BundleResource Include="Resources\Styles\Colors.xaml">
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+	  </BundleResource>
+	  <BundleResource Include="Resources\Images\barcodeicon.svg" />
+	  <BundleResource Include="Resources\Images\barcodeicon.svg" />
+	  <BundleResource Include="Resources\Images\barcodeicon.svg" />
+	  <BundleResource Include="Resources\Images\barcodeicon.svg" />
+	  <BundleResource Include="Resources\Images\barcodeicon.svg" />
+	  <BundleResource Include="Resources\Images\barcodeicon.svg" />
+	  <BundleResource Include="Resources\Images\barcodeicon.svg" />
+	  <BundleResource Include="Resources\Images\gearicon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiFont Remove="Resources\Fonts\Lato-Bold.ttf" />
@@ -236,5 +262,19 @@
 	  <PackageReference Include="SQLitePCLRaw.core" Version="2.1.4" />
 	  <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.4" />
 	  <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.4" />
+	  <PackageReference Include="Plugin.MauiMTAdmob" Version="1.0.1" />
+	  <PackageReference Include="Xamarin.Google.iOS.UserMessagingPlatform" Version="1.2.0.5" />
+	  <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="6.3.0.25-pre" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Remove="Resources\Styles\Styles.xaml" />
+	  <EmbeddedResource Remove="Resources\Styles\Colors.xaml" />
+	  <EmbeddedResource Remove="Pages\FoodJournalPage\NutritionGoals.xaml" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
+	  <PackageReference Include="Xamarin.Google.UserMessagingPlatform" Version="2.0.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="Pages\FoodJournalPage\NutritionGoalsPage.xaml" />
 	</ItemGroup>
 </Project>

@@ -4,10 +4,20 @@
              x:Class="HealthModeApp.Pages.Dashboard"
              Title="Dashboard">
 
-   
+
+
 
     <ScrollView>
-     <Grid x:Name="dashboardGrid" Margin="30">
+        <VerticalStackLayout>
+            <VerticalStackLayout x:Name="LoadingPage" IsVisible="True" Padding="10" Spacing="10">
+
+            <Frame Grid.Row="0" CornerRadius="25"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}">
+              <Image Source="hmlogo" WidthRequest="500" HeightRequest="150"/>
+            </Frame>
+                <ActivityIndicator IsRunning="True"/>
+
+            </VerticalStackLayout>
+     <Grid x:Name="dashboardGrid" Margin="35,15,35,15" IsVisible="False">
   <Grid.RowDefinitions>
     <RowDefinition Height="Auto"/>
     <RowDefinition Height="*"/>
@@ -31,6 +41,7 @@
     </StackLayout>
         
 </Grid>
+            </VerticalStackLayout>
 </ScrollView>
 </ContentPage>
 

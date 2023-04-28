@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.FoodJournalPage.FoodSearch"
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
+             Title="Search">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Categories"
+                     Clicked="CategoriesClicked"/>
+
+    </ContentPage.ToolbarItems>
+
+
+
+    <Grid Padding="3" RowSpacing="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+ 
+        <Frame Grid.Row="0" Padding="8" Margin="5">
+    <Grid RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.ColumnSpan="3" Grid.Row="0" HeightRequest="45" Margin="0,5,0,5">
+             <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.2*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- SearchBar -->
+        <SearchBar Grid.Row="0" Grid.Column="0"
+                   Placeholder="Search"
+                   BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BlueGray}}"
+                   TextColor="{AppThemeBinding Light=Black, Dark={StaticResource WSmoke}}"
+                   Keyboard="Plain"
+                   SearchButtonPressed="SearchButtonPressed"
+                   x:Name="SearchFoods"/>
+
+        <!-- Button -->
+       
+        <ImageButton Clicked="BarcodeScanClicked" Source="barcodeicon" Aspect="AspectFit" CornerRadius="10" HeightRequest="35" Margin="5" Grid.Row="0" Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" />
+
+        </Grid>
+
+        <!-- Buttons for All, My Meals, and My Foods -->
+        <Button Grid.Row="1" Grid.Column="0" CornerRadius="0" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource WSmoke}}"
+                Text="All" Clicked="AllClicked" x:Name="AllButton"/>
+        <Button Grid.Row="1" Grid.Column="1" CornerRadius="0" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource WSmoke}}"
+                Text="My Meals" Clicked="MyMealsClicked" x:Name="MealsButton"/>
+        <Button Grid.Row="1" Grid.Column="2" CornerRadius="0" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource WSmoke}}"
+                Text="My Foods" Clicked="MyFoodsClicked" x:Name="FoodsButton"/>
+    </Grid>
+</Frame>
+
+
+         <controls:MTAdView  BackgroundColor="Transparent"
+                        x:Name="Ad1"
+                        AdsId="ca-app-pub-3940256099942544/6300978111"
+                        AdSize="AnchoredAdaptive"
+                        IsVisible="true"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Grid.Row="1"
+                        Margin="0,5,0,3"/>
+
+
+        <Frame Grid.Row="2" Padding="10" Margin="15,10,15,10">
+            <VerticalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}">
+                <ActivityIndicator
+                    x:Name="LoadingBar"
+                    IsRunning="False"
+                    IsVisible="False"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"/>
+
+            <ListView
+                HorizontalOptions="Center"
+                BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}"
+                x:Name="SearchResultList"
+                IsVisible="False"
+                ItemSelected="SearchResultList_ItemSelected"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <controls:MTAdView  BackgroundColor="Transparent"
+                        x:Name="Ad2"
+                        AdsId="ca-app-pub-3940256099942544/6300978111"
+                        AdSize="AnchoredAdaptive"
+                        IsVisible="true"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Grid.Row="3"/>
+
+        
+
+    </Grid>
+  
+
+
+</ContentPage>

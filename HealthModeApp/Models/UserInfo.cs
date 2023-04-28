@@ -72,8 +72,8 @@ namespace HealthModeApp.Models
         }
 
 
-        private DateTime _expDate;
-        public DateTime ExpDate
+        private DateTime? _expDate;
+        public DateTime? ExpDate
         {
             get => _expDate;
             set
@@ -98,8 +98,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        private int _weightPlan;
-        public int WeightPlan
+        private int? _weightPlan;
+        public int? WeightPlan
         {
             get => _weightPlan;
             set
@@ -137,8 +137,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        private int _sex;
-        public int Sex
+        private int? _sex;
+        public int? Sex
         {
             get => _sex;
             set
@@ -150,8 +150,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        private decimal _heightCm;
-        public decimal HeightCm
+        private decimal? _heightCm;
+        public decimal? HeightCm
         {
             get => _heightCm;
             set
@@ -163,8 +163,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        private DateTime _birthday;
-        public DateTime Birthday
+        private DateTime? _birthday;
+        public DateTime? Birthday
         {
             get => _birthday;
             set
@@ -176,8 +176,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        private int _weight;
-        public int Weight
+        private int? _weight;
+        public int? Weight
         {
             get => _weight;
             set
@@ -188,8 +188,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        int _goalWeight;
-        public int GoalWeight
+        int? _goalWeight;
+        public int? GoalWeight
         {
             get => _goalWeight;
             set
@@ -200,8 +200,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        int _activityLevel;
-        public int ActivityLevel
+        int? _activityLevel;
+        public int? ActivityLevel
         {
             get => _activityLevel;
             set
@@ -209,6 +209,18 @@ namespace HealthModeApp.Models
                 if (_activityLevel == value) return;
                 _activityLevel = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ActivityLevel)));
+            }
+        }
+
+        int? _calorieGoal;
+        public int? CalorieGoal
+        {
+            get => _calorieGoal;
+            set
+            {
+                if (_calorieGoal == value) return;
+                _calorieGoal = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CalorieGoal)));
             }
         }
 

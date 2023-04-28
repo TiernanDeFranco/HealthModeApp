@@ -18,6 +18,7 @@ public partial class SignUpPage : ContentPage
     int weight;
     int goalWeight;
     decimal height;
+    int calorieGoal;
 
     void UpdatePage()
     {
@@ -889,10 +890,13 @@ public partial class SignUpPage : ContentPage
         switch (unitEnergy)
         {
             case 0: // kcal
+                calorieGoal = Convert.ToInt32(Math.Round(tdee));
                 break;
             case 1: // calories
+                calorieGoal = Convert.ToInt32(Math.Round(tdee));
                 break;
             case 2: // kJ
+                calorieGoal = Convert.ToInt32(Math.Round(tdee));
                 tdee *= 4.184;
                 bmr *= 4.184;
                 break;
@@ -902,6 +906,8 @@ public partial class SignUpPage : ContentPage
 
         BMRNumber.Text = Math.Round(bmr).ToString();
         CalorieNumber.Text = Math.Round(tdee).ToString();
+
+        
     }
 
 
@@ -1118,7 +1124,7 @@ public partial class SignUpPage : ContentPage
 
 
                         // Call a method to add the user to the database with email, username, and hashed password //convert lists to strings (unit maingoals)
-                        bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel);
+                        bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel, calorieGoal);
 
                         if (result) { await DisplayAlert("Success", "Account created successfully", "OK"); await Navigation.PopModalAsync(); }
                     }

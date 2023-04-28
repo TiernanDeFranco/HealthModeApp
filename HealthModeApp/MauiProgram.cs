@@ -4,6 +4,9 @@ using HealthModeApp.Pages;
 using HealthModeApp.Pages.FoodJournalPage;
 using SQLite;
 
+using Plugin.MauiMTAdmob;
+using BarcodeScanner.Mobile;
+
 namespace HealthModeApp;
 
 public static class MauiProgram
@@ -13,12 +16,17 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
+            .UseMauiMTAdmob()
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 				fonts.AddFont("Lato-Bold.ttf", "Lato-Bold");
 				fonts.AddFont("Lato-Regular.ttf", "Lato-Regular");
+			})
+			.ConfigureMauiHandlers(handlers =>
+			{
+				handlers.AddBarcodeScannerHandler();
 			});
 
 		
@@ -31,10 +39,15 @@ public static class MauiProgram
 
 
         builder.Services.AddTransient<LoginPage>();
-        builder.Services.AddTransient<AddFoodEntry>();
+        builder.Services.AddTransient<Workouts>();
         builder.Services.AddTransient<Dashboard>();
+
         builder.Services.AddTransient<FoodJournal>();
 		builder.Services.AddTransient<MealPage>();
+        builder.Services.AddTransient<FoodSearch>();
+        builder.Services.AddTransient<BarcodeScan>();
+        builder.Services.AddTransient<AddFoodEntry>();
+
         builder.Services.AddTransient<MorePage>();
 
 

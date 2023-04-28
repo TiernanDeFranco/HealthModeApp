@@ -10,184 +10,361 @@
 
     </ContentPage.ToolbarItems>
 
-   
+
+    <ScrollView Margin="12,5">
+    <StackLayout Spacing="5" Padding="10">
+
+
+       <Frame Margin="0,5,0,2" Padding="5" CornerRadius="12">
+           <Grid RowSpacing="3">
+               <Grid.RowDefinitions>
+                   <RowDefinition Height="Auto"/>
+                   <RowDefinition Height="Auto"/>
+                   <RowDefinition Height="Auto"/>
+                   <RowDefinition Height="Auto"/>
+               </Grid.RowDefinitions>
+
+               <Label x:Name="FoodName" Grid.Row="0" Text="{Binding Path=Food.FoodName, Mode=OneWay}" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/> 
+               <Label x:Name="BrandName" Grid.Row="1" Text="{Binding Path=Food.Brand, Mode=OneWay}" TextColor="LightSlateGray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/> 
+               <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="2" Spacing="8">
+                    <Label x:Name="ServingSizeLabel"  Text="{Binding Path=Food.ServingSize, Mode=OneWay, StringFormat='{0}g'}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/> 
+                    <Label x:Name="ServingNameLabel"  Text="{Binding Path=Food.ServingName, Mode=OneWay, StringFormat='({0})'}" TextColor="LightSlateGray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/> 
+               </HorizontalStackLayout>
+
+
+               <HorizontalStackLayout Spacing="5" Grid.Row="3" HorizontalOptions="Center">
+                   <HorizontalStackLayout>
+                       <Image Source="carbicon" WidthRequest="15" HeightRequest="15"/>
+                       <Label Text="{Binding Path=Food.Carbs, Mode=OneWay}"/>
+                   </HorizontalStackLayout>
+                    <HorizontalStackLayout>
+                       <Image Source="faticon" WidthRequest="15" HeightRequest="15"/>
+                       <Label Text="{Binding Path=Food.Fat, Mode=OneWay}"/>
+                   </HorizontalStackLayout>
+
+                    <HorizontalStackLayout>
+                       <Image Source="proteinicon" WidthRequest="15" HeightRequest="15"/>
+                       <Label Text="{Binding Path=Food.Protein, Mode=OneWay}"/>
+                   </HorizontalStackLayout>
+
+                    <HorizontalStackLayout>
+                       <Image Source="calicon" WidthRequest="16" HeightRequest="16"/>
+                       <Label Text="{Binding Path=Food.Calories, Mode=OneWay}"/>
+                   </HorizontalStackLayout>
+
+               </HorizontalStackLayout>
+           </Grid>
+       </Frame>
+
+
+       <Frame CornerRadius="15" Margin="0,25,0,10">
+        <Grid ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width=".5*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Text="Barcode:" VerticalTextAlignment="Center" />
+            <Entry Grid.Row="0" Grid.Column="1" Keyboard="Numeric" x:Name="BarcodeEntry" HorizontalOptions="Center" HorizontalTextAlignment="Center" IsReadOnly="True" Text="{Binding Path=Food.Barcode}" MaxLength="14" BackgroundColor="{AppThemeBinding Light={StaticResource WSmoke}, Dark={StaticResource BlueGrayMid}}"/>
+
+        </Grid>
+    </Frame>
+
+    <Frame CornerRadius="15" Margin="0,0,0,10">
+        <Grid ColumnSpacing="10" RowSpacing="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+    <Label Grid.Row="0" Grid.Column="0" Text="Food Name:" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="0" Grid.Column="1" x:Name="FoodEntry" Placeholder="ex. Potato Chips" Text="{Binding Path=Food.FoodName, Mode=OneWayToSource}" MaxLength="35"  />
+
+    <Label Grid.Row="1" Grid.Column="0" Text="Brand Name:" VerticalTextAlignment="Center"  />
+    <Entry Grid.Row="1" Grid.Column="1" x:Name="BrandEntry" Placeholder="ex. Lays" Text="{Binding Food.Brand, Mode=OneWayToSource}" MaxLength="50"/>
+ 
+        </Grid>
+    </Frame>
+
+       
+
+    <Frame CornerRadius="15" Margin="0,0,0,10">
+        <Grid ColumnSpacing="10" RowSpacing="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+    <Label Grid.Row="0" Grid.Column="0" Text="Serving Unit:" VerticalTextAlignment="Center"/>
+    <Picker Grid.Row="0" Grid.Column="1" x:Name="ServingUnitPicker" SelectedItem="{Binding Path=Food.ServingUnit, Mode=OneWayToSource}" SelectedIndexChanged="ServingUnitPicker_SelectedIndexChanged"/>
+
+    <Label Grid.Row="1" Grid.Column="0" Text="Serving Size:" VerticalTextAlignment="Center"  />
+    <Entry Grid.Row="1" Grid.Column="1" x:Name="ServingSizeEntry" Placeholder="ex. 28" Keyboard="Numeric" Text="{Binding Path=Food.ServingSize, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="2" Grid.Column="0" x:Name="TotalGrams" Text="Total Grams (g):" VerticalTextAlignment="Center" IsVisible="False" />
+    <Entry Grid.Row="2" Grid.Column="1" x:Name="GramsEntry" Placeholder="ex. 28" Keyboard="Numeric" IsVisible="False" Text="{Binding Path=Food.Grams, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="3" Grid.Column="0" Text="Serving Name:" VerticalTextAlignment="Center"  />
+    <Entry Grid.Row="3" Grid.Column="1" x:Name="ServingName" Placeholder="ex. About 15 chips" Text="{Binding Food.ServingName, Mode=OneWayToSource}" MaxLength="50"/>
+
+
+        </Grid>
+    </Frame>
       
 
-    <ScrollView  Margin="12,15">
-    <StackLayout>
+
+         <Frame CornerRadius="15" Margin="0,0,0,10">
+        <Grid ColumnSpacing="10" RowSpacing="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+      <Label Grid.Row="0" Grid.Column="0" Text="Meal Type:" VerticalTextAlignment="Center" />
+      <Picker Grid.Row="0" Grid.Column="1" x:Name="mealPicker" Title="Meal Category" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+      <Label Grid.Row="1" Grid.Column="0" Text="Category:" VerticalTextAlignment="Center" />
+      <Picker Grid.Row="1" Grid.Column="1" x:Name="CategoryPicker" Title="Category" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+           
+        </Grid>
+    </Frame>
+
+    <Frame CornerRadius="15" Margin="0,0,0,10">
+        <Grid ColumnSpacing="10" RowSpacing="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Text="Calories &amp; Macros" x:Name="EnergyMacrosLabel" FontSize="Body" FontAttributes="Bold" VerticalOptions="Center" FontFamily="Lato-Bold"  Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,3" />
+
+    <Label Grid.Row="1" Grid.Column="0" Text="Energy:" x:Name="EnergyLabel" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="1" Grid.Column="1" x:Name="EnergyEntry" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Calories, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="2" Grid.Column="0" Text="Carbohydrates (g):" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="2" Grid.Column="1" x:Name="CarbEntry" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Carbs, Mode=OneWayToSource}"  MaxLength="5"/>
+
+    <Label Grid.Row="3" Grid.Column="0" Text="Fat (g):" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="3" Grid.Column="1" x:Name="FatEntry" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Fat, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="4" Grid.Column="0" Text="Protein (g):" VerticalTextAlignment="Center"  />
+    <Entry Grid.Row="4" Grid.Column="1" x:Name="ProteinEntry" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Protein, Mode=OneWayToSource}" MaxLength="5"/>
+
+           
+        </Grid>
+    </Frame>
+
+    <Frame CornerRadius="15" Margin="0,0,0,10">
+        <Grid ColumnSpacing="10" RowSpacing="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Text="Carbs" FontSize="Body" FontAttributes="Bold" VerticalOptions="Center" FontFamily="Lato-Bold" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,3" />
+
+    <Label Grid.Row="1" Grid.Column="0" Text="Sugar (g):" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="1" Grid.Column="1" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.Sugar, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="2" Grid.Column="0" Text="Added Sugar (g):" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="2" Grid.Column="1" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.AddSugar, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="3" Grid.Column="0" Text="Sugar Alcohol (g):" VerticalTextAlignment="Center"  />
+    <Entry Grid.Row="3" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.SugarAlc, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="4" Grid.Column="0" Text="Fiber (g):" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="4" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Fiber, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="5" Grid.Column="0" Text="Net Carbs (g):" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="5" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.NetCarbs, Mode=OneWayToSource}" MaxLength="5"/>
+
+           
+        </Grid>
+    </Frame>
+
+   <Frame CornerRadius="15" Margin="0,0,0,10">
+        <Grid ColumnSpacing="10" RowSpacing="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Text="Lipids" FontSize="Body" FontAttributes="Bold" VerticalOptions="Center" FontFamily="Lato-Bold" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,3"/>
+
+    <Label Grid.Row="1" Grid.Column="0" Text="Saturated Fat (g):" VerticalTextAlignment="Center"/>
+    <Entry Grid.Row="1" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.SatFat, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="2" Grid.Column="0" Text="Polyunsaturated Fat (g):" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="2" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.PUnSatFat, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="3" Grid.Column="0" Text="Monounsaturated Fat (g):" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="3" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.MUnSatFat, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label Grid.Row="4" Grid.Column="0" Text="Trans Fat (g):" VerticalTextAlignment="Center" />
+    <Entry Grid.Row="4" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.TransFat, Mode=OneWayToSource}" MaxLength="5"/>
+
+
      
-            <Grid>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width=".70*" />
-    </Grid.ColumnDefinitions>
+        </Grid>
+    </Frame>
 
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
+  <Frame CornerRadius="15" Margin="0,0,0,10">
+        <Grid ColumnSpacing="10" RowSpacing="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-    <Label Grid.Row="0" Grid.Column="0" Text="Barcode:" />
-    <Entry Grid.Row="0" Grid.Column="1" Keyboard="Numeric" x:Name="BarcodeEntry" Placeholder="Optional" Text="{Binding Path=Food.Barcode}" MaxLength="14"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-    <Label Grid.Row="1" Grid.Column="0" Text="Food Name:" Margin="0,15,0,0" />
-    <Entry Grid.Row="1" Grid.Column="1" x:Name="FoodEntry" Placeholder="ex. Potato Chips" Margin="0,15,0,0" Text="{Binding Path=Food.FoodName, Mode=OneWayToSource}" MaxLength="35"  />
+            <Label Text="Minerals" FontSize="Body" FontAttributes="Bold" VerticalOptions="Center" FontFamily="Lato-Bold" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,3"/>
+            <Button Text="Units" x:Name="MineralUnitButton" Margin="80,0,80,3" Clicked="SwitchUnitMinClicked" Grid.Row="0" Grid.Column="1" HorizontalOptions="End"/>
 
-    <Label Grid.Row="2" Grid.Column="0" Text="Brand Name:" />
-    <Entry Grid.Row="2" Grid.Column="1" Placeholder="ex. Lays" Text="{Binding Food.Brand, Mode=OneWayToSource}" MaxLength="50"/>
+    <Label x:Name="Iron" Grid.Row="1" Grid.Column="0" Text="Iron (mg):" VerticalTextAlignment="Center"/>
+    <Entry x:Name="IronEntry" Grid.Row="1" Grid.Column="1" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.Iron, Mode=OneWayToSource}" MaxLength="5"/>
 
-    <Label Grid.Row="3" Grid.Column="0" Text="Serving Size (g):" />
-    <Entry Grid.Row="3" Grid.Column="1" Placeholder="ex. 28" Keyboard="Numeric" Text="{Binding Path=Food.ServingSize, Mode=OneWayToSource}" MaxLength="5"/>
+    <Label x:Name="Calcium" Grid.Row="2" Grid.Column="0" Text="Calcium (mg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="CalciumEntry" Grid.Row="2" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Calcium, Mode=OneWayToSource}" MaxLength="5"/>
 
-    <Label Grid.Row="4" Grid.Column="0" Text="Serving Name:" />
-    <Entry Grid.Row="4" Grid.Column="1" Placeholder="ex. About 15 chips" Text="{Binding Food.ServingName, Mode=OneWayToSource}" MaxLength="50"/>
+    <Label x:Name="Potassium" Grid.Row="3" Grid.Column="0" Text="Potassium (mg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="PotassiumEntry" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Potassium, Mode=OneWayToSource}" MaxLength="5"/>
 
-    <Label Grid.Row="5" Grid.Column="0" Text="Calories:" Margin="0,15,0,0" />
-    <Entry Grid.Row="5" Grid.Column="1" Margin="0,15,0,0" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Calories, Mode=OneWayToSource}" MaxLength="5"/>
+    <Label x:Name="Sodium" Grid.Row="4" Grid.Column="0" Text="Sodium (mg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="SodiumEntry" Grid.Row="4" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Sodium, Mode=OneWayToSource}" MaxLength="5"/>
 
-    <Label Grid.Row="6" Grid.Column="0" Text="   " />
-    <Label Grid.Row="6" Grid.Column="1" Text="   " />
+    <Label x:Name="Cholesterol" Grid.Row="5" Grid.Column="0" Text="Cholesterol (mg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="CholesterolEntry" Grid.Row="5" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Cholesterol, Mode=OneWayToSource}" MaxLength="5"/>
 
-    <Label Grid.Row="7" Grid.Column="0" Text="Carbohydrates (g):" />
-    <Entry Grid.Row="7" Grid.Column="1" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Carbs, Mode=OneWayToSource}"  MaxLength="5"/>
-
-    <Label Grid.Row="8" Grid.Column="0" Text="Sugar (g):" />
-    <Entry Grid.Row="8" Grid.Column="1" Keyboard="Numeric"  Placeholder="Required" Text="{Binding Food.Sugar, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="9" Grid.Column="0" Text="Added Sugar (g):" />
-    <Entry Grid.Row="9" Grid.Column="1" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.AddSugar, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="10" Grid.Column="0" Text="Sugar Alcohol (g):" />
-    <Entry Grid.Row="10" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.SugarAlc, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="11" Grid.Column="0" Text="Fiber (g):" />
-    <Entry Grid.Row="11" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Fiber, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="12" Grid.Column="0" Text="Net Carbs (g):" />
-    <Entry Grid.Row="12" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.NetCarbs, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="13" Grid.Column="0" Text="  " />
-    <Label Grid.Row="13" Grid.Column="1" Text="  " />
-
-    <Label Grid.Row="14" Grid.Column="0" Text="Fat (g):" />
-    <Entry Grid.Row="14" Grid.Column="1" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Fat, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="15" Grid.Column="0" Text="Saturated Fat (g):" />
-    <Entry Grid.Row="15" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.SatFat, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="16" Grid.Column="0" Text="Polyunsaturated Fat (g):" />
-    <Entry Grid.Row="16" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.PUnSatFat, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="17" Grid.Column="0" Text="Monounsaturated Fat (g):" />
-    <Entry Grid.Row="17" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.MUnSatFat, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="18" Grid.Column="0" Text="Trans Fat (g):" />
-    <Entry Grid.Row="18" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.TransFat, Mode=OneWayToSource}" MaxLength="5"/>
-
-    <Label Grid.Row="19" Grid.Column="0" Text="  " />
-    <Label Grid.Row="19" Grid.Column="1" Text="  "/>
-
-    <Label Grid.Row="20" Grid.Column="0" Text="Protein (g):" />
-    <Entry Grid.Row="20" Grid.Column="1" Keyboard="Numeric" Placeholder="Required" Text="{Binding Food.Protein, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="21" Grid.Column="0" Text="Iron (mg):" Margin="0,15,0,0"/>
-<Entry Grid.Row="21" Grid.Column="1" Margin="0,15,0,0" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.Iron, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="22" Grid.Column="0" Text="Calcium (mg):" />
-<Entry Grid.Row="22" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Calcium, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="23" Grid.Column="0" Text="Potassium (mg):" />
-<Entry Grid.Row="23" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Potassium, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="24" Grid.Column="0" Text="Sodium (mg):" />
-<Entry Grid.Row="24" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Sodium, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="25" Grid.Column="0" Text="Cholesterol (mg):" />
-<Entry Grid.Row="25" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Cholesterol, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="27" Grid.Column="0" Text="Vitamin A (μg/mcg):" />
-<Entry Grid.Row="27" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminA, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="28" Grid.Column="0" Text="Vitamin B1 [Thiamin] (μg/mcg):" />
-<Entry Grid.Row="28" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Thiamin, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="29" Grid.Column="0" Text="Vitamin B2 [Riboflavin] (μg/mcg):" />
-<Entry Grid.Row="29" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Riboflavin, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="30" Grid.Column="0" Text="Vitamin B3 [Niacin] (μg/mcg):" />
-<Entry Grid.Row="30" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Niacin, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="31" Grid.Column="0" Text="Vitamin B5 [Panthothenic Acid] (μg/mcg):" FontSize="12"/>
-<Entry Grid.Row="31" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B5, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="32" Grid.Column="0" Text="Vitamin B6 [Pyridoxin] (μg/mcg):" />
-<Entry Grid.Row="32" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B6, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="33" Grid.Column="0" Text="Vitamin B7 [Biotin] (μg/mcg):" />
-<Entry Grid.Row="33" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B7, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="34" Grid.Column="0" Text="Vitamin B9 [Folic Acid] (μg/mcg):" />
-<Entry Grid.Row="34" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.FolicAcid, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="35" Grid.Column="0" Text="Vitamin B12 [Cobalamin] (μg/mcg):" />
-<Entry Grid.Row="35" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B12, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="36" Grid.Column="0" Text="Vitamin C (mg):" />
-<Entry Grid.Row="36" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminC, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="37" Grid.Column="0" Text="Vitamin D (μg/mcg):" />
-<Entry Grid.Row="37" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminD, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="38" Grid.Column="0" Text="Vitamin E (mg):" />
-<Entry Grid.Row="38" Grid.Column="1" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.VitaminE, Mode=OneWayToSource}" MaxLength="5"/>
-
-<Label Grid.Row="39" Grid.Column="0" Text="Vitamin K (μg/mcg):" />
-<Entry Grid.Row="39" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminK, Mode=OneWayToSource}" MaxLength="5"/>
-
-  <Label Grid.Row="40" Grid.Column="0" Text="   "  Margin="0,255,0,0"/>
-    </Grid>
+     
+        </Grid>
+    </Frame>
 
 
-    </StackLayout>
+ <Frame CornerRadius="15" Margin="0,0,0,10">
+        <Grid ColumnSpacing="10" RowSpacing="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Text="Vitamins" FontSize="Body" FontAttributes="Bold" VerticalOptions="Center" FontFamily="Lato-Bold" Grid.Row="0" Grid.Column="0" Margin="0,0,0,3"/>
+            <Button Text="Units" x:Name="VitaminUnitButton" Margin="5,0,5,3" Clicked="SwitchUnitVitClicked" Grid.Row="0" Grid.Column="1"/>
+
+    <Label x:Name="VitaminA" Grid.Row="1" Grid.Column="0" Text="Vitamin A (μg/mcg):" VerticalTextAlignment="Center"/>
+    <Entry x:Name="VitaminAEntry" Grid.Row="1" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminA, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="Thiamin" Grid.Row="2" Grid.Column="0" Text="Vitamin B1 [Thiamin] (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="ThiaminEntry" Grid.Row="2" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Thiamin, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="Riboflavin" Grid.Row="3" Grid.Column="0" Text="Vitamin B2 [Riboflavin] (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="RiboflavinEntry" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Riboflavin, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="Niacin" Grid.Row="4" Grid.Column="0" Text="Vitamin B3 [Niacin] (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="NiacinEntry" Grid.Row="4" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.Niacin, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="PanthoAcid" Grid.Row="5" Grid.Column="0" Text="Vitamin B5 [Panthothenic Acid] (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="PanthoAcidEntry" Grid.Row="5" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B5, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="Pyridoxin" Grid.Row="6" Grid.Column="0" Text="Vitamin B6 [Pyridoxin] (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="PyridoxinEntry" Grid.Row="6" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B6, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="Biotin" Grid.Row="7" Grid.Column="0" Text="Vitamin B7 [Biotin] (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="BiotinEntry" Grid.Row="7" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B7, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="FolicAcid" Grid.Row="8" Grid.Column="0" Text="Vitamin B9 [Folic Acid] (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="FolicAcidEntry" Grid.Row="8" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.FolicAcid, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="Cobalamin" Grid.Row="9" Grid.Column="0" Text="Vitamin B12 [Cobalamin] (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="CobalaminEntry" Grid.Row="9" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.B12, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="VitaminC" Grid.Row="10" Grid.Column="0" Text="Vitamin C (mg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="VitaminCEntry" Grid.Row="10" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminC, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="VitaminD" Grid.Row="11" Grid.Column="0" Text="Vitamin D (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="VitaminDEntry" Grid.Row="11" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminD, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="VitaminE" Grid.Row="12" Grid.Column="0" Text="Vitamin E (mg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="VitaminEEntry" Grid.Row="12" Grid.Column="1" Keyboard="Numeric"  Placeholder="Optional" Text="{Binding Food.VitaminE, Mode=OneWayToSource}" MaxLength="5"/>
+
+    <Label x:Name="VitaminK" Grid.Row="13" Grid.Column="0" Text="Vitamin K (μg/mcg):" VerticalTextAlignment="Center" />
+    <Entry x:Name="VitaminKEntry" Grid.Row="13" Grid.Column="1" Keyboard="Numeric" Placeholder="Optional" Text="{Binding Food.VitaminK, Mode=OneWayToSource}" MaxLength="5"/>
+
+     
+        </Grid>
+    </Frame>
+
+        </StackLayout>
+
+
+
+
+
     </ScrollView>
 </ContentPage>

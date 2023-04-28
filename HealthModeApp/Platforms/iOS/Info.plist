@@ -34,5 +34,7 @@
 	<string>HealthMode needs permission to create and manage local databases on the device for the app to work.</string>
 	<key>NSLocalUsageDescription</key>
 	<string>HealthMode needs permission to create and manage local databases on the device for the app to work.</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-4370777003788156~8463359431</string>
 </dict>
 </plist>

@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.FoodJournalPage.FoodInfo"
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob">
+    <ScrollView>
+    <Grid Padding="15" RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+             <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Frame Grid.Row="0">
+            <Grid RowSpacing="5" ColumnSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label x:Name="FoodName" Grid.Row="0" Text="FoodName" FontFamily="Lato-Bold" FontSize="Body" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                <Label x:Name="BrandName" Grid.Row="1" Text="BrandName" Margin="0,0,0,10" TextColor="LightSlateGray" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                <Grid Grid.Row="2" RowSpacing="4" Padding="5,5,5,12">
+                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label x:Name="ServingSizeLabel" Text="Serving Size" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" VerticalOptions="Center"/>
+                    <Picker x:Name="ServingSizePicker" Grid.Row="0" Grid.Column="1" SelectedIndexChanged="ServingSizeChanged"/>
+
+                    <Label x:Name="ServingNumberLabel" Text="Number of Servings" Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center" VerticalOptions="Center"/>
+                    <Entry x:Name="ServingNumberEntry" Text="1" Placeholder="Enter a number" Keyboard="Numeric" Grid.Row="1" Grid.Column="1" TextChanged="ServingNumberChanged"/>
+
+                    <Label x:Name="TimeLabel" Text="Time" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" VerticalOptions="Center"/>
+                    <TimePicker x:Name="TimeSelect" Grid.Row="2" Grid.Column="1"/>
+
+                    <Label x:Name="MealLabel" Text="Meal" Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center" VerticalOptions="Center"/>
+                    <Picker x:Name="MealPicker" Grid.Row="3" Grid.Column="1"/>
+
+
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="0,8,0,0" Padding="10" ColumnSpacing="7" RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".9*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <VerticalStackLayout>
+                     <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5" VerticalOptions="Start">
+                        <Image Source="calicon" WidthRequest="21" HeightRequest="21" VerticalOptions="Center" HorizontalOptions="Start"/>
+                        <Label x:Name="CalorieLabel" Text="Calories" TextColor="{StaticResource CalLight}" FontFamily="Lato-Bold" FontSize="Medium" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                    </HorizontalStackLayout>
+                      <ProgressBar x:Name="CalorieBar" Margin="0,45,0,0" ProgressColor="{StaticResource CalLight}" />
+                        <Label x:Name="CalorieGoal" TextColor="{StaticResource CalLight}" Text="0%" Margin="0,2,0,0" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                       
+                        </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                            <HorizontalStackLayout HorizontalOptions="Center">
+                                <Image Source="carbicon" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                                <Label x:Name="CarbLabel" TextColor="{StaticResource CarbsLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                            </HorizontalStackLayout>
+
+                        <Label x:Name="CarbPercent" TextColor="{StaticResource CarbsLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        <ProgressBar x:Name="CarbBar" Margin="0,30,0,0"  ProgressColor="{StaticResource CarbsLight}"/>
+                        <Label x:Name="CarbGoal" TextColor="{StaticResource CarbsLight}" Margin="0,2,0,0"  Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                       
+                    </VerticalStackLayout>
+
+                      <VerticalStackLayout Grid.Row="0" Grid.Column="2" VerticalOptions="Center">
+                            <HorizontalStackLayout HorizontalOptions="Center">
+                                <Image Source="faticon" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                                <Label x:Name="FatLabel" TextColor="{StaticResource FatLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                            </HorizontalStackLayout>
+
+                        <Label x:Name="FatPercent" TextColor="{StaticResource FatLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        <ProgressBar x:Name="FatBar" Margin="0,30,0,0" ProgressColor="{StaticResource FatLight}"/>
+                          <Label x:Name="FatGoal" TextColor="{StaticResource FatLight}" Margin="0,2,0,0"  Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                       
+                      </VerticalStackLayout>
+
+                      <VerticalStackLayout Grid.Row="0" Grid.Column="3" VerticalOptions="Center">
+                            <HorizontalStackLayout HorizontalOptions="Center">
+                                <Image Source="proteinicon" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                                <Label x:Name="ProteinLabel" TextColor="{StaticResource ProteinLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                            </HorizontalStackLayout>
+
+                        <Label x:Name="ProteinPercent" TextColor="{StaticResource ProteinLight}" Text="0%"  HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+            <ProgressBar x:Name="ProteinBar" Margin="0,30,0,0" ProgressColor="{StaticResource ProteinLight}"/>
+                          <Label x:Name="ProteinGoal" TextColor="{StaticResource ProteinLight}" Margin="0,2,0,0"  Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                       
+                      </VerticalStackLayout>
+                    <Label Text="% of Goal Complete" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{AppThemeBinding Light={StaticResource Accent3}, Dark={StaticResource DarkAccent3}}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                   
+                </Grid>
+            </Grid>
+
+        </Frame>
+
+      
+
+        <controls:MTAdView  BackgroundColor="Transparent"
+                        x:Name="Ad"
+                        AdsId="ca-app-pub-3940256099942544/6300978111"
+                        AdSize="FullBanner"
+                        IsVisible="true"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Grid.Row="1"
+                        />
+
+        <Frame Grid.Row="2">
+            <Grid RowSpacing="8" ColumnSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!--Total Carbs-->
+                    <RowDefinition Height="Auto"/> <!--Sugar-->
+                    <RowDefinition Height="Auto"/> <!--Added Sugar-->
+                    <RowDefinition Height="Auto"/> <!--Sugar Alc-->
+                    <RowDefinition Height="Auto"/> <!--Fiber-->
+                    <RowDefinition Height="Auto"/> <!--Net Carb-->
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Total Carbs" Grid.Row="0" Grid.Column="0" FontFamily="Lato-Bold" FontSize="14"/>
+                <Label x:Name="TotalCarbs" Grid.Row="0" Grid.Column="1" Text="0" HorizontalTextAlignment="End"/>
+
+                <Label Text="Sugar (g):" Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="SugarLabel" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Added Sugar (g):" Grid.Row="2" Grid.Column="0"/>
+                <Label x:Name="AddedSugarLabel" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Sugar Alcohol (g):" Grid.Row="3" Grid.Column="0"/>
+                <Label x:Name="SugarAlcLabel" Grid.Row="3" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                 <Label Text="Fiber (g):" Grid.Row="4" Grid.Column="0"/>
+                <Label x:Name="FiberLabel" Grid.Row="4" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Net Carbs (g):" Grid.Row="5" Grid.Column="0"/>
+                <Label x:Name="NetCarbLabel" Grid.Row="5" Grid.Column="1" HorizontalTextAlignment="End"/>
+            </Grid>
+
+        </Frame>
+
+         <Frame Grid.Row="3">
+            <Grid RowSpacing="8" ColumnSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!--Total Fat-->
+                    <RowDefinition Height="Auto"/> <!--SatFat-->
+                    <RowDefinition Height="Auto"/> <!--PolyUnSatFat-->
+                    <RowDefinition Height="Auto"/> <!--MonoUnSatFat-->
+                    <RowDefinition Height="Auto"/> <!--TransFat-->
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Total Fat" Grid.Row="0" Grid.Column="0" FontFamily="Lato-Bold" FontSize="14"/>
+                <Label x:Name="TotalFat" Grid.Row="0" Grid.Column="1" Text="0" HorizontalTextAlignment="End"/>
+
+                <Label Text="Saturated Fat (g):" Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="SatFatLabel" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Polyunsaturated Fat (g):" Grid.Row="2" Grid.Column="0"/>
+                <Label x:Name="PUnSatFatLabel" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Monounsaturated Fat (g):" Grid.Row="3" Grid.Column="0"/>
+                <Label x:Name="MUnSatFatLabel" Grid.Row="3" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                 <Label Text="Trans Fat (g):" Grid.Row="4" Grid.Column="0"/>
+                <Label x:Name="TransFatLabel" Grid.Row="4" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+            </Grid>
+
+        </Frame>
+
+        <Frame Grid.Row="4">
+            <Grid RowSpacing="8" ColumnSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!--Iron-->
+                    <RowDefinition Height="Auto"/> <!--Calcium-->
+                    <RowDefinition Height="Auto"/> <!--Potassium-->
+                    <RowDefinition Height="Auto"/> <!--Sodium-->
+                    <RowDefinition Height="Auto"/> <!--Cholesterol-->
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Iron (mg)" Grid.Row="0" Grid.Column="0"/>
+                <Label x:Name="TotalIron" Grid.Row="0" Grid.Column="1" Text="0" HorizontalTextAlignment="End"/>
+
+                <Label Text="Calcium (mg):" Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="CalciumLabel" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Potassium (mg):" Grid.Row="2" Grid.Column="0"/>
+                <Label x:Name="PotassiumLabel" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Sodium (mg):" Grid.Row="3" Grid.Column="0"/>
+                <Label x:Name="SodiumLabel" Grid.Row="3" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                 <Label Text="Cholesterol (mg):" Grid.Row="4" Grid.Column="0"/>
+                <Label x:Name="CholesterolLabel" Grid.Row="4" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+            </Grid>
+
+        </Frame>
+
+        <Frame Grid.Row="5">
+            <Grid RowSpacing="8" ColumnSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!--VitaminA-->
+                    <RowDefinition Height="Auto"/> <!--Thiamin-->
+                    <RowDefinition Height="Auto"/> <!--Riboflavin-->
+                    <RowDefinition Height="Auto"/> <!--Niacin-->
+                    <RowDefinition Height="Auto"/> <!--B5-->
+                    <RowDefinition Height="Auto"/> <!--B6-->
+                    <RowDefinition Height="Auto"/> <!--Biotin-->
+                    <RowDefinition Height="Auto"/> <!--Folate-->
+                    <RowDefinition Height="Auto"/> <!--Cobalamin-->
+                    <RowDefinition Height="Auto"/> <!--VitaminC-->
+                    <RowDefinition Height="Auto"/> <!--VitaminD-->
+                    <RowDefinition Height="Auto"/> <!--VitaminE-->
+                    <RowDefinition Height="Auto"/> <!--VitaminK-->
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Vitamin A (µg/mcg)" Grid.Row="0" Grid.Column="0"/>
+                <Label x:Name="VitaminALabel" Grid.Row="0" Grid.Column="1" Text="0" HorizontalTextAlignment="End"/>
+
+                <Label Text="Vitamin B1 [Thiamin] (mg):" Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="ThiaminLabel" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Vitamin B2 [Riboflavin] (mg):" Grid.Row="2" Grid.Column="0"/>
+                <Label x:Name="RiboflavinLabel" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Vitamin B3 [Niacin] (mg):" Grid.Row="3" Grid.Column="0"/>
+                <Label x:Name="NiacinLabel" Grid.Row="3" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                 <Label Text="Vitamin B5 [Panthothenic Acid] (mg):" Grid.Row="4" Grid.Column="0"/>
+                 <Label x:Name="B5Label" Grid.Row="4" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                 <Label Text="Vitamin B6 [Pyridoxin] (mg):" Grid.Row="5" Grid.Column="0"/>
+                 <Label x:Name="B6Label" Grid.Row="5" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                 <Label Text="Vitamin B7 [Biotin] (µg/mcg):" Grid.Row="6" Grid.Column="0"/>
+                 <Label x:Name="BiotinLabel" Grid.Row="6" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                 <Label Text="Vitamin B9 [Folic Acid] (µg/mcg):" Grid.Row="7" Grid.Column="0"/>
+                 <Label x:Name="FolateLabel" Grid.Row="7" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                 <Label Text="Vitamin B12 [Cobalamin] (µg/mcg):" Grid.Row="8" Grid.Column="0"/>
+                 <Label x:Name="B12Label" Grid.Row="8" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                 <Label Text="Vitamin C (mg):" Grid.Row="9" Grid.Column="0"/>
+                 <Label x:Name="VitaminCLabel" Grid.Row="9" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Vitamin D (µg/mcg):" Grid.Row="10" Grid.Column="0"/>
+                 <Label x:Name="VitaminDLabel" Grid.Row="10" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Vitamin E (mg):" Grid.Row="11" Grid.Column="0"/>
+                 <Label x:Name="VitaminELabel" Grid.Row="11" Grid.Column="1" HorizontalTextAlignment="End"/>
+
+                <Label Text="Vitamin K (µg/mcg):" Grid.Row="12" Grid.Column="0"/>
+                 <Label x:Name="VitaminKLabel" Grid.Row="12" Grid.Column="1" HorizontalTextAlignment="End"/>
+            </Grid>
+
+        </Frame>
+    </Grid>
+</ScrollView>
+</ContentPage>
