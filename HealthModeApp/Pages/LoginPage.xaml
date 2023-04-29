@@ -22,7 +22,7 @@
                 <RowDefinition Height="Auto"/>
                  <RowDefinition Height="Auto"/>
                  <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
              <Entry Grid.Row="0" Placeholder="Email" Keyboard="Email" FontSize="Body" x:Name="EmailLogin"/>
              <Entry Grid.Row="1" Placeholder="Password" IsPassword="True" FontSize="Body" x:Name="PasswordLogin"/>

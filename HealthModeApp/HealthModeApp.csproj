@@ -38,6 +38,10 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)'=='net6.0-ios'">
+	  <CodesignKey>Apple Development: Tiernan DeFranco (FZJ7MX33UK)</CodesignKey>
+	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
+	</PropertyGroup>
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\proteinicon.svg" />
 	  <MauiImage Remove="Resources\Images\faticon.svg" />

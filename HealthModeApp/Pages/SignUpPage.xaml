@@ -216,7 +216,8 @@
 
     </Grid>  
 
- <Grid RowSpacing="20" Padding="10,0,10,25" VerticalOptions="Center" HeightRequest="800" x:Name="Grid4" Margin="0,20" IsVisible="False">
+            
+ <Grid RowSpacing="20" Padding="10,0,10,25" VerticalOptions="Center" x:Name="Grid4" Margin="0,20" IsVisible="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
              <RowDefinition Height="Auto"/>
@@ -230,7 +231,7 @@
 <Label Text="(These can be changed later)" FontFamily="Lato-Regular" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption" TextColor="Gray"/>
 
           <StackLayout Orientation="Vertical">
-
+        
 <Grid ColumnSpacing="8" Margin="15,5,15,5" RowSpacing="8">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />

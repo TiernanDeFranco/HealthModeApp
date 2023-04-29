@@ -6,6 +6,7 @@ using HealthModeApp.DataServices;
 
 namespace HealthModeApp.Pages;
 
+
 public partial class SignUpPage : ContentPage
 {
     private readonly ISQLiteDataService _localData;
@@ -16,7 +17,7 @@ public partial class SignUpPage : ContentPage
     public int maxStage = 5;
     double heightCm = 0;
     int weight;
-    int goalWeight;
+    int goalWeight; 
     decimal height;
     int calorieGoal;
 
@@ -108,6 +109,7 @@ public partial class SignUpPage : ContentPage
         UpdatePage();
         _localData = localData;
         _dataService = dataService;
+        Shell.SetTabBarIsVisible(this, false);
     }
 
     //Weight Goals VVVV
@@ -137,7 +139,13 @@ public partial class SignUpPage : ContentPage
 
     async void BackButton1_Clicked(System.Object sender, System.EventArgs e)
     {
-        await Navigation.PopModalAsync();
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            await Navigation.PopAsync();
+        }
+        else
+        { await Navigation.PopModalAsync(); }
+        
     }
 
     async void NextButton1_Clicked(System.Object sender, System.EventArgs e)
@@ -1126,7 +1134,16 @@ public partial class SignUpPage : ContentPage
                         // Call a method to add the user to the database with email, username, and hashed password //convert lists to strings (unit maingoals)
                         bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel, calorieGoal);
 
-                        if (result) { await DisplayAlert("Success", "Account created successfully", "OK"); await Navigation.PopModalAsync(); }
+                        if (result)
+                        {
+                            await DisplayAlert("Success", "Account created successfully", "OK");
+                            if (DeviceInfo.Platform == DevicePlatform.Android)
+                            {
+                                await Navigation.PopAsync();
+                            }
+                            else
+                            { await Navigation.PopModalAsync(); }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1256,6 +1273,8 @@ public partial class SignUpPage : ContentPage
 
         return json;
     }
+
+  
 
 }
 

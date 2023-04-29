@@ -27,7 +27,7 @@ public partial class LoginPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-       
+        Shell.SetTabBarIsVisible(this, false);
 
     }
 
@@ -70,7 +70,12 @@ public partial class LoginPage : ContentPage
                             nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
                             nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"]);
                     }
-                        await Navigation.PopModalAsync();
+                    if (DeviceInfo.Platform == DevicePlatform.Android)
+                    {
+                        await Navigation.PopAsync();
+                    }
+                    else { await Navigation.PopModalAsync(); }
+                    
                 }
 
                 else await DisplayAlert("Notice", "Invalid password", "OK");
@@ -97,7 +102,11 @@ public partial class LoginPage : ContentPage
 
     async void RegisterButton_Clicked(System.Object sender, System.EventArgs e)
     {
-        await Navigation.PushModalAsync(new SignUpPage(_localData, _dataService));
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            await Navigation.PushAsync(new SignUpPage(_localData, _dataService));
+        }
+        else { await Navigation.PushModalAsync(new SignUpPage(_localData, _dataService)); }
     }
 
 

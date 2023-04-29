@@ -64,7 +64,13 @@ public partial class MorePage : ContentPage
         {
          
             await _localData.DeleteUser();
-            await Navigation.PushModalAsync(new LoginPage(_dataService, _localData));
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                await Navigation.PushAsync(new LoginPage(_dataService, _localData));
+            }
+            else { await Navigation.PushModalAsync(new LoginPage(_dataService, _localData)); }
+
+            
             // In your page code behind, you can access the TabBar like this:
             var shell = Shell.Current;
             var tabBar = shell.FindByName<TabBar>("TabBar");

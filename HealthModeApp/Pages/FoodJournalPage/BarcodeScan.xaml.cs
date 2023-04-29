@@ -1,5 +1,5 @@
-﻿using BarcodeScanner.Mobile;
-using HealthModeApp.DataServices;
+﻿using HealthModeApp.DataServices;
+using BarcodeScanner.Mobile;
 
 namespace HealthModeApp.Pages.FoodJournalPage;
 
@@ -10,7 +10,7 @@ public partial class BarcodeScan : ContentPage
 
 	public BarcodeScan(IRestDataService dataService, ISQLiteDataService localData)
 	{
-        BarcodeScanner.Mobile.Methods.SetSupportBarcodeFormat(BarcodeScanner.Mobile.BarcodeFormats.Upca);
+       BarcodeScanner.Mobile.Methods.SetSupportBarcodeFormat(BarcodeScanner.Mobile.BarcodeFormats.Upca);
 		InitializeComponent();
 		CallPermission();
         _dataService = dataService;
@@ -29,7 +29,7 @@ public partial class BarcodeScan : ContentPage
 
     async void CallPermission()
 	{
-      bool permission = await BarcodeScanner.Mobile.Methods.AskForRequiredPermission();
+     bool permission = await BarcodeScanner.Mobile.Methods.AskForRequiredPermission();
 		if (permission) Camera.TorchOn = true;
 
     }

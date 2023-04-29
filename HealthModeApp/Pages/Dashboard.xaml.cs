@@ -34,7 +34,11 @@ public partial class Dashboard : ContentPage
         {
             Debug.WriteLine("1st Else");
             await Navigation.PopAsync();
-            await Navigation.PushModalAsync(new LoginPage(_dataService, _localData));
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                await Navigation.PushAsync(new LoginPage(_dataService, _localData));
+            }
+            else { await Navigation.PushModalAsync(new LoginPage(_dataService, _localData)); }
             LoadingPage.IsVisible = false;
             dashboardGrid.IsVisible = true;
             Shell.SetTabBarIsVisible(this, true);
@@ -72,7 +76,14 @@ public partial class Dashboard : ContentPage
         {
             Debug.WriteLine("2nd Else");
             await Navigation.PopAsync();
-            await Navigation.PushModalAsync(new LoginPage(_dataService, _localData));
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                await Navigation.PushAsync(new LoginPage(_dataService, _localData));
+            }
+            else { await Navigation.PushModalAsync(new LoginPage(_dataService, _localData)); }
+
+
+          
             LoadingPage.IsVisible = false;
             dashboardGrid.IsVisible = true;
             Shell.SetTabBarIsVisible(this, true);
@@ -92,7 +103,7 @@ public partial class Dashboard : ContentPage
     }
 
 
-   
+   //Made login and signup nonmodal
 
 
     public (double carbsPercent, double fatPercent, double proteinPercent) GetMacronutrientPercentages(int weightPlan)

@@ -109,7 +109,7 @@
                           <Label x:Name="ProteinGoal" TextColor="{StaticResource ProteinLight}" Margin="0,2,0,0"  Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
                        
                       </VerticalStackLayout>
-                    <Label Text="% of Goal Complete" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{AppThemeBinding Light={StaticResource Accent3}, Dark={StaticResource DarkAccent3}}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                    <Label Text="% of Goal Complete if logged" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{AppThemeBinding Light={StaticResource Accent3}, Dark={StaticResource DarkAccent3}}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
                    
                 </Grid>
             </Grid>

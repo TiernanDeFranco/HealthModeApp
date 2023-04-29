@@ -39,6 +39,7 @@ public static class MauiProgram
 
 
         builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<SignUpPage>();
         builder.Services.AddTransient<Workouts>();
         builder.Services.AddTransient<Dashboard>();
 
@@ -47,6 +48,7 @@ public static class MauiProgram
         builder.Services.AddTransient<FoodSearch>();
         builder.Services.AddTransient<BarcodeScan>();
         builder.Services.AddTransient<AddFoodEntry>();
+        builder.Services.AddTransient<FoodInfo>();
 
         builder.Services.AddTransient<MorePage>();
 
