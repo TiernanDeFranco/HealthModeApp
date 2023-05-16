@@ -1,44 +1,118 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthModeApp.Pages.Dashboard"
-             Title="Dashboard">
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
+             x:Class="HealthModeApp.Pages.Dashboard">
 
 
-
+    
 
     <ScrollView>
         <VerticalStackLayout>
-            <VerticalStackLayout x:Name="LoadingPage" IsVisible="True" Padding="10" Spacing="10">
+            <VerticalStackLayout x:Name="LoadingPage" IsVisible="True" Padding="5" Spacing="10">
 
-            <Frame Grid.Row="0" CornerRadius="25"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}">
+            <Frame x:Name="FrameWidth" Grid.Row="0" CornerRadius="25"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" >
               <Image Source="hmlogo" WidthRequest="500" HeightRequest="150"/>
             </Frame>
                 <ActivityIndicator IsRunning="True"/>
 
             </VerticalStackLayout>
-     <Grid x:Name="dashboardGrid" Margin="35,15,35,15" IsVisible="False">
+     <Grid x:Name="dashboardGrid" Margin="30,10,30,5" IsVisible="False" RowSpacing="10">
   <Grid.RowDefinitions>
     <RowDefinition Height="Auto"/>
-    <RowDefinition Height="*"/>
+    <RowDefinition Height="Auto"/>
+     <RowDefinition Height="Auto"/>
+     <RowDefinition Height="Auto"/>
   </Grid.RowDefinitions>
 
     <StackLayout Spacing="5" Grid.Row="0">
-                <Frame CornerRadius="20" HeightRequest="{Binding Width, Source={x:Reference dashboardGrid}}" WidthRequest="{Binding Width, Source={x:Reference dashboardGrid}}">
-                    <Grid>
+                <Frame CornerRadius="20">
+                    <Grid RowSpacing="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label x:Name="TodaysDate" Grid.Row="0" Grid.Column="1" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                        <AbsoluteLayout Grid.Row="1" Grid.Column="1"  Margin="0,10,0,0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                   <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"  AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize">
+                   <HorizontalStackLayout  HorizontalOptions="CenterAndExpand">
+                       <Image x:Name="CalIcon" Source="calicon" HeightRequest="25" WidthRequest="25" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label x:Name="CalorieLabel" FontSize="Medium" FontFamily="Lato-Bold" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                      />
+                     </HorizontalStackLayout>
+                        <ProgressBar x:Name="CalorieBar" Margin="5,10,0,0" ProgressColor="{StaticResource CalLight}" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        <lvc:PieChart x:Name="PieChart" HeightRequest="200" WidthRequest="200" InputTransparent="True"
+                    VerticalOptions="Center" HorizontalOptions="Center"
+                    LegendTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    TooltipTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    BackgroundColor="Transparent"   AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize"/>
+<AbsoluteLayout.GestureRecognizers>
+    <TapGestureRecognizer Tapped="OpenNutritionBreakdown"/>
+</AbsoluteLayout.GestureRecognizers>
+              
+
+                   </AbsoluteLayout>
+
+                        <Label x:Name="RemainingCalLabel" FontFamily="Lato-Bold" FontSize="Body" Text="0\n0" LineBreakMode="WordWrap" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start"/>
+                        <ImageButton Source="foodaddicon" HeightRequest="40" WidthRequest="40" Grid.Row="2" Grid.Column="2" Clicked="LogFoodClicked"/>
+
+                    </Grid>
+                </Frame>
+
+    </StackLayout>
+
+          <controls:MTAdView  BackgroundColor="Transparent"
+                        x:Name="Ad"
+                        AdsId="ca-app-pub-3940256099942544/6300978111"
+                        AdSize="Banner"
+                        IsVisible="true"
+                        HeightRequest="50"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Grid.Row="1"
+                        />
+
+
+         <Frame CornerRadius="20" Grid.Row="2" Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Grid.ColumnSpan="2" Text="" FontFamily="Lato-Bold" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Row="0" Text="Weight" Grid.Column="1" FontFamily="Lato-Bold" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                        <Image Source="addicon" WidthRequest="22" HeightRequest="22" Grid.Row="0" Grid.Column="2"  HorizontalOptions="End" VerticalOptions="Center"  Margin="0,0,0,5"/>
+                        <Label x:Name="WeightValue" Grid.Row="1" Grid.Column="1" Text="   " HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}"/>
+                        <lvc:CartesianChart x:Name="WeightChart" Grid.Row="2" HeightRequest="150" Grid.ColumnSpan="3"
+                    VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                    LegendTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    TooltipTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    BackgroundColor="Transparent" InputTransparent="True"
+                    />
                     </Grid>
-           
-      </Frame>
-    </StackLayout>
+                <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="WeightProgressClicked"/>
+                </Frame.GestureRecognizers>
+                </Frame>
+
+         
         
 </Grid>
             </VerticalStackLayout>

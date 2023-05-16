@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthModeApp.Pages.FoodJournalPage.FoodInfo"
+             x:Class="HealthModeApp.Pages.FoodJournalPage.FoodUpdate"
              xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob">
     <ContentPage.ToolbarItems>
     <ToolbarItem
-                 Text="Log Food"
-                 Clicked="LogFoodClicked"/>
+                 Text="Update"
+                 Clicked="UpdateFoodClicked"/>
 </ContentPage.ToolbarItems>
 
     <ScrollView>
@@ -122,17 +122,21 @@
 
         </Frame>
 
-      
+        <VerticalStackLayout Grid.Row="1">
 
-        <controls:MTAdView  BackgroundColor="Transparent"
+            <Button Text="Remove Food" Clicked="RemoveButton_Clicked" HorizontalOptions="Center"/>
+
+            <controls:MTAdView  BackgroundColor="Transparent"
                         x:Name="Ad"
                         AdsId="ca-app-pub-3940256099942544/6300978111"
                         AdSize="FullBanner"
                         IsVisible="true"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand"
-                        Grid.Row="1"
                         />
+        </VerticalStackLayout>
+
+        
 
         <Frame Grid.Row="2">
             <Grid RowSpacing="8" ColumnSpacing="5">

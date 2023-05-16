@@ -109,7 +109,16 @@ public partial class SignUpPage : ContentPage
         UpdatePage();
         _localData = localData;
         _dataService = dataService;
+
+    }
+
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
         Shell.SetTabBarIsVisible(this, false);
+        NavigationPage.SetHasNavigationBar(this, false);
+
     }
 
     //Weight Goals VVVV
@@ -139,12 +148,7 @@ public partial class SignUpPage : ContentPage
 
     async void BackButton1_Clicked(System.Object sender, System.EventArgs e)
     {
-        if (DeviceInfo.Platform == DevicePlatform.Android)
-        {
-            await Navigation.PopAsync();
-        }
-        else
-        { await Navigation.PopModalAsync(); }
+         await Navigation.PopModalAsync(); 
         
     }
 
@@ -1132,17 +1136,19 @@ public partial class SignUpPage : ContentPage
 
 
                         // Call a method to add the user to the database with email, username, and hashed password //convert lists to strings (unit maingoals)
+                        SignUpButton.IsVisible = false;
+                        SignUpLoad.IsVisible = true;
                         bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel, calorieGoal);
-
                         if (result)
                         {
                             await DisplayAlert("Success", "Account created successfully", "OK");
-                            if (DeviceInfo.Platform == DevicePlatform.Android)
-                            {
-                                await Navigation.PopAsync();
-                            }
-                            else
-                            { await Navigation.PopModalAsync(); }
+                            await Navigation.PopModalAsync();
+                        }
+                        else
+                        {
+                            await DisplayAlert("Error", "Something went wrong with account creation", "OK");
+                            SignUpButton.IsVisible = true;
+                            SignUpLoad.IsVisible = false;
                         }
                     }
                     catch (Exception ex)

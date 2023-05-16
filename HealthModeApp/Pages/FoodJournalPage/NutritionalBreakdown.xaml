@@ -1,16 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              x:Class="HealthModeApp.Pages.FoodJournalPage.NutritionalBreakdown"> 
 
-    <Grid Padding="15" RowSpacing="10">
+    <ScrollView>
+    <Grid Padding="8" RowSpacing="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Frame Margin="5,5,5,0" x:Name="breakdownFrame" Grid.Row="0" CornerRadius="20" HeightRequest="{Binding Width, Source={x:Reference breakdownFrame}}">
+        <Frame Margin="5,5,5,0" x:Name="breakdownFrame" Grid.Row="0" CornerRadius="20">
             <Grid RowSpacing="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -24,14 +28,310 @@
                 </Grid.ColumnDefinitions>
                 <DatePicker Grid.Row="0" Grid.Column="1" x:Name="DateSelect" FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yy" HorizontalOptions="Center" VerticalOptions="Start" DateSelected="DateSelect_DateSelected"/>
                 <Button Grid.Row="0" Grid.Column="2" x:Name="TodayButton" Text="Jump to Today" IsVisible="False" Clicked="TodayButton_Clicked" HorizontalOptions="Center" VerticalOptions="Start"/>
+
+            <Grid Grid.Row="1" Grid.ColumnSpan="3" x:Name="PieGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+               <AbsoluteLayout Grid.Row="0"  Margin="0,10,0,0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                   <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"  AbsoluteLayout.LayoutFlags="All"
+               AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize">
+                   <HorizontalStackLayout  HorizontalOptions="CenterAndExpand">
+                       <Image x:Name="CalIcon" Source="calicon" HeightRequest="25" WidthRequest="25" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Label x:Name="CalorieLabel" FontSize="Medium" FontFamily="Lato-Bold" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                      />
+                </HorizontalStackLayout>
+                       <ProgressBar x:Name="CalorieBar" Margin="5,10,0,0" ProgressColor="{StaticResource CalLight}" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                <lvc:PieChart x:Name="Donut" HeightRequest="220" WidthRequest="220"
+                    VerticalOptions="Center" HorizontalOptions="Center"
+                    LegendTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    TooltipTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    BackgroundColor="Transparent"   AbsoluteLayout.LayoutFlags="All"
+               AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize"/>
+
+              
+
+                   </AbsoluteLayout>
+                <Grid Grid.Row="1" ColumnSpacing="8"  Margin="0,15,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Image Source="carbicon" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                        <Label x:Name="CarbLabel" TextColor="{StaticResource CarbsLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                    </HorizontalStackLayout>
+                        <Label x:Name="CarbPercent" TextColor="{StaticResource CarbsLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        <ProgressBar x:Name="CarbBar" ProgressColor="{StaticResource CarbsLight}" Margin="0,15,0,0"/>
+                        <Label x:Name="CarbGoal" TextColor="{StaticResource CarbsLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="10">
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Image Source="faticon" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                        <Label x:Name="FatLabel" TextColor="{StaticResource FatLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                    </HorizontalStackLayout>
+                        <Label x:Name="FatPercent" TextColor="{StaticResource FatLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        <ProgressBar x:Name="FatBar"  ProgressColor="{StaticResource FatLight}" Margin="0,15,0,0"/>
+                        <Label x:Name="FatGoal" TextColor="{StaticResource FatLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="2" Spacing="10">
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Image Source="proteinicon" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                        <Label x:Name="ProteinLabel" TextColor="{StaticResource ProteinLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                    </HorizontalStackLayout>
+                        <Label x:Name="ProteinPercent" TextColor="{StaticResource ProteinLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        <ProgressBar x:Name="ProteinBar" ProgressColor="{StaticResource ProteinLight}" Margin="0,15,0,0"/>
+                        <Label x:Name="ProteinGoal" TextColor="{StaticResource ProteinLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Grid>
+
             </Grid>
           
         </Frame>
 
-    
+        <controls:MTAdView  BackgroundColor="Transparent"
+                        x:Name="Ad"
+                        AdsId="ca-app-pub-3940256099942544/6300978111"
+                        AdSize="AnchoredAdaptive"
+                        IsVisible="true"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Grid.Row="1"
+                        Margin="0,5,0,3"/>
+
+        <Frame Grid.Row="2" Margin="5,0,5,0">
+            <Grid RowSpacing="7" ColumnSpacing="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Nutrient" Grid.Row="0" Grid.Column="0" FontFamily="Lato-Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}"/>
+                <Label Text="Total" Grid.Row="0" Grid.Column="1" FontFamily="Lato-Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}"/>
+                <Label Text="Remaining" Grid.Row="0" Grid.Column="2" FontFamily="Lato-Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" HorizontalTextAlignment="End"/>
+
+                <Label Text="Total Sugar (g)" Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="SugarValue" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="Center"/>
+                <Label x:Name="SugarLeft" Grid.Row="1" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="SugarBar" Grid.Row="2" Grid.ColumnSpan="3" ProgressColor="{StaticResource CarbsLight}"/>
+
+                <Label Text="Saturated Fat (g)" Grid.Row="3" Grid.Column="0"/>
+                <Label x:Name="SatFatValue" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource FatLight}" HorizontalTextAlignment="Center"/>
+                <Label x:Name="SatFatLeft" Grid.Row="3" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="SatFatBar" Grid.Row="4" Grid.ColumnSpan="3" ProgressColor="{StaticResource FatLight}"/>
+
+                <Label Text="Polyunsaturated Fat (g)" Grid.Row="5" Grid.Column="0"/>
+                <Label x:Name="PUnSatFatValue" Grid.Row="5" Grid.Column="1" TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center"/>
+                <Label x:Name="PUnSatFatLeft" Grid.Row="5" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="PUnSatFatBar" Grid.Row="6" Grid.ColumnSpan="3" ProgressColor="{StaticResource Primary}"/>
+
+                <Label Text="Monounsaturated Fat (g)" Grid.Row="7" Grid.Column="0"/>
+                <Label x:Name="MUnSatFatValue" Grid.Row="7" Grid.Column="1" TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center"/>
+                <Label x:Name="MUnSatFatLeft" Grid.Row="7" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="MUnSatFatBar" Grid.Row="8" Grid.ColumnSpan="3" ProgressColor="{StaticResource LightPrimary}"/>
+
+                <Label Text="Trans Fat (g)" Grid.Row="9" Grid.Column="0"/>
+                <Label x:Name="TransFatValue" Grid.Row="9" Grid.Column="1" TextColor="{StaticResource Cyan100Accent}" HorizontalTextAlignment="Center"/>
+                <Label x:Name="TransFatLeft" Grid.Row="9" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="TransFatBar" Grid.Row="10" Grid.ColumnSpan="3" ProgressColor="{StaticResource Cyan100Accent}"/>
+
+                <Label Text="Iron (mg)" Grid.Row="11" Grid.Column="0"/>
+                <Label x:Name="IronValue" Grid.Row="11" Grid.Column="1" TextColor="SlateGray" HorizontalTextAlignment="Center"/>
+                <Label x:Name="IronLeft" Grid.Row="11" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="IronBar" Grid.Row="12" Grid.ColumnSpan="3" ProgressColor="SlateGray"/>
+
+                <Label Text="Calcium (mg)" Grid.Row="13" Grid.Column="0"/>
+                <Label x:Name="CalciumValue" Grid.Row="13" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
+                <Label x:Name="CalciumLeft" Grid.Row="13" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="CalciumBar" Grid.Row="14" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
+
+                <Label Text="Potassium (mg)" Grid.Row="15" Grid.Column="0"/>
+                <Label x:Name="PotassiumValue" Grid.Row="15" Grid.Column="1" TextColor="{StaticResource Accent3}" HorizontalTextAlignment="Center"/>
+                <Label x:Name="PotassiumLeft" Grid.Row="15" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="PotassiumBar" Grid.Row="16" Grid.ColumnSpan="3" ProgressColor="{StaticResource Accent3}"/>
+
+                <Label Text="Sodium (mg)" Grid.Row="17" Grid.Column="0"/>
+                <Label x:Name="SodiumValue" Grid.Row="17" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
+                <Label x:Name="SodiumLeft" Grid.Row="17" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="SodiumBar" Grid.Row="18" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
+
+                <Label Text="Cholesterol (mg)" Grid.Row="19" Grid.Column="0"/>
+                <Label x:Name="CholesterolValue" Grid.Row="19" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="Center"/>
+                <Label x:Name="CholesterolLeft" Grid.Row="19" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="CholesterolBar" Grid.Row="20" Grid.ColumnSpan="3" ProgressColor="Goldenrod"/>
+
+                <Label Text=" " Grid.Row="21" Grid.ColumnSpan="3" TextColor="Transparent"/>
+
+
+                <Label Text="Vitamin A (μg)" Grid.Row="22" Grid.Column="0"/>
+                <Label x:Name="VitaminAValue" Grid.Row="22" Grid.Column="1" TextColor="Coral" HorizontalTextAlignment="Center"/>
+                <Label x:Name="VitaminALeft" Grid.Row="22" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="VitaminABar" Grid.Row="23" Grid.ColumnSpan="3" ProgressColor="Coral"/>
+
+                <Label Text="Vitamin C (mg)" Grid.Row="24" Grid.Column="0"/>
+                <Label x:Name="VitaminCValue" Grid.Row="24" Grid.Column="1" TextColor="Orange" HorizontalTextAlignment="Center"/>
+                <Label x:Name="VitaminCLeft" Grid.Row="24" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="VitaminCBar" Grid.Row="25" Grid.ColumnSpan="3" ProgressColor="Orange"/>
+
+                <Label Text="Vitamin D (μg)" Grid.Row="26" Grid.Column="0"/>
+                <Label x:Name="VitaminDValue" Grid.Row="26" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="Center"/>
+                <Label x:Name="VitaminDLeft" Grid.Row="26" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="VitaminDBar" Grid.Row="27" Grid.ColumnSpan="3" ProgressColor="{StaticResource CarbsLight}"/>
+
+                <Label Text="Vitamin E (mg)" Grid.Row="28" Grid.Column="0"/>
+                <Label x:Name="VitaminELeft" Grid.Row="28" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+                <Label x:Name="VitaminEValue" Grid.Row="28" Grid.Column="1" TextColor="LightCoral" HorizontalTextAlignment="Center"/>
+
+                <ProgressBar x:Name="VitaminEBar" Grid.Row="29" Grid.ColumnSpan="3" ProgressColor="LightCoral"/>
+
+                <Label Text="Vitamin K (μg)" Grid.Row="30" Grid.Column="0"/>
+                <Label x:Name="VitaminKLeft" Grid.Row="30" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+                <Label x:Name="VitaminKValue" Grid.Row="30" Grid.Column="1" TextColor="Green" HorizontalTextAlignment="Center"/>
+
+                <ProgressBar x:Name="VitaminKBar" Grid.Row="31" Grid.ColumnSpan="3" ProgressColor="Green"/>
+
+                <Label Text=" " Grid.Row="32" Grid.ColumnSpan="3" TextColor="Transparent"/>
+
+                <Label x:Name="ThaiminName" Text="Thiamin (mg)" Grid.Row="33" Grid.Column="0" IsVisible="False"/>
+                <Label x:Name="ThiaminValue" Grid.Row="33" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="Center" IsVisible="False"/>
+                <Label x:Name="ThiaminLeft" Grid.Row="33" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="ThiaminBar" Grid.Row="34" Grid.ColumnSpan="3" ProgressColor="Goldenrod" IsVisible="False"/>
+
+                <Label x:Name="RiboName" Text="Riboflavin (mg)" Grid.Row="35" Grid.Column="0" IsVisible="False"/>
+                <Label x:Name="RiboflavinValue" Grid.Row="35" Grid.Column="1" TextColor="Orchid" HorizontalTextAlignment="Center" IsVisible="False"/>
+                <Label x:Name="RiboflavinLeft" Grid.Row="35" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="RiboflavinBar" Grid.Row="36" Grid.ColumnSpan="3" ProgressColor="Orchid" IsVisible="False"/>
+
+                <Label x:Name="NiacinName" Text="Niacin (mg)" Grid.Row="37" Grid.Column="0" IsVisible="False"/>
+                <Label x:Name="NiacinValue" Grid.Row="37" Grid.Column="1" TextColor="Orange" HorizontalTextAlignment="Center" IsVisible="False"/>
+                <Label x:Name="NiacinLeft" Grid.Row="37" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                 <ProgressBar x:Name="NiacinBar" Grid.Row="38" Grid.ColumnSpan="3" ProgressColor="Orange" IsVisible="False"/>
+
+                <Label x:Name="B5Name" Text="Panthothenic Acid (mg)" Grid.Row="39" Grid.Column="0" Margin="0,0,5,0" IsVisible="False"/>
+                <Label x:Name="B5Value" Grid.Row="39" Grid.Column="1" TextColor="LimeGreen" HorizontalTextAlignment="Center" IsVisible="False"/>
+                <Label x:Name="B5Left" Grid.Row="39" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="B5Bar" Grid.Row="40" Grid.ColumnSpan="3" ProgressColor="LimeGreen" IsVisible="False"/>
+
+                <Label x:Name="B6Name" Text="Pyridoxin (mg)" Grid.Row="41" Grid.Column="0" IsVisible="False"/>
+                <Label x:Name="B6Value" Grid.Row="41" Grid.Column="1" TextColor="MediumPurple" HorizontalTextAlignment="Center" IsVisible="False"/>
+                <Label x:Name="B6Left" Grid.Row="41" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="B6Bar" Grid.Row="42" Grid.ColumnSpan="3" ProgressColor="MediumPurple" IsVisible="False"/>
+
+                <Label x:Name="BiotinName" Text="Biotin (μg)" Grid.Row="43" Grid.Column="0" IsVisible="False"/>
+                <Label x:Name="BiotinValue" Grid.Row="43" Grid.Column="1" TextColor="PaleTurquoise" HorizontalTextAlignment="Center" IsVisible="False"/>
+                <Label x:Name="BiotinLeft" Grid.Row="43" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="BiotinBar" Grid.Row="44" Grid.ColumnSpan="3" ProgressColor="PaleTurquoise" IsVisible="False"/>
+
+                <Label x:Name="FolicName" Text="Folic Acid (μg)" Grid.Row="45" Grid.Column="0" IsVisible="False"/>
+                <Label x:Name="FolicAcidValue" Grid.Row="45" Grid.Column="1" TextColor="LightGreen" HorizontalTextAlignment="Center" IsVisible="False"/>
+                <Label x:Name="FolicAcidLeft" Grid.Row="45" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="FolicAcidBar" Grid.Row="46" Grid.ColumnSpan="3" ProgressColor="LightGreen" IsVisible="False"/>
+
+                <Label x:Name="CobalaminName" Text="Cobalamin (μg)" Grid.Row="47" Grid.Column="0" IsVisible="False"/>
+                <Label x:Name="CobalaminValue" Grid.Row="47" Grid.Column="1" TextColor="RoyalBlue" HorizontalTextAlignment="Center" IsVisible="False"/>
+                <Label x:Name="CobalaminLeft" Grid.Row="47" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+                <ProgressBar x:Name="CobalaminBar" Grid.Row="48" Grid.ColumnSpan="3" ProgressColor="RoyalBlue" IsVisible="False"/>
+
+   </Grid>
+
+
+        </Frame>
 
     </Grid>
 
-
+</ScrollView>
 
 </ContentPage>

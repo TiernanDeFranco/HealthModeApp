@@ -48,7 +48,8 @@ public partial class MorePage : ContentPage
         if (answer)
         {
             var userID = await _localData.GetUserID();
-            await _dataService.UpdateExpDateAsync(userID, 0.5);
+            (string email, string password) = await _localData.GetUserCredentials();
+            await _dataService.UpdateExpDateAsync(email, userID, 0.5);
             bool seesAds = await _dataService.GetSeesAdsAsync(userID);
             await _localData.UpdateSeesAdsAsync(seesAds);
             SeesAds();
@@ -64,11 +65,7 @@ public partial class MorePage : ContentPage
         {
          
             await _localData.DeleteUser();
-            if (DeviceInfo.Platform == DevicePlatform.Android)
-            {
-                await Navigation.PushAsync(new LoginPage(_dataService, _localData));
-            }
-            else { await Navigation.PushModalAsync(new LoginPage(_dataService, _localData)); }
+            await Navigation.PushModalAsync(new LoginPage(_dataService, _localData));
 
             
             // In your page code behind, you can access the TabBar like this:
@@ -93,4 +90,17 @@ public partial class MorePage : ContentPage
     {
         await Navigation.PushModalAsync(new UnitPage(_localData, _dataService));
     }
+
+    void BugReportClicked(System.Object sender, System.EventArgs e)
+    {
+        string url = "https://forms.gle/uZfeZYEe38C66LJh6";
+        Launcher.TryOpenAsync(url);
+    }
+
+    void DiscordClicked(System.Object sender, System.EventArgs e)
+    {
+        string url = "https://discord.gg/htb7An6SGE";
+        Launcher.TryOpenAsync(url);
+    }
+    
 }

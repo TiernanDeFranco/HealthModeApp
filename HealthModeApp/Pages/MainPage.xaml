@@ -9,7 +9,7 @@
 
 
     <TabBar x:Name="TabBar">
-        <Tab Title="Food Journal">
+        <Tab Title="Journal">
             <Tab.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="foodjournalicon"/>
@@ -46,6 +46,12 @@
         </Tab>
 
         <Tab Title="More">
+            <Tab.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="moreicon"/>
+                    <On Platform="Android" Value="moreicon_android"/>
+                </OnPlatform>
+            </Tab.Icon>
             <ShellContent ContentTemplate="{DataTemplate local:MorePage}" Route="MorePage"/>
         </Tab>
 

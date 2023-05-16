@@ -14,9 +14,15 @@ public partial class FoodJournalSettings : ContentPage
         PopulateCurrentNames();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Shell.SetTabBarIsVisible(this, false);
+        NavigationPage.SetHasNavigationBar(this, false);
 
+    }
 
-        async void PopulateCurrentNames()
+    async void PopulateCurrentNames()
         {
         var mealNames = await _localData.GetMealNames();
 
@@ -65,6 +71,6 @@ public partial class FoodJournalSettings : ContentPage
         {
             await DisplayAlert("Error", ex.Message, "OK");
         }
-		await Navigation.PopModalAsync();
+         await Navigation.PopModalAsync();
     }
 }

@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.SignUpPage"
              Title="SignUpPage"
-             BackgroundColor="{AppThemeBinding Light={StaticResource WSmoke}, Dark={StaticResource BlueGrayDark}}">
-
+             BackgroundColor="{AppThemeBinding Light={StaticResource WSmoke}, Dark={StaticResource BlueGrayDark}}"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
+             >
+     <ScrollView>
     <VerticalStackLayout>
         <Grid Padding="5">
             <Grid.RowDefinitions>
@@ -17,7 +20,8 @@
                     </VerticalStackLayout>
                 </Frame>
             </Grid>
-            <ScrollView>
+
+           
         <Grid>
 
 
@@ -301,7 +305,7 @@
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
  <Label Text="Weight" Grid.Row="0"  Grid.ColumnSpan="2" HorizontalTextAlignment="Center" HorizontalOptions="Center"/>
-<Entry Placeholder="Weight" x:Name="Weight" Grid.Row="1" Grid.Column="0" Keyboard="Numeric" MaxLength="3" FontSize="Body" HorizontalTextAlignment="Center" />
+<Entry Placeholder="Weight" x:Name="Weight" Grid.Row="1" Grid.Column="0" Keyboard="Numeric" MaxLength="5" FontSize="Body" HorizontalTextAlignment="Center" />
 
 <Entry Placeholder="Goal Weight" x:Name="GoalWeight" Grid.Row="1" Grid.Column="1" Keyboard="Numeric" MaxLength="3" FontSize="Body" HorizontalTextAlignment="Center" />
 </Grid>
@@ -397,7 +401,8 @@
                <Entry Grid.Row="2" Placeholder="Username" FontSize="Body" x:Name="UsernameEntry" MaxLength="50"/>
              <Entry Grid.Row="3" Placeholder="Password" IsPassword="True" FontSize="Body" x:Name="PasswordEntry"/>
                 <Entry Grid.Row="4" Placeholder="Confirm Password" IsPassword="True" FontSize="Body" x:Name="ConfirmPasswordEntry"/>
-             <Button Grid.Row="5" Text="Sign Up" FontSize="Body" Clicked="SignUpButton_Clicked" Margin="0" HorizontalOptions="Center" WidthRequest="200"/>
+            <ActivityIndicator x:Name="SignUpLoad" IsRunning="True" IsVisible="False" Grid.Row="5"/>
+             <Button x:Name="SignUpButton" Grid.Row="5" Text="Sign Up" FontSize="Body" Clicked="SignUpButton_Clicked" Margin="0" HorizontalOptions="Center" WidthRequest="200"/>
         </Grid>
     </Frame>
       <Button Grid.Row="2" Clicked="BackButton6_Clicked" Text="Go Back" HorizontalOptions="Center"  TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" BackgroundColor="Transparent"/>
@@ -408,6 +413,7 @@
 
 
 
-    </ScrollView>
+   
     </VerticalStackLayout>
+          </ScrollView>
 </ContentPage>

@@ -22,20 +22,29 @@ public partial class LoginPage : ContentPage
 		InitializeComponent();
         _localData = localData;
         _dataService = dataService;
-	}
+        NavigationPage.SetHasNavigationBar(this, false); // hide navigation bar
+        NavigationPage.SetHasBackButton(this, false); // hide back button
+    }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
         Shell.SetTabBarIsVisible(this, false);
+        NavigationPage.SetHasNavigationBar(this, false);
 
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        return true;
     }
 
     async void LoginButton_Clicked(System.Object sender, System.EventArgs e)
     {
+        LoginButton.IsVisible = false;
         loadingIndicator.IsRunning = true;
         loadingIndicator.IsVisible = true;
-
+        
         var email = EmailLogin.Text;
         var password = PasswordLogin.Text;
         if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password))
@@ -54,7 +63,7 @@ public partial class LoginPage : ContentPage
                 {
                    int userID = await _dataService.GetUserIDByEmailAsync(email); Debug.WriteLine(userID);
                     _userID = userID;
-                    (var userInfo, bool seesAds) = await _dataService.GetUserInfoOnLoginAsync(userID);
+                    (var userInfo, bool seesAds) = await _dataService.GetUserInfoOnLoginAsync(userID, email, hashedPassword);
                     Debug.WriteLine(seesAds);
                     Debug.WriteLine("Add User:");
                     await _localData.AddUserAsync(userID, userInfo.Email, userInfo.Username, userInfo.Password, seesAds, (int)userInfo.WeightPlan, userInfo.MainGoals, userInfo.Units, (int)userInfo.Sex, (decimal)userInfo.HeightCm, (DateTime)userInfo.Birthday, (int)userInfo.Weight, (int)userInfo.GoalWeight, (int)userInfo.ActivityLevel);
@@ -70,11 +79,15 @@ public partial class LoginPage : ContentPage
                             nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
                             nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"]);
                     }
-                    if (DeviceInfo.Platform == DevicePlatform.Android)
+
+                    var weightEntry = await _localData.DoesWeightEntryExist(userID);
+
+                    if (weightEntry == false)
                     {
-                        await Navigation.PopAsync();
+                       await _localData.AddWeightEntry(userID, DateTime.Today, (decimal)userInfo.Weight, null);
                     }
-                    else { await Navigation.PopModalAsync(); }
+
+                    await Navigation.PopModalAsync();
                     
                 }
 
@@ -82,7 +95,6 @@ public partial class LoginPage : ContentPage
             }
             else 
             {
-              
                 await DisplayAlert("Notice", "No account found with the specified email address.", "OK");
             }
         }
@@ -97,16 +109,13 @@ public partial class LoginPage : ContentPage
 
         loadingIndicator.IsRunning = false;
         loadingIndicator.IsVisible = false;
+        LoginButton.IsVisible = true;
 
     }
 
     async void RegisterButton_Clicked(System.Object sender, System.EventArgs e)
-    {
-        if (DeviceInfo.Platform == DevicePlatform.Android)
-        {
-            await Navigation.PushAsync(new SignUpPage(_localData, _dataService));
-        }
-        else { await Navigation.PushModalAsync(new SignUpPage(_localData, _dataService)); }
+    { 
+        await Navigation.PushModalAsync(new SignUpPage(_localData, _dataService)); 
     }
 
 

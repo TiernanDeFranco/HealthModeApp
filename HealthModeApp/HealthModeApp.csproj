@@ -19,8 +19,8 @@
 		<ApplicationIdGuid>5384bb5d-7324-4542-a256-ddee0db0f002</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+		<ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>3</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
@@ -32,15 +32,14 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
-	  <CodesignKey>iPhone Developer: Tiernan DeFranco (FZJ7MX33UK)</CodesignKey>
+	 	  <CodesignKey>iPhone Developer: Tiernan DeFranco (FZJ7MX33UK)</CodesignKey>
 	  <MtouchLink>SdkOnly</MtouchLink>
+	  <CodesignProvision>Automatic</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(TargetFramework)'=='net6.0-ios'">
-	  <CodesignKey>Apple Development: Tiernan DeFranco (FZJ7MX33UK)</CodesignKey>
-	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
+	  <CodesignProvision>HealthModeAppSigning</CodesignProvision>
+	  <CodesignKey>iPhone Distribution: HealthMode LLC (8Y7LY86D8S)</CodesignKey>
 	</PropertyGroup>
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\proteinicon.svg" />
@@ -96,6 +95,22 @@
 	  <MauiImage Remove="Resources\Images\barcodeicon.svg" />
 	  <MauiImage Remove="Resources\Images\barcodeicon.svg" />
 	  <MauiImage Remove="Resources\Images\barcodeicon.svg" />
+	  <MauiImage Remove="Resources\Images\cameraicon.svg" />
+	  <MauiImage Remove="Resources\Images\addicon.svg" />
+	  <MauiImage Remove="Resources\Images\cameraicon.svg" />
+	  <MauiImage Remove="Resources\Images\addicon.svg" />
+	  <MauiImage Remove="Resources\Images\cameraicon.svg" />
+	  <MauiImage Remove="Resources\Images\addicon.svg" />
+	  <MauiImage Remove="Resources\Images\cameraicon.svg" />
+	  <MauiImage Remove="Resources\Images\addicon.svg" />
+	  <MauiImage Remove="Resources\Images\cameraicon.svg" />
+	  <MauiImage Remove="Resources\Images\addicon.svg" />
+	  <MauiImage Remove="Resources\Images\cameraicon.svg" />
+	  <MauiImage Remove="Resources\Images\addicon.svg" />
+	  <MauiImage Remove="Resources\Images\cameraicon.svg" />
+	  <MauiImage Remove="Resources\Images\addicon.svg" />
+	  <MauiImage Remove="Resources\Images\cameraicon.svg" />
+	  <MauiImage Remove="Resources\Images\addicon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -118,7 +133,6 @@
 	  <None Remove="DataServices\" />
 	  <None Remove="Platforms\Android\Resources\xml\" />
 	  <None Remove="Pages\" />
-	  <None Remove="Resources\AppIcon\appicon.svg" />
 	  <None Remove="Resources\Splash\splash.svg" />
 	  <None Remove="Resources\Fonts\Lato-Bold.ttf" />
 	  <None Remove="Resources\Fonts\Lato-Regular.ttf" />
@@ -148,6 +162,24 @@
 	  <None Remove="Resources\Images\calicon %28copy%29.svg" />
 	  <None Remove="Resources\Images\barcodeicon.svg" />
 	  <None Remove="Resources\Images\gear-solid.svg" />
+	  <None Remove="Pages\Progress\" />
+	  <None Remove="Resources\Images\camera-solid.svg" />
+	  <None Remove="Resources\Images\plus-solid.svg" />
+	  <None Remove="Resources\Images\cameraicon.svg" />
+	  <None Remove="Resources\Images\addicon.svg" />
+	  <None Remove="Resources\Images\xmark-solid.svg" />
+	  <None Remove="Resources\Images\burger-solid.svg" />
+	  <None Remove="Resources\Images\svgviewer-output %282%29-svg.svg" />
+	  <None Remove="Resources\Images\addicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\moreicon %28copy%29.svg" />
+	  <None Remove="Resources\AppIcon\" />
+	  <None Remove="Resources\AppIcon\svgviewer-png-output.png" />
+	  <None Remove="Resources\AppIcon\appicon.png" />
+	  <None Remove="Resources\AppIcon\New Project.png" />
+	  <None Remove="Resources\AppIcon\HealthModeIcon.svg" />
+	  <None Remove="Resources\AppIcon\HealthModeIcon-svg.png" />
+	  <None Remove="Resources\AppIcon\HealthModeIcon-svg.jpg" />
+	  <None Remove="Resources\AppIcon\appicon.jpg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
@@ -158,9 +190,8 @@
 	  <Folder Include="Data\" />
 	  <Folder Include="Pages\FoodJournalPage\" />
 	  <Folder Include="Dependencies\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <MauiIcon Include="Resources\AppIcon\appicon.svg" />
+	  <Folder Include="Pages\Progress\" />
+	  <Folder Include="Resources\AppIcon\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#3f80b6" />
@@ -255,6 +286,30 @@
 	  <BundleResource Include="Resources\Images\barcodeicon.svg" />
 	  <BundleResource Include="Resources\Images\barcodeicon.svg" />
 	  <BundleResource Include="Resources\Images\gearicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\cameraicon.svg" />
+	  <BundleResource Include="Resources\Images\addicon.svg" />
+	  <BundleResource Include="Resources\Images\xicon.svg" />
+	  <BundleResource Include="Resources\Images\foodaddicon.svg" />
+	  <BundleResource Include="Resources\Images\moreicon.svg" />
+	  <BundleResource Include="Resources\Images\moreicon_android.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiFont Remove="Resources\Fonts\Lato-Bold.ttf" />
@@ -269,6 +324,7 @@
 	  <PackageReference Include="Plugin.MauiMTAdmob" Version="1.0.1" />
 	  <PackageReference Include="Xamarin.Google.iOS.UserMessagingPlatform" Version="1.2.0.5" />
 	  <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="6.3.0.25-pre" />
+	  <PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-beta.701" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Remove="Resources\Styles\Styles.xaml" />
@@ -281,4 +337,57 @@
 	<ItemGroup>
 	  <None Include="Pages\FoodJournalPage\NutritionGoalsPage.xaml" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiIcon Include="Resources\AppIcon\appicon.jpg" />
+	</ItemGroup>
+	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidSigningKeyStore>..\key.keystore</AndroidSigningKeyStore>
+		<AndroidSigningStorePass>Password</AndroidSigningStorePass>
+		<AndroidSigningKeyAlias>HealthModeAlias</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>Password</AndroidSigningKeyPass>
+    </PropertyGroup>
+
+	<PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
+		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+		<CodesignKey>iPhone Distribution: HealthMode LLC (8Y7LY86D8S)</CodesignKey>
+		<CodesignProvision>HealthModeAppSigning</CodesignProvision>
+    </PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+
+	 <PropertyGroup>
+    <!-- Properties used to strip bitcode from frameworks when using Visual Studio for Mac -->
+    <_StripBitcodeFromFrameworksMasterAfterTargets Condition="'$(OS)'=='Unix'">_ExpandNativeReferences</_StripBitcodeFromFrameworksMasterAfterTargets>
+    <_StripBitcodeFromFrameworksMasterDependsOnTargets Condition="'$(OS)'=='Unix'">_StripBitcodeFromFrameworksOnMac</_StripBitcodeFromFrameworksMasterDependsOnTargets>
+
+    <!-- Properties used to strip bitcode from frameworks when using Visual Studio for Windows -->
+    <_StripBitcodeFromFrameworksMasterAfterTargets Condition="'$(OS)'!='Unix'">_ComputeFrameworkFilesToPublish</_StripBitcodeFromFrameworksMasterAfterTargets>
+    <_StripBitcodeFromFrameworksMasterDependsOnTargets Condition="'$(OS)'!='Unix'">_StripBitcodeFromFrameworksOnWindows</_StripBitcodeFromFrameworksMasterDependsOnTargets>
+  </PropertyGroup>
+  
+  <Target Name="_StripBitcodeFromFrameworksMasterTarget" Condition="'$(_StripBitcodeFromFrameworksMasterDependsOnTargets)'!='' AND @(_FrameworkNativeReference-&gt;Count()) != 0" AfterTargets="$(_StripBitcodeFromFrameworksMasterAfterTargets)" DependsOnTargets="$(_StripBitcodeFromFrameworksMasterDependsOnTargets)" />
+
+  <Target Name="_StripBitcodeFromFrameworksOnMac" Condition="('$(OutputType)'!='Library' OR '$(IsAppExtension)'=='True') AND '$(_SdkIsSimulator)'=='False'">
+    
+    <!-- Find the bitcode_strip command -->
+    <Exec Command="xcrun -find bitcode_strip" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_BitcodeStripCommand" />
+    </Exec>
+
+    <!-- Strip the bitcode from frameworks -->
+    <Exec Command="$(_BitcodeStripCommand) %(_FrameworkNativeReference.Identity) -r -o %(_FrameworkNativeReference.Identity)" />
+  </Target>
+
+  <Target Name="_StripBitcodeFromFrameworksOnWindows" Condition="('$(OutputType)'!='Library' OR '$(IsAppExtension)'=='True') AND '$(_SdkIsSimulator)'=='False' AND '$(IsMacEnabled)'=='true'">
+
+    <!-- Strip the bitcode from frameworks -->
+    <Exec SessionId="$(BuildSessionId)" Command="&quot;%24(xcrun -find bitcode_strip)&quot; %(_FrameworkNativeReference.Identity) -r -o %(_FrameworkNativeReference.Identity)" />
+
+    <CopyFileFromBuildServer SessionId="$(BuildSessionId)" File="%(_FrameworkNativeReference.Identity)" TargetFile="%(_FrameworkNativeReference.Identity)" />    
+  </Target>
 </Project>

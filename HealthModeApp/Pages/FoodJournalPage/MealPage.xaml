@@ -2,10 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              x:Class="HealthModeApp.Pages.FoodJournalPage.MealPage">
 
 
-  
+  <ContentPage.ToolbarItems>
+    <ToolbarItem
+                 Text="Log Food"
+                 Clicked="LogFoodClicked"/>
+</ContentPage.ToolbarItems>
+
 <Grid Padding="25,2" RowSpacing="5">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" /> <!-- Define the first row to automatically adjust to its content -->   <!-- Define the second row to fill the remaining space -->
@@ -13,28 +19,87 @@
         <RowDefinition Height="Auto" />
     
     </Grid.RowDefinitions>
-    <Frame x:Name="mealInfoFrame" Margin="5" Grid.Row="0" Padding="10" CornerRadius="25" HeightRequest="{Binding Width, Source={x:Reference mealInfoFrame}}" WidthRequest="{Binding Width, Source={x:Reference mealInfoFrame}}"> <!-- Add the Frame to the first row -->
+    <Frame x:Name="mealInfoFrame" Margin="5" Grid.Row="0" Padding="10" CornerRadius="25"> <!-- Add the Frame to the first row -->
         <Grid Padding="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" /> <!-- Define the first row to automatically adjust to its content -->   <!-- Define the second row to fill the remaining space -->
-            <RowDefinition Height="*" />
-             
+            <RowDefinition Height="Auto" />
+             <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
 
-            <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Meal Details" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="18"/>
-                 
+            <Label Grid.Row="0" x:Name="MealName" Grid.ColumnSpan="3" Text="Meal Details" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="18"/>
+                  <AbsoluteLayout Grid.Row="1" Grid.Column="1"  Margin="0,10,0,0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+
+                   <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center"  AbsoluteLayout.LayoutFlags="All"
+               AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize">
+                       <Image x:Name="CalIcon" Source="calicon" HeightRequest="25" WidthRequest="25" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Label x:Name="CalorieLabel" FontSize="Medium" FontFamily="Lato-Bold" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                      />
+                </HorizontalStackLayout>
+
+                <lvc:PieChart x:Name="PieChart" HeightRequest="220" WidthRequest="220"
+                    VerticalOptions="Center" HorizontalOptions="Center"
+                    LegendTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    TooltipTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    BackgroundColor="Transparent"   AbsoluteLayout.LayoutFlags="All"
+               AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize"/>
+
+              
+
+                   </AbsoluteLayout>
+                <Grid Grid.Row="2" Grid.ColumnSpan="3" ColumnSpacing="8"  Margin="0,15,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Image Source="carbicon" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                        <Label x:Name="CarbLabel" TextColor="{StaticResource CarbsLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                    </HorizontalStackLayout>
+                        <Label x:Name="CarbPercent" TextColor="{StaticResource CarbsLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                         </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="10">
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Image Source="faticon" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                        <Label x:Name="FatLabel" TextColor="{StaticResource FatLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                    </HorizontalStackLayout>
+                        <Label x:Name="FatPercent" TextColor="{StaticResource FatLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="2" Spacing="10">
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Image Source="proteinicon" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                        <Label x:Name="ProteinLabel" TextColor="{StaticResource ProteinLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                    </HorizontalStackLayout>
+                        <Label x:Name="ProteinPercent" TextColor="{StaticResource ProteinLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        </VerticalStackLayout>
+                    </Grid>
         </Grid>
+
+        <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="NutritionBreakdown"/>
+        </Frame.GestureRecognizers>
     </Frame>
 
-    <Frame Grid.Row="1" CornerRadius="25" Margin="5,5,5,0">
+    <Frame Grid.Row="1" CornerRadius="20" Margin="3,2,3,0">
     <ListView x:Name="mealInfoList"
           HorizontalOptions="Center"
-          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}">
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}"
+              ItemSelected="mealInfoList_ItemSelected">
+
+        
     </ListView>
     </Frame>
 

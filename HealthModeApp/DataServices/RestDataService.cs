@@ -37,7 +37,9 @@ namespace HealthModeApp.DataServices
 
 
         #region NutritionInfoDBRegion
-        public async Task AddNutritionInfoAsync(NutritionModel nutritionModel)
+
+
+        public async Task AddNutritionInfoAsync(NutritionModel nutritionModel, string email, string password, int userID)
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
@@ -56,7 +58,7 @@ namespace HealthModeApp.DataServices
                 Debug.WriteLine(jsonNutrition);
             
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/uploadedfood", content);
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/uploadedfood/userinfo/{email}/{password}/{userID}", content);
 
 
                 if (response.IsSuccessStatusCode)
@@ -67,35 +69,6 @@ namespace HealthModeApp.DataServices
                 {
                     Debug.WriteLine("-----> Non-Http 2xx Response StatusCode Failed");
 
-                }
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine($"Whoops, exception: {ex.Message}");
-            }
-
-            return;
-        }
-
-        public async Task DeleteNutritionInfoAsync(int foodId)
-        {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                Debug.WriteLine("------> No Internet");
-                return;
-            }
-
-            try
-            {
-                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/food/{foodId}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("Successfully deleted entry");
-                }
-                else
-                {
-                    Debug.WriteLine("-----> Non-Http 2xx Response");
                 }
             }
             catch(Exception ex)
@@ -173,25 +146,28 @@ namespace HealthModeApp.DataServices
             return nutritionItem;
         }
 
-
-        public async Task UpdateNutritionInfoAsync(NutritionModel nutritionModel)
+        public async Task<NutritionModel> GetFoodUploadExistsAlready(string barcode)
         {
+            NutritionModel nutritionItem = null;
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
                 Debug.WriteLine("------> No Internet");
-                return;
+                return nutritionItem;
             }
 
             try
             {
-                string jsonNutrition = JsonSerializer.Serialize<NutritionModel>(nutritionModel, _jsonSerializerOptions);
-                StringContent content = new StringContent(jsonNutrition, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/healthmode/food/{nutritionModel.FoodId}", content);
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/uploadedfood/bybarcode/{barcode}");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("Successfully added to database");
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    nutritionItem = JsonSerializer.Deserialize<NutritionModel>(content, _jsonSerializerOptions);
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    Debug.WriteLine("-----> Resource Not Found");
                 }
                 else
                 {
@@ -202,9 +178,11 @@ namespace HealthModeApp.DataServices
             {
                 Debug.WriteLine($"Whoops, exception: {ex.Message}");
             }
-
-            return;
+            return nutritionItem;
         }
+
+
+        
         #endregion
 
         public async Task<bool> AddUserAsync(string email, string username, string hashedPassword, string salt, int weightPlan, string mainGoals, string units, int sex, decimal heightCm, DateTime birthday, int weight, int goalWeight, int activityLevel, int calorieGoal)
@@ -263,7 +241,7 @@ namespace HealthModeApp.DataServices
 
       
 
-        public async Task DeleteUserAsync(int userId)
+        public async Task DeleteUserAsync(int userID, string email, string password)
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
@@ -273,7 +251,7 @@ namespace HealthModeApp.DataServices
 
             try
             {
-                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/userinfo/{userId}");
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/userinfo/{email}/{password}/{userID}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -292,7 +270,7 @@ namespace HealthModeApp.DataServices
             return;
         }
 
-        public async Task UpdateUserInfoAsync(UserInfo userInfoModel)
+        public async Task UpdateUserInfoAsync(UserInfo userInfoModel, string email, string password, int userID)
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
@@ -323,7 +301,7 @@ namespace HealthModeApp.DataServices
                 string jsonUserInfo = JsonSerializer.Serialize<UserInfo>(userInfo, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonUserInfo, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/userinfo/userID/{userInfoModel.UserID}", content);
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/userinfo/{email}/{password}/{userID}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -341,7 +319,7 @@ namespace HealthModeApp.DataServices
         }
 
 
-        public async Task UpdateExpDateAsync(int userID, double hoursToAdd)
+        public async Task UpdateExpDateAsync(string email, int userID, double hoursToAdd)
         {
             Debug.WriteLine($"Updating user {userID} with {hoursToAdd} hours");
 
@@ -356,7 +334,7 @@ namespace HealthModeApp.DataServices
                 var json = JsonSerializer.Serialize(hoursToAdd);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/userinfo/userID/{userID}/expDate/{hoursToAdd}", content);
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/expDate/user/{email}/{userID}/hours/{hoursToAdd}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -417,7 +395,7 @@ namespace HealthModeApp.DataServices
             return result;
         }
 
-        public async Task<(UserInfo, bool)> GetUserInfoOnLoginAsync(int userID)
+        public async Task<(UserInfo, bool)> GetUserInfoOnLoginAsync(int userID, string email, string password)
         {
             (UserInfo, bool) result = (null, true);
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
@@ -428,7 +406,7 @@ namespace HealthModeApp.DataServices
 
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userinfo/userID/{userID}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userinfo/{email}/{password}/{userID}");
 
                 
                 if (response.IsSuccessStatusCode)

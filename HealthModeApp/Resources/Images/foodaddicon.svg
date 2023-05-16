@@ -1,0 +1,14 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="-100 -100 700 700" width="512" height="512">
+	<title>svgviewer-output (2)-svg</title>
+	<defs>
+		<image width="896" height="1024" id="img1" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj4KICAgIDxjaXJjbGUgZmlsbD0iIzRiOWVlMyIgY3g9IjIyNCIgY3k9IjI1NiIgcj0iMjIwIiAvPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTUgNjApIHNjYWxlKDAuNzUpIj4KICAgICAgICA8cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjU2IDgwYzAtMTcuNy0xNC4zLTMyLTMyLTMycy0zMiAxNC4zLTMyIDMyVjIyNEg0OGMtMTcuNyAwLTMyIDE0LjMtMzIgMzJzMTQuMyAzMiAzMiAzMkgxOTJWNDMyYzAgMTcuNyAxNC4zIDMyIDMyIDMyczMyLTE0LjMgMzItMzJWMjg4SDQwMGMxNy43IDAgMzItMTQuMyAzMi0zMnMtMTQuMy0zMi0zMi0zMkgyNTZWODB6IiAvPgogICAgPC9nPgo8L3N2Zz4K" />
+	</defs>
+	<style>
+		.s0 {
+			fill: #ea526f
+		}
+	</style>
+	<path id="Layer" fill-rule="evenodd" class="s0" d="m61.1 224c-16.1 0-29.1-13-29.1-29.1 0-1.9 0.2-3.7 0.6-5.6 5.3-21 46.2-157.3 223.4-157.3 177.2 0 218.1 136.3 223.4 157.3 0.5 1.9 0.6 3.7 0.6 5.6 0 16.1-13 29.1-29.1 29.1zm82.9-96c0-4.2-1.7-8.3-4.7-11.3-3-3-7.1-4.7-11.3-4.7-4.2 0-8.3 1.7-11.3 4.7-3 3-4.7 7.1-4.7 11.3 0 4.2 1.7 8.3 4.7 11.3 3 3 7.1 4.7 11.3 4.7 4.2 0 8.3-1.7 11.3-4.7 3-3 4.7-7.1 4.7-11.3zm240 16c4.2 0 8.3-1.7 11.3-4.7 3-3 4.7-7.1 4.7-11.3 0-4.2-1.7-8.3-4.7-11.3-3-3-7.1-4.7-11.3-4.7-4.2 0-8.3 1.7-11.3 4.7-3 3-4.7 7.1-4.7 11.3 0 4.2 1.7 8.3 4.7 11.3 3 3 7.1 4.7 11.3 4.7zm-112-48c0-4.2-1.7-8.3-4.7-11.3-3-3-7.1-4.7-11.3-4.7-4.2 0-8.3 1.7-11.3 4.7-3 3-4.7 7.1-4.7 11.3 0 4.2 1.7 8.3 4.7 11.3 3 3 7.1 4.7 11.3 4.7 4.2 0 8.3-1.7 11.3-4.7 3-3 4.7-7.1 4.7-11.3zm-256 208c0-26.5 21.5-48 48-48h384c26.5 0 48 21.5 48 48 0 26.5-21.5 48-48 48h-384c-26.5 0-48-21.5-48-48zm16 96c0-8.8 7.2-16 16-16h416c8.8 0 16 7.2 16 16v16c0 35.3-28.7 64-64 64h-320c-35.3 0-64-28.7-64-64z" />
+	<use id="svgviewer-output (1)" href="#img1" transform="matrix(.277,0,0,.277,266,248.571)
+      translate(170,60)" />
+</svg>

@@ -147,7 +147,11 @@ public partial class NutritionGoalsPage : ContentPage
                     UserID = _userID,
                     CalorieGoal = calorieStored
                 };
-                await _dataService.UpdateUserInfoAsync(userInfo);
+                LoadingBar.IsVisible = true;
+                LoadingBar.IsRunning = true;
+                SaveButton.IsVisible = false;
+                (string email, string password) = await _localData.GetUserCredentials();
+                await _dataService.UpdateUserInfoAsync(userInfo, email, password, _userID);
                 await Navigation.PopModalAsync();
             }
             else
@@ -157,6 +161,8 @@ public partial class NutritionGoalsPage : ContentPage
         else
         {
             await DisplayAlert("Notice", "Your macro percentages must total 100%", "OK");
+            LoadingBar.IsVisible = false;
+            SaveButton.IsVisible = true;
         }
     }
 

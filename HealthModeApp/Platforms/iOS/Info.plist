@@ -24,10 +24,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>NSCameraUsageDescription</key>
-	<string>HealthMode uses barcode scanning to make logging food easier as well as collecting the barcode number for adding food to the database.</string>
+	<string>HealthMode needs permission to the camera for barcode scanning</string>
 	<key>NSFileProtectionKey</key>
 	<string>NSFileProtectionCompleteUnlessOpen</string>
 	<key>NSFileManager</key>
@@ -36,5 +34,13 @@
 	<string>HealthMode needs permission to create and manage local databases on the device for the app to work.</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-4370777003788156~8463359431</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>HealthMode needs permission to add photos to your camera roll when taking new progress pictures. Your pictures are stored locally on the device</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>HealthMode needs permission to view photos for uploading progress pictures. Your pictures are stored locally on the device</string>
+	<key>CFBundleIdentifier</key>
+	<string>app.healthmode.healthmode</string>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/appicon.appiconset</string>
 </dict>
 </plist>

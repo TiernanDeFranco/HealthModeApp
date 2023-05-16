@@ -7,6 +7,8 @@ using SQLite;
 using Plugin.MauiMTAdmob;
 using BarcodeScanner.Mobile;
 
+using SkiaSharp.Views.Maui.Controls.Hosting;
+
 namespace HealthModeApp;
 
 public static class MauiProgram
@@ -16,6 +18,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+            .UseSkiaSharp(true)
             .UseMauiMTAdmob()
             .ConfigureFonts(fonts =>
 			{

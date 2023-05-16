@@ -35,6 +35,9 @@ public partial class FoodJournal : ContentPage
 
     public string energyUnit;
 
+    
+
+
     public FoodJournal()
     {
         InitializeComponent();
@@ -51,7 +54,7 @@ public partial class FoodJournal : ContentPage
         DatePicker.Date = DateTime.Today;
         SeesAds();
 
-        PopulateMealGrids(DatePicker.Date);
+       
     }
 
     async void PopulateMealNames()
@@ -124,9 +127,12 @@ public partial class FoodJournal : ContentPage
         PopulateMealNames();
         DateHandler();
         SeesAds();
+        PopulateMealGrids(DatePicker.Date);
 
     }
-    async void DateHandler()
+
+
+        async void DateHandler()
     {
         userID = await _localData.GetUserID();
         var userInfo = await _localData.GetUserAsync(userID);
@@ -134,7 +140,14 @@ public partial class FoodJournal : ContentPage
         var dateFormat = unitList[4];
         energyUnit = unitList[2];
 
-        DatePicker.Format = dateFormat;
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            DatePicker.Format = $"{dateFormat}";
+        }
+        else
+        {
+            DatePicker.Format = $"   {dateFormat}";
+        }
 
 
         if (DatePicker.Date == DateTime.Today)
@@ -155,7 +168,12 @@ public partial class FoodJournal : ContentPage
                     case "kJ":
                         goalCal = (int)Math.Round(nutritionGoals.CalorieGoal * 4.184);
                         break;
+
                 }
+
+                consumedCal = 0;
+                remainingCal = 0;
+
                 GoalLabel.Text = goalCal.ToString();
                 consumedCal = (meal1Cal + meal2Cal + meal3Cal + meal4Cal + meal5Cal + meal6Cal);
                 ConsumedLabel.Text = consumedCal.ToString();
@@ -186,16 +204,67 @@ public partial class FoodJournal : ContentPage
 
 
     #region PassFoodsToMealPage
-    private void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+    private async void Meal1Tapped(System.Object sender, System.EventArgs e)
     {
-        var mealPage = new MealPage(_localData, meal1FoodIDs, 1);
+        var loggedFoods = await _localData.GetLoggedFoods(userID, DatePicker.Date);
 
-        Navigation.PushAsync(mealPage);
+        var mealFoods = loggedFoods.Where(f => f.MealType == 1);
+        meal1FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal1FoodIDs, DatePicker.Date, 1));
+    }
+
+    private async void Meal2Tapped(System.Object sender, System.EventArgs e)
+    {
+        var loggedFoods = await _localData.GetLoggedFoods(userID, DatePicker.Date);
+
+        var mealFoods = loggedFoods.Where(f => f.MealType == 2);
+
+        meal2FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal2FoodIDs, DatePicker.Date, 2));
+    }
+
+    private async void Meal3Tapped(System.Object sender, System.EventArgs e)
+    {
+        var loggedFoods = await _localData.GetLoggedFoods(userID, DatePicker.Date);
+
+        var mealFoods = loggedFoods.Where(f => f.MealType == 3);
+        meal3FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal3FoodIDs, DatePicker.Date, 3));
+    }
+
+    private async void Meal4Tapped(System.Object sender, System.EventArgs e)
+    {
+        var loggedFoods = await _localData.GetLoggedFoods(userID, DatePicker.Date);
+
+        var mealFoods = loggedFoods.Where(f => f.MealType == 4);
+        meal4FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal4FoodIDs, DatePicker.Date, 4));
+    }
+
+    private async void Meal5Tapped(System.Object sender, System.EventArgs e)
+    {
+        var loggedFoods = await _localData.GetLoggedFoods(userID, DatePicker.Date);
+
+        var mealFoods = loggedFoods.Where(f => f.MealType == 5);
+        meal5FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal5FoodIDs, DatePicker.Date, 5));
+    }
+
+    private async void Meal6Tapped(System.Object sender, System.EventArgs e)
+    {
+        var loggedFoods = await _localData.GetLoggedFoods(userID, DatePicker.Date);
+
+        var mealFoods = loggedFoods.Where(f => f.MealType == 6);
+        meal6FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal6FoodIDs, DatePicker.Date, 6));
     }
     #endregion
 
     public async void PopulateMealGrids(DateTime selectedDate)
     {
+
+        
+
         userID = await _localData.GetUserID();
         var nutritionGoals = await _localData.GetNutritionGoals(userID, DatePicker.Date);
         if (nutritionGoals != null)
@@ -224,7 +293,6 @@ public partial class FoodJournal : ContentPage
             var loggedFoods = await _localData.GetLoggedFoods(userID, selectedDate);
             // Populate meal1 grid
             var meal1Foods = loggedFoods.Where(f => f.MealType == 1);
-            meal1FoodIDs = meal1Foods.Select(f => f.LoggedFoodID).ToList();
             var meal1Grid = (Grid)FindByName("Meal1Grid");
 
             // Clear existing items from the grid
@@ -256,7 +324,7 @@ public partial class FoodJournal : ContentPage
 
                 var carbs = new Label
                 {
-                    Text = food.Carbs.ToString(),
+                    Text = Math.Round((decimal)food.Carbs).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -273,7 +341,7 @@ public partial class FoodJournal : ContentPage
 
                 var fat = new Label
                 {
-                    Text = food.Fat.ToString(),
+                    Text = Math.Round((decimal)food.Fat).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -290,7 +358,7 @@ public partial class FoodJournal : ContentPage
 
                 var protein = new Label
                 {
-                    Text = food.Protein.ToString(),
+                    Text = Math.Round((decimal)food.Protein).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -316,16 +384,18 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(247, 23, 53)
                 };
 
+                
+
                 switch (energyUnit)
                 {
                     case "kCal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "cal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "kJ":
-                        food.Calories = ((int)Math.Round(food.Calories * (decimal)4.184));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories * (decimal)4.184));
                         break;
                 }
 
@@ -416,14 +486,13 @@ public partial class FoodJournal : ContentPage
                 Debug.WriteLine(rowIndex);
 
 
-                meal1Cal += (int)Math.Round(food.Calories);
+                meal1Cal += (int)Math.Round((decimal)food.Calories);
             }
 
             meal1CalLabel.Text = meal1Cal.ToString();
 
             // Populate meal2 grid
             var meal2Foods = loggedFoods.Where(f => f.MealType == 2);
-            meal2FoodIDs = meal2Foods.Select(f => f.LoggedFoodID).ToList();
             var meal2Grid = (Grid)FindByName("Meal2Grid");
 
             // Clear existing items from the grid
@@ -455,7 +524,7 @@ public partial class FoodJournal : ContentPage
 
                 var carbs = new Label
                 {
-                    Text = food.Carbs.ToString(),
+                    Text = Math.Round((decimal)food.Carbs).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -472,7 +541,7 @@ public partial class FoodJournal : ContentPage
 
                 var fat = new Label
                 {
-                    Text = food.Fat.ToString(),
+                    Text = Math.Round((decimal)food.Fat).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -489,7 +558,7 @@ public partial class FoodJournal : ContentPage
 
                 var protein = new Label
                 {
-                    Text = food.Protein.ToString(),
+                    Text = Math.Round((decimal)food.Protein).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -518,13 +587,13 @@ public partial class FoodJournal : ContentPage
                 switch (energyUnit)
                 {
                     case "kCal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "cal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "kJ":
-                        food.Calories = ((int)Math.Round(food.Calories * (decimal)4.184));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories * (decimal)4.184));
                         break;
                 }
 
@@ -614,14 +683,13 @@ public partial class FoodJournal : ContentPage
                 meal2Grid.Children.Add(gridItem);
                 Debug.WriteLine(rowIndex);
 
-                meal2Cal += (int)Math.Round(food.Calories);
+                meal2Cal += (int)Math.Round((decimal)food.Calories);
             }
 
-            meal2CalLabel.Text = meal1Cal.ToString();
+            meal2CalLabel.Text = meal2Cal.ToString();
 
             // Populate meal2 grid
             var meal3Foods = loggedFoods.Where(f => f.MealType == 3);
-            meal2FoodIDs = meal2Foods.Select(f => f.LoggedFoodID).ToList();
             var meal3Grid = (Grid)FindByName("Meal3Grid");
 
             // Clear existing items from the grid
@@ -653,7 +721,7 @@ public partial class FoodJournal : ContentPage
 
                 var carbs = new Label
                 {
-                    Text = food.Carbs.ToString(),
+                    Text = Math.Round((decimal)food.Carbs).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -670,7 +738,7 @@ public partial class FoodJournal : ContentPage
 
                 var fat = new Label
                 {
-                    Text = food.Fat.ToString(),
+                    Text = Math.Round((decimal)food.Fat).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -687,7 +755,7 @@ public partial class FoodJournal : ContentPage
 
                 var protein = new Label
                 {
-                    Text = food.Protein.ToString(),
+                    Text = Math.Round((decimal)food.Protein).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -716,13 +784,13 @@ public partial class FoodJournal : ContentPage
                 switch (energyUnit)
                 {
                     case "kCal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "cal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "kJ":
-                        food.Calories = ((int)Math.Round(food.Calories * (decimal)4.184));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories * (decimal)4.184));
                         break;
                 }
 
@@ -803,7 +871,7 @@ public partial class FoodJournal : ContentPage
                 gridItem.Children.Add(InfoLayout);
 
                 meal3Grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                int rowIndex = meal2Grid.RowDefinitions.Count - 1;
+                int rowIndex = meal3Grid.RowDefinitions.Count - 1;
 
 
 
@@ -813,14 +881,13 @@ public partial class FoodJournal : ContentPage
                 Debug.WriteLine(rowIndex);
 
 
-                meal3Cal += (int)Math.Round(food.Calories);
+                meal3Cal += (int)Math.Round((decimal)food.Calories);
             }
 
             meal3CalLabel.Text = meal3Cal.ToString();
 
             // Populate meal2 grid
-            var meal4Foods = loggedFoods.Where(f => f.MealType == 4);
-            meal2FoodIDs = meal2Foods.Select(f => f.LoggedFoodID).ToList();
+           var meal4Foods = loggedFoods.Where(f => f.MealType == 4);
             var meal4Grid = (Grid)FindByName("Meal4Grid");
 
             // Clear existing items from the grid
@@ -852,7 +919,7 @@ public partial class FoodJournal : ContentPage
 
                 var carbs = new Label
                 {
-                    Text = food.Carbs.ToString(),
+                    Text = Math.Round((decimal)food.Carbs).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -869,7 +936,7 @@ public partial class FoodJournal : ContentPage
 
                 var fat = new Label
                 {
-                    Text = food.Fat.ToString(),
+                    Text = Math.Round((decimal)food.Fat).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -886,7 +953,7 @@ public partial class FoodJournal : ContentPage
 
                 var protein = new Label
                 {
-                    Text = food.Protein.ToString(),
+                    Text = Math.Round((decimal)food.Protein).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -912,16 +979,18 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(247, 23, 53)
                 };
 
+                
+
                 switch (energyUnit)
                 {
                     case "kCal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "cal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "kJ":
-                        food.Calories = ((int)Math.Round(food.Calories * (decimal)4.184));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories * (decimal)4.184));
                         break;
                 }
 
@@ -1012,14 +1081,13 @@ public partial class FoodJournal : ContentPage
                 Debug.WriteLine(rowIndex);
 
 
-                meal4Cal += (int)Math.Round(food.Calories);
+                meal4Cal += (int)Math.Round((decimal)food.Calories);
             }
 
             meal4CalLabel.Text = meal4Cal.ToString();
 
             // Populate meal2 grid
             var meal5Foods = loggedFoods.Where(f => f.MealType == 5);
-            meal2FoodIDs = meal2Foods.Select(f => f.LoggedFoodID).ToList();
             var meal5Grid = (Grid)FindByName("Meal5Grid");
 
             // Clear existing items from the grid
@@ -1051,7 +1119,7 @@ public partial class FoodJournal : ContentPage
 
                 var carbs = new Label
                 {
-                    Text = food.Carbs.ToString(),
+                    Text = Math.Round((decimal)food.Carbs).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -1068,7 +1136,7 @@ public partial class FoodJournal : ContentPage
 
                 var fat = new Label
                 {
-                    Text = food.Fat.ToString(),
+                    Text = Math.Round((decimal)food.Fat).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -1085,7 +1153,7 @@ public partial class FoodJournal : ContentPage
 
                 var protein = new Label
                 {
-                    Text = food.Protein.ToString(),
+                    Text = Math.Round((decimal)food.Protein).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -1114,13 +1182,13 @@ public partial class FoodJournal : ContentPage
                 switch (energyUnit)
                 {
                     case "kCal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "cal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "kJ":
-                        food.Calories = ((int)Math.Round(food.Calories*(decimal)4.184));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories*(decimal)4.184));
                         break;
                 }
 
@@ -1211,14 +1279,13 @@ public partial class FoodJournal : ContentPage
                 Debug.WriteLine(rowIndex);
 
 
-                meal5Cal += (int)Math.Round(food.Calories);
+                meal5Cal += (int)Math.Round((decimal)food.Calories);
             }
 
             meal5CalLabel.Text = meal5Cal.ToString();
 
             var meal6Foods = loggedFoods.Where(f => f.MealType == 6);
-            meal6FoodIDs = meal2Foods.Select(f => f.LoggedFoodID).ToList();
-            var meal6Grid = (Grid)FindByName("Meal5Grid");
+            var meal6Grid = (Grid)FindByName("Meal6Grid");
 
             // Clear existing items from the grid
             meal6Grid.Children.Clear();
@@ -1249,7 +1316,7 @@ public partial class FoodJournal : ContentPage
 
                 var carbs = new Label
                 {
-                    Text = food.Carbs.ToString(),
+                    Text = Math.Round((decimal)food.Carbs).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -1266,7 +1333,7 @@ public partial class FoodJournal : ContentPage
 
                 var fat = new Label
                 {
-                    Text = food.Fat.ToString(),
+                    Text = Math.Round((decimal)food.Fat).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -1283,7 +1350,7 @@ public partial class FoodJournal : ContentPage
 
                 var protein = new Label
                 {
-                    Text = food.Protein.ToString(),
+                    Text = Math.Round((decimal)food.Protein).ToString(),
                     FontSize = fontSize,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -1312,13 +1379,13 @@ public partial class FoodJournal : ContentPage
                 switch (energyUnit)
                 {
                     case "kCal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "cal":
-                        food.Calories = ((int)Math.Round(food.Calories));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories));
                         break;
                     case "kJ":
-                        food.Calories = ((int)Math.Round(food.Calories * (decimal)4.184));
+                        food.Calories = ((int)Math.Round((decimal)food.Calories * (decimal)4.184));
                         break;
                 }
 
@@ -1410,7 +1477,7 @@ public partial class FoodJournal : ContentPage
 
 
 
-                meal6Cal += (int)Math.Round(food.Calories);
+                meal6Cal += (int)Math.Round((decimal)food.Calories);
 
                 }
             }
@@ -1424,8 +1491,28 @@ public partial class FoodJournal : ContentPage
             RemainingLabel.Text = remainingCal.ToString();
 
 
+            CalorieGoalBar.ProgressTo(((double)consumedCal/goalCal) + .02,1200, Easing.CubicOut);
 
-        }
+        double mealFrameWidth = Meal1Frame.Width;
+        Meal1Button.HeightRequest = mealFrameWidth / 6;
+        Meal1Button.WidthRequest = Meal1Button.HeightRequest;
+        
+        Meal2Button.HeightRequest = mealFrameWidth / 6;
+        Meal2Button.WidthRequest = Meal2Button.HeightRequest;
+
+        Meal3Button.HeightRequest = mealFrameWidth / 6;
+        Meal3Button.WidthRequest = Meal3Button.HeightRequest;
+
+        Meal4Button.HeightRequest = mealFrameWidth / 6;
+        Meal4Button.WidthRequest = Meal4Button.HeightRequest;
+
+        Meal5Button.HeightRequest = mealFrameWidth / 6;
+        Meal5Button.WidthRequest = Meal5Button.HeightRequest;
+
+        Meal6Button.HeightRequest = mealFrameWidth / 6;
+        Meal6Button.WidthRequest = Meal6Button.HeightRequest;
+
+    }
 
         void TodayButtonClicked(System.Object sender, System.EventArgs e)
         {
@@ -1441,7 +1528,9 @@ public partial class FoodJournal : ContentPage
 
         void SettingsClicked(System.Object sender, System.EventArgs e)
         {
-            Navigation.PushModalAsync(new FoodJournalSettings(_localData));
+
+         Navigation.PushModalAsync(new FoodJournalSettings(_localData));
+
 
         }
 
@@ -1449,5 +1538,37 @@ public partial class FoodJournal : ContentPage
         {
             Navigation.PushAsync(new NutritionalBreakdown(_localData, DatePicker.Date));
         }
-    }
+
+
+        void LogFoodMeal1(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new FoodSearch(_localData, _dataService, DatePicker.Date, 1));
+
+        }
+
+        void LogFoodMeal2(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new FoodSearch(_localData, _dataService, DatePicker.Date, 2));
+        }
+
+        void LogFoodMeal3(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new FoodSearch(_localData, _dataService, DatePicker.Date, 3));
+        }
+
+        void LogFoodMeal4(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new FoodSearch(_localData, _dataService, DatePicker.Date, 4));
+        }
+
+        void LogFoodMeal5(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new FoodSearch(_localData, _dataService, DatePicker.Date, 5));
+        }
+
+        void LogFoodMeal6(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new FoodSearch(_localData, _dataService, DatePicker.Date, 6));
+        }
+}
 

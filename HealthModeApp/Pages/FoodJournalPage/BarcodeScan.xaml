@@ -2,12 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.FoodJournalPage.BarcodeScan"
-             xmlns:gv="clr-namespace:BarcodeScanner.Mobile;assembly=BarcodeScanner.Mobile.Maui"
-             Title="BarcodeScan">
+             xmlns:gv="clr-namespace:BarcodeScanner.Mobile;assembly=BarcodeScanner.Mobile.Maui">
 
-
+    <Grid>
     <gv:CameraView CameraFacing="Back" VibrationOnDetected="True"
                    CaptureQuality="High" OnDetected="CameraView_OnDetected"
                    TorchOn="False" ScanInterval="100" x:Name="Camera"/>
+        <Frame x:Name="Loading" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center">
+        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            
+        <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" />
+            <Label Text="Searching Database"  FontFamily="Lato-Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" FontSize="Medium"/>
+         </VerticalStackLayout>
+            </Frame>
+</Grid>
 
 </ContentPage>

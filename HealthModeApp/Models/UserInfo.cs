@@ -176,8 +176,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        private int? _weight;
-        public int? Weight
+        private decimal? _weight;
+        public decimal? Weight
         {
             get => _weight;
             set
@@ -188,8 +188,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        int? _goalWeight;
-        public int? GoalWeight
+        decimal? _goalWeight;
+        public decimal? GoalWeight
         {
             get => _goalWeight;
             set

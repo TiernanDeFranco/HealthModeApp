@@ -325,7 +325,11 @@ public partial class UnitPage : ContentPage
             Units = json
             
         };
-        await _dataService.UpdateUserInfoAsync(userInfo);
+        LoadingBar.IsVisible = true;
+        LoadingBar.IsRunning = true;
+        SaveButton.IsVisible = false;
+        (string email, string password) = await _localData.GetUserCredentials();
+        await _dataService.UpdateUserInfoAsync(userInfo, email, password, _userID);
         var serial = JsonSerializer.Serialize(userInfo);
         Debug.WriteLine(serial);
         await Navigation.PopModalAsync();

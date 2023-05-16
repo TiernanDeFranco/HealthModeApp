@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+
+             x:Class="HealthModeApp.Pages.Progress.WeightProgress">
+
+
+
+     <ContentPage.ToolbarItems>
+    <ToolbarItem
+                 Text="Enter Weight +"
+        
+                 Clicked="AddEntryClicked"/>
+</ContentPage.ToolbarItems>
+
+        <Grid RowSpacing="12" Padding="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1.5*"/>
+            </Grid.RowDefinitions>
+
+  
+            <Frame Grid.Row="0">
+                <Grid Padding="-5" RowSpacing="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    <Label x:Name="StartWeight" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold"  HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
+                    <Label x:Name="EndWeight" Grid.Row="1" Grid.Column="1" FontFamily="Lato-Bold" HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
+                    <Label x:Name="WeightDifference" Grid.Row="1" Grid.Column="2" FontFamily="Lato-Bold"  HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
+
+
+                    <Picker x:Name="RangePicker" SelectedIndexChanged="RangePicker_SelectedIndexChanged" Grid.Row="0" Grid.Column="1" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                    <lvc:CartesianChart x:Name="WeightChart" Grid.Row="2" Grid.ColumnSpan="3"
+                    VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                    LegendTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    TooltipTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
+                    BackgroundColor="Transparent"
+                    />
+                  </Grid>
+            </Frame>
+
+            <Frame Grid.Row="1" Margin="10,0,10,0">
+                <ListView x:Name="WeightEntries" HorizontalOptions="Center"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
+                          ItemSelected="WeightEntries_ItemSelected"/>
+
+            </Frame>
+
+
+        </Grid>
+           
+
+
+</ContentPage>

@@ -5,11 +5,7 @@
              xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              Title="Search">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Categories"
-                     Clicked="CategoriesClicked"/>
-
-    </ContentPage.ToolbarItems>
+   
 
 
 
@@ -57,12 +53,12 @@
         </Grid>
 
         <!-- Buttons for All, My Meals, and My Foods -->
-        <Button Grid.Row="1" Grid.Column="0" CornerRadius="0" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource WSmoke}}"
-                Text="All" Clicked="AllClicked" x:Name="AllButton"/>
-        <Button Grid.Row="1" Grid.Column="1" CornerRadius="0" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource WSmoke}}"
+        <Button Grid.Row="1" Grid.Column="0" IsVisible="False" CornerRadius="0" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource WSmoke}}"
+                Text="Database" Clicked="AllClicked" x:Name="AllButton"/>
+        <Button Grid.Row="1" Grid.Column="1" IsVisible="False" CornerRadius="0" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource WSmoke}}"
                 Text="My Meals" Clicked="MyMealsClicked" x:Name="MealsButton"/>
         <Button Grid.Row="1" Grid.Column="2" CornerRadius="0" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource WSmoke}}"
-                Text="My Foods" Clicked="MyFoodsClicked" x:Name="FoodsButton"/>
+                Text="My Foods" Clicked="MyFoodsClicked" IsVisible="False" x:Name="FoodsButton"/>
     </Grid>
 </Frame>
 
@@ -79,8 +75,13 @@
 
 
         <Frame Grid.Row="2" Padding="10" Margin="15,10,15,10">
-            <VerticalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}">
-                <ActivityIndicator
+            <Grid BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+                <ActivityIndicator Grid.Row="0"
                     x:Name="LoadingBar"
                     IsRunning="False"
                     IsVisible="False"
@@ -88,12 +89,17 @@
                     HorizontalOptions="CenterAndExpand"/>
 
             <ListView
-                HorizontalOptions="Center"
+                HorizontalOptions="Center" Grid.Row="0"
                 BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}"
                 x:Name="SearchResultList"
                 IsVisible="False"
                 ItemSelected="SearchResultList_ItemSelected"/>
-            </VerticalStackLayout>
+
+
+                 <Button x:Name="LoadMore" IsVisible="False" Grid.Row="1" BackgroundColor="Transparent" TextColor="{StaticResource LightPrimary}" BorderColor="Transparent" Text="Load More..." Clicked="LoadMore_Clicked"/>
+                </Grid>
+
+           
         </Frame>
 
         <controls:MTAdView  BackgroundColor="Transparent"
