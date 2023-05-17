@@ -316,6 +316,7 @@
 	  <MauiFont Remove="Resources\Fonts\Lato-Regular.ttf" />
 	</ItemGroup>
 	<ItemGroup>
+	  <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="6.3.0.29-pre" />
 	  <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
 	  <PackageReference Include="SQLitePCLRaw.core" Version="2.1.4" />
@@ -323,7 +324,6 @@
 	  <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.4" />
 	  <PackageReference Include="Plugin.MauiMTAdmob" Version="1.0.1" />
 	  <PackageReference Include="Xamarin.Google.iOS.UserMessagingPlatform" Version="1.2.0.5" />
-	  <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="6.3.0.25-pre" />
 	  <PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-beta.701" />
 	</ItemGroup>
 	<ItemGroup>
@@ -341,12 +341,13 @@
 	<ItemGroup>
 	  <MauiIcon Include="Resources\AppIcon\appicon.jpg" />
 	</ItemGroup>
+	
 	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
 		<AndroidKeyStore>True</AndroidKeyStore>
 		<AndroidSigningKeyStore>..\key.keystore</AndroidSigningKeyStore>
-		<AndroidSigningStorePass>Password</AndroidSigningStorePass>
+		<AndroidSigningStorePass>TiernanDeFranco3170!</AndroidSigningStorePass>
 		<AndroidSigningKeyAlias>HealthModeAlias</AndroidSigningKeyAlias>
-		<AndroidSigningKeyPass>Password</AndroidSigningKeyPass>
+		<AndroidSigningKeyPass>TiernanDeFranco3170!</AndroidSigningKeyPass>
     </PropertyGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
@@ -354,6 +355,30 @@
 		<CodesignKey>iPhone Distribution: HealthMode LLC (8Y7LY86D8S)</CodesignKey>
 		<CodesignProvision>HealthModeAppSigning</CodesignProvision>
     </PropertyGroup>
+
+
+	<PropertyGroup>
+		<!-- Choose either one, if you only want to deploy in any one. 
+             (Maui is still unstable, I am not sure if it is required... -->
+		<!-- Android Config -->
+		<TargetFrameworks>net6.0-android;</TargetFrameworks>
+		<!-- iOS Config -->
+		<!--<TargetFrameworks>net6.0-ios;</TargetFrameworks>-->
+	</PropertyGroup>
+
+	<!-- Setup iOS RuntimeIdentifier and Cpu target, support real device only -->
+	<PropertyGroup Condition="( '$(TargetFramework)' == 'net6.0-ios' )">
+		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+		<PlatformTarget>arm64</PlatformTarget>
+	</PropertyGroup>
+
+
+	<!-- Have to include this package here otherwise build will be failed -->
+	<ItemGroup Condition="(  '$(TargetFramework)' == 'net6.0-android' )">
+		<PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning" Version="117.0.2.2">
+		</PackageReference>
+	</ItemGroup>
+
 
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">

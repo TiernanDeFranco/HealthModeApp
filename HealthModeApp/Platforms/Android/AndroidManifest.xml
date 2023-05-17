@@ -8,7 +8,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="app.healthmode.healthmodeapp" android:versionCode="1" android:versionName="0.1">
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:networkSecurityConfig="@xml/network_security_config" android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:label="HealthMode" android:name="crc64f9685b03e0b8dcbc.MainApplication" android:debuggable="true" android:extractNativeLibs="true" 
+	<application android:networkSecurityConfig="@xml/network_security_config" android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:label="HealthMode" android:name="crc64f9685b03e0b8dcbc.MainApplication" android:debuggable="false" android:extractNativeLibs="true" 
 				 android:windowSoftInputMode="adjustNothing"
 >
 		<activity android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:theme="@style/Maui.SplashTheme" android:name="crc64f9685b03e0b8dcbc.MainActivity" android:exported="true">
