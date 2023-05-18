@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst;</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+		<TargetFrameworks>net6.0-android;net6.0-ios;</TargetFrameworks>
+
 		<OutputType>Exe</OutputType>
 		<RootNamespace>HealthModeApp</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -20,27 +18,13 @@
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>3</ApplicationVersion>
+		<ApplicationVersion>4</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
-	 	  <CodesignKey>iPhone Developer: Tiernan DeFranco (FZJ7MX33UK)</CodesignKey>
-	  <MtouchLink>SdkOnly</MtouchLink>
-	  <CodesignProvision>Automatic</CodesignProvision>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
-	  <CodesignProvision>HealthModeAppSigning</CodesignProvision>
-	  <CodesignKey>iPhone Distribution: HealthMode LLC (8Y7LY86D8S)</CodesignKey>
-	</PropertyGroup>
+
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\proteinicon.svg" />
 	  <MauiImage Remove="Resources\Images\faticon.svg" />
@@ -316,7 +300,6 @@
 	  <MauiFont Remove="Resources\Fonts\Lato-Regular.ttf" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="6.3.0.29-pre" />
 	  <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
 	  <PackageReference Include="SQLitePCLRaw.core" Version="2.1.4" />
@@ -324,6 +307,7 @@
 	  <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.4" />
 	  <PackageReference Include="Plugin.MauiMTAdmob" Version="1.0.1" />
 	  <PackageReference Include="Xamarin.Google.iOS.UserMessagingPlatform" Version="1.2.0.5" />
+	  <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="6.3.0.25-pre" />
 	  <PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-beta.701" />
 	</ItemGroup>
 	<ItemGroup>
@@ -338,10 +322,29 @@
 	  <None Include="Pages\FoodJournalPage\NutritionGoalsPage.xaml" />
 	</ItemGroup>
 
+
 	<ItemGroup>
 	  <MauiIcon Include="Resources\AppIcon\appicon.jpg" />
 	</ItemGroup>
-	
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	 	  <CodesignKey>iPhone Developer: Tiernan DeFranco (FZJ7MX33UK)</CodesignKey>
+	  <MtouchLink>None</MtouchLink>
+	  <CodesignProvision>Automatic</CodesignProvision>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	 	  <CodesignKey>iPhone Distribution: HealthMode LLC (8Y7LY86D8S)</CodesignKey>
+	  <MtouchLink>None</MtouchLink>
+	  <CodesignProvision>HealthModeAppSigning</CodesignProvision>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
 		<AndroidKeyStore>True</AndroidKeyStore>
 		<AndroidSigningKeyStore>..\key.keystore</AndroidSigningKeyStore>
@@ -350,40 +353,12 @@
 		<AndroidSigningKeyPass>TiernanDeFranco3170!</AndroidSigningKeyPass>
     </PropertyGroup>
 
-	<PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
-		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-		<CodesignKey>iPhone Distribution: HealthMode LLC (8Y7LY86D8S)</CodesignKey>
-		<CodesignProvision>HealthModeAppSigning</CodesignProvision>
+
+	<PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
+        <UseInterpreter>true</UseInterpreter>
     </PropertyGroup>
 
 
-	<PropertyGroup>
-		<!-- Choose either one, if you only want to deploy in any one. 
-             (Maui is still unstable, I am not sure if it is required... -->
-		<!-- Android Config -->
-		<TargetFrameworks>net6.0-android;</TargetFrameworks>
-		<!-- iOS Config -->
-		<!--<TargetFrameworks>net6.0-ios;</TargetFrameworks>-->
-	</PropertyGroup>
-
-	<!-- Setup iOS RuntimeIdentifier and Cpu target, support real device only -->
-	<PropertyGroup Condition="( '$(TargetFramework)' == 'net6.0-ios' )">
-		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-		<PlatformTarget>arm64</PlatformTarget>
-	</PropertyGroup>
-
-
-	<!-- Have to include this package here otherwise build will be failed -->
-	<ItemGroup Condition="(  '$(TargetFramework)' == 'net6.0-android' )">
-		<PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning" Version="117.0.2.2">
-		</PackageReference>
-	</ItemGroup>
-
-
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
-	</PropertyGroup>
 
 	 <PropertyGroup>
     <!-- Properties used to strip bitcode from frameworks when using Visual Studio for Mac -->
@@ -395,6 +370,19 @@
     <_StripBitcodeFromFrameworksMasterDependsOnTargets Condition="'$(OS)'!='Unix'">_StripBitcodeFromFrameworksOnWindows</_StripBitcodeFromFrameworksMasterDependsOnTargets>
   </PropertyGroup>
   
+	 <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	   <WarningLevel>4</WarningLevel>
+	 </PropertyGroup>
+	 <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	   <DebugSymbols>true</DebugSymbols>
+	   <DebugType>pdbonly</DebugType>
+	   <WarningLevel>4</WarningLevel>
+	 </PropertyGroup>
+	 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+	   <AndroidDexTool>d8</AndroidDexTool>
+	   <AndroidLinkMode>None</AndroidLinkMode>
+	   <AndroidPackageFormat>aab</AndroidPackageFormat>
+	 </PropertyGroup>
   <Target Name="_StripBitcodeFromFrameworksMasterTarget" Condition="'$(_StripBitcodeFromFrameworksMasterDependsOnTargets)'!='' AND @(_FrameworkNativeReference-&gt;Count()) != 0" AfterTargets="$(_StripBitcodeFromFrameworksMasterAfterTargets)" DependsOnTargets="$(_StripBitcodeFromFrameworksMasterDependsOnTargets)" />
 
   <Target Name="_StripBitcodeFromFrameworksOnMac" Condition="('$(OutputType)'!='Library' OR '$(IsAppExtension)'=='True') AND '$(_SdkIsSimulator)'=='False'">

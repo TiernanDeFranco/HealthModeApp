@@ -1,5 +1,5 @@
-﻿using BarcodeScanner.Mobile;
-using HealthModeApp.DataServices;
+﻿using HealthModeApp.DataServices;
+using BarcodeScanner.Mobile;
 using HealthModeApp.Models;
 using static HealthModeApp.Models.SQLite.SQLiteTables;
 
@@ -16,10 +16,7 @@ public partial class BarcodeScan : ContentPage
 
     public BarcodeScan(IRestDataService dataService, ISQLiteDataService localData, int mealType, DateTime date)
 	{
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.iOS || Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.Android)
-        {
-            BarcodeScanner.Mobile.Methods.SetSupportBarcodeFormat(BarcodeFormats.Upca | BarcodeFormats.Upce | BarcodeFormats.Ean13 | BarcodeFormats.Ean8);
-        }
+        BarcodeScanner.Mobile.Methods.SetSupportBarcodeFormat(BarcodeFormats.Upca | BarcodeFormats.Upce | BarcodeFormats.Ean13 | BarcodeFormats.Ean8);
 		InitializeComponent();
 		CallPermission();
         _dataService = dataService;
@@ -40,13 +37,10 @@ public partial class BarcodeScan : ContentPage
 
     async void CallPermission()
 	{
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.iOS || Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.Android)
+     bool permission = await BarcodeScanner.Mobile.Methods.AskForRequiredPermission();
+        if (permission)
         {
-            bool permission = await BarcodeScanner.Mobile.Methods.AskForRequiredPermission();
-            if (permission)
-            {
-                Camera.TorchOn = true;
-            }
+            Camera.TorchOn = true;
         }
 
     }
