@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.MorePage"
-             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              Title="More">
 
 
@@ -17,16 +16,9 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-        <Button Text="Disable Ads" VerticalOptions="Center" Margin="15" Clicked="NoAdsClicked" Grid.Row="0"/>
+        <Button Text="Disable Ads" VerticalOptions="Center" Margin="15" Clicked="NoAdsClicked" Grid.Row="0" IsVisible="False"/>
 
-            <controls:MTAdView  BackgroundColor="Transparent"
-                        x:Name="Ad"
-                        AdsId="ca-app-pub-3940256099942544/6300978111"
-                        AdSize="Banner"
-                        IsVisible="true"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        Grid.Row="1"/>
+           
 
              <Button Text="Energy/Macros" VerticalOptions="Center" Margin="15" Clicked="GoalButton_Clicked" Grid.Row="2"/>
 

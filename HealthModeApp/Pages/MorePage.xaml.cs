@@ -39,7 +39,7 @@ public partial class MorePage : ContentPage
 
     async void SeesAds()
     {
-        Ad.IsVisible = await _localData.GetSeesAds();
+       
     }
 
     async void NoAdsClicked(System.Object sender, System.EventArgs e)

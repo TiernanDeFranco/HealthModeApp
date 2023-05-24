@@ -66,7 +66,7 @@ namespace HealthModeApp.Pages.FoodJournalPage
         async void SeesAds()
         {
             
-            Ad.IsVisible = await _localData.GetSeesAds();
+            //Ad.IsVisible = await _localData.GetSeesAds();
            
         }
 

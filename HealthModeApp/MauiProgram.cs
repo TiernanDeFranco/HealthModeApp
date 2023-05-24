@@ -4,7 +4,6 @@ using HealthModeApp.Pages;
 using HealthModeApp.Pages.FoodJournalPage;
 using SQLite;
 
-using Plugin.MauiMTAdmob;
 using BarcodeScanner.Mobile;
 
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -19,7 +18,6 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
             .UseSkiaSharp(true)
-            .UseMauiMTAdmob()
             .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

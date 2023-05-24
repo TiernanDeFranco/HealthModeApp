@@ -110,15 +110,7 @@ public partial class FoodJournal : ContentPage
 
     async void SeesAds()
     {
-        JournalAd.IsVisible = await _localData.GetSeesAds();
-        if (JournalAd.IsVisible)
-        {
-            InfoFrame.Margin = new Thickness(0, 0, 0, 2);
-        }
-        else
-        {
-            InfoFrame.Margin = new Thickness(0, 2, 0, 5);
-        }
+        
     }
 
     protected override void OnAppearing()

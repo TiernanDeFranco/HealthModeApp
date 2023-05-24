@@ -171,6 +171,24 @@ namespace HealthModeApp.DataServices
             }
         }
 
+        public async Task<List<CustomFoods>> GetCustomFoodByName(string name)
+        {
+            try
+            {
+                Debug.WriteLine("Searching Custom");
+                var foodInfo = await db.Table<CustomFoods>()
+                                       .Where(food => food.FoodName.Contains(name) || food.Brand.Contains(name))
+                                       .ToListAsync();
+
+                return foodInfo;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+
         #endregion
 
         #region LoggedFood

@@ -29,14 +29,6 @@ public partial class Workouts : ContentPage
 
     async void SeesAds()
     {
-        Ad.IsVisible = await _localData.GetSeesAds();
-        if (Ad.IsVisible)
-        {
-            WorkoutDash.Margin = new Thickness(0, 0, 0, 1);
-        }
-        else
-        {
-            WorkoutDash.Margin = new Thickness(0, 0, 0, 2);
-        }
+        
     }
 }

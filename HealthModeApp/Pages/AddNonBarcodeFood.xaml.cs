@@ -8,7 +8,7 @@ using HealthModeApp.Pages.FoodJournalPage;
 namespace HealthModeApp.Pages;
 
 [QueryProperty(nameof(Food), "Food")]
-public partial class AddFoodEntry : ContentPage
+public partial class AddNonBarcodeFood : ContentPage
 {
 	public readonly IRestDataService _dataService;
 	public readonly ISQLiteDataService _localData;
@@ -18,7 +18,7 @@ public partial class AddFoodEntry : ContentPage
     DateTime _date;
     int _mealType;
 
-    public AddFoodEntry(IRestDataService dataService, ISQLiteDataService localData, string barcode, int mealType, DateTime date)
+    public AddNonBarcodeFood(IRestDataService dataService, ISQLiteDataService localData, int mealType, DateTime date)
     {
 
         InitializeComponent();
@@ -30,8 +30,6 @@ public partial class AddFoodEntry : ContentPage
         _mealType = mealType;
 
         BindingContext = this;
-		_barcode = barcode;
-        BarcodeEntry.Text = barcode;
 
         var servingUnits = new List<string>();
         servingUnits.Add("g");
@@ -154,12 +152,17 @@ public partial class AddFoodEntry : ContentPage
             CustomFood.ServingName = "1 Serving";
 		}
 
+
+        Food.Brand = FoodName.Text;
+        Food.Barcode = "General" + FoodName.Text;
+        Food.Barcode = Food.Barcode.Trim();
+
         ServingName.Text = ServingName.Text.TrimEnd();
 
         if (!uploading)
         {
 
-            if ((!string.IsNullOrWhiteSpace(FoodEntry.Text)) && (!string.IsNullOrWhiteSpace(BrandEntry.Text)) && (!string.IsNullOrWhiteSpace(ServingSizeEntry.Text)) && (!string.IsNullOrWhiteSpace(EnergyEntry.Text)) && (!string.IsNullOrWhiteSpace(CarbEntry.Text)) && (!string.IsNullOrWhiteSpace(FatEntry.Text)) && (!string.IsNullOrWhiteSpace(ProteinEntry.Text)))
+            if ((!string.IsNullOrWhiteSpace(FoodEntry.Text)) && (!string.IsNullOrWhiteSpace(ServingSizeEntry.Text)) && (!string.IsNullOrWhiteSpace(EnergyEntry.Text)) && (!string.IsNullOrWhiteSpace(CarbEntry.Text)) && (!string.IsNullOrWhiteSpace(FatEntry.Text)) && (!string.IsNullOrWhiteSpace(ProteinEntry.Text)))
             {
                 if ((mealPicker.SelectedItem.ToString() != "Select a meal") && (CategoryPicker.SelectedItem.ToString() != "Select a category"))
                 {
@@ -900,6 +903,10 @@ public partial class AddFoodEntry : ContentPage
         }
     }
 
+    void BarcodeEntry_TextChanged(System.Object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
+    {
+        BarcodeEntry.Text = "General" + BarcodeEntry.Text;
+    }
 
 }
 

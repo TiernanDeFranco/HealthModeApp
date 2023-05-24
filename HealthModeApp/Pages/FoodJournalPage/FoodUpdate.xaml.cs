@@ -60,11 +60,11 @@ public partial class FoodUpdate : ContentPage
             case "oz":
                 servingSizeOptions = new List<ServingSizeOption>
                 {
-                    new ServingSizeOption { Grams = food.ServingSize*(decimal)28.3495, Description = food.ServingName },
-                    new ServingSizeOption { Grams = food.ServingSize*(decimal)28.3495, Description = $"{Convert.ToInt32(_food.ServingSize)}oz" },
-                    new ServingSizeOption { Grams = (decimal)28.3495, Description = "1oz" },
+                    new ServingSizeOption { Grams = food.ServingSize, Description = food.ServingName },
+                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize)}oz" },
+                    new ServingSizeOption { Grams = (1/food.ServingSize), Description = "1oz" },
 
-                    new ServingSizeOption { Grams = _food.ServingSize*(decimal)28.3495, Description = $"{Convert.ToInt32(_food.ServingSize*(decimal)28.3495)}g" },
+                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize*(decimal)28.3495)}g" },
                     new ServingSizeOption { Grams = 1, Description = "1g" }
                 };
                 break;
@@ -90,7 +90,7 @@ public partial class FoodUpdate : ContentPage
 
     async void SeesAds()
     {
-        Ad.IsVisible = await _localData.GetSeesAds();
+       // Ad.IsVisible = await _localData.GetSeesAds();
 
     }
 
@@ -112,36 +112,36 @@ public partial class FoodUpdate : ContentPage
     decimal baseFat;
     decimal baseProtein;
 
-    decimal? baseSugar = 0;
-    decimal? baseAddedSugar = 0;
-    decimal? baseSugarAlc = 0;
-    decimal? baseFiber = 0;
-    decimal? baseNetCarb = 0;
+    decimal? baseSugar;
+    decimal? baseAddedSugar;
+    decimal? baseSugarAlc;
+    decimal? baseFiber;
+    decimal? baseNetCarb;
 
-    decimal? baseSatFat = 0;
-    decimal? basePUnSatFat = 0;
-    decimal? baseMUnSatFat = 0;
-    decimal? baseTransFat = 0;
+    decimal? baseSatFat;
+    decimal? basePUnSatFat;
+    decimal? baseMUnSatFat;
+    decimal? baseTransFat;
 
-    decimal? baseIron = 0;
-    decimal? baseCalcium = 0;
-    decimal? basePotassium = 0;
-    decimal? baseSodium = 0;
-    decimal? baseCholesterol = 0;
+    decimal? baseIron;
+    decimal? baseCalcium;
+    decimal? basePotassium;
+    decimal? baseSodium;
+    decimal? baseCholesterol;
 
-    decimal? baseVitaminA = 0;
-    decimal? baseThiamin = 0;
-    decimal? baseRiboflavin = 0;
-    decimal? baseNiacin = 0;
-    decimal? baseB5 = 0;
-    decimal? baseB6 = 0;
-    decimal? baseBiotin = 0;
-    decimal? baseFolicAcid = 0;
-    decimal? baseCobalamin = 0;
-    decimal? baseVitaminC = 0;
-    decimal? baseVitaminD = 0;
-    decimal? baseVitaminE = 0;
-    decimal? baseVitaminK = 0;
+    decimal? baseVitaminA;
+    decimal? baseThiamin;
+    decimal? baseRiboflavin;
+    decimal? baseNiacin;
+    decimal? baseB5;
+    decimal? baseB6;
+    decimal? baseBiotin;
+    decimal? baseFolicAcid;
+    decimal? baseCobalamin;
+    decimal? baseVitaminC;
+    decimal? baseVitaminD;
+    decimal? baseVitaminE;
+    decimal? baseVitaminK;
 
     async void PopulateFoodInfo(LoggedFoodTable food)
     {

@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
-             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              x:Class="HealthModeApp.Pages.Dashboard">
 
 
@@ -73,16 +72,7 @@
 
     </StackLayout>
 
-          <controls:MTAdView  BackgroundColor="Transparent"
-                        x:Name="Ad"
-                        AdsId="ca-app-pub-3940256099942544/6300978111"
-                        AdSize="Banner"
-                        IsVisible="true"
-                        HeightRequest="50"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        Grid.Row="1"
-                        />
+        
 
 
          <Frame CornerRadius="20" Grid.Row="2" Margin="0,5,0,0">

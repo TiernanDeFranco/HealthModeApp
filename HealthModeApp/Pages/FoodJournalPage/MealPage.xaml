@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
+         
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              x:Class="HealthModeApp.Pages.FoodJournalPage.MealPage">
 
@@ -103,16 +103,7 @@
     </ListView>
     </Frame>
 
-     <Grid x:Name="Ad" Margin="0,4,0,0" IsVisible="True" Grid.Row="2" BackgroundColor="Transparent"> 
-    <controls:MTAdView  BackgroundColor="Transparent"
-                        x:Name="myAds"
-                        AdsId="ca-app-pub-3940256099942544/6300978111"
-                        AdSize="Banner"
-                        IsVisible="true"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        />
-         </Grid>
+     
    </Grid>
 
 

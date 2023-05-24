@@ -86,7 +86,7 @@ public partial class Dashboard : ContentPage
     async void SeesAds()
     {
 
-        Ad.IsVisible = await _localData.GetSeesAds();
+       
 
     }
 

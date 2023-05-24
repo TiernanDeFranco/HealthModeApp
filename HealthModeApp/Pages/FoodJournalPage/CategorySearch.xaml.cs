@@ -27,11 +27,7 @@ public partial class CategorySearch : ContentPage
 
     async void SeesAds()
     {
-        bool ads = await _localData.GetSeesAds();
-
-        Ad1.IsVisible = ads;
-
-
+       
     }
 
     async void PopulateSearch()

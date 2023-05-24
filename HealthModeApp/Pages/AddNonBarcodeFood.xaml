@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthModeApp.Pages.AddFoodEntry"
-             Title="Add to Database">
+             x:Class="HealthModeApp.Pages.AddNonBarcodeFood"
+             Title="Add 'General' Food">
             
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Submit"
@@ -32,9 +32,9 @@
                </Grid.RowDefinitions>
 
                <Label x:Name="FoodName" Grid.Row="0" Text="{Binding Path=Food.FoodName, Mode=OneWay}" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/> 
-               <Label x:Name="BrandName" Grid.Row="1" Text="{Binding Path=Food.Brand, Mode=OneWay}" TextColor="LightSlateGray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/> 
+               <Label x:Name="BrandName" Grid.Row="1" Text="{Binding Path=Food.FoodName, Mode=OneWay}" TextColor="LightSlateGray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/> 
                <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="2" Spacing="8">
-                 
+                  
                     <Label x:Name="ServingNameLabel"  Text="{Binding Path=Food.ServingName, Mode=OneWay, StringFormat='({0})'}" TextColor="LightSlateGray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/> 
                </HorizontalStackLayout>
 
@@ -64,17 +64,23 @@
        </Frame>
 
 
-       <Frame CornerRadius="15" Margin="0,25,0,10">
+       <Frame CornerRadius="15" Margin="0,25,0,10" IsVisible="False">
         <Grid ColumnSpacing="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width=".5*" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Text="Barcode:" VerticalTextAlignment="Center" />
-            <Entry Grid.Row="0" Grid.Column="1" Keyboard="Numeric" x:Name="BarcodeEntry" HorizontalOptions="Center" HorizontalTextAlignment="Center" IsReadOnly="True" Text="{Binding Path=Food.Barcode}" MaxLength="14" BackgroundColor="{AppThemeBinding Light={StaticResource WSmoke}, Dark={StaticResource BlueGrayMid}}"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
 
-        </Grid>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Text="Barcode:" VerticalTextAlignment="Center" />
+            <Entry Grid.Row="0" Grid.Column="1" x:Name="BarcodeEntry" HorizontalOptions="Center" HorizontalTextAlignment="Center" IsReadOnly="True"  MaxLength="50" BackgroundColor="{AppThemeBinding Light={StaticResource WSmoke}, Dark={StaticResource BlueGrayMid}}"/>
+
+           </Grid>
     </Frame>
 
     <Frame CornerRadius="15" Margin="0,0,0,10">
@@ -92,10 +98,9 @@
             </Grid.RowDefinitions>
 
     <Label Grid.Row="0" Grid.Column="0" Text="Food Name:" VerticalTextAlignment="Center" />
-    <Entry Grid.Row="0" Grid.Column="1" x:Name="FoodEntry" Placeholder="ex. Potato Chips" Text="{Binding Path=Food.FoodName, Mode=OneWayToSource}" MaxLength="35"  />
+    <Entry Grid.Row="0" Grid.Column="1" x:Name="FoodEntry" Placeholder="ex. Potato Chips" TextChanged="BarcodeEntry_TextChanged" Text="{Binding Path=Food.FoodName, Mode=OneWayToSource}" MaxLength="35"  />
 
-    <Label Grid.Row="1" Grid.Column="0" Text="Brand Name:" VerticalTextAlignment="Center"  />
-    <Entry Grid.Row="1" Grid.Column="1" x:Name="BrandEntry" Placeholder="ex. Lays" Text="{Binding Food.Brand, Mode=OneWayToSource}" MaxLength="50"/>
+    <Entry Grid.Row="1" Grid.Column="1" x:Name="BrandEntry" IsVisible="False" Placeholder="ex. Lays" MaxLength="50"/>
  
         </Grid>
     </Frame>

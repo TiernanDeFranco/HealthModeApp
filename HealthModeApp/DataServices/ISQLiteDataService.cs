@@ -15,6 +15,7 @@ namespace HealthModeApp.DataServices
         Task RemoveCustomFood(int foodID);
         Task<List<CustomFoods>> GetCustomFoods();
         Task<CustomFoods> GetCustomFoodByBarcode(string barcode);
+        Task<List<CustomFoods>> GetCustomFoodByName(string name);
 
 
         Task<IEnumerable<LoggedFoodTable>> GetLoggedFoods(int userID, DateTime selectedDate);

@@ -30,15 +30,18 @@ public partial class SignUpPage : ContentPage
         {
             case -1:
                 GoalWeight.IsVisible = true;
+                GoalWeight.Text = null;
                 Grid.SetColumnSpan(Weight, 1);
                 break;
             case 0:
                 GoalWeight.IsVisible = false;
                 Grid.SetColumnSpan(Weight, 2);
+                GoalWeight.Text = null;
                 break;
             case 1:
                 GoalWeight.IsVisible = true;
                 Grid.SetColumnSpan(Weight, 1);
+                GoalWeight.Text = null;
                 break;
 
         }
@@ -1099,6 +1102,7 @@ public partial class SignUpPage : ContentPage
                     try
                     {
                         (string salt, string hashedPassword) = HashAndSaltPassword(password);
+
                         if (!string.IsNullOrWhiteSpace(heightCmEntry.Text))
                         {
                             // Use the value entered in the heightCmEntry field
@@ -1124,14 +1128,14 @@ public partial class SignUpPage : ContentPage
                         {
                             int weightInKg = int.Parse(Weight.Text);
                             weight = (int)(weightInKg * 2.2);
-                            int goalweightInKg = int.Parse(Weight.Text);
-                            goalWeight = (int)(weightInKg * 2.2);
+                            int goalweightInKg = int.Parse(GoalWeight.Text);
+                            goalWeight = (int)(goalweightInKg * 2.2);
 
                         }
                         else if (unitWeight == 0)
                         {
                             weight = int.Parse(Weight.Text);
-                            goalWeight = int.Parse(Weight.Text);
+                            goalWeight = int.Parse(GoalWeight.Text);
                         }
 
 

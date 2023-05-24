@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.Workouts"
-             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              Title="Workouts">
 
 
@@ -51,16 +50,7 @@
                 </Grid>
 
             </Frame>
-     <Grid x:Name="Ad" Margin="0,4,0,4" IsVisible="True" Grid.Row="1" Padding="1" BackgroundColor="Transparent"> 
-    <controls:MTAdView  BackgroundColor="Transparent"
-                        x:Name="myAds"
-                        AdsId="ca-app-pub-3940256099942544/6300978111"
-                        AdSize="AnchoredAdaptive"
-                        IsVisible="true"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        />
-         </Grid>
+    
       <ScrollView Grid.Row="2" Grid.ColumnSpan="3" MinimumHeightRequest="{Binding Height, Source={x:Reference MasterGrid}}">
                  <Grid x:Name="WorkoutGrid" ColumnSpacing="8" RowSpacing="8" Margin="3">
         <Grid.RowDefinitions>

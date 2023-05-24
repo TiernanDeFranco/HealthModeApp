@@ -53,7 +53,7 @@ public partial class NutritionalBreakdown : ContentPage
         BiotinName.IsVisible = true;
         BiotinValue.IsVisible = true;
         BiotinLeft.IsVisible = true;
-        BiotinBar.IsVisible = false;
+        BiotinBar.IsVisible = true;
 
         FolicName.IsVisible = true;
         FolicAcidValue.IsVisible = true;
@@ -104,7 +104,7 @@ public partial class NutritionalBreakdown : ContentPage
 
     async void SeesAds()
     {
-        Ad.IsVisible = await _localData.GetSeesAds();
+       // Ad.IsVisible = await _localData.GetSeesAds();
     }
 
 

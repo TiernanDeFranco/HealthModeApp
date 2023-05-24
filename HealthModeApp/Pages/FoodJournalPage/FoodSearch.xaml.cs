@@ -45,12 +45,7 @@ public partial class FoodSearch : ContentPage
 
     async void SeesAds()
     {
-        bool ads = await _localData.GetSeesAds();
-
-        Ad1.IsVisible = ads;
-        Ad2.IsVisible = ads;
-
-
+      
     }
 
     void UpdateFilter()
@@ -67,6 +62,8 @@ public partial class FoodSearch : ContentPage
                 MealsButton.FontSize = regularFontSize;
                 FoodsButton.FontFamily = "Lato-Regular";
                 FoodsButton.FontSize = regularFontSize;
+
+                CustomFoodAdd.IsVisible = false;
                 break;
             case 1:
                 AllButton.FontFamily = "Lato-Regular";
@@ -83,6 +80,8 @@ public partial class FoodSearch : ContentPage
                 MealsButton.FontSize = regularFontSize;
                 FoodsButton.FontFamily = "Lato-Bold";
                 FoodsButton.FontSize = boldFontSize;
+
+                CustomFoodAdd.IsVisible = true;
                 break;
         }
     }
@@ -92,6 +91,7 @@ public partial class FoodSearch : ContentPage
     void AllClicked(System.Object sender, System.EventArgs e)
     {
         SearchFoods.Text = "";
+        SearchResultList.ItemsSource = null;
         filters = 0;
         UpdateFilter();
     }
@@ -99,6 +99,7 @@ public partial class FoodSearch : ContentPage
     void MyMealsClicked(System.Object sender, System.EventArgs e)
     {
         SearchFoods.Text = "";
+        SearchResultList.ItemsSource = null;
         filters = 1;
         UpdateFilter();
     }
@@ -106,6 +107,7 @@ public partial class FoodSearch : ContentPage
     async void MyFoodsClicked(System.Object sender, System.EventArgs e)
     {
         SearchFoods.Text = "";
+        SearchResultList.ItemsSource = null;
         filters = 2;
         UpdateFilter();
 
@@ -186,12 +188,7 @@ public partial class FoodSearch : ContentPage
             brandValueLabel.SetBinding(Label.TextProperty, new Binding("Brand"));
 
 
-            Label servingValueLabel = new Label
-            {
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center
-            };
-            servingValueLabel.SetBinding(Label.TextProperty, new Binding("ServingSize", stringFormat: "{0:N0}g"));
+            
 
             Label servingNameLabel = new Label
             {
@@ -201,36 +198,7 @@ public partial class FoodSearch : ContentPage
             };
             servingNameLabel.SetBinding(Label.TextProperty, new Binding("ServingName", stringFormat: "({0})"));
 
-            Grid servingGrid = new Grid
-            {
-                ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) },
-                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) }
-                },
-                ColumnSpacing = 8
-            };
-
-            servingGrid.SetRow(servingValueLabel, 0);
-            servingGrid.SetColumn(servingValueLabel, 0);
-            servingGrid.Children.Add(servingValueLabel);
-
-            servingGrid.SetRow(servingNameLabel, 0);
-            servingGrid.SetColumn(servingNameLabel, 1);
-            servingGrid.Children.Add(servingNameLabel);
-
-
-            StackLayout servingLayout = new StackLayout
-            {
-                Orientation = StackOrientation.Horizontal,
-                HorizontalOptions = LayoutOptions.Center,
-                Children =
-{
-        servingGrid
-}
-            };
-
-
+           
 
             var calorieIcon = new Image
             {
@@ -353,9 +321,9 @@ public partial class FoodSearch : ContentPage
             Grid.SetColumn(brandValueLabel, 0);
             grid.Children.Add(brandValueLabel);
 
-            Grid.SetRow(servingLayout, 2);
-            Grid.SetColumn(servingLayout, 0);
-            grid.Children.Add(servingLayout);
+            Grid.SetRow(servingNameLabel, 2);
+            Grid.SetColumn(servingNameLabel, 0);
+            grid.Children.Add(servingNameLabel);
 
             Grid.SetRow(InfoLayout, 3);
             Grid.SetColumn(InfoLayout, 0);
@@ -426,9 +394,40 @@ public partial class FoodSearch : ContentPage
                 Debug.WriteLine("Search My Meals");
                 break;
 
-            case 2:
-                
-                
+            case 2: 
+                localResults = await _localData.GetCustomFoodByName(foodName);
+
+              
+
+                SearchResultList.IsVisible = true;
+                LoadingBar.IsVisible = false;
+                LoadingBar.IsRunning = false;
+
+                if (localResults != null)
+                {
+                    foreach (var result in localResults)
+                    {
+                        switch (energyUnit)
+                        {
+                            case "kCal":
+                                result.Calories = ((int)Math.Round(result.Calories));
+                                break;
+                            case "cal":
+                                result.Calories = ((int)Math.Round(result.Calories));
+                                break;
+                            case "kJ":
+                                result.Calories = ((int)Math.Round(result.Calories * (decimal)4.184));
+                                break;
+                        }
+                    }
+
+                    listView.ItemsSource = localResults;
+                }
+                else
+                {
+                    // Handle the case where no matching results were found
+                    listView.ItemsSource = null; // Provide an empty list as the ItemsSource
+                }
                 break;
         }
         
@@ -483,12 +482,7 @@ public partial class FoodSearch : ContentPage
             brandValueLabel.SetBinding(Label.TextProperty, new Binding("Brand"));
 
 
-            Label servingValueLabel = new Label
-            {
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center
-            };
-            servingValueLabel.SetBinding(Label.TextProperty, new Binding("ServingSize", stringFormat: "{0:N0}g"));
+            
 
             Label servingNameLabel = new Label
             {
@@ -498,23 +492,7 @@ public partial class FoodSearch : ContentPage
             };
             servingNameLabel.SetBinding(Label.TextProperty, new Binding("ServingName", stringFormat: "({0})"));
 
-            Grid servingGrid = new Grid
-            {
-                ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) },
-                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) }
-                },
-                ColumnSpacing = 8
-            };
-
-            servingGrid.SetRow(servingValueLabel, 0);
-            servingGrid.SetColumn(servingValueLabel, 0);
-            servingGrid.Children.Add(servingValueLabel);
-
-            servingGrid.SetRow(servingNameLabel, 0);
-            servingGrid.SetColumn(servingNameLabel, 1);
-            servingGrid.Children.Add(servingNameLabel);
+            
 
 
             StackLayout servingLayout = new StackLayout
@@ -523,7 +501,7 @@ public partial class FoodSearch : ContentPage
                 HorizontalOptions = LayoutOptions.Center,
                 Children =
 {
-        servingGrid
+        servingNameLabel
 }
             };
 
@@ -748,5 +726,9 @@ public partial class FoodSearch : ContentPage
         }
     }
 
+    async void CustomFoodAdd_Clicked(System.Object sender, System.EventArgs e)
+    {
+        await Navigation.PushAsync(new AddNonBarcodeFood(_dataService, _localData, _mealType, _date));
+    }
 }
 

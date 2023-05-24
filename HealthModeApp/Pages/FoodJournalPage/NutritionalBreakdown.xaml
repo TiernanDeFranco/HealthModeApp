@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
-             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              x:Class="HealthModeApp.Pages.FoodJournalPage.NutritionalBreakdown"> 
 
     <ScrollView>
@@ -101,15 +100,7 @@
           
         </Frame>
 
-        <controls:MTAdView  BackgroundColor="Transparent"
-                        x:Name="Ad"
-                        AdsId="ca-app-pub-3940256099942544/6300978111"
-                        AdSize="AnchoredAdaptive"
-                        IsVisible="true"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        Grid.Row="1"
-                        Margin="0,5,0,3"/>
+        
 
         <Frame Grid.Row="2" Margin="5,0,5,0">
             <Grid RowSpacing="7" ColumnSpacing="8">
@@ -311,7 +302,7 @@
                 <Label x:Name="BiotinValue" Grid.Row="43" Grid.Column="1" TextColor="PaleTurquoise" HorizontalTextAlignment="Center" IsVisible="False"/>
                 <Label x:Name="BiotinLeft" Grid.Row="43" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="BiotinBar" Grid.Row="44" Grid.ColumnSpan="3" ProgressColor="PaleTurquoise" IsVisible="False"/>
+                <ProgressBar x:Name="BiotinBar" Grid.Row="44" Grid.ColumnSpan="3" ProgressColor="PaleTurquoise" IsVisible="True"/>
 
                 <Label x:Name="FolicName" Text="Folic Acid (μg)" Grid.Row="45" Grid.Column="0" IsVisible="False"/>
                 <Label x:Name="FolicAcidValue" Grid.Row="45" Grid.Column="1" TextColor="LightGreen" HorizontalTextAlignment="Center" IsVisible="False"/>

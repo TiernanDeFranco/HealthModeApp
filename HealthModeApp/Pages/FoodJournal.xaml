@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.FoodJournal"
-             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              Title="Food Journal">
 
  
@@ -74,16 +73,7 @@
 
         
 
- <Grid Margin="5" IsVisible="True" Grid.Row="1" Padding="1" BackgroundColor="Transparent"> 
-    <controls:MTAdView  BackgroundColor="Transparent"
-                        x:Name="JournalAd"
-                        AdsId="ca-app-pub-3940256099942544/6300978111"
-                        AdSize="Banner"
-                        IsVisible="true"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        />
-</Grid>
+
 
     <Grid ColumnSpacing="5" RowSpacing="5" Margin="3" Grid.Row="2">
       <Grid.RowDefinitions>
