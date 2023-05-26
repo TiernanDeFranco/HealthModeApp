@@ -338,13 +338,6 @@
 	<ItemGroup>
 	  <MauiIcon Include="Resources\AppIcon\appicon.jpg" />
 	</ItemGroup>
-	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
-		<AndroidKeyStore>True</AndroidKeyStore>
-		<AndroidSigningKeyStore>..\key.keystore</AndroidSigningKeyStore>
-		<AndroidSigningStorePass>Password</AndroidSigningStorePass>
-		<AndroidSigningKeyAlias>HealthModeAlias</AndroidSigningKeyAlias>
-		<AndroidSigningKeyPass>Password</AndroidSigningKeyPass>
-    </PropertyGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
 		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
@@ -365,7 +358,7 @@
   
 	 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
 	   <AndroidLinkMode>None</AndroidLinkMode>
-	   <AndroidSigningKeyStore>/Users/tiernandefranco/Documents/GitHub/HealthModeApp/key.keystore</AndroidSigningKeyStore>
+	   <AndroidSigningKeyStore>..\HealthMode.keystore</AndroidSigningKeyStore>
 	   <AndroidSigningStorePass>TiernanDeFranco3170!</AndroidSigningStorePass>
 	   <AndroidSigningKeyPass>TiernanDeFranco3170!</AndroidSigningKeyPass>
 	   <AndroidDexTool>d8</AndroidDexTool>
