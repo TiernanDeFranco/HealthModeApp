@@ -16,15 +16,48 @@ public partial class NutritionalBreakdown : ContentPage
 {
     private readonly ISQLiteDataService _localData;
 
+    int totalCal = 0;
+    decimal totalCarb = 0;
+    decimal totalFat = 0;
+    decimal totalProtein = 0;
+    public LoggedFoodTable food;
+
+    public int goalCal = 0;
+    public string energyUnit;
+
+    double totalSugar;
+    double totalSatFat;
+    double totalMUnSatFat;
+    double totalPUnSatFat;
+    double totalTransFat;
+
+    double totalIron;
+    double totalCalcium;
+    double totalPotassium;
+    double totalSodium;
+    double totalCholesterol;
+
+    double totalVitaminA;
+    double totalThiamin;
+    double totalRiboflavin;
+    double totalNiacin;
+    double totalB5;
+    double totalB6;
+    double totalBiotin;
+    double totalFolicAcid;
+    double totalCobalamin;
+    double totalVitaminC;
+    double totalVitaminD;
+    double totalVitaminE;
+    double totalVitaminK;
+
     public NutritionalBreakdown(ISQLiteDataService localData, DateTime setDate)
     {
         Shell.SetTabBarIsVisible(this, false);
         InitializeComponent();
         _localData = localData;
-        DateSelect.Date = setDate;
-        DateHandler();
-        PopulateFoodInfo();
-        SeesAds();
+        
+      
         ThaiminName.IsVisible = true;
         ThiaminValue.IsVisible = true;
         ThiaminLeft.IsVisible = true;
@@ -65,6 +98,40 @@ public partial class NutritionalBreakdown : ContentPage
         CobalaminLeft.IsVisible = true;
         CobalaminBar.IsVisible = true;
 
+        totalCal = 0;
+        totalCarb = 0;
+        totalFat = 0;
+        totalProtein = 0;
+        goalCal = 0;
+
+        totalSugar = 0;
+        totalSatFat = 0;
+        totalPUnSatFat = 0;
+        totalMUnSatFat = 0;
+        totalTransFat = 0;
+
+        totalIron = 0;
+        totalCalcium = 0;
+        totalPotassium = 0;
+        totalSodium = 0;
+        totalCholesterol = 0;
+
+        totalVitaminA = 0;
+        totalThiamin = 0;
+        totalRiboflavin = 0;
+        totalNiacin = 0;
+        totalB5 = 0;
+        totalB6 = 0;
+        totalBiotin = 0;
+        totalFolicAcid = 0;
+        totalCobalamin = 0;
+        totalVitaminC = 0;
+        totalVitaminD = 0;
+        totalVitaminE = 0;
+        totalVitaminK = 0;
+
+        DateSelect.Date = setDate;
+        SeesAds();
     }
 
     async void DateHandler()
@@ -108,40 +175,7 @@ public partial class NutritionalBreakdown : ContentPage
     }
 
 
-    int totalCal = 0;
-    decimal totalCarb = 0;
-    decimal totalFat = 0;
-    decimal totalProtein = 0;
-    public LoggedFoodTable food;
-
-    public int goalCal = 0;
-    public string energyUnit;
-
-    double totalSugar;
-    double totalSatFat;
-    double totalMUnSatFat;
-    double totalPUnSatFat;
-    double totalTransFat;
-
-    double totalIron;
-    double totalCalcium;
-    double totalPotassium;
-    double totalSodium;
-    double totalCholesterol;
-
-    double totalVitaminA;
-    double totalThiamin;
-    double totalRiboflavin;
-    double totalNiacin;
-    double totalB5;
-    double totalB6;
-    double totalBiotin;
-    double totalFolicAcid;
-    double totalCobalamin;
-    double totalVitaminC;
-    double totalVitaminD;
-    double totalVitaminE;
-    double totalVitaminK;
+   
 
     async void PopulateFoodInfo()
     {

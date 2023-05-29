@@ -185,7 +185,7 @@ namespace HealthModeApp.DataServices
         
         #endregion
 
-        public async Task<bool> AddUserAsync(string email, string username, string hashedPassword, string salt, int weightPlan, string mainGoals, string units, int sex, decimal heightCm, DateTime birthday, int weight, int goalWeight, int activityLevel, int calorieGoal)
+        public async Task<bool> AddUserAsync(string email, string username, string hashedPassword, string salt, int weightPlan, string mainGoals, string units, int sex, decimal heightCm, DateTime birthday, decimal weight, decimal goalWeight, int activityLevel, int calorieGoal)
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {

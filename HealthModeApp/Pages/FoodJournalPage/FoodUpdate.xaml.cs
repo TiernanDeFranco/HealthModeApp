@@ -42,7 +42,7 @@ public partial class FoodUpdate : ContentPage
                 servingSizeOptions = new List<ServingSizeOption>
                 {
                     new ServingSizeOption { Grams = food.ServingSize, Description = food.ServingName },
-                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(_food.ServingSize)}g" },
+                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize)}g" },
                     new ServingSizeOption { Grams = 1, Description = "1g" }
                 };
                 break;
@@ -50,11 +50,11 @@ public partial class FoodUpdate : ContentPage
                 servingSizeOptions = new List<ServingSizeOption>
                 {
                     new ServingSizeOption { Grams = food.ServingSize, Description = food.ServingName },
-                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(_food.ServingSize)}mL" },
-                    new ServingSizeOption { Grams = (decimal)food.Grams/food.ServingSize, Description = "1mL" },
+                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize)}mL" },
+                    new ServingSizeOption { Grams = 1, Description = "1mL" },
 
-                    new ServingSizeOption { Grams = (decimal)food.Grams, Description = $"{Convert.ToInt32(_food.Grams)}g" },
-                    new ServingSizeOption { Grams = 1, Description = "1g" }
+                    new ServingSizeOption { Grams = (decimal)food.Grams, Description = $"{Convert.ToInt32(food.Grams)}g" },
+                    new ServingSizeOption { Grams = (decimal)food.Grams/food.ServingSize, Description = "1g" }
                 };
                 break;
             case "oz":
@@ -62,10 +62,10 @@ public partial class FoodUpdate : ContentPage
                 {
                     new ServingSizeOption { Grams = food.ServingSize, Description = food.ServingName },
                     new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize)}oz" },
-                    new ServingSizeOption { Grams = (1/food.ServingSize), Description = "1oz" },
+                    new ServingSizeOption { Grams = 1, Description = "1oz" },
 
                     new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize*(decimal)28.3495)}g" },
-                    new ServingSizeOption { Grams = 1, Description = "1g" }
+                    new ServingSizeOption { Grams = 1/(decimal)28.3495, Description = "1g" }
                 };
                 break;
         }

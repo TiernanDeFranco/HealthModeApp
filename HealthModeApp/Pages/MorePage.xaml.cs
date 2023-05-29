@@ -94,13 +94,33 @@ public partial class MorePage : ContentPage
     void BugReportClicked(System.Object sender, System.EventArgs e)
     {
         string url = "https://forms.gle/uZfeZYEe38C66LJh6";
-        Launcher.TryOpenAsync(url);
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        {
+            Task.Run(async () =>
+            {
+                await Launcher.OpenAsync(url);
+            });
+        }
+        else
+        {
+            Launcher.TryOpenAsync(url);
+        }
     }
 
     void DiscordClicked(System.Object sender, System.EventArgs e)
     {
         string url = "https://discord.gg/htb7An6SGE";
-        Launcher.TryOpenAsync(url);
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        {
+            Task.Run(async () =>
+            {
+                await Launcher.OpenAsync(url);
+            });
+        }
+        else
+        {
+            Launcher.TryOpenAsync(url);
+        }
     }
     
 }

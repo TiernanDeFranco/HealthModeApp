@@ -16,8 +16,8 @@ public partial class SignUpPage : ContentPage
     public int stage = 1;
     public int maxStage = 5;
     double heightCm = 0;
-    int weight;
-    int goalWeight; 
+    decimal weight;
+    decimal goalWeight; 
     decimal height;
     int calorieGoal;
 
@@ -30,18 +30,16 @@ public partial class SignUpPage : ContentPage
         {
             case -1:
                 GoalWeight.IsVisible = true;
-                GoalWeight.Text = null;
                 Grid.SetColumnSpan(Weight, 1);
                 break;
             case 0:
                 GoalWeight.IsVisible = false;
                 Grid.SetColumnSpan(Weight, 2);
-                GoalWeight.Text = null;
+                GoalWeight.Text = Weight.Text;
                 break;
             case 1:
                 GoalWeight.IsVisible = true;
                 Grid.SetColumnSpan(Weight, 1);
-                GoalWeight.Text = null;
                 break;
 
         }
@@ -1069,7 +1067,7 @@ public partial class SignUpPage : ContentPage
         return (salt, hashedPassword);
     }
 
-
+    bool creatingAccount = false;
 
     async void SignUpButton_Clicked(System.Object sender, System.EventArgs e)
     {
@@ -1084,96 +1082,109 @@ public partial class SignUpPage : ContentPage
         if (password == "") { password = null; }
         if (confirmPassword == "") { confirmPassword = null; }
 
-
-        if (email != null && username != null && password != null && confirmPassword != null)
+        if (!creatingAccount)
         {
-            if (password != confirmPassword)
+
+            if (email != null && username != null && password != null && confirmPassword != null)
             {
-                // Passwords do not match, show error message
-                await DisplayAlert("Notice", "Passwords do not match", "OK");
-            }
-            else
-            {
-                string responseMessage = await _dataService.CheckUserUniqueAsync(email, username);
-                // Assuming you have a method called AddUserToDatabase to add the user to the database
-                if (responseMessage == "AllClear")
+                if (password != confirmPassword)
                 {
-
-                    try
-                    {
-                        (string salt, string hashedPassword) = HashAndSaltPassword(password);
-
-                        if (!string.IsNullOrWhiteSpace(heightCmEntry.Text))
-                        {
-                            // Use the value entered in the heightCmEntry field
-                            if (double.TryParse(heightCmEntry.Text, out double heightCmFromEntry))
-                            {
-                                heightCm = heightCmFromEntry;
-                                height = Convert.ToDecimal(heightCm);
-                            }
-                        }
-                        else
-                        {
-                            // Convert the feet and inches to cm
-                            int feet, inches;
-                            if (int.TryParse(heightFeetEntry.Text, out feet) && int.TryParse(heightInchesEntry.Text, out inches))
-                            {
-                                double heightInches = feet * 12 + inches;
-                                heightCm = heightInches * 2.54;
-                                height = Convert.ToDecimal(heightCm);
-                            }
-                        }
-
-                        if (unitWeight == 1) // Convert kg to lbs
-                        {
-                            int weightInKg = int.Parse(Weight.Text);
-                            weight = (int)(weightInKg * 2.2);
-                            int goalweightInKg = int.Parse(GoalWeight.Text);
-                            goalWeight = (int)(goalweightInKg * 2.2);
-
-                        }
-                        else if (unitWeight == 0)
-                        {
-                            weight = int.Parse(Weight.Text);
-                            goalWeight = int.Parse(GoalWeight.Text);
-                        }
-
-
-                        // Call a method to add the user to the database with email, username, and hashed password //convert lists to strings (unit maingoals)
-                        SignUpButton.IsVisible = false;
-                        SignUpLoad.IsVisible = true;
-                        bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel, calorieGoal);
-                        if (result)
-                        {
-                            await DisplayAlert("Success", "Account created successfully", "OK");
-                            await Navigation.PopModalAsync();
-                        }
-                        else
-                        {
-                            await DisplayAlert("Error", "Something went wrong with account creation", "OK");
-                            SignUpButton.IsVisible = true;
-                            SignUpLoad.IsVisible = false;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle any exceptions that occur during the database insert operation
-                        await DisplayAlert("Error", ex.Message, "OK");
-                    }
-                }
-                else if (responseMessage == "EmailTaken")
-                {
-                    await DisplayAlert("Notice", "The email is already in use.", "OK");
-                }
-                else if (responseMessage == "UsernameTaken")
-                {
-                    await DisplayAlert("Notice", "The username is already taken. :(", "OK");
+                    // Passwords do not match, show error message
+                    await DisplayAlert("Notice", "Passwords do not match", "OK");
+                    creatingAccount = false;
                 }
                 else
-                { await DisplayAlert("Notice", "There was an issue checking for if that email/username is already in use. Report this please", "OK"); }
+                {
+                    string responseMessage = await _dataService.CheckUserUniqueAsync(email, username);
+                    // Assuming you have a method called AddUserToDatabase to add the user to the database
+                    if (responseMessage == "AllClear")
+                    {
+                        creatingAccount = true;
+                        try
+                        {
+                            (string salt, string hashedPassword) = HashAndSaltPassword(password);
+
+                            if (!string.IsNullOrWhiteSpace(heightCmEntry.Text))
+                            {
+                                // Use the value entered in the heightCmEntry field
+                                if (double.TryParse(heightCmEntry.Text, out double heightCmFromEntry))
+                                {
+                                    heightCm = heightCmFromEntry;
+                                    height = Convert.ToDecimal(heightCm);
+                                }
+                            }
+                            else
+                            {
+                                // Convert the feet and inches to cm
+                                int feet, inches;
+                                if (int.TryParse(heightFeetEntry.Text, out feet) && int.TryParse(heightInchesEntry.Text, out inches))
+                                {
+                                    double heightInches = feet * 12 + inches;
+                                    heightCm = heightInches * 2.54;
+                                    height = Convert.ToDecimal(heightCm);
+                                }
+                            }
+
+                            if (unitWeight == 1) // Convert kg to lbs
+                            {
+                                decimal weightInKg = decimal.Parse(Weight.Text);
+                                weight = Math.Round(weightInKg * (decimal)2.2, 1);
+                                decimal goalweightInKg = decimal.Parse(GoalWeight.Text);
+                                goalWeight = Math.Round(goalweightInKg * (decimal)2.2, 1);
+
+                            }
+                            else if (unitWeight == 0)
+                            {
+                                weight = decimal.Parse(Weight.Text);
+                                goalWeight = decimal.Parse(GoalWeight.Text);
+                            }
+
+
+                            // Call a method to add the user to the database with email, username, and hashed password //convert lists to strings (unit maingoals)
+                            SignUpButton.IsVisible = false;
+                            SignUpLoad.IsVisible = true;
+                            bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel, calorieGoal);
+                            if (result)
+                            {
+                                await DisplayAlert("Success", "Account created successfully", "OK");
+                                await Navigation.PopModalAsync();
+                            }
+                            else
+                            {
+                                await DisplayAlert("Error", "Something went wrong with account creation", "OK");
+                                SignUpButton.IsVisible = true;
+                                SignUpLoad.IsVisible = false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Handle any exceptions that occur during the database insert operation
+                            await DisplayAlert("Error", ex.Message, "OK");
+                        }
+                    }
+                    else if (responseMessage == "EmailTaken")
+                    {
+                        await DisplayAlert("Notice", "The email is already in use.", "OK");
+                        creatingAccount = false;
+                    }
+                    else if (responseMessage == "UsernameTaken")
+                    {
+                        await DisplayAlert("Notice", "The username is already taken. :(", "OK");
+                        creatingAccount = false;
+                    }
+                    else
+                    { await DisplayAlert("Notice", "There was an issue checking for if that email/username is already in use. Report this please \n info@healthmode.app", "OK");
+                      creatingAccount = false;
+                    }
+                }
             }
+            else { await DisplayAlert("Notice", "Please fill out all the fields.", "OK"); creatingAccount = false; }
         }
-        else { await DisplayAlert("Notice", "Please fill out all the fields.", "OK"); }
+        else
+        {
+            SignUpButton.IsVisible = false;
+            SignUpLoad.IsVisible = true;
+        }
     }
 
 

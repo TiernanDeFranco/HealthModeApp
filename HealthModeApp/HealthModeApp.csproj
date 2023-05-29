@@ -26,6 +26,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Configurations>Release;Debug</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
@@ -178,6 +179,7 @@
 	  <None Remove="Resources\AppIcon\HealthModeIcon-svg.png" />
 	  <None Remove="Resources\AppIcon\HealthModeIcon-svg.jpg" />
 	  <None Remove="Resources\AppIcon\appicon.jpg" />
+	  <None Remove="Resources\AppIcon\appicon %28copy%29.jpg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
@@ -308,6 +310,7 @@
 	  <BundleResource Include="Resources\Images\foodaddicon.svg" />
 	  <BundleResource Include="Resources\Images\moreicon.svg" />
 	  <BundleResource Include="Resources\Images\moreicon_android.svg" />
+	  <BundleResource Include="Resources\AppIcon\appicon_round.jpg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiFont Remove="Resources\Fonts\Lato-Bold.ttf" />
@@ -358,10 +361,12 @@
   
 	 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
 	   <AndroidLinkMode>None</AndroidLinkMode>
-	   <AndroidSigningKeyStore>..\HealthMode.keystore</AndroidSigningKeyStore>
+	   <AndroidSigningKeyStore>..\key.keystore</AndroidSigningKeyStore>
 	   <AndroidSigningStorePass>TiernanDeFranco3170!</AndroidSigningStorePass>
 	   <AndroidSigningKeyPass>TiernanDeFranco3170!</AndroidSigningKeyPass>
 	   <AndroidDexTool>d8</AndroidDexTool>
+	   <AndroidKeyStore>True</AndroidKeyStore>
+	   <AndroidSigningKeyAlias>HealthModeAlias</AndroidSigningKeyAlias>
 	 </PropertyGroup>
 	 <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 	   <DebugSymbols>true</DebugSymbols>

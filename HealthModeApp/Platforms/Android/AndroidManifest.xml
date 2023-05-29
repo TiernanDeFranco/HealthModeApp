@@ -5,52 +5,25 @@
     Changes to this file may cause incorrect behavior and will be lost if
     the contents are regenerated.
     -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="app.healthmode.healthmodeapp" android:versionCode="1" android:versionName="0.1">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="app.healthmode.healthmodeapp" android:versionName="0.1" android:versionCode="5">
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:networkSecurityConfig="@xml/network_security_config" android:allowBackup="true"  android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true"> android:label="HealthMode" android:name="crc64f9685b03e0b8dcbc.MainApplication" android:debuggable="true" android:extractNativeLibs="true" 
-				 android:windowSoftInputMode="adjustNothing"
->
-		<activity android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:theme="@style/Maui.SplashTheme" android:name="crc64f9685b03e0b8dcbc.MainActivity" android:exported="true">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity android:configChanges="orientation|screenSize" android:exported="true" android:name="crc6468b6408a11370c2f.WebAuthenticatorIntermediateActivity" />
-		<provider android:authorities="app.healthmode.healthmodeapp.fileProvider" android:exported="false" android:grantUriPermissions="true" android:name="microsoft.maui.essentials.fileProvider">
-			<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/microsoft_maui_essentials_fileprovider_file_paths" />
-			
-		</provider>
-		<receiver android:enabled="true" android:exported="false" android:label="Essentials Connectivity Broadcast Receiver" android:name="crc64e53d2f592022988e.ConnectivityBroadcastReceiver" />
-		<activity android:configChanges="orientation|screenSize" android:exported="true" android:name="crc64ba438d8f48cf7e75.IntermediateActivity" />
-		<receiver android:enabled="true" android:exported="false" android:label="Essentials Battery Broadcast Receiver" android:name="crc640a8d9a12ddbf2cf2.BatteryBroadcastReceiver" />
-		<receiver android:enabled="true" android:exported="false" android:label="Essentials Energy Saver Broadcast Receiver" android:name="crc640a8d9a12ddbf2cf2.EnergySaverBroadcastReceiver" />
-		<service android:name="crc64396a3fe5f8138e3f.KeepAliveService" />
-		<provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="1999999999" android:authorities="app.healthmode.healthmodeapp.mono.MonoRuntimeProvider.__mono_init__" />
-		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-4370777003788156~8327051073" />
-		
+	<application android:networkSecurityConfig="@xml/network_security_config" android:allowBackup="true" android:supportsRtl="true" android:label="HealthMode">
 
-	</application>
-	
-	
-
+		<activity android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:theme="@style/Maui.SplashTheme" android:name="crc64f9685b03e0b8dcbc.MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter></activity><activity android:configChanges="orientation|screenSize" android:exported="true" android:name="crc6468b6408a11370c2f.WebAuthenticatorIntermediateActivity" /><provider android:authorities="app.healthmode.healthmodeapp.fileProvider" android:exported="false" android:grantUriPermissions="true" android:name="microsoft.maui.essentials.fileProvider"><meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/microsoft_maui_essentials_fileprovider_file_paths" /></provider><receiver android:enabled="true" android:exported="false" android:label="Essentials Connectivity Broadcast Receiver" android:name="crc64e53d2f592022988e.ConnectivityBroadcastReceiver" /><activity android:configChanges="orientation|screenSize" android:exported="true" android:name="crc64ba438d8f48cf7e75.IntermediateActivity" /><receiver android:enabled="true" android:exported="false" android:label="Essentials Battery Broadcast Receiver" android:name="crc640a8d9a12ddbf2cf2.BatteryBroadcastReceiver" /><receiver android:enabled="true" android:exported="false" android:label="Essentials Energy Saver Broadcast Receiver" android:name="crc640a8d9a12ddbf2cf2.EnergySaverBroadcastReceiver" /><service android:name="crc64396a3fe5f8138e3f.KeepAliveService" /><provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="1999999999" android:authorities="app.healthmode.healthmodeapp.mono.MonoRuntimeProvider.__mono_init__" /><meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-4370777003788156~8327051073" /></application>
 	<!--suppress UsesMinSdkAttributes-->
-	<uses-sdk android:minSdkVersion="22"
-			android:targetSdkVersion="31"/>
-	<uses-permission android:name="android.permission.CAMERA"/>
-	<uses-permission android:name="android.permission.VIBRATE"/>
-	<uses-permission android:name="android.permission.FLASHLIGHT"/>
-	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="31" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.FLASHLIGHT" />
+	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
-
 	<queries>
-  <intent>
-    <action android:name="android.media.action.IMAGE_CAPTURE" />
-  </intent>
-</queries>
+		<intent>
+			<action android:name="android.media.action.IMAGE_CAPTURE" />
+		</intent>
+	</queries>
 </manifest>

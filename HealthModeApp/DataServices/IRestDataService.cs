@@ -13,7 +13,7 @@ namespace HealthModeApp.DataServices
 
         Task AddNutritionInfoAsync(NutritionModel nutritionModel, string email, string password, int userID);
 
-        Task<bool> AddUserAsync(string email, string username, string hashedPassword, string salt, int weightPlan, string mainGoals, string units, int sex, decimal heightCm, DateTime birthday, int weight, int goalWeight, int activityLevel, int calorieGoal);
+        Task<bool> AddUserAsync(string email, string username, string hashedPassword, string salt, int weightPlan, string mainGoals, string units, int sex, decimal heightCm, DateTime birthday, decimal weight, decimal goalWeight, int activityLevel, int calorieGoal);
         Task DeleteUserAsync(int userID, string email, string password);
         Task UpdateUserInfoAsync(UserInfo userInfoModel, string email, string password, int userID);
         Task<string> CheckUserUniqueAsync(string email, string username);
