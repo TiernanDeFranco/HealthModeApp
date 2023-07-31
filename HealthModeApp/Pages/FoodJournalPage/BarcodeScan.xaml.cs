@@ -49,50 +49,57 @@ public partial class BarcodeScan : ContentPage
     async void CameraView_OnDetected(System.Object sender, BarcodeScanner.Mobile.OnDetectedEventArg e)
     {
         Loading.IsVisible = true;
+        Camera.IsScanning = false;
         BarcodeResult result = e.BarcodeResults.FirstOrDefault();
-
-        if (result != null)
+        Dispatcher.Dispatch(async () =>
         {
-            string barcodeValue = result.DisplayValue;
-
-            var customFood = await _localData.GetCustomFoodByBarcode(barcodeValue);
-
-            if (customFood == null)
+            if (result != null)
             {
+                string barcodeValue = result.DisplayValue;
+
                 var foodInfo = await _dataService.GetNutritionInfoBarcodeAsync(barcodeValue);
 
                 if (foodInfo == null)
                 {
-                    bool shouldAddFood = await DisplayAlert("Notice", "There is currently no entry for a food with that barcode in the database.\n\nDo you want to add the correct nutritional information for it?", "Yes", "No");
+                    var customFood = await _localData.GetCustomFoodByBarcode(barcodeValue);
 
-                    if (shouldAddFood)
+                    if (customFood == null)
                     {
-                        var currentPage = Navigation.NavigationStack.LastOrDefault();
-                        Navigation.InsertPageBefore(new AddFoodEntry(_dataService, _localData, barcodeValue, _mealType, _date), currentPage);
-                        await Navigation.PopAsync();
+                        bool shouldAddFood = await DisplayAlert("Notice", "There is currently no entry for a food with that barcode in the database.\n\nDo you want to add the correct nutritional information for it?", "Yes", "No");
+
+                        if (shouldAddFood)
+                        {
+                            var currentPage = Navigation.NavigationStack.LastOrDefault();
+                            Navigation.InsertPageBefore(new AddFoodEntry(_dataService, _localData, barcodeValue, _mealType, _date), currentPage);
+                            await Navigation.PopAsync();
+                        }
+                        else
+                        {
+                            Loading.IsVisible = false;
+                            await Navigation.PopAsync();
+                        }
                     }
                     else
                     {
-                        Loading.IsVisible = false;
+                        var currentPage = Navigation.NavigationStack.LastOrDefault();
+                        Navigation.InsertPageBefore(new FoodInfo(_dataService, _localData, customFood, _mealType, _date), currentPage);
                         await Navigation.PopAsync();
                     }
                 }
                 else
                 {
+                    await _localData.RemoveCustomFood(barcodeValue);
                     var currentPage = Navigation.NavigationStack.LastOrDefault();
                     Navigation.InsertPageBefore(new FoodInfo(_dataService, _localData, foodInfo, _mealType, _date), currentPage);
                     await Navigation.PopAsync();
                 }
             }
-            else
-            {
-                var currentPage = Navigation.NavigationStack.LastOrDefault();
-                Navigation.InsertPageBefore(new FoodInfo(_dataService, _localData, customFood, _mealType, _date), currentPage);
-                await Navigation.PopAsync();
-            }
-        }
 
+
+            
+        });
     }
+
 
 
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-ios;</TargetFrameworks>
+		<TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
 	
 		<OutputType>Exe</OutputType>
 		<RootNamespace>HealthModeApp</RootNamespace>
@@ -18,7 +18,7 @@
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>5</ApplicationVersion>
+		<ApplicationVersion>6</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
@@ -29,16 +29,17 @@
 		<Configurations>Release;Debug</Configurations>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	 	  <CodesignKey>iPhone Developer: Tiernan DeFranco (FZJ7MX33UK)</CodesignKey>
 	  <MtouchLink>SdkOnly</MtouchLink>
 	  <CodesignProvision>Automatic</CodesignProvision>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	  <CodesignProvision>HealthModeAppSigning</CodesignProvision>
 	  <CodesignKey>iPhone Distribution: HealthMode LLC (8Y7LY86D8S)</CodesignKey>
+	  <MtouchLink>None</MtouchLink>
 	</PropertyGroup>
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\proteinicon.svg" />
@@ -180,6 +181,18 @@
 	  <None Remove="Resources\AppIcon\HealthModeIcon-svg.jpg" />
 	  <None Remove="Resources\AppIcon\appicon.jpg" />
 	  <None Remove="Resources\AppIcon\appicon %28copy%29.jpg" />
+	  <None Remove="Resources\Images\workouticon_android %28copy%29.svg" />
+	  <None Remove="Resources\Images\workoutbutton %28copy%29.svg" />
+	  <None Remove="Resources\Images\hmlogo %28copy%29.svg" />
+	  <None Remove="Resources\Images\personicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\xicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\watericon %28copy%29.svg" />
+	  <None Remove="Resources\Images\waterbottle %28copy%29.svg" />
+	  <None Remove="Resources\Images\exerciselibrary %28copy%29.svg" />
+	  <None Remove="Resources\Images\dumbellicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\foodplate.svg" />
+	  <None Remove="Resources\Images\meditateicon.svg" />
+	  <None Remove="Pages\WorkoutPages\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
@@ -192,6 +205,7 @@
 	  <Folder Include="Dependencies\" />
 	  <Folder Include="Pages\Progress\" />
 	  <Folder Include="Resources\AppIcon\" />
+	  <Folder Include="Pages\WorkoutPages\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#3f80b6" />
@@ -311,20 +325,40 @@
 	  <BundleResource Include="Resources\Images\moreicon.svg" />
 	  <BundleResource Include="Resources\Images\moreicon_android.svg" />
 	  <BundleResource Include="Resources\AppIcon\appicon_round.jpg" />
+	  <BundleResource Include="Resources\Images\workoutbutton.svg" />
+	  <BundleResource Include="Resources\Images\personicon.svg" />
+	  <BundleResource Include="Resources\Images\exerciselibrary.svg" />
+	  <BundleResource Include="Resources\Images\stretchicon.svg" />
+	  <BundleResource Include="Resources\Images\watericon.svg" />
+	  <BundleResource Include="Resources\Images\wateradd.svg" />
+	  <BundleResource Include="Resources\Images\waterbottle.svg" />
+	  <BundleResource Include="Resources\Images\waterjug.svg" />
+	  <BundleResource Include="Resources\Images\calendaricon.svg" />
+	  <BundleResource Include="Resources\Images\dumbellicon.svg" />
+	  <BundleResource Include="Resources\Images\crownicon.svg" />
+	  <BundleResource Include="Resources\Images\usericon.svg" />
+	  <BundleResource Include="Resources\Images\medalicon.svg" />
+	  <BundleResource Include="Resources\Images\pillicon.svg" />
+	  <BundleResource Include="Resources\Images\rulericon.svg" />
+	  <BundleResource Include="Resources\Images\charticon.svg" />
+	  <BundleResource Include="Resources\Images\dumbbellicon2.svg" />
+	  <BundleResource Include="Resources\Images\piechart.svg" />
+	  <BundleResource Include="Resources\Images\foodplate.svg" />
+	  <BundleResource Include="Resources\Images\meditateicon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiFont Remove="Resources\Fonts\Lato-Bold.ttf" />
 	  <MauiFont Remove="Resources\Fonts\Lato-Regular.ttf" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
-	  <PackageReference Include="SQLitePCLRaw.core" Version="2.1.4" />
-	  <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.4" />
-	  <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.4" />
+	  <PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
+	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.5" />
+	  <PackageReference Include="SQLitePCLRaw.core" Version="2.1.5" />
+	  <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.5" />
+	  <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.5" />
 	  <PackageReference Include="Xamarin.Google.iOS.UserMessagingPlatform" Version="1.2.0.5" />
-	  <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="6.3.0.25-pre" />
-	  <PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-beta.701" />
+	  <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="7.0.0.1-pre" />
+	  <PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-beta.800" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Remove="Resources\Styles\Styles.xaml" />
@@ -359,7 +393,7 @@
     <_StripBitcodeFromFrameworksMasterDependsOnTargets Condition="'$(OS)'!='Unix'">_StripBitcodeFromFrameworksOnWindows</_StripBitcodeFromFrameworksMasterDependsOnTargets>
   </PropertyGroup>
   
-	 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+	 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
 	   <AndroidLinkMode>None</AndroidLinkMode>
 	   <AndroidSigningKeyStore>..\key.keystore</AndroidSigningKeyStore>
 	   <AndroidSigningStorePass>TiernanDeFranco3170!</AndroidSigningStorePass>
@@ -371,6 +405,9 @@
 	 <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 	   <DebugSymbols>true</DebugSymbols>
 	   <WarningLevel>4</WarningLevel>
+	 </PropertyGroup>
+	 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	   <CreatePackage>false</CreatePackage>
 	 </PropertyGroup>
   <Target Name="_StripBitcodeFromFrameworksMasterTarget" Condition="'$(_StripBitcodeFromFrameworksMasterDependsOnTargets)'!='' AND @(_FrameworkNativeReference-&gt;Count()) != 0" AfterTargets="$(_StripBitcodeFromFrameworksMasterAfterTargets)" DependsOnTargets="$(_StripBitcodeFromFrameworksMasterDependsOnTargets)" />
 

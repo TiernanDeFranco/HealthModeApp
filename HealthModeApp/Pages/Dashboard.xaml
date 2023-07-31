@@ -5,26 +5,36 @@
              x:Class="HealthModeApp.Pages.Dashboard">
 
 
-    
+  
 
     <ScrollView>
-        <VerticalStackLayout>
-            <VerticalStackLayout x:Name="LoadingPage" IsVisible="True" Padding="5" Spacing="10">
+        <VerticalStackLayout x:Name="DashboardPage">
+            <VerticalStackLayout x:Name="LoadingPage" IsVisible="True" Padding="5" Spacing="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
-            <Frame x:Name="FrameWidth" Grid.Row="0" CornerRadius="25"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" >
-              <Image Source="hmlogo" WidthRequest="500" HeightRequest="150"/>
+            <Frame x:Name="FrameWidth" Grid.Row="0" CornerRadius="20"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" >
+                <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+                    <Image Source="hmlogo" WidthRequest="500" HeightRequest="150"/>
+              <ActivityIndicator IsRunning="True" Color="White"/>
+                    </StackLayout>
+
             </Frame>
-                <ActivityIndicator IsRunning="True"/>
+                
 
             </VerticalStackLayout>
-     <Grid x:Name="dashboardGrid" Margin="30,10,30,5" IsVisible="False" RowSpacing="10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+     <Grid x:Name="dashboardGrid" Margin="30,10,30,5" IsVisible="False" Opacity="0" RowSpacing="10" Grid.Row="0">
   <Grid.RowDefinitions>
     <RowDefinition Height="Auto"/>
     <RowDefinition Height="Auto"/>
      <RowDefinition Height="Auto"/>
      <RowDefinition Height="Auto"/>
   </Grid.RowDefinitions>
-
+         
     <StackLayout Spacing="5" Grid.Row="0">
                 <Frame CornerRadius="20">
                     <Grid RowSpacing="5">
@@ -55,7 +65,7 @@
                     VerticalOptions="Center" HorizontalOptions="Center"
                     LegendTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
                     TooltipTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
-                    BackgroundColor="Transparent"   AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="Transparent"   AbsoluteLayout.LayoutFlags="All" AnimationsSpeed="0"
                          AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize"/>
 <AbsoluteLayout.GestureRecognizers>
     <TapGestureRecognizer Tapped="OpenNutritionBreakdown"/>
@@ -65,14 +75,15 @@
                    </AbsoluteLayout>
 
                         <Label x:Name="RemainingCalLabel" FontFamily="Lato-Bold" FontSize="Body" Text="0\n0" LineBreakMode="WordWrap" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start"/>
-                        <ImageButton Source="foodaddicon" HeightRequest="40" WidthRequest="40" Grid.Row="2" Grid.Column="2" Clicked="LogFoodClicked"/>
-
+                        <ImageButton Source="foodaddicon" HeightRequest="42" WidthRequest="50" Grid.Row="2" Grid.Column="2" Clicked="LogFoodClicked"/>
+                        <ImageButton Source="wateradd" HeightRequest="35" WidthRequest="55" Grid.Row="2" Grid.Column="0" Clicked="LogWaterClicked"/>
+                       
                     </Grid>
                 </Frame>
 
     </StackLayout>
 
-        
+
 
 
          <Frame CornerRadius="20" Grid.Row="2" Margin="0,5,0,0">
@@ -90,11 +101,11 @@
                         <Label Grid.Row="0" Text="Weight" Grid.Column="1" FontFamily="Lato-Bold" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
                         <Image Source="addicon" WidthRequest="22" HeightRequest="22" Grid.Row="0" Grid.Column="2"  HorizontalOptions="End" VerticalOptions="Center"  Margin="0,0,0,5"/>
                         <Label x:Name="WeightValue" Grid.Row="1" Grid.Column="1" Text="   " HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}"/>
-                        <lvc:CartesianChart x:Name="WeightChart" Grid.Row="2" HeightRequest="150" Grid.ColumnSpan="3"
+                        <lvc:CartesianChart x:Name="WeightChart" Grid.Row="2" HeightRequest="170" Grid.ColumnSpan="3"
                     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                     LegendTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
                     TooltipTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
-                    BackgroundColor="Transparent" InputTransparent="True"
+                    BackgroundColor="Transparent" InputTransparent="True" AnimationsSpeed="0"
                     />
                     </Grid>
                 <Frame.GestureRecognizers>
@@ -105,6 +116,58 @@
          
         
 </Grid>
+                <Frame x:Name="waterFrame" Grid.Row="0" CornerRadius="20" Opacity="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                    <Grid RowSpacing="10" ColumnSpacing="8" HorizontalOptions="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/> 
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="-5" Margin="0,0,0,20">
+                        <ImageButton Source="gearicon" WidthRequest="20" HeightRequest="20" Clicked="ChangeUnitClicked"/>
+                        <Button Margin="0,0,5,0" Text="Change Units" FontFamily="Lato-Regular" FontSize="Caption" TextColor="{StaticResource LightPrimary}" BackgroundColor="Transparent" BorderWidth="0" Clicked="ChangeUnitClicked"/>
+                        </HorizontalStackLayout>
+
+                        <Label Text="Add Water" Margin="0,0,0,20" FontSize="Medium" FontFamily="Lato-Bold" Grid.Row="0" Grid.ColumnSpan="4" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                        <ImageButton Source="xicon" Margin="20,0,0,20" Grid.Row="0" Grid.Column="3" Clicked="WaterXClicked" WidthRequest="35" HeightRequest="35"/>
+
+                        <Image Source="watericon" HeightRequest="28" WidthRequest="28" Grid.Row="1" Grid.Column="0"/>
+                        <Image Source="waterbottle" HeightRequest="38" WidthRequest="38" Grid.Row="1" Grid.Column="1"/>
+                        <Image Source="waterbottle" HeightRequest="48" WidthRequest="48" Grid.Row="1" Grid.Column="2"/>
+                        <Image Source="waterjug" HeightRequest="50" WidthRequest="50" Grid.Row="1" Grid.Column="3"/>
+
+                        <Button x:Name="Volume1" Clicked="Volume1_Clicked" Text="8 fl oz" Grid.Row="2" Grid.Column="0" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+                        <Button x:Name="Volume2" Clicked="Volume2_Clicked" Text="12 fl oz" Grid.Row="2" Grid.Column="1" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+                        <Button x:Name="Volume3" Clicked="Volume3_Clicked" Text="16.9 fl oz" Grid.Row="2" Grid.Column="2" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+                        <Button x:Name="Volume4" Clicked="Volume4_Clicked" Text="32 fl oz" Grid.Row="2" Grid.Column="3" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+
+                        <Grid Grid.Row="3" Grid.ColumnSpan="4" Padding="8" ColumnSpacing="2" RowSpacing="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                        <Entry x:Name="WaterEntry" Grid.Row="0" Grid.Column="1" MaxLength="6" HorizontalTextAlignment="Center"/>
+                        <Label x:Name="WaterLabel" Text="fl oz" Grid.Column="2" Grid.Row="0" FontFamily="Lato-Regular" HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                        <Button x:Name="AddWater" Text="Log Water" HorizontalOptions="Center" Grid.Row="1" Grid.Column="1" Clicked="AddWater_Clicked"/>
+                        </Grid>
+        
+                    </Grid>
+                </Frame>
+
+                </Grid>
             </VerticalStackLayout>
 </ScrollView>
 </ContentPage>

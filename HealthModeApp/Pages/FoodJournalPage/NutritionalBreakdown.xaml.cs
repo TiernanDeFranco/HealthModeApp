@@ -131,6 +131,7 @@ public partial class NutritionalBreakdown : ContentPage
         totalVitaminK = 0;
 
         DateSelect.Date = setDate;
+        PopulateFoodInfo();
         SeesAds();
     }
 
@@ -164,7 +165,7 @@ public partial class NutritionalBreakdown : ContentPage
         }
         else
         {
-            DateSelect.Format = $"   {dateFormat}";
+            DateSelect.Format = $"     {dateFormat}";
         }
     }
 
@@ -371,6 +372,10 @@ public partial class NutritionalBreakdown : ContentPage
             CarbLabel.Text = totalCarb.ToString("0.#" + "g");
             FatLabel.Text = totalFat.ToString("0.#" + "g");
             ProteinLabel.Text = totalProtein.ToString("0.#" + "g");
+
+            CarbRemaining.Text = (nutritionGoals.CarbGoal - totalCarb).ToString("0.#g\nRemaining");
+            FatRemaining.Text = (nutritionGoals.FatGoal - totalFat).ToString("0.#g\nRemaining");
+            ProteinRemaining.Text = (nutritionGoals.ProteinGoal - totalProtein).ToString("0.#g\nRemaining");
 
             double carbPercentage = ((double)totalCarb / nutritionGoals.CarbGoal);
             double fatPercentage = ((double)totalFat / nutritionGoals.FatGoal);

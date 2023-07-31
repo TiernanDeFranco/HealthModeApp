@@ -103,7 +103,13 @@ public partial class NewWeightEntry : ContentPage
                 {
                     var imageSource = ImageSource.FromStream(() => new MemoryStream(pictureBytes));
                     ProgressPicture.Source = imageSource;
+                    ProgressPicture.IsAnimationPlaying = false;
+                    PictureFrame.Opacity = 0;
                     PictureFrame.IsVisible = true;
+                    PictureFrame.FadeTo(1, 500);
+                    ProgressPicture.IsAnimationPlaying = true;
+                    ProgressPicture.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .27;
+                    ProgressPicture.Aspect = Aspect.AspectFit;
                 }
 
 
@@ -177,8 +183,9 @@ public partial class NewWeightEntry : ContentPage
         }
     }
 
-    void DeleteImage_Clicked(System.Object sender, System.EventArgs e)
+    async void DeleteImage_Clicked(System.Object sender, System.EventArgs e)
     {
-        PictureFrame.IsVisible = false; ProgressPicture.Source = null; pictureBytes = null;
+        await PictureFrame.FadeTo(0, 500);
+        ProgressPicture.Source = null; pictureBytes = null;
     }
 }

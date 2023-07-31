@@ -19,6 +19,8 @@ using static HealthModeApp.Models.SQLite.SQLiteTables;
 using LiveChartsCore.Kernel.Sketches;
 using System.Text.Json;
 using HealthModeApp.Pages.FoodJournalPage;
+using Microsoft.Maui.Layouts;
+using System.Drawing;
 
 namespace HealthModeApp.Pages;
 
@@ -30,6 +32,7 @@ public partial class Dashboard : ContentPage
     int _userID;
     string _dateFormat;
 
+
     public Dashboard(IRestDataService dataService, ISQLiteDataService localData)
     {
         _dataService = dataService;
@@ -38,46 +41,112 @@ public partial class Dashboard : ContentPage
 
         TryLogin();
         InitializeComponent();
-        NavigationPage.SetHasNavigationBar(this, false);
+        
+
+      
 
     }
+
+    async protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        await Task.Delay(25);
+        waterFrame.Opacity = 0;
+        dashboardGrid.Opacity = 1;
+
+        
+    }
+
+    
+    double volume1;
+    double volume2;
+    double volume3;
+    double volume4;
+
+    string _waterUnit;
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        Debug.WriteLine("-------> Appear");
+        var userExists = await _localData.DoesUserTableExist();
+
+        if (userExists)
+        {
 
         var userID = await _localData.GetUserID();
 
-        if (userID != -1)
-        {
-            var exists = await _localData.DoesWeightEntryExist(userID);
-            var userInfo = await _localData.GetUserAsync(userID);
-            var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-            var dateFormat = unitList[4];
-
-
-            switch (dateFormat)
+            if (userID != -1)
             {
-                case "MM/dd/yy":
-                    TodaysDate.Text = DateTime.Today.ToString("dddd, MMMM d, yyyy");
-                    break;
+                Debug.WriteLine("-------> User Exists");
+                
+                var userInfo = await _localData.GetUserAsync(userID);
+                var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
+                var dateFormat = unitList[4];
+                var waterUnit = unitList[1];
+                _waterUnit = waterUnit;
 
-                case "dd/MM/yy":
-                    TodaysDate.Text = DateTime.Today.ToString("dddd, d MMMM, yyyy");
-                    break;
+                Debug.WriteLine("-------> Made it past the variable settings");
 
-                case "yy/MM/dd":
-                    TodaysDate.Text = DateTime.Today.ToString("dddd, MMMM d, yyyy");
-                    break;
-            }
+                switch (dateFormat)
+                {
+                    case "MM/dd/yy":
+                        TodaysDate.Text = DateTime.Today.ToString("dddd, MMMM d, yyyy");
+                        break;
 
-            SeesAds();
-            PopulateFoodInfo();
-            PopulateMealName();
-            if (exists)
-            {
+                    case "dd/MM/yy":
+                        TodaysDate.Text = DateTime.Today.ToString("dddd, d MMMM, yyyy");
+                        break;
+
+                    case "yy/MM/dd":
+                        TodaysDate.Text = DateTime.Today.ToString("dddd, MMMM d, yyyy");
+                        break;
+                }
+
+                switch (waterUnit)
+                {
+                    case "fl oz":
+                        volume1 = 8;
+                        volume2 = 12;
+                        volume3 = 16.9;
+                        volume4 = 32;
+                        break;
+
+                    case "cups":
+                        volume1 = 1;
+                        volume2 = 1.5;
+                        volume3 = 2;
+                        volume4 = 4;
+                        break;
+
+                    case "mL":
+                        volume1 = 235;
+                        volume2 = 355;
+                        volume3 = 500;
+                        volume4 = 1000;
+                        break;
+                }
+
+                Volume1.Text = volume1.ToString($"0.# {waterUnit}");
+                Volume2.Text = volume2.ToString($"0.# {waterUnit}");
+                Volume3.Text = volume3.ToString($"0.# {waterUnit}");
+                Volume4.Text = volume4.ToString($"0.# {waterUnit}");
+                WaterLabel.Text = waterUnit.ToString();
+                WaterEntry.Text = null;
+
+                Debug.WriteLine("-------> Water Unit Stuff");
+
+                SeesAds();
+                PopulateFoodInfo();
+                PopulateMealName();
                 FillGraph();
+                
+
+                Debug.WriteLine("-------> This is after fillgraph");
+
+
             }
+
         }
         
 
@@ -135,27 +204,42 @@ public partial class Dashboard : ContentPage
         }
         if (success == "AllClear")
         {
-            NavigationPage.SetHasNavigationBar(this, true);
             Debug.WriteLine("AutoLogin");
             int userID = await _dataService.GetUserIDByEmailAsync(email);
-            (var userInfo, bool seesAds) = await _dataService.GetUserInfoOnLoginAsync(userID, email, password);
+            (var userInfo, bool seesAds, string flair, string flairColor, bool isBlackText, string picturePath) = await _dataService.GetUserInfoOnLoginAsync(userID, email, password);
             _userID = userID;
-            await _localData.UpdateUserAsync(userID, userInfo.Email, userInfo.Username, userInfo.Password, seesAds, userInfo.WeightPlan, userInfo.MainGoals, userInfo.Units, userInfo.Sex, userInfo.HeightCm, userInfo.Birthday, (decimal)userInfo.Weight, (decimal)userInfo.GoalWeight, userInfo.ActivityLevel);
-            Dictionary<string, int> nutrientGoals = await CalculateNutrientGoals((int)userInfo.CalorieGoal);
-            await _localData.UpdateNutritionGoals(userID, DateTime.Today, userInfo.CalorieGoal, null, null, null,
-                            nutrientGoals["satfat"], nutrientGoals["punsatfat"], nutrientGoals["munsatfat"], 0, nutrientGoals["sugar"],
-                            nutrientGoals["iron"], nutrientGoals["calcium"], nutrientGoals["potassium"], nutrientGoals["sodium"], nutrientGoals["cholesterol"],
-                            nutrientGoals["vitaminA"], nutrientGoals["thiamin"], nutrientGoals["riboflavin"], nutrientGoals["niacin"], nutrientGoals["b5"],
-                            nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
-                            nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"]);
+            try
+            {
+                await _localData.UpdateUserAsync(userID, userInfo.Email, userInfo.Username, userInfo.Password, seesAds, userInfo.WeightPlan, userInfo.MainGoals, userInfo.Units, userInfo.Sex, userInfo.HeightCm, userInfo.Birthday, (decimal)userInfo.Weight, (decimal)userInfo.GoalWeight, userInfo.ActivityLevel, flair, flairColor, isBlackText, userInfo.PictureBGColor, picturePath, userInfo.Title);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+            var nutritionGoals = await _localData.GetNutritionGoals(userID, DateTime.Today);
+
+            if (nutritionGoals == null)
+            {
+                Dictionary<string, int> nutrientGoals = await CalculateNutrientGoals((int)userInfo.CalorieGoal);
+                await _localData.AddNutritionGoals(userID, DateTime.Today, (int)userInfo.CalorieGoal, nutrientGoals["carb"], nutrientGoals["fat"], nutrientGoals["protein"],
+                nutrientGoals["satfat"], nutrientGoals["punsatfat"], nutrientGoals["munsatfat"], 0, nutrientGoals["sugar"],
+                nutrientGoals["iron"], nutrientGoals["calcium"], nutrientGoals["potassium"], nutrientGoals["sodium"], nutrientGoals["cholesterol"],
+                nutrientGoals["vitaminA"], nutrientGoals["thiamin"], nutrientGoals["riboflavin"], nutrientGoals["niacin"], nutrientGoals["b5"],
+                nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
+                nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"], 2000);
+            }
 
 
-
-            LoadingPage.IsVisible = false;
+            LoadingPage.FadeTo(0, 250);
             dashboardGrid.IsVisible = true;
+            dashboardGrid.FadeTo(1, 200);
+            LoadingPage.IsVisible = false;
+
+
             Shell.SetTabBarIsVisible(this, true);
 
-
+           
+            
         }
         else
         {
@@ -276,92 +360,41 @@ public partial class Dashboard : ContentPage
 
     public async void FillGraph()
     {
-
+        Debug.WriteLine("-------> Fill Graph 1st Checkpoint");
+        WeightValue.TextColor = Colors.SteelBlue;
+        
         var userID = await _localData.GetUserID();
 
-        var userInfo = await _localData.GetUserAsync(userID);
-        var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-        var dateFormat = unitList[4];
-        var weightUnit = unitList[0];
+            var userInfo = await _localData.GetUserAsync(userID);
+
+            var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
+
+            var dateFormat = unitList[4];
+            var weightUnit = unitList[0];
+            var weightPlan = userInfo.WeightPlan;
+
+        Debug.WriteLine("-------> Fill Graph 2nd Checkpoint");
 
         switch (dateFormat)
-        {
-            case "MM/dd/yy":
-                _dateFormat = "M/d";
-                break;
-
-            case "dd/MM/yy":
-                _dateFormat = "d/M";
-                break;
-
-            case "yy/MM/dd":
-                _dateFormat = "M/d";
-                break;
-        }
-
-        var weights = await _localData.GetWeightsIndex(userID, 0);
-        WeightValue.IsVisible = true;
-        var weightUnitFormat = "lbs";
-        foreach (var weight in weights)
-        {
-            if (weightUnit == "kg")
             {
-                weight.Weight = Math.Round(weight.Weight / (decimal)2.2, 1);
-                weightUnitFormat = "kg";
-            }
-            else
-            {
-                weightUnitFormat = "lbs";
-            }
-        }
+                case "MM/dd/yy":
+                    _dateFormat = "MMM d";
+                    break;
 
+                case "dd/MM/yy":
+                    _dateFormat = "d MMM";
+                    break;
+
+                case "yy/MM/dd":
+                    _dateFormat = "MMM d";
+                    break;
+            }
+        Debug.WriteLine("-------> Fill Graph 3rd Checkpoint");
         ChartValues = new ObservableCollection<DateTimePoint>();
-        if (weights.Count > 0)
-        {
-            foreach (var weight in weights)
-            {
-                ChartValues.Add(new DateTimePoint(weight.Date, (double)weight.Weight));
-            }
-
-            var lastWeight = weights.Last();
-            if (weights.All(w => w.Date != DateTime.Today))
-            {
-                ChartValues.Add(new DateTimePoint(DateTime.Today, (double)lastWeight.Weight));
-            }
-            WeightValue.Text = lastWeight.Weight.ToString($"0.# {weightUnitFormat}");
-        }
-        else
-        {
-            var weightsAll = await _localData.GetWeightsIndex(userID, 6);
-            if (weightsAll.Count > 0)
-            {
-                var lastWeight = weightsAll.Last();
-                WeightValue.Text = lastWeight.ToString();
-                ChartValues.Add(new DateTimePoint(lastWeight.Date, (double)lastWeight.Weight));
-                ChartValues.Add(new DateTimePoint(DateTime.Today, (double)lastWeight.Weight));
-            }
-            else
-            {
-                WeightValue.IsVisible = false;
-            }
-        }
-
-        var series = new LineSeries<DateTimePoint>()
-        {
-            Values = ChartValues,
-            LineSmoothness = 0.1f, // Optional: adjust the line smoothness to your liking
-
-            TooltipLabelFormatter = (chartPoint) =>
-                $"{new DateTime((long)chartPoint.SecondaryValue):MMMM d}: {chartPoint.PrimaryValue}",
-            GeometryFill = new SolidColorPaint(SKColor.Parse("#67ade6")),
-            Stroke = new SolidColorPaint(SKColor.Parse("#4b9fe3")) { StrokeThickness = 10 },
-            Fill = null,
-            GeometryStroke = null,
-
-            GeometrySize = 3
-        };
-
-        WeightChart.Series = new ISeries[] { series };
+        Debug.WriteLine("-------> Fill Graph 4th Checkpoint");
+        List<WeightTable> weights = await _localData.GetWeightsIndex(userID, 0);
+        Debug.WriteLine("-------> Fill Graph 5th Checkpoint");
+        Debug.WriteLine(weights.Count);
 
         AppTheme currentTheme = Application.Current.RequestedTheme;
         var colorMode = SKColors.CornflowerBlue;
@@ -379,11 +412,138 @@ public partial class Dashboard : ContentPage
 
         }
 
-        decimal smallestWeight = (decimal)weights.OrderBy(w => w.Weight).FirstOrDefault()?.Weight;
-        decimal largestWeight = (decimal)weights.OrderByDescending(w => w.Weight).FirstOrDefault()?.Weight;
-
-        WeightChart.XAxes = new[]
+        if (weights.Count == 0)
             {
+            ChartValues = new ObservableCollection<DateTimePoint>();
+            WeightValue.Text = "-= Enter Weight =-";
+
+                if (weightPlan == -1)
+                {
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-7), 15));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-6), 12));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-5), 11));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-4), 13));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-3), 9));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-2), 6));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-1), 4));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today, 4));
+                }
+                else if (weightPlan == 0)
+                {
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-7), 8));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-6), 8));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-5), 10));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-4), 10));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-3), 9));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-2), 7));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-1), 7));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today, 8));
+                }
+                else if (weightPlan == 1)
+                {
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-7), 5));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-6), 5));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-5), 8));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-4), 10));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-3), 9));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-2), 9));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today.AddDays(-1), 11));
+                    ChartValues.Add(new DateTimePoint(DateTime.Today, 13));
+                }
+
+                var Weightseries = new LineSeries<DateTimePoint>()
+                {
+                    Values = ChartValues,
+                    LineSmoothness = 0.1f, // Optional: adjust the line smoothness to your liking
+
+                    TooltipLabelFormatter = (chartPoint) =>
+                        $"{new DateTime((long)chartPoint.SecondaryValue):MMMM d}: {chartPoint.PrimaryValue}",
+                    GeometryFill = new SolidColorPaint(SKColor.Parse("#67ade6")),
+                    Stroke = new SolidColorPaint(SKColor.Parse("#4b9fe3")) { StrokeThickness = 10 },
+                    Fill = null,
+                    GeometryStroke = null,
+
+                    GeometrySize = 3
+                };
+
+                WeightChart.Series = new ISeries[] { Weightseries };
+
+                WeightChart.XAxes = new[]
+                {
+                    new Axis
+                        {
+                             Labeler = value => new DateTime((long) value).ToString($"{_dateFormat}"),
+                             UnitWidth = TimeSpan.FromDays(1).Ticks,
+                             MinStep = TimeSpan.FromDays(1).Ticks,
+                             TextSize = 20,
+                             LabelsPaint = new SolidColorPaint(colorMode)
+
+
+
+                        }
+                };
+
+                WeightChart.YAxes = new[]
+                   {
+                        new Axis
+                            {
+                                 TextSize = 21,
+                                 MinStep = 3,
+                                 LabelsPaint = new SolidColorPaint(SKColors.Transparent),
+                                 MinLimit = 0,
+                                 MaxLimit = 20
+                            }
+                   };
+            }
+
+            if (weights.Count > 0)
+            {
+            ChartValues = new ObservableCollection<DateTimePoint>();
+            WeightValue.IsVisible = true;
+                var latestWeight = weights.Last();
+                WeightValue.Text = latestWeight.Weight.ToString($"0.# {weightUnit}");
+                var weightUnitFormat = "lbs";
+                foreach (var weight in weights)
+                {
+                    if (weightUnit == "kg")
+                    {
+                        weight.Weight = Math.Round(weight.Weight / (decimal)2.2, 1);
+                        weightUnitFormat = "kg";
+                    }
+                    else
+                    {
+                        weightUnitFormat = "lbs";
+                    }
+
+                    ChartValues.Add(new DateTimePoint(weight.Date, (double)weight.Weight));
+                }
+
+
+                var series = new LineSeries<DateTimePoint>()
+                {
+                    Values = ChartValues,
+                    LineSmoothness = 0.1f, // Optional: adjust the line smoothness to your liking
+
+                    TooltipLabelFormatter = (chartPoint) =>
+                        $"{new DateTime((long)chartPoint.SecondaryValue):MMMM d}: {chartPoint.PrimaryValue}",
+                    GeometryFill = new SolidColorPaint(SKColor.Parse("#67ade6")),
+                    Stroke = new SolidColorPaint(SKColor.Parse("#4b9fe3")) { StrokeThickness = 10 },
+                    Fill = null,
+                    GeometryStroke = null,
+
+                    GeometrySize = 3
+                };
+
+                WeightChart.Series = new ISeries[] { series };
+
+                
+
+                decimal smallestWeight = weights.OrderBy(w => w.Weight).FirstOrDefault()?.Weight ?? 0m;
+                decimal largestWeight = weights.OrderByDescending(w => w.Weight).FirstOrDefault()?.Weight ?? 0m;
+
+
+                WeightChart.XAxes = new[]
+                    {
                 new Axis
                 {
                      Labeler = value => new DateTime((long) value).ToString($"{_dateFormat}"),
@@ -397,17 +557,19 @@ public partial class Dashboard : ContentPage
                 }
              };
 
-        WeightChart.YAxes = new[]
-           {
+                WeightChart.YAxes = new[]
+                   {
                 new Axis
                 {
-                     TextSize = 25,
+                     TextSize = 21,
+                     MinStep = 3,
                      LabelsPaint = new SolidColorPaint(colorMode),
                      MinLimit = (double)smallestWeight - 5,
                      MaxLimit = (double)largestWeight + 5,
                 }
-           };
+                 };
 
+            }
 
 
     }
@@ -499,7 +661,7 @@ public partial class Dashboard : ContentPage
             double frameWidth;
             double innerRadius;
 
-            frameWidth = DeviceDisplay.MainDisplayInfo.Width * .35;
+            frameWidth = DeviceDisplay.MainDisplayInfo.Width * .33;
 
 
             innerRadius = frameWidth * .5;
@@ -585,5 +747,140 @@ public partial class Dashboard : ContentPage
     {
         Navigation.PushAsync(new FoodSearch(_localData, _dataService, DateTime.Today));
 
+    }
+
+
+    void LogWaterClicked(System.Object sender, System.EventArgs e)
+    {
+        dashboardGrid.FadeTo(0, 250);
+        
+        waterFrame.FadeTo(1, 300);
+        WaterEntry.WidthRequest = waterFrame.Width * .2;
+
+    }
+
+    void WaterXClicked(System.Object sender, System.EventArgs e)
+    {
+        waterFrame.FadeTo(0, 250);
+        dashboardGrid.FadeTo(1, 300);
+    }
+
+    async void ChangeUnitClicked(System.Object sender, System.EventArgs e)
+    {
+        await Navigation.PushModalAsync(new Pages.UnitPage(_localData, _dataService));
+        await Task.Delay(100);
+
+        dashboardGrid.FadeTo(0, 50);
+        waterFrame.FadeTo(1, 100);
+    }
+
+    
+
+    void Volume1_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (double.TryParse(WaterEntry.Text, out var volume))
+        {
+            // Perform operations using the volume1 variable as a double
+            // For example:
+            volume += volume1;
+
+            // Convert the updated volume1 back to string and assign it to WaterEntry.Text
+            WaterEntry.Text = volume.ToString("0.#");
+        }
+        else
+        {
+            WaterEntry.Text = volume1.ToString("0.#");
+        }
+        
+    }
+
+    void Volume2_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (double.TryParse(WaterEntry.Text, out var volume))
+        {
+            // Perform operations using the volume1 variable as a double
+            // For example:
+            volume += volume2;
+
+            // Convert the updated volume1 back to string and assign it to WaterEntry.Text
+            WaterEntry.Text = volume.ToString("0.#");
+        }
+        else
+        {
+            WaterEntry.Text = volume2.ToString("0.#");
+        }
+    }
+
+    void Volume3_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (double.TryParse(WaterEntry.Text, out var volume))
+        {
+            // Perform operations using the volume1 variable as a double
+            // For example:
+            volume += volume3;
+
+            // Convert the updated volume1 back to string and assign it to WaterEntry.Text
+            WaterEntry.Text = volume.ToString("0.#");
+        }
+        else
+        {
+            WaterEntry.Text = volume3.ToString("0.#");
+        }
+    }
+
+    void Volume4_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (double.TryParse(WaterEntry.Text, out var volume))
+        {
+            // Perform operations using the volume1 variable as a double
+            // For example:
+            volume += volume4;
+
+            // Convert the updated volume1 back to string and assign it to WaterEntry.Text
+            WaterEntry.Text = volume.ToString("0.#");
+        }
+        else
+        {
+            WaterEntry.Text = volume4.ToString("0.#");
+        }
+    }
+
+    async void AddWater_Clicked(System.Object sender, System.EventArgs e)
+    {
+        decimal mLVolume = 0;
+
+        if (decimal.TryParse(WaterEntry.Text, out var volume))
+        {
+           switch (_waterUnit)
+            {
+                case "mL":
+                    mLVolume = volume;
+                    break;
+                case "fl oz":
+                    mLVolume = Math.Round(volume * (decimal)29.574, 0);
+                    break;
+                case "cups":
+                    mLVolume = Math.Round(volume * (decimal)236.6, 0);
+                    break;
+
+            }
+
+            try
+            {
+                await _localData.AddWaterEntry(_userID, DateTime.Now, mLVolume);
+            }
+            catch
+            {
+                await DisplayAlert("Notice", "Something went wrong trying to add that water entry, sorry :(", "OK");
+            }
+            waterFrame.FadeTo(0, 250);
+            dashboardGrid.FadeTo(1, 230);
+        }
+        else
+        {
+            
+        }
+
+        
     }
 }

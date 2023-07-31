@@ -5,11 +5,7 @@
              Title="Food Journal">
 
  
- <ContentPage.ToolbarItems>
-    <ToolbarItem
-                 Text="Log Food"
-                 Clicked="LogFoodClicked"/>
-</ContentPage.ToolbarItems>
+
 
     <Grid Margin="3,7,3,7" Padding="0,0,0,5">
   <Grid.RowDefinitions>
@@ -37,13 +33,14 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
              <HorizontalStackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="End" Spacing="-10" Margin="5,0,0,0">
-                 <ImageButton Source="gearicon" Clicked="SettingsClicked" Aspect="AspectFit" WidthRequest="21" HeightRequest="21"/>
+                 <ImageButton Source="gearicon" Clicked="SettingsClicked" Aspect="AspectFit" WidthRequest="25" HeightRequest="25"/>
                  <Button Text="Settings" Clicked="SettingsClicked" TextColor="{StaticResource LightPrimary}" BackgroundColor="Transparent" BorderColor="Transparent"/>
              </HorizontalStackLayout>
 
-        
+                <ImageButton x:Name="WaterAdd" Source="wateradd" Clicked="WaterAdd_Clicked" Grid.Row="0" Grid.Column="4" Aspect="AspectFit" WidthRequest="50" HeightRequest="35" />
+            
             <DatePicker x:Name="DatePicker" Margin="5" DateSelected="DatePicker_DateSelected"  FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yy" HorizontalOptions="Center" Grid.Row="0" Grid.Column="2" />
-                <Button x:Name="TodayButton" IsVisible="False" Text="Jump To Today" Clicked="TodayButtonClicked" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="10,2,10,2" HorizontalOptions="CenterAndExpand" HeightRequest="{Binding Height, Source={x:Reference DatePicker}}" WidthRequest="123"/>
+                <ImageButton x:Name="TodayButton" IsVisible="False" Source="calendaricon" Aspect="AspectFit" Clicked="TodayButtonClicked" Grid.Row="0" Grid.Column="3" Margin="10,2,10,2" HorizontalOptions="CenterAndExpand" HeightRequest="{Binding Height, Source={x:Reference DatePicker}}" WidthRequest="25"/>
 
                 <Label x:Name="GoalLabel" Text="2000" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold" FontSize="20" HorizontalTextAlignment="Center"/>
                 <Label Text="Goal" Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
@@ -71,11 +68,64 @@
       </Frame.GestureRecognizers>
   </Frame>
 
-        
+        <Frame x:Name="WaterInfoFrame" Opacity="0" Grid.Row="0" Padding="2" CornerRadius="20" Margin="0,0,0,2">
+     <Grid ColumnSpacing="2.5" RowSpacing="0" HorizontalOptions="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+         <HorizontalStackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="End" Spacing="-10" BackgroundColor="Transparent">
+                 <ImageButton Source="watericon" Clicked="SettingsClicked" Aspect="AspectFit" WidthRequest="35" HeightRequest="25"/>
+                 <Button Text="Water Goal" Margin="0,0,5,0" Clicked="SettingsClicked" TextColor="{StaticResource LightPrimary}" BackgroundColor="Transparent" BorderColor="Transparent"/>
+             </HorizontalStackLayout>
+
+         <ImageButton x:Name="FoodAdd" Source="foodaddicon" Clicked="WaterXClicked" Grid.Row="0" Grid.Column="4" Aspect="AspectFit" WidthRequest="50" HeightRequest="40" />
+              
+            <DatePicker x:Name="WaterDatePicker" Margin="5" DateSelected="WaterDatePicker_DateSelected"  FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yy" HorizontalOptions="Center" Grid.Row="0" Grid.Column="2" />
+                <ImageButton x:Name="WaterTodayButton" IsVisible="False" Source="calendaricon" Aspect="AspectFit" Clicked="TodayButtonClicked" Grid.Row="0" Grid.Column="3" Margin="10,2,10,2" HorizontalOptions="CenterAndExpand" HeightRequest="{Binding Height, Source={x:Reference WaterDatePicker}}" WidthRequest="25"/>
+
+                <Label x:Name="WaterGoalLabel" Text="2000" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold" FontSize="20" HorizontalTextAlignment="Center"/>
+                <Label Text="Goal" Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
+
+                <Label Text="-" FontFamily="Lato-Bold" FontSize="25" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center"/>
+
+                <Label Text="Consumed" Grid.Row="2" Grid.Column="2" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
+
+                <HorizontalStackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="Center">
+                    <Image HeightRequest="25" WidthRequest="30" VerticalOptions="Center" Source="waterbottle"/>
+                    <Label x:Name="WaterConsumedLabel" Text="0" FontFamily="Lato-Bold" FontSize="20" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <Label Text="=" FontFamily="Lato-Bold" FontSize="25" Grid.Row="1" Grid.Column="3" HorizontalTextAlignment="Center"/>
+
+                <Label x:Name="WaterRemainingLabel" Text="2000" Grid.Row="1" Grid.Column="4" FontFamily="Lato-Bold" FontSize="25" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}"/>
+                <Label Text="Remaining" Grid.Row="2" Grid.Column="4" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
+
+
+                <ProgressBar x:Name="WaterGoalBar" ProgressColor="{StaticResource Accent2}" Grid.Row="3" Grid.ColumnSpan="5" HorizontalOptions="Center" Margin="15,0,15,5"/>
+            
+     </Grid>
+      <Frame.GestureRecognizers>
+          
+      </Frame.GestureRecognizers>
+  </Frame>
 
 
 
-    <Grid ColumnSpacing="5" RowSpacing="5" Margin="3" Grid.Row="2">
+    <Grid x:Name="MealsGrid" ColumnSpacing="5" RowSpacing="5" Margin="3" Grid.Row="2">
       <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
         <RowDefinition Height="*"/>
@@ -129,7 +179,7 @@
             <Label x:Name="meal1CalLabel" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="End" VerticalOptions="Center"/>
         </Grid>
 
-        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="Center"  x:Name="Meal1Scroll">
             <Grid Margin="5" x:Name="Meal1Grid" WidthRequest="{Binding Width, Source={x:Reference BaseGrid}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -172,7 +222,7 @@
             <Label x:Name="meal2CalLabel" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="End" VerticalOptions="Center"/>
         </Grid>
 
-        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Orientation="Vertical" VerticalOptions="Start" HorizontalOptions="Center" x:Name="Meal2Scroll">
             <Grid Margin="5" x:Name="Meal2Grid" WidthRequest="{Binding Width, Source={x:Reference BaseGrid}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -213,7 +263,7 @@
             <Label x:Name="meal3CalLabel" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="End" VerticalOptions="Center"/>
         </Grid>
 
-        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="Center"  x:Name="Meal3Scroll">
             <Grid Margin="5" x:Name="Meal3Grid" WidthRequest="{Binding Width, Source={x:Reference BaseGrid}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -254,7 +304,7 @@
             <Label x:Name="meal4CalLabel" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="End" VerticalOptions="Center"/>
         </Grid>
 
-        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="Center"  x:Name="Meal4Scroll">
             <Grid Margin="5" x:Name="Meal4Grid" WidthRequest="{Binding Width, Source={x:Reference BaseGrid}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -295,7 +345,7 @@
             <Label x:Name="meal5CalLabel" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="End" VerticalOptions="Center"/>
         </Grid>
 
-        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="Center" x:Name="Meal5Scroll">
             <Grid Margin="5" x:Name="Meal5Grid" WidthRequest="{Binding Width, Source={x:Reference BaseGrid}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -337,7 +387,7 @@
             <Label x:Name="meal6CalLabel" Grid.Column="1" Text="0" FontSize="Medium" FontFamily="Lato-Bold" HorizontalOptions="End" VerticalOptions="Center"/>
         </Grid>
 
-        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Orientation="Vertical" HorizontalOptions="Center"  x:Name="Meal6Scroll">
             <Grid Margin="5" x:Name="Meal6Grid" WidthRequest="{Binding Width, Source={x:Reference BaseGrid}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -363,6 +413,70 @@
 </Frame>
 
     </Grid>
+        <Grid x:Name="WaterGrid" RowSpacing="12" Grid.Row="2" Grid.ColumnSpan="2" Opacity="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height=".9*"/>
+            </Grid.RowDefinitions>
+        <Frame x:Name="waterFrame" Grid.Row="0" Margin="0,12,0,0" CornerRadius="20" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
+                    <Grid RowSpacing="10" ColumnSpacing="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/> 
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="-5" Margin="0,0,0,20">
+                        <ImageButton Source="gearicon" WidthRequest="20" HeightRequest="20" Clicked="ChangeUnitClicked"/>
+                        <Button Margin="0,0,5,0" Text="Change Units" FontFamily="Lato-Regular" FontSize="Caption" TextColor="{StaticResource LightPrimary}" BackgroundColor="Transparent" BorderWidth="0" Clicked="ChangeUnitClicked"/>
+                        </HorizontalStackLayout>
+
+                        <Label Text="Add Water" Margin="0,0,0,20" FontSize="Medium" FontFamily="Lato-Bold" Grid.Row="0" Grid.ColumnSpan="4" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                        <ImageButton Source="xicon" Margin="20,0,0,20" Grid.Row="0" Grid.Column="3" Clicked="WaterXClicked" WidthRequest="35" HeightRequest="35"/>
+
+                        <Image Source="watericon" HeightRequest="28" WidthRequest="28" Grid.Row="1" Grid.Column="0"/>
+                        <Image Source="waterbottle" HeightRequest="38" WidthRequest="38" Grid.Row="1" Grid.Column="1"/>
+                        <Image Source="waterbottle" HeightRequest="48" WidthRequest="48" Grid.Row="1" Grid.Column="2"/>
+                        <Image Source="waterjug" HeightRequest="50" WidthRequest="50" Grid.Row="1" Grid.Column="3"/>
+
+                        <Button x:Name="Volume1" Clicked="Volume1_Clicked" Text="8 fl oz" Grid.Row="2" Grid.Column="0" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+                        <Button x:Name="Volume2" Clicked="Volume2_Clicked" Text="12 fl oz" Grid.Row="2" Grid.Column="1" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+                        <Button x:Name="Volume3" Clicked="Volume3_Clicked" Text="16.9 fl oz" Grid.Row="2" Grid.Column="2" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+                        <Button x:Name="Volume4" Clicked="Volume4_Clicked" Text="32 fl oz" Grid.Row="2" Grid.Column="3" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+
+                        <Grid Grid.Row="3" Grid.ColumnSpan="4" Padding="8" ColumnSpacing="2" RowSpacing="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                        <Entry x:Name="WaterEntry" Grid.Row="0" Grid.Column="1" MaxLength="6" HorizontalTextAlignment="Center"/>
+                        <Label x:Name="WaterLabel" Text="fl oz" Grid.Column="2" Grid.Row="0" FontFamily="Lato-Regular" HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                        <Button x:Name="AddWater" Text="Log Water" HorizontalOptions="Center" Grid.Row="1" Grid.Column="1" Clicked="AddWaterEntry_Clicked"/>
+                        </Grid>
+        
+                    </Grid>
+                </Frame>
+            <Frame x:Name="ListFrame" Grid.Row="1" Padding="5">
+            <ListView x:Name="WaterListView" CachingStrategy="RecycleElement" Opacity="0"
+          HorizontalOptions="Center"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}"
+              ItemSelected="waterList_ItemSelected">
+
+    </ListView>
+          </Frame>
+            </Grid>
 
 </Grid>
 

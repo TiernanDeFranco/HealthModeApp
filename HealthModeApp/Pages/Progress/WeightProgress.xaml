@@ -17,12 +17,12 @@
         <Grid RowSpacing="12" Padding="12">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1.3*"/>
             </Grid.RowDefinitions>
 
   
-            <Frame Grid.Row="0">
-                <Grid Padding="-5" RowSpacing="8">
+            <Frame Grid.Row="0" x:Name="ChartFrame">
+                <Grid RowSpacing="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -30,8 +30,8 @@
             </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                     <Label x:Name="StartWeight" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold"  HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
                     <Label x:Name="EndWeight" Grid.Row="1" Grid.Column="1" FontFamily="Lato-Bold" HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
@@ -44,15 +44,15 @@
                     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                     LegendTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
                     TooltipTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
-                    BackgroundColor="Transparent"
+                    BackgroundColor="Transparent" AnimationsSpeed="0"
                     />
                   </Grid>
             </Frame>
 
             <Frame Grid.Row="1" Margin="10,0,10,0">
-                <ListView x:Name="WeightEntries" HorizontalOptions="Center"
+                <ListView x:Name="WeightEntries" HorizontalOptions="Center" Opacity="0"
           BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
-                          ItemSelected="WeightEntries_ItemSelected"/>
+                          ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
 
             </Frame>
 

@@ -50,7 +50,7 @@
                  <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-                   <ImageButton Source="xicon" Margin="0,-5,-5,0" Aspect="AspectFit" WidthRequest="35" HeightRequest="25" Grid.Row="0" HorizontalOptions="End" x:Name="DeleteImage" Clicked="DeleteImage_Clicked"/>
+                   <ImageButton Source="xicon" Margin="5,-5,0,3" Aspect="AspectFill" WidthRequest="30" HeightRequest="25" Grid.Row="0" HorizontalOptions="End" x:Name="DeleteImage" Clicked="DeleteImage_Clicked"/>
                   <Image x:Name="ProgressPicture" Grid.Row="1" Aspect="AspectFill"/>
             </Grid>
           

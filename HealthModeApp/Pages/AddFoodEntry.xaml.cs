@@ -437,6 +437,11 @@ public partial class AddFoodEntry : ContentPage
 
                             Food.FoodId = null;
 
+                            if (decimal.TryParse(GramsEntry.Text, out var grams))
+                            {
+                                Food.Grams = grams;
+                            }
+
                             CustomFood.Barcode = Food.Barcode;
                             CustomFood.FoodName = Food.FoodName;
                             CustomFood.Brand = Food.Brand;
@@ -742,6 +747,11 @@ public partial class AddFoodEntry : ContentPage
                             if (string.IsNullOrWhiteSpace(GramsEntry.Text))
                             {
                                 GramsEntry.Text = ServingSizeEntry.Text;
+                            }
+
+                            if (decimal.TryParse(GramsEntry.Text, out var grams))
+                            {
+                                Food.Grams = grams;
                             }
 
                             CustomFood.Barcode = Food.Barcode;

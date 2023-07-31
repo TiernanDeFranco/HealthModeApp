@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 using System.Text.Json;
 using HealthModeApp.DataServices;
 using HealthModeApp.Pages.FoodJournalPage;
@@ -20,9 +21,20 @@ public partial class FoodJournal : ContentPage
     public int meal5Cal = 0;
     public int meal6Cal = 0;
 
-    public int goalCal = 2000;
+    public int goalCal = 0000;
     public int consumedCal = 0;
-    public int remainingCal = 2000;
+    public int remainingCal = 0000;
+
+    public int goalWater = 0;
+    public int consumedWater = 0;
+    public int remainingWater = 0;
+
+    double volume1 = 0;
+    double volume2 = 0;
+    double volume3 = 0;
+    double volume4 = 0;
+
+    string _waterUnit;
 
     List<int> meal1FoodIDs = new List<int>();
     List<int> meal2FoodIDs = new List<int>();
@@ -33,10 +45,9 @@ public partial class FoodJournal : ContentPage
 
     public int userID;
 
+    public DateTime dateSelected;
+
     public string energyUnit;
-
-    
-
 
     public FoodJournal()
     {
@@ -49,9 +60,28 @@ public partial class FoodJournal : ContentPage
         _dataService = dataService;
 
         InitializeComponent();
+        logFoodToolbarItem = new ToolbarItem
+        {
+            Text = "Log Food"
+        };
+        logFoodToolbarItem.Clicked += LogFoodClicked;
+
+        ToolbarItems.Add(logFoodToolbarItem);
+
+        ListFrame.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .2;
+
+        Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+        Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+        Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+        Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+        Meal5Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+        Meal6Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+
 
         // _localData.AddLoggedFood(4, DateTime.Today, 1, DateTime.Today, 1, 24, 1, "1", "Food Name That Is Very Long Yeah", "Brand", 24, "Name", 94, 6, 2, 3, 1, 1, 1, 2, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1);
         DatePicker.Date = DateTime.Today;
+        WaterDatePicker.Date = DateTime.Today;
+        dateSelected = DateTime.Today;
         SeesAds();
 
        
@@ -113,14 +143,23 @@ public partial class FoodJournal : ContentPage
         
     }
 
-    protected override void OnAppearing()
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        
+    }
+
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
         PopulateMealNames();
         DateHandler();
         SeesAds();
-        PopulateMealGrids(DatePicker.Date);
 
+        await Task.Delay(100);
+
+        PopulateMealGrids(DatePicker.Date);
+        PopulateWater(WaterDatePicker.Date);
     }
 
 
@@ -131,24 +170,33 @@ public partial class FoodJournal : ContentPage
         var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
         var dateFormat = unitList[4];
         energyUnit = unitList[2];
+        _waterUnit = unitList[1];
+
+       
 
         if (DeviceInfo.Platform == DevicePlatform.Android)
         {
             DatePicker.Format = $"{dateFormat}";
+            WaterDatePicker.Format = DatePicker.Format;
         }
         else
         {
             DatePicker.Format = $"   {dateFormat}";
+            WaterDatePicker.Format = DatePicker.Format;
         }
 
 
-        if (DatePicker.Date == DateTime.Today)
+        if (dateSelected == DateTime.Today)
         {
             TodayButton.IsVisible = false;
+            WaterTodayButton.IsVisible = false;
             userID = await _localData.GetUserID();
-            var nutritionGoals = await _localData.GetNutritionGoals(userID, DatePicker.Date);
+            
+            var nutritionGoals = await _localData.GetNutritionGoals(userID, dateSelected);
             if (nutritionGoals != null)
             {
+                if (nutritionGoals.WaterGoal == 0) nutritionGoals.WaterGoal = 3000;
+
                 switch (energyUnit)
                 {
                     case "kCal":
@@ -163,6 +211,40 @@ public partial class FoodJournal : ContentPage
 
                 }
 
+                switch (_waterUnit)
+                {
+                    case "fl oz":
+                        volume1 = 8;
+                        volume2 = 12;
+                        volume3 = 16.9;
+                        volume4 = 32;
+                        goalWater = (int)(Math.Round(nutritionGoals.WaterGoal / 28.574));
+                        break;
+
+                    case "cups":
+                        volume1 = 1;
+                        volume2 = 1.5;
+                        volume3 = 2;
+                        volume4 = 4;
+                        goalWater = (int)(Math.Round(nutritionGoals.WaterGoal / 236.6));
+                        break;
+
+                    case "mL":
+                        volume1 = 235;
+                        volume2 = 355;
+                        volume3 = 500;
+                        volume4 = 1000;
+                        goalWater = (int)Math.Round((decimal)nutritionGoals.WaterGoal);
+                        break;
+                }
+
+                Volume1.Text = volume1.ToString($"0.# {_waterUnit}");
+                Volume2.Text = volume2.ToString($"0.# {_waterUnit}");
+                Volume3.Text = volume3.ToString($"0.# {_waterUnit}");
+                Volume4.Text = volume4.ToString($"0.# {_waterUnit}");
+                WaterLabel.Text = _waterUnit.ToString();
+                WaterEntry.Text = null;
+
                 consumedCal = 0;
                 remainingCal = 0;
 
@@ -172,11 +254,20 @@ public partial class FoodJournal : ContentPage
                 remainingCal = goalCal - consumedCal;
                 RemainingLabel.Text = remainingCal.ToString();
 
+                WaterGoalLabel.Text = goalWater.ToString();
+                WaterConsumedLabel.Text = consumedWater.ToString();
+                remainingWater = goalWater - consumedWater;
+                WaterRemainingLabel.Text = remainingWater.ToString();
+
+
+                
+
             }
         }
         else
         {
             TodayButton.IsVisible = true;
+            WaterTodayButton.IsVisible = true;
 
             var display = await _localData.GetPopUpSeen("TodayButtonPopup");
             if (display == false)
@@ -191,7 +282,15 @@ public partial class FoodJournal : ContentPage
     void DatePicker_DateSelected(System.Object sender, Microsoft.Maui.Controls.DateChangedEventArgs e)
     {
         DateHandler();
+        dateSelected = DatePicker.Date;
         PopulateMealGrids(DatePicker.Date);
+    }
+
+    void WaterDatePicker_DateSelected(System.Object sender, Microsoft.Maui.Controls.DateChangedEventArgs e)
+    {
+        DateHandler();
+        dateSelected = WaterDatePicker.Date;
+        PopulateWater(WaterDatePicker.Date);
     }
 
 
@@ -251,6 +350,188 @@ public partial class FoodJournal : ContentPage
         await Navigation.PushAsync(new MealPage(_localData, _dataService, meal6FoodIDs, DatePicker.Date, 6));
     }
     #endregion
+
+    public async void PopulateWater(DateTime selectedDate)
+    {
+        await WaterListView.FadeTo(0, 250);
+        userID = await _localData.GetUserID();
+        var nutritionGoals = await _localData.GetNutritionGoals(userID, selectedDate);
+        var waterList = await _localData.GetWaterEntries(userID, selectedDate);
+
+        waterList.Reverse();
+
+        if (waterList.Count > 0) { ListFrame.FadeTo(1, 220); }
+        else ListFrame.FadeTo(0, 250);
+
+        consumedWater = 0;
+        foreach (var waters in waterList)
+        {
+            consumedWater += (int)Math.Round(waters.WaterVolume,0);
+            switch (_waterUnit)
+            {
+                case "fl oz":
+                    waters.WaterVolume = (Math.Round(waters.WaterVolume / (decimal)29.5735, 1));
+                    waters.WaterUnit = "fl oz";
+                    if (waters.WaterVolume <= 8) waters.WaterImage = "watericon";
+                    else if (waters.WaterVolume > 8 && waters.WaterVolume < 32) waters.WaterImage = "waterbottle";
+                    else waters.WaterImage = "waterjug";
+                    break;
+
+                case "cups":
+                    waters.WaterVolume = (Math.Round((waters.WaterVolume / (decimal)236.588), 1));
+                    waters.WaterUnit = "cups";
+                    if (waters.WaterVolume <= 1) waters.WaterImage = "watericon";
+                    else if (waters.WaterVolume > 1 && waters.WaterVolume < 4) waters.WaterImage = "waterbottle";
+                    else waters.WaterImage = "waterjug";
+                    break;
+
+                case "mL":
+                    waters.WaterVolume = Math.Round(waters.WaterVolume);
+                    waters.WaterUnit = "mL";
+                    if (waters.WaterVolume <= 240) waters.WaterImage = "watericon";
+                    else if (waters.WaterVolume > 240 && waters.WaterVolume < 1000) waters.WaterImage = "waterbottle";
+                    else waters.WaterImage = "waterjug";
+                    break;
+            }
+        }
+
+        if (nutritionGoals != null)
+        {
+            if (nutritionGoals.WaterGoal == 0) nutritionGoals.WaterGoal = 3000;
+
+            switch (_waterUnit)
+            {
+                case "fl oz":
+                    volume1 = 8;
+                    volume2 = 12;
+                    volume3 = 16.9;
+                    volume4 = 32;
+                    goalWater = (int)(Math.Round(nutritionGoals.WaterGoal / 28.574));
+                    consumedWater = (int)(Math.Round(consumedWater / 28.574));
+                    break;
+
+                case "cups":
+                    volume1 = 1;
+                    volume2 = 1.5;
+                    volume3 = 2;
+                    volume4 = 4;
+                    goalWater = (int)(Math.Round(nutritionGoals.WaterGoal / 236.6));
+                    consumedWater = (int)(Math.Round(consumedWater / 236.6));
+                    break;
+
+                case "mL":
+                    volume1 = 235;
+                    volume2 = 355;
+                    volume3 = 500;
+                    volume4 = 1000;
+                    goalWater = (int)Math.Round((decimal)nutritionGoals.WaterGoal);
+                    break;
+            }
+
+        Volume1.Text = volume1.ToString($"0.# {_waterUnit}");
+        Volume2.Text = volume2.ToString($"0.# {_waterUnit}");
+        Volume3.Text = volume3.ToString($"0.# {_waterUnit}");
+        Volume4.Text = volume4.ToString($"0.# {_waterUnit}");
+        WaterLabel.Text = _waterUnit.ToString();
+        WaterEntry.Text = null;
+
+        WaterListView.ItemsSource = waterList;
+        WaterListView.ItemTemplate = new DataTemplate(() =>
+        {
+
+            Grid grid = new Grid
+            {
+                Margin = new Thickness(8),
+                RowSpacing = 2,
+                RowDefinitions =
+                    {
+                        new RowDefinition { Height = GridLength.Auto}
+                    },
+                ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = GridLength.Auto },
+                        new ColumnDefinition { Width = GridLength.Star }
+                    },
+                ColumnSpacing = 5
+            };
+
+            Label waterVolume = new Label
+            {
+                FontFamily = "Lato-Bold",
+                FontSize = 15,
+                HorizontalTextAlignment = TextAlignment.Start,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalTextAlignment = TextAlignment.Center
+            };
+
+            waterVolume.SetBinding(Label.TextProperty, new Binding("WaterVolume"));
+
+            Label waterUnit = new Label
+            {
+                FontFamily = "Lato-Regular",
+                FontSize = 15,
+                HorizontalTextAlignment = TextAlignment.Start,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalTextAlignment = TextAlignment.Center
+            };
+            waterUnit.SetBinding(Label.TextProperty, new Binding("WaterUnit"));
+
+            StackLayout waterLayout = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.Center,
+                Spacing = 3,
+                Children =
+                {
+                    waterVolume,
+                    waterUnit
+                }
+            };
+
+            Image picture = new Image
+            {
+                Aspect = Aspect.AspectFit,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                WidthRequest = 25,
+                HeightRequest = 25
+                
+            };
+
+            picture.SetBinding(Image.SourceProperty, new Binding("WaterImage"));
+
+
+            Grid.SetRow(waterLayout, 0);
+            Grid.SetColumn(waterLayout, 1);
+            grid.Children.Add(waterLayout);
+
+
+            Grid.SetRow(picture, 0);
+            Grid.SetColumn(picture, 0);
+            grid.Children.Add(picture);
+
+
+            return new ViewCell { View = grid };
+
+        });
+
+        
+
+            WaterGoalLabel.Text = goalWater.ToString();
+            WaterConsumedLabel.Text = consumedWater.ToString();
+            remainingWater = goalWater - consumedWater;
+            WaterRemainingLabel.Text = remainingWater.ToString();
+            WaterListView.FadeTo(1, 150);
+
+            await WaterGoalBar.ProgressTo(((double)consumedWater/goalWater) + .001, 500, Easing.CubicInOut);
+            
+        }
+    }
+
+
+
+    
+
 
     public async void PopulateMealGrids(DateTime selectedDate)
     {
@@ -1458,9 +1739,8 @@ public partial class FoodJournal : ContentPage
                 gridItem.Children.Add(InfoLayout);
 
                 meal6Grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
                 int rowIndex = meal6Grid.RowDefinitions.Count - 1;
-
-
 
                 meal6Grid.SetRow(gridItem, rowIndex);
                 meal6Grid.SetColumn(gridItem, 0);
@@ -1485,23 +1765,45 @@ public partial class FoodJournal : ContentPage
 
             CalorieGoalBar.ProgressTo(((double)consumedCal/goalCal) + .02,1200, Easing.CubicOut);
 
-        double mealFrameWidth = Meal1Frame.Width;
-        Meal1Button.HeightRequest = mealFrameWidth / 6;
+
+        List<Grid> mealGrids = new List<Grid> { Meal1Grid, Meal2Grid, Meal3Grid, Meal4Grid, Meal5Grid, Meal6Grid };
+
+        foreach (Grid mealGrid in mealGrids)
+        {
+            mealGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+            int mealGridRowIndex = mealGrid.RowDefinitions.Count - 1;
+
+            var gridExtender = new Label
+            {
+                Text = "  \n  ",
+                HorizontalOptions = LayoutOptions.Center
+            };
+
+            mealGrid.SetRow(gridExtender, mealGridRowIndex);
+            mealGrid.SetColumn(gridExtender, 0);
+            mealGrid.Children.Add(gridExtender);
+        }
+
+
+
+        double mealFrameWidth = Meal1Frame.Height;
+        Meal1Button.HeightRequest = mealFrameWidth / 5;
         Meal1Button.WidthRequest = Meal1Button.HeightRequest;
         
-        Meal2Button.HeightRequest = mealFrameWidth / 6;
+        Meal2Button.HeightRequest = mealFrameWidth / 5;
         Meal2Button.WidthRequest = Meal2Button.HeightRequest;
 
-        Meal3Button.HeightRequest = mealFrameWidth / 6;
+        Meal3Button.HeightRequest = mealFrameWidth / 5;
         Meal3Button.WidthRequest = Meal3Button.HeightRequest;
 
-        Meal4Button.HeightRequest = mealFrameWidth / 6;
+        Meal4Button.HeightRequest = mealFrameWidth / 5;
         Meal4Button.WidthRequest = Meal4Button.HeightRequest;
 
-        Meal5Button.HeightRequest = mealFrameWidth / 6;
+        Meal5Button.HeightRequest = mealFrameWidth / 5;
         Meal5Button.WidthRequest = Meal5Button.HeightRequest;
 
-        Meal6Button.HeightRequest = mealFrameWidth / 6;
+        Meal6Button.HeightRequest = mealFrameWidth / 5;
         Meal6Button.WidthRequest = Meal6Button.HeightRequest;
 
     }
@@ -1509,7 +1811,10 @@ public partial class FoodJournal : ContentPage
         void TodayButtonClicked(System.Object sender, System.EventArgs e)
         {
             DatePicker.Date = DateTime.Today;
+            WaterDatePicker.Date = DateTime.Today;
+            dateSelected = DateTime.Today;
             DateHandler();
+            PopulateWater(WaterDatePicker.Date);
         }
 
         void LogFoodClicked(System.Object sender, System.EventArgs e)
@@ -1562,5 +1867,176 @@ public partial class FoodJournal : ContentPage
         {
             Navigation.PushAsync(new FoodSearch(_localData, _dataService, DatePicker.Date, 6));
         }
+
+    async void ChangeUnitClicked(System.Object sender, System.EventArgs e)
+    {
+        await Navigation.PushModalAsync(new Pages.UnitPage(_localData, _dataService));
+        await Task.Delay(100);
+
+    }
+
+    ToolbarItem logFoodToolbarItem;
+
+    void WaterXClicked(System.Object sender, System.EventArgs e)
+    {
+        Title = "Food Journal";
+
+        logFoodToolbarItem = new ToolbarItem
+        {
+            Text = "Log Food"
+        };
+        logFoodToolbarItem.Clicked += LogFoodClicked;
+
+        ToolbarItems.Add(logFoodToolbarItem);
+
+        DatePicker.Date = WaterDatePicker.Date;
+
+        WaterGrid.FadeTo(0, 250);
+        WaterInfoFrame.FadeTo(0, 270);
+
+        MealsGrid.FadeTo(1, 300);
+        InfoFrame.FadeTo(1, 320);
+
+        PopulateMealGrids(DatePicker.Date);
+    }
+
+    void WaterAdd_Clicked(System.Object sender, System.EventArgs e)
+    {
+        Title = "Water Journal";
+
+        ToolbarItems.Remove(logFoodToolbarItem);
+
+        WaterDatePicker.Date = DatePicker.Date;
+
+        waterFrame.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .32;
+        WaterEntry.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .05;
+        MealsGrid.FadeTo(0, 250);
+        InfoFrame.FadeTo(0, 275);
+
+        WaterGrid.FadeTo(1, 300);
+        WaterInfoFrame.FadeTo(1, 320);
+
+        PopulateWater(WaterDatePicker.Date);
+
+    }
+
+    void Volume1_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (double.TryParse(WaterEntry.Text, out var volume))
+        {
+            // Perform operations using the volume1 variable as a double
+            // For example:
+            volume += volume1;
+
+            // Convert the updated volume1 back to string and assign it to WaterEntry.Text
+            WaterEntry.Text = volume.ToString("0.#");
+        }
+        else
+        {
+            WaterEntry.Text = volume1.ToString("0.#");
+        }
+
+    }
+
+    void Volume2_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (double.TryParse(WaterEntry.Text, out var volume))
+        {
+            // Perform operations using the volume1 variable as a double
+            // For example:
+            volume += volume2;
+
+            // Convert the updated volume1 back to string and assign it to WaterEntry.Text
+            WaterEntry.Text = volume.ToString("0.#");
+        }
+        else
+        {
+            WaterEntry.Text = volume2.ToString("0.#");
+        }
+    }
+
+    void Volume3_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (double.TryParse(WaterEntry.Text, out var volume))
+        {
+            // Perform operations using the volume1 variable as a double
+            // For example:
+            volume += volume3;
+
+            // Convert the updated volume1 back to string and assign it to WaterEntry.Text
+            WaterEntry.Text = volume.ToString("0.#");
+        }
+        else
+        {
+            WaterEntry.Text = volume3.ToString("0.#");
+        }
+    }
+
+    void Volume4_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (double.TryParse(WaterEntry.Text, out var volume))
+        {
+            // Perform operations using the volume1 variable as a double
+            // For example:
+            volume += volume4;
+
+            // Convert the updated volume1 back to string and assign it to WaterEntry.Text
+            WaterEntry.Text = volume.ToString("0.#");
+        }
+        else
+        {
+            WaterEntry.Text = volume4.ToString("0.#");
+        }
+    }
+
+    async void AddWaterEntry_Clicked(System.Object sender, System.EventArgs e)
+    {
+        decimal mLVolume = 0;
+        userID = await _localData.GetUserID();
+        if (decimal.TryParse(WaterEntry.Text, out var volume))
+        {
+            switch (_waterUnit)
+            {
+                case "mL":
+                    mLVolume = volume;
+                    break;
+                case "fl oz":
+                    mLVolume = Math.Round(volume * (decimal)29.5735, 1);
+                    break;
+                case "cups":
+                    mLVolume = Math.Round(volume * (decimal)236.588, 1);
+                    break;
+
+            }
+            
+            try
+            {
+                await _localData.AddWaterEntry(userID, WaterDatePicker.Date, mLVolume);
+            }
+            catch
+            {
+               await  DisplayAlert("Notice", "Something went wrong trying to add that water entry, sorry :(", "OK");
+            }
+            WaterEntry.Text = null;
+            PopulateWater(WaterDatePicker.Date);
+        }
+        else
+        {
+            
+        }
+
+
+    }
+
+    async void waterList_ItemSelected(System.Object sender, Microsoft.Maui.Controls.SelectedItemChangedEventArgs e)
+    {
+        var selectedItem = e.SelectedItem as WaterTable;
+        if (selectedItem != null)
+        {
+            await Navigation.PushAsync(new WaterUpdate(_localData, _dataService, selectedItem));
+            WaterListView.SelectedItem = null; // Deselect the selected item
+
+        }
+    }
 }
 

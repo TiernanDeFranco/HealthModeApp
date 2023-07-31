@@ -33,7 +33,9 @@ namespace HealthModeApp.DataServices
 
                 await db.CreateTableAsync<MealNames>();
 
-            await db.CreateTableAsync<WeightTable>();
+                await db.CreateTableAsync<WeightTable>();
+
+                await db.CreateTableAsync<WaterTable>();
         }
 
 
@@ -138,13 +140,18 @@ namespace HealthModeApp.DataServices
 
         }
 
-        public async Task RemoveCustomFood(int foodID)
-		{
+        public async Task RemoveCustomFood(string barcodeValue)
+        {
+            var customFood = await db.Table<CustomFoods>().FirstOrDefaultAsync(f => f.Barcode == barcodeValue);
 
-            await db.DeleteAsync<CustomFoods>(foodID);
-		}
+            if (customFood != null)
+            {
+                await db.DeleteAsync<CustomFoods>(customFood.FoodID);
+            }
+        }
 
-		public async Task<List<CustomFoods>> GetCustomFoods()
+
+        public async Task<List<CustomFoods>> GetCustomFoods()
 		{
              
            var foodInfo = await db.Table<CustomFoods>().ToListAsync();
@@ -426,29 +433,13 @@ namespace HealthModeApp.DataServices
 
         #endregion
 
-        public async Task<bool> GetPopUpSeen(string popupName)
-        {
-            var popUpMemory = await db.Table<PopUpMemory>().FirstOrDefaultAsync(p => p.PopUpName == popupName);
-            if (popUpMemory != null)
-            {
-                return popUpMemory.Seen;
-            }
-            else
-            {
-                return false; // default value if popupId not found in table
-            }
-        }
+        #region Water
 
-        public async Task AddPopUpSeen(string popupName, bool popupSeen)
-        {
-            var popUpMemory = new PopUpMemory
-            {
-                PopUpName = popupName,
-                Seen = popupSeen
-            };
-            await db.InsertAsync(popUpMemory);
-        }
 
+
+        #endregion
+
+        #region UserStuff
         public async Task<int> GetUserID()
         {
             try
@@ -484,10 +475,11 @@ namespace HealthModeApp.DataServices
             {
                 return false;
             }
+            
         }
 
 
-        public async Task AddUserAsync(int userID, string email, string username, string password, bool seesAds, int weightPlan, string mainGoals, string units, int sex, decimal heightCm, DateTime birthday, decimal weight, decimal goalWeight, int activityLevel)
+        public async Task AddUserAsync(int userID, string email, string username, string password, bool seesAds, int weightPlan, string mainGoals, string units, int sex, decimal heightCm, DateTime birthday, decimal weight, decimal goalWeight, int activityLevel, string flair, string flairColor, bool isBlackText, string pictureBG, string picturePath, string title)
         {
 
             // Replace "db" with your actual database object
@@ -508,7 +500,13 @@ namespace HealthModeApp.DataServices
                     Birthday = birthday,
                     Weight = weight,
                     GoalWeight = goalWeight,
-                    ActivityLevel = activityLevel
+                    ActivityLevel = activityLevel,
+                    Flair = flair,
+                    FlairColor = flairColor,
+                    IsBlackText = isBlackText,
+                    PictureBGColor = pictureBG,
+                    PicturePath = picturePath,
+                    Title = title
                 };
 
                 await db.InsertAsync(newUser);
@@ -537,7 +535,7 @@ namespace HealthModeApp.DataServices
         }
 
 
-        public async Task UpdateUserAsync(int userID, string email = null, string username = null, string password = null, bool? seesAds = null, int? weightPlan = null, string mainGoals = null, string units = null, int? sex = null, decimal? heightCm = null, DateTime? birthday = null, decimal? weight = null, decimal? goalWeight = null, int? activityLevel = null)
+        public async Task UpdateUserAsync(int userID, string email = null, string username = null, string password = null, bool? seesAds = null, int? weightPlan = null, string mainGoals = null, string units = null, int? sex = null, decimal? heightCm = null, DateTime? birthday = null, decimal? weight = null, decimal? goalWeight = null, int? activityLevel = null, string flair = null, string flairColor = null, bool? isBlackText = null, string pictureBG = null, string picturePath = null, string title = null)
         {
             // Replace "db" with your actual database object
             try
@@ -614,6 +612,36 @@ namespace HealthModeApp.DataServices
                     user.ActivityLevel = activityLevel.Value;
                 }
 
+                if (flair != null)
+                {
+                    user.Flair = flair;
+                }
+
+                if (flairColor != null)
+                {
+                    user.FlairColor = flairColor;
+                }
+
+                if (isBlackText != null)
+                {
+                    user.IsBlackText = (bool)isBlackText;
+                }
+
+                if (pictureBG != null)
+                {
+                    user.PictureBGColor = pictureBG;
+                }
+
+                if (picturePath != null)
+                {
+                    user.PicturePath = picturePath;
+                }
+
+                if (title != null)
+                {
+                    user.Title = title;
+                }
+
                 await db.UpdateAsync(user);
             }
             catch (Exception ex)
@@ -688,6 +716,10 @@ namespace HealthModeApp.DataServices
             return true;
         }
 
+        #endregion
+
+        #region Nutrition
+
         public async Task<string> GetFoodEnergyUnit()
         {
             var user = await db.Table<UserData>().FirstOrDefaultAsync();
@@ -715,7 +747,7 @@ namespace HealthModeApp.DataServices
         int ironGoal, int calciumGoal, int potassiumGoal, int sodiumGoal, int cholesterolGoal,
         int vitaminAGoal, int thiaminGoal, int riboflavinGoal, int niacinGoal, int vitaminB5Goal,
         int vitaminB6Goal, int biotinGoal, int cobalamineGoal, int folicAcidGoal, int vitaminCGoal,
-        int vitaminDGoal, int vitaminEGoal, int vitaminKGoal)
+        int vitaminDGoal, int vitaminEGoal, int vitaminKGoal, int water)
         {
             try
             {
@@ -751,7 +783,8 @@ namespace HealthModeApp.DataServices
                     VitaminCGoal = vitaminCGoal,
                     VitaminDGoal = vitaminDGoal,
                     VitaminEGoal = vitaminEGoal,
-                    VitaminKGoal = vitaminKGoal
+                    VitaminKGoal = vitaminKGoal,
+                    WaterGoal = water
                 };
 
                 await db.InsertAsync(newGoal);
@@ -768,7 +801,7 @@ namespace HealthModeApp.DataServices
                 int? ironGoal, int? calciumGoal, int? potassiumGoal, int? sodiumGoal, int? cholesterolGoal,
                 int? vitaminAGoal, int? thiaminGoal, int? riboflavinGoal, int? niacinGoal, int? vitaminB5Goal,
                 int? vitaminB6Goal, int? biotinGoal, int? cobalamineGoal, int? folicAcidGoal, int? vitaminCGoal,
-                int? vitaminDGoal, int? vitaminEGoal, int? vitaminKGoal)
+                int? vitaminDGoal, int? vitaminEGoal, int? vitaminKGoal, int? water)
         {
             try
             {
@@ -809,6 +842,7 @@ namespace HealthModeApp.DataServices
                     existingGoal.VitaminDGoal = vitaminDGoal ?? existingGoal.VitaminDGoal;
                     existingGoal.VitaminEGoal = vitaminEGoal ?? existingGoal.VitaminEGoal;
                     existingGoal.VitaminKGoal = vitaminKGoal ?? existingGoal.VitaminKGoal;
+                    existingGoal.WaterGoal = water ?? existingGoal.WaterGoal;
 
 
                     await db.UpdateAsync(existingGoal);
@@ -890,6 +924,10 @@ namespace HealthModeApp.DataServices
                 return false;
             }
         }
+
+        #endregion
+
+        #region Weight
 
         public async Task AddWeightEntry(int userID, DateTime date, decimal weight, byte[]? progress)
         {
@@ -1068,6 +1106,23 @@ namespace HealthModeApp.DataServices
             }
         }
 
+        public async Task DeleteWeightEntry(int weightID)
+        {
+
+            try
+            {
+                var allWeightEntries = await db.Table<WeightTable>().ToListAsync();
+
+                foreach (var weightEntry in allWeightEntries)
+                {
+                    await db.DeleteAsync(weightEntry);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
 
         public async Task<bool> DoesWeightEntryExist(int userID)
         {
@@ -1089,7 +1144,106 @@ namespace HealthModeApp.DataServices
                 return false;
             }
         }
+        #endregion
 
+        #region Water
+        public async Task AddWaterEntry(int userID, DateTime date, decimal volume)
+        {
+            try
+            {
+                var newVolume = new WaterTable
+                {
+                    UserID = userID,
+                    Date = date,
+                    WaterVolume = volume
+                };
+                await db.InsertAsync(newVolume);
+                
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task UpdateWaterEntry(int waterID, decimal volume)
+        {
+
+            try
+            {
+
+                var existingWater = await db.Table<WaterTable>()
+                                            .Where(g => g.WaterID == waterID )
+                                            .FirstOrDefaultAsync();
+
+                if (existingWater != null)
+                {
+                    existingWater.WaterVolume = volume;
+                };
+                await db.UpdateAsync(existingWater);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task DeleteWaterEntry(int waterID)
+        {
+
+            try
+            {
+
+                var existingWater = await db.Table<WaterTable>()
+                                            .Where(g => g.WaterID == waterID)
+                                            .FirstOrDefaultAsync();
+
+                if (existingWater != null)
+                {
+                    await db.DeleteAsync(existingWater);
+                };
+                
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task<List<WaterTable>> GetWaterEntries(int userID, DateTime selectedDate)
+        {
+            var yesterday = selectedDate.AddDays(-1);
+            var tomorrow = selectedDate.AddDays(1);
+
+            var loggedWater = await db.Table<WaterTable>()
+                                       .Where(f => f.UserID == userID && f.Date > yesterday && f.Date < tomorrow)
+                                       .ToListAsync();
+            return loggedWater;
+        }
+        #endregion
+
+        public async Task<bool> GetPopUpSeen(string popupName)
+        {
+            var popUpMemory = await db.Table<PopUpMemory>().FirstOrDefaultAsync(p => p.PopUpName == popupName);
+            if (popUpMemory != null)
+            {
+                return popUpMemory.Seen;
+            }
+            else
+            {
+                return false; // default value if popupId not found in table
+            }
+        }
+
+        public async Task AddPopUpSeen(string popupName, bool popupSeen)
+        {
+            var popUpMemory = new PopUpMemory
+            {
+                PopUpName = popupName,
+                Seen = popupSeen
+            };
+            await db.InsertAsync(popUpMemory);
+        }
 
     }
 }

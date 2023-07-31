@@ -127,19 +127,24 @@ public partial class NutritionGoalsPage : ContentPage
                 _userID = await _localData.GetUserID();
                 bool hasTodayGoals = await _localData.NutritionGoalDateExists(_userID, DateTime.Today);
                 var (carbGrams, fatGrams, proteinGrams) = ConvertToGrams(carbPercent, fatPercent, proteinPercent, calorieStored);
+                Dictionary<string, int> nutrientGoals = await CalculateNutrientGoals(calorieStored);
                 if (hasTodayGoals)
                 {
-                    await _localData.UpdateNutritionGoals(_userID, DateTime.Today, calorieStored, carbGrams, fatGrams, proteinGrams, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                    await _localData.UpdateNutritionGoals(_userID, DateTime.Today, calorieStored, carbGrams, fatGrams, proteinGrams, nutrientGoals["satfat"], nutrientGoals["punsatfat"], nutrientGoals["munsatfat"], 0, nutrientGoals["sugar"],
+                                    nutrientGoals["iron"], nutrientGoals["calcium"], nutrientGoals["potassium"], nutrientGoals["sodium"], nutrientGoals["cholesterol"],
+                                    nutrientGoals["vitaminA"], nutrientGoals["thiamin"], nutrientGoals["riboflavin"], nutrientGoals["niacin"], nutrientGoals["b5"],
+                                    nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
+                                    nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"], 2000);
                 }
                 else
                 {
-                    Dictionary<string, int> nutrientGoals = await CalculateNutrientGoals(calorieStored);
+                    
                     await _localData.AddNutritionGoals(_userID, DateTime.Today, calorieStored, carbGrams, fatGrams, proteinGrams,
                                     nutrientGoals["satfat"], nutrientGoals["punsatfat"], nutrientGoals["munsatfat"], 0, nutrientGoals["sugar"],
                                     nutrientGoals["iron"], nutrientGoals["calcium"], nutrientGoals["potassium"], nutrientGoals["sodium"], nutrientGoals["cholesterol"],
                                     nutrientGoals["vitaminA"], nutrientGoals["thiamin"], nutrientGoals["riboflavin"], nutrientGoals["niacin"], nutrientGoals["b5"],
                                     nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
-                                    nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"]);
+                                    nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"], 2000);
                 }
                 Debug.WriteLine($"{carbGrams}, {fatGrams}, {proteinGrams}");
                 UserInfo userInfo = new UserInfo

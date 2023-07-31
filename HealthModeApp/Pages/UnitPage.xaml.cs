@@ -131,10 +131,16 @@ public partial class UnitPage : ContentPage
             case 0:
                 weightLbs.BackgroundColor = Color.FromRgb(75, 158, 227);
                 weightKg.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                weightLbs.Background = Color.FromRgb(75, 158, 227);
+                weightKg.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 1:
                 weightLbs.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 weightKg.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                weightLbs.Background = Color.FromRgba(0, 0, 0, 0);
+                weightKg.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -144,16 +150,28 @@ public partial class UnitPage : ContentPage
                 drinkWaterFlOz.BackgroundColor = Color.FromRgb(75, 158, 227);
                 drinkWaterCups.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 drinkWaterML.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                drinkWaterFlOz.Background = Color.FromRgb(75, 158, 227);
+                drinkWaterCups.Background = Color.FromRgba(0, 0, 0, 0);
+                drinkWaterML.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 1:
                 drinkWaterFlOz.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 drinkWaterCups.BackgroundColor = Color.FromRgb(75, 158, 227);
                 drinkWaterML.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                drinkWaterFlOz.Background = Color.FromRgba(0, 0, 0, 0);
+                drinkWaterCups.Background = Color.FromRgb(75, 158, 227);
+                drinkWaterML.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 2:
                 drinkWaterFlOz.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 drinkWaterCups.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 drinkWaterML.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                drinkWaterFlOz.Background = Color.FromRgba(0, 0, 0, 0);
+                drinkWaterCups.Background = Color.FromRgba(0, 0, 0, 0);
+                drinkWaterML.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -163,16 +181,28 @@ public partial class UnitPage : ContentPage
                 energyKcal.BackgroundColor = Color.FromRgb(75, 158, 227);
                 energyCalories.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyKj.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                energyKcal.Background = Color.FromRgb(75, 158, 227);
+                energyCalories.Background = Color.FromRgba(0, 0, 0, 0);
+                energyKj.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 1:
                 energyKcal.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyCalories.BackgroundColor = Color.FromRgb(75, 158, 227);
                 energyKj.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                energyKcal.Background = Color.FromRgba(0, 0, 0, 0);
+                energyCalories.Background = Color.FromRgb(75, 158, 227);
+                energyKj.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 2:
                 energyKcal.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyCalories.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyKj.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                energyKcal.Background = Color.FromRgba(0, 0, 0, 0);
+                energyCalories.Background = Color.FromRgba(0, 0, 0, 0);
+                energyKj.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -182,16 +212,28 @@ public partial class UnitPage : ContentPage
                 energyEKcal.BackgroundColor = Color.FromRgb(75, 158, 227);
                 energyECalories.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyEKj.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                energyEKcal.Background = Color.FromRgb(75, 158, 227);
+                energyECalories.Background = Color.FromRgba(0, 0, 0, 0);
+                energyEKj.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 1:
                 energyEKcal.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyECalories.BackgroundColor = Color.FromRgb(75, 158, 227);
                 energyEKj.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                energyEKcal.Background = Color.FromRgba(0, 0, 0, 0);
+                energyECalories.Background = Color.FromRgb(75, 158, 227);
+                energyEKj.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 2:
                 energyEKcal.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyECalories.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyEKj.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                energyEKcal.Background = Color.FromRgba(0, 0, 0, 0);
+                energyECalories.Background = Color.FromRgba(0, 0, 0, 0);
+                energyEKj.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -201,6 +243,10 @@ public partial class UnitPage : ContentPage
                 dateFormatDmy.BackgroundColor = Color.FromRgb(75, 158, 227);
                 dateFormatMdy.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 dateFormatYmd.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                dateFormatDmy.Background = Color.FromRgb(75, 158, 227);
+                dateFormatMdy.Background = Color.FromRgba(0, 0, 0, 0);
+                dateFormatYmd.Background = Color.FromRgba(0, 0, 0, 0);
                 DateDisplay.Text = DateTime.Today.ToString("dd MMM, yyyy");
 
                 break;
@@ -208,6 +254,10 @@ public partial class UnitPage : ContentPage
                 dateFormatDmy.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 dateFormatMdy.BackgroundColor = Color.FromRgb(75, 158, 227);
                 dateFormatYmd.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                dateFormatDmy.Background = Color.FromRgba(0, 0, 0, 0);
+                dateFormatMdy.Background = Color.FromRgb(75, 158, 227);
+                dateFormatYmd.Background = Color.FromRgba(0, 0, 0, 0);
                 DateDisplay.Text = DateTime.Today.ToString("MMM dd, yyyy");
 
 
@@ -216,6 +266,10 @@ public partial class UnitPage : ContentPage
                 dateFormatDmy.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 dateFormatMdy.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 dateFormatYmd.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                dateFormatDmy.Background = Color.FromRgba(0, 0, 0, 0);
+                dateFormatMdy.Background = Color.FromRgba(0, 0, 0, 0);
+                dateFormatYmd.Background = Color.FromRgb(75, 158, 227);
                 DateDisplay.Text = DateTime.Today.ToString("yyyy: MMM dd");
 
                 break;

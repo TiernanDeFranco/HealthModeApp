@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.FoodJournalPage.WaterUpdate">
+     <ContentPage.ToolbarItems>
+    <ToolbarItem
+                 Text="Delete Entry"
+                 Clicked="ToolbarItem_Clicked"/>
+</ContentPage.ToolbarItems>
+
+    <Grid x:Name="WaterGrid" RowSpacing="12" HorizontalOptions="Center" VerticalOptions="Start">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height=".9*"/>
+            </Grid.RowDefinitions>
+        <Frame x:Name="waterFrame" Grid.Row="0" Margin="0,12,0,0" CornerRadius="20" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
+                    <Grid RowSpacing="10" ColumnSpacing="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/> 
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        
+                        <Label Text="Update Water" Margin="0,0,0,20" FontSize="Medium" FontFamily="Lato-Bold" Grid.Row="0" Grid.ColumnSpan="4" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                        
+                        <Image Source="watericon" HeightRequest="28" WidthRequest="28" Grid.Row="1" Grid.Column="0"/>
+                        <Image Source="waterbottle" HeightRequest="38" WidthRequest="38" Grid.Row="1" Grid.Column="1"/>
+                        <Image Source="waterbottle" HeightRequest="48" WidthRequest="48" Grid.Row="1" Grid.Column="2"/>
+                        <Image Source="waterjug" HeightRequest="50" WidthRequest="50" Grid.Row="1" Grid.Column="3"/>
+
+                        <Button x:Name="Volume1" Clicked="Volume1_Clicked" Text="8 fl oz" Grid.Row="2" Grid.Column="0" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+                        <Button x:Name="Volume2" Clicked="Volume2_Clicked" Text="12 fl oz" Grid.Row="2" Grid.Column="1" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+                        <Button x:Name="Volume3" Clicked="Volume3_Clicked" Text="16.9 fl oz" Grid.Row="2" Grid.Column="2" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+                        <Button x:Name="Volume4" Clicked="Volume4_Clicked" Text="32 fl oz" Grid.Row="2" Grid.Column="3" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light=Black, Dark=White}" BorderColor="{AppThemeBinding Light=Black, Dark=White}" BorderWidth="1" CornerRadius="2" />
+
+                        <Grid Grid.Row="3" Grid.ColumnSpan="4" Padding="8" ColumnSpacing="2" RowSpacing="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                        <Entry x:Name="WaterEntry" Grid.Row="0" Grid.Column="1" MaxLength="6" HorizontalTextAlignment="Center"/>
+                        <Label x:Name="WaterLabel" Text="fl oz" Grid.Column="2" Grid.Row="0" FontFamily="Lato-Regular" HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                        <Button x:Name="AddWater" Text="Update Water" HorizontalOptions="Center" Grid.Row="1" Grid.Column="1" Clicked="AddWaterEntry_Clicked"/>
+                        </Grid>
+        
+                    </Grid>
+                </Frame>
+            <Frame x:Name="ExistingWater" Grid.Row="1" Padding="5" HorizontalOptions="CenterAndExpand" CornerRadius="12">
+                <Grid HorizontalOptions="Center">
+                    <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="5">
+                        <Image x:Name="WaterIcon" WidthRequest="42" HeightRequest="42" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label x:Name="Volume" Text="0000" FontFamily="Lato-Bold" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Label x:Name="Unit" Text="mL" FontFamily="Lato-Regular" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                </Grid>
+          </Frame>
+            </Grid>
+
+
+</ContentPage>

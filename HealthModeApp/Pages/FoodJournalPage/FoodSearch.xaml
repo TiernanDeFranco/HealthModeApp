@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthModeApp.Pages.FoodJournalPage.FoodSearch"
-             Title="Search">
+             x:Class="HealthModeApp.Pages.FoodJournalPage.FoodSearch">
 
    
 
@@ -32,8 +31,8 @@
 
         <Grid Grid.ColumnSpan="3" Grid.Row="0" HeightRequest="45" Margin="0,5,0,5">
              <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="0.2*" />
         </Grid.ColumnDefinitions>
 
         <!-- SearchBar -->
@@ -47,7 +46,7 @@
 
         <!-- Button -->
        
-        <ImageButton Clicked="BarcodeScanClicked" Source="barcodeicon" Aspect="AspectFit" CornerRadius="10" HeightRequest="35" Margin="5" Grid.Row="0" Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" />
+        <ImageButton Clicked="BarcodeScanClicked" Source="barcodeicon" Aspect="AspectFit" CornerRadius="10" WidthRequest="60" HeightRequest="35" Margin="5" Grid.Row="0" Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" />
 
         </Grid>
 
@@ -80,7 +79,7 @@
                     HorizontalOptions="CenterAndExpand"/>
 
             <ListView
-                HorizontalOptions="Center" Grid.Row="0"
+                HorizontalOptions="Center" Grid.Row="0" CachingStrategy="RecycleElement"
                 BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}"
                 x:Name="SearchResultList"
                 IsVisible="False"

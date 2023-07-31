@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using HealthModeApp.DataServices;
+using HealthModeApp.Models;
+using static HealthModeApp.Models.SQLite.SQLiteTables;
 
 namespace HealthModeApp.Pages;
 
@@ -24,6 +26,12 @@ public partial class LoginPage : ContentPage
         _dataService = dataService;
         NavigationPage.SetHasNavigationBar(this, false); // hide navigation bar
         NavigationPage.SetHasBackButton(this, false); // hide back button
+
+        Logo.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .28;
+        LoginFrame.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .3;
+        EmailLogin.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .27;
+        PasswordLogin.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .27;
+
     }
 
     protected override void OnAppearing()
@@ -63,27 +71,35 @@ public partial class LoginPage : ContentPage
                 {
                    int userID = await _dataService.GetUserIDByEmailAsync(email); Debug.WriteLine(userID);
                     _userID = userID;
-                    (var userInfo, bool seesAds) = await _dataService.GetUserInfoOnLoginAsync(userID, email, hashedPassword);
+                    (UserInfo userInfo, bool seesAds, string flair, string flairColor, bool isBlackText, string picturePath) = await _dataService.GetUserInfoOnLoginAsync(userID, email, hashedPassword);
                     Debug.WriteLine(seesAds);
                     Debug.WriteLine("Add User:");
-                    await _localData.AddUserAsync(userID, userInfo.Email, userInfo.Username, userInfo.Password, seesAds, (int)userInfo.WeightPlan, userInfo.MainGoals, userInfo.Units, (int)userInfo.Sex, (decimal)userInfo.HeightCm, (DateTime)userInfo.Birthday, (int)userInfo.Weight, (int)userInfo.GoalWeight, (int)userInfo.ActivityLevel);
+
+                    await _localData.AddUserAsync(userID, userInfo.Email, userInfo.Username, userInfo.Password, seesAds, (int)userInfo.WeightPlan, userInfo.MainGoals, userInfo.Units, (int)userInfo.Sex, (decimal)userInfo.HeightCm, (DateTime)userInfo.Birthday, (int)userInfo.Weight, (int)userInfo.GoalWeight, (int)userInfo.ActivityLevel, flair, flairColor, isBlackText, userInfo.PictureBGColor, picturePath, userInfo.Title);
+
                     DateTime startDate = new DateTime(1900, 1, 1);
                     Dictionary<string, int> nutrientGoals = await CalculateNutrientGoals((int)userInfo.CalorieGoal);
                     bool hasOGGoals = await _localData.NutritionGoalDateExists(userID, startDate);
+
+                    var waterGoal = CalculateWaterGoal(userInfo);
+
                     if (!hasOGGoals)
                     {
+                        
+
                         await _localData.AddNutritionGoals(userID, startDate, (int)userInfo.CalorieGoal, nutrientGoals["carb"], nutrientGoals["fat"], nutrientGoals["protein"],
                             nutrientGoals["satfat"], nutrientGoals["punsatfat"], nutrientGoals["munsatfat"], 0, nutrientGoals["sugar"],
                             nutrientGoals["iron"], nutrientGoals["calcium"], nutrientGoals["potassium"], nutrientGoals["sodium"], nutrientGoals["cholesterol"],
                             nutrientGoals["vitaminA"], nutrientGoals["thiamin"], nutrientGoals["riboflavin"], nutrientGoals["niacin"], nutrientGoals["b5"],
                             nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
-                            nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"]);
+                            nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"], waterGoal);
                     }
 
                     var weightEntry = await _localData.DoesWeightEntryExist(userID);
 
                     if (weightEntry == false)
                     {
+                       await _localData.AddWeightEntry(userID, DateTime.Today.AddDays(-1), (decimal)userInfo.Weight, null);
                        await _localData.AddWeightEntry(userID, DateTime.Today, (decimal)userInfo.Weight, null);
                     }
 
@@ -118,6 +134,32 @@ public partial class LoginPage : ContentPage
         await Navigation.PushModalAsync(new SignUpPage(_localData, _dataService)); 
     }
 
+
+    public int CalculateWaterGoal(UserInfo userInfo)
+    {
+        int waterGoal;
+
+        if (userInfo.ActivityLevel == 0)
+        {
+            waterGoal = (userInfo.Sex == 0) ? (int)userInfo.Weight * 15 : (int)userInfo.Weight * 13;
+        }
+        else if (userInfo.ActivityLevel == 1)
+        {
+            waterGoal = (userInfo.Sex == 0) ? (int)userInfo.Weight * 17 : (int)userInfo.Weight * 15;
+        }
+        else if (userInfo.ActivityLevel == 2)
+        {
+            waterGoal = (userInfo.Sex == 0) ? (int)userInfo.Weight * 20 : (int)userInfo.Weight * 17;
+        }
+        else
+        {
+            waterGoal = (userInfo.Sex == 0) ? (int)userInfo.Weight * 22 : (int)userInfo.Weight * 20;
+        }
+
+        Debug.WriteLine($"Water Goal: {waterGoal}");
+        
+        return waterGoal;
+    }
 
     public static string HashAndSaltPassword(string password, string salt)
     {
@@ -214,6 +256,10 @@ public partial class LoginPage : ContentPage
         return nutrientGoals;
     }
 
+    async void ForgotPassword(System.Object sender, System.EventArgs e)
+    {
+        await Navigation.PushModalAsync(new ForgotPassword(_dataService));
+    }
 
 
 

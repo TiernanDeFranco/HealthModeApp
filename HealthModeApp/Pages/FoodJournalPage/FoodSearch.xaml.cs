@@ -365,7 +365,7 @@ public partial class FoodSearch : ContentPage
             case 0:
                 searchResults = await _dataService.GetNutritionInfoNameAsync(foodName);
 
-                if (searchResults.Count > 50)
+                if (searchResults.Count > 49)
                 {
                     LoadMore.IsVisible = true;
                 }
@@ -397,7 +397,7 @@ public partial class FoodSearch : ContentPage
             case 2: 
                 localResults = await _localData.GetCustomFoodByName(foodName);
 
-              
+
 
                 SearchResultList.IsVisible = true;
                 LoadingBar.IsVisible = false;
@@ -430,15 +430,14 @@ public partial class FoodSearch : ContentPage
                 }
                 break;
         }
-        
 
-        
-      
+
+
+
         SearchResultList.IsVisible = true;
         LoadingBar.IsVisible = false;
         LoadingBar.IsRunning = false;
 
-        
         listView.RowHeight = 85;
         listView.ItemTemplate = new DataTemplate(() =>
         {
@@ -696,13 +695,15 @@ public partial class FoodSearch : ContentPage
         LoadingBar.IsRunning = true;
         SearchResultList.IsVisible = false;
 
-        searchResults.AddRange(await _dataService.GetNutritionInfoNameAsync(_foodName, limit, offset));
+        var furtherResults = (await _dataService.GetNutritionInfoNameAsync(_foodName, limit, offset));
+        searchResults = searchResults.Concat(furtherResults).ToList();
+
 
         LoadingBar.IsVisible = false;
         LoadingBar.IsRunning = false;
         SearchResultList.IsVisible = true;
 
-        if (searchResults.Count < searchResults.Count + limit)
+        if (searchResults.Count < searchResults.Count + (limit - 1))
         {
             LoadMore.IsVisible = false;
         }

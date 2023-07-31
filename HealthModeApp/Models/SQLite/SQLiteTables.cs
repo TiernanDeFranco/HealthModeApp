@@ -183,6 +183,18 @@ namespace HealthModeApp.Models.SQLite
             public decimal GoalWeight { get; set; }
 
             public int ActivityLevel { get; set; }
+
+            public string Flair { get; set; }
+
+            public string FlairColor { get; set; }
+
+            public bool IsBlackText { get; set; }
+
+            public string PicturePath { get; set; }
+
+            public string PictureBGColor { get; set; }
+
+            public string Title { get; set; }
         }
 
      
@@ -261,6 +273,8 @@ namespace HealthModeApp.Models.SQLite
             public int VitaminEGoal { get; set; }
 
             public int VitaminKGoal { get; set; }
+
+            public int WaterGoal { get; set; }
         }
 
 
@@ -279,6 +293,25 @@ namespace HealthModeApp.Models.SQLite
             public byte[] ProgressPicture { get; set; }
 
         }
+
+        [SQLiteTable("WaterTable")]
+        public class WaterTable
+        {
+            [PrimaryKey, AutoIncrement]
+            public int WaterID { get; set; }
+
+            public int UserID { get; set; }
+
+            public DateTime Date { get; set; }
+
+            public decimal WaterVolume { get; set; }
+
+            public string WaterUnit { get; set; }
+
+            public string WaterImage { get; set; }
+
+        }
+        
 
     }
 }

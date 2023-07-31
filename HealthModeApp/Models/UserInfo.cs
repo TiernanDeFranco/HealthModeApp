@@ -85,16 +85,55 @@ namespace HealthModeApp.Models
             }
         }
 
-        private string _suffix;
-        public string Suffix
+        private int _pictureID; 
+        public int ProfilePictureID
         {
-            get => _suffix;
+            get => _pictureID;
             set
             {
-                if (_suffix == value)
+                if (_pictureID == value)
                     return;
-                _suffix = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Suffix)));
+                _pictureID = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProfilePictureID)));
+            }
+        }
+
+        private string _pictureBGColor;
+        public string PictureBGColor
+        {
+            get => _pictureBGColor;
+            set
+            {
+                if (_pictureBGColor == value)
+                    return;
+                _pictureBGColor = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PictureBGColor)));
+            }
+        }
+
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                if (_title == value)
+                    return;
+                _title = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+            }
+        }
+
+        private int _flairID;
+        public int FlairID
+        {
+            get => _flairID;
+            set
+            {
+                if (_flairID == value)
+                    return;
+                _flairID = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FlairID)));
             }
         }
 
@@ -221,6 +260,31 @@ namespace HealthModeApp.Models
                 if (_calorieGoal == value) return;
                 _calorieGoal = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CalorieGoal)));
+            }
+        }
+
+        int? _waterGoal;
+        public int? WaterGoal
+        {
+            get => _waterGoal;
+            set
+            {
+                if (_waterGoal == value) return;
+                _waterGoal = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WaterGoal)));
+            }
+        }
+
+
+        string? _recoveryCode;
+        public string? RecoveryCode
+        {
+            get => _recoveryCode;
+            set
+            {
+                if (_recoveryCode == value) return;
+                _recoveryCode = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RecoveryCode)));
             }
         }
 

@@ -94,7 +94,7 @@
     </Frame>
 
     <Frame Grid.Row="1" CornerRadius="20" Margin="3,2,3,0">
-    <ListView x:Name="mealInfoList"
+    <ListView x:Name="mealInfoList" CachingStrategy="RecycleElement"
           HorizontalOptions="Center"
           BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}"
               ItemSelected="mealInfoList_ItemSelected">

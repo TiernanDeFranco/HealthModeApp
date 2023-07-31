@@ -70,6 +70,7 @@
                         <Label x:Name="CarbLabel" TextColor="{StaticResource CarbsLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
                     </HorizontalStackLayout>
                         <Label x:Name="CarbPercent" TextColor="{StaticResource CarbsLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        <Label x:Name="CarbRemaining" FontFamily="Lato-Bold" TextColor="{StaticResource CarbsLight}" Text="0g" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
                         <ProgressBar x:Name="CarbBar" ProgressColor="{StaticResource CarbsLight}" Margin="0,15,0,0"/>
                         <Label x:Name="CarbGoal" TextColor="{StaticResource CarbsLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
                     </VerticalStackLayout>
@@ -80,6 +81,7 @@
                         <Label x:Name="FatLabel" TextColor="{StaticResource FatLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
                     </HorizontalStackLayout>
                         <Label x:Name="FatPercent" TextColor="{StaticResource FatLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        <Label x:Name="FatRemaining" FontFamily="Lato-Bold" TextColor="{StaticResource FatLight}" Text="0g" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
                         <ProgressBar x:Name="FatBar"  ProgressColor="{StaticResource FatLight}" Margin="0,15,0,0"/>
                         <Label x:Name="FatGoal" TextColor="{StaticResource FatLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
                     </VerticalStackLayout>
@@ -90,6 +92,7 @@
                         <Label x:Name="ProteinLabel" TextColor="{StaticResource ProteinLight}" Text="0" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
                     </HorizontalStackLayout>
                         <Label x:Name="ProteinPercent" TextColor="{StaticResource ProteinLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
+                        <Label x:Name="ProteinRemaining" FontFamily="Lato-Bold" TextColor="{StaticResource ProteinLight}" Text="0g" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
                         <ProgressBar x:Name="ProteinBar" ProgressColor="{StaticResource ProteinLight}" Margin="0,15,0,0"/>
                         <Label x:Name="ProteinGoal" TextColor="{StaticResource ProteinLight}" Text="0%" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption"/>
                     </VerticalStackLayout>

@@ -292,7 +292,7 @@
          <RowDefinition Height="*" />
     </Grid.RowDefinitions>
  <Label Text="Birthday" Grid.Row="0" HorizontalTextAlignment="Center" HorizontalOptions="Center"/>
-<DatePicker x:Name="BirthdayDate" Grid.Row="1" FontSize="Body" HorizontalOptions="Center" MinimumDate="01/01/1900"/>
+<DatePicker x:Name="BirthdayDate" Grid.Row="1" FontSize="Body" HorizontalOptions="Center" MinimumDate="01/01/1900" DateSelected="BirthdayDate_DateSelected"/>
 </Grid>
 
    <Grid RowSpacing="5" ColumnSpacing="12" Padding="35,5,35,5" Margin="0,10,0,0">
@@ -375,7 +375,47 @@
 
     </Grid>
 
-                <Grid x:Name="SignUpFrame" RowSpacing="15" IsVisible="False">
+
+<Grid RowSpacing="20" Padding="10,0,10,25" VerticalOptions="Center" HeightRequest="800" x:Name="Grid6" Margin="0,20" IsVisible="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+             <RowDefinition Height="Auto"/>
+             <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+         
+        <Frame Grid.Row="0" CornerRadius="25">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Text="Water Goal" Margin="10" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Body" Grid.Row="0"/>
+
+        <Image Source="waterbottle" WidthRequest="52" HeightRequest="52" Grid.Row="1"/>
+
+        <Entry x:Name="WaterNumber" Text="WaterNumber" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Large" Grid.Row="2">
+</Entry>
+
+
+    </Grid>
+        </Frame>
+
+
+        <Button Grid.Row="1" Clicked="NextButton6_Clicked" Text="Next"/>
+
+        <Button Grid.Row="2" Clicked="BackButton6_Clicked" Text="Go Back" HorizontalOptions="Center"  TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" BackgroundColor="Transparent"/>
+
+    </Grid>
+
+                <Grid x:Name="SignUpFrame" RowSpacing="15" IsVisible="False" Padding="15" HorizontalOptions="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -383,7 +423,7 @@
 
                     </Grid.RowDefinitions>
         <Frame Grid.Row="0" CornerRadius="25"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}">
-             <Image Source="hmlogo" WidthRequest="500" HeightRequest="150"/>
+             <Image x:Name="Logo" Source="hmlogo" WidthRequest="500" HeightRequest="150"/>
         </Frame>
        
        <Frame Grid.Row="1" CornerRadius="20" >
@@ -405,7 +445,7 @@
              <Button x:Name="SignUpButton" Grid.Row="5" Text="Sign Up" FontSize="Body" Clicked="SignUpButton_Clicked" Margin="0" HorizontalOptions="Center" WidthRequest="200"/>
         </Grid>
     </Frame>
-      <Button Grid.Row="2" Clicked="BackButton6_Clicked" Text="Go Back" HorizontalOptions="Center"  TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" BackgroundColor="Transparent"/>
+      <Button Grid.Row="2" Clicked="BackButton7_Clicked" Text="Go Back" HorizontalOptions="Center"  TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" BackgroundColor="Transparent"/>
 
 </Grid>
 

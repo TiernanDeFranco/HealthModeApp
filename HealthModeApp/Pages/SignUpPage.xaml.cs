@@ -14,7 +14,7 @@ public partial class SignUpPage : ContentPage
     public int weightGoal = -4; //-1 lose 0 maintain 1 gain
     public int activityLevel = 0;
     public int stage = 1;
-    public int maxStage = 5;
+    public int maxStage = 6;
     double heightCm = 0;
     decimal weight;
     decimal goalWeight; 
@@ -52,6 +52,7 @@ public partial class SignUpPage : ContentPage
                 Grid3.IsVisible = false;
                 Grid4.IsVisible = false;
                 Grid5.IsVisible = false;
+                Grid6.IsVisible = false;
                 SignUpFrame.IsVisible = false;
                 break;
 
@@ -61,6 +62,7 @@ public partial class SignUpPage : ContentPage
                 Grid3.IsVisible = false;
                 Grid4.IsVisible = false;
                 Grid5.IsVisible = false;
+                Grid6.IsVisible = false;
                 SignUpFrame.IsVisible = false;
                 break;
 
@@ -70,6 +72,7 @@ public partial class SignUpPage : ContentPage
                 Grid3.IsVisible = true;
                 Grid4.IsVisible = false;
                 Grid5.IsVisible = false;
+                Grid6.IsVisible = false;
                 SignUpFrame.IsVisible = false;
                 break;
 
@@ -79,6 +82,7 @@ public partial class SignUpPage : ContentPage
                 Grid3.IsVisible = false;
                 Grid4.IsVisible = true;
                 Grid5.IsVisible = false;
+                Grid6.IsVisible = false;
                 SignUpFrame.IsVisible = false;
                 break;
 
@@ -88,6 +92,7 @@ public partial class SignUpPage : ContentPage
                 Grid3.IsVisible = false;
                 Grid4.IsVisible = false;
                 Grid5.IsVisible = true;
+                Grid6.IsVisible = false;
                 SignUpFrame.IsVisible = false;
                 break;
 
@@ -97,6 +102,17 @@ public partial class SignUpPage : ContentPage
                 Grid3.IsVisible = false;
                 Grid4.IsVisible = false;
                 Grid5.IsVisible = false;
+                Grid6.IsVisible = true;
+                SignUpFrame.IsVisible = false;
+                break;
+
+            case 7:
+                Grid1.IsVisible = false;
+                Grid2.IsVisible = false;
+                Grid3.IsVisible = false;
+                Grid4.IsVisible = false;
+                Grid5.IsVisible = false;
+                Grid6.IsVisible = false;
                 SignUpFrame.IsVisible = true;
                 break;
 
@@ -110,7 +126,7 @@ public partial class SignUpPage : ContentPage
         UpdatePage();
         _localData = localData;
         _dataService = dataService;
-
+        Logo.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .28;
     }
 
 
@@ -183,32 +199,45 @@ public partial class SignUpPage : ContentPage
 
     void UpdateWeightButtons()
     {
-        var loseWeight = LoseWeightButton;
-        var maintainWeight = MaintainWeightButton;
-        var gainWeight = GainWeightButton;
-
-
+      
         switch (weightGoal)
         {
             case -4:
-                loseWeight.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
-                maintainWeight.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
-                gainWeight.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+                LoseWeightButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+                MaintainWeightButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+                GainWeightButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                LoseWeightButton.Background = Color.FromRgba(0, 0, 0, 0);
+                MaintainWeightButton.Background = Color.FromRgba(0, 0, 0, 0);
+                GainWeightButton.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case -1:
-                loseWeight.BackgroundColor = Color.FromRgb(75, 158, 227);
-                maintainWeight.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
-                gainWeight.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+                LoseWeightButton.BackgroundColor = Color.FromRgb(75, 158, 227);
+                MaintainWeightButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+                GainWeightButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                LoseWeightButton.Background = Color.FromRgb(75, 158, 227);
+                MaintainWeightButton.Background = Color.FromRgba(0, 0, 0, 0);
+                GainWeightButton.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 0:
-                loseWeight.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
-                maintainWeight.BackgroundColor = Color.FromRgb(75, 158, 227);
-                gainWeight.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+                LoseWeightButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+                MaintainWeightButton.BackgroundColor = Color.FromRgb(75, 158, 227);
+                GainWeightButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                LoseWeightButton.Background = Color.FromRgba(0, 0, 0, 0);
+                MaintainWeightButton.Background = Color.FromRgb(75, 158, 227);
+                GainWeightButton.Background = Color.FromRgba(0, 0, 0, 0);
+
                 break;
             case 1:
-                loseWeight.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
-                maintainWeight.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
-                gainWeight.BackgroundColor = Color.FromRgb(75, 158, 227);
+                LoseWeightButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+                MaintainWeightButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+                GainWeightButton.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                LoseWeightButton.Background = Color.FromRgba(0, 0, 0, 0);
+                MaintainWeightButton.Background = Color.FromRgba(0, 0, 0, 0);
+                GainWeightButton.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -235,11 +264,13 @@ public partial class SignUpPage : ContentPage
         {
             _amountClicked += 1;
             LoseFatButton.BackgroundColor = Color.FromRgb(75, 158, 227);
+            LoseFatButton.Background = Color.FromRgb(75, 158, 227);
         }
         else
         {
             _amountClicked -= 1;
             LoseFatButton.BackgroundColor = Color.FromRgba(0, 0, 0 ,0);
+            LoseFatButton.Background = Color.FromRgba(0, 0, 0, 0);
         }
     }
 
@@ -255,11 +286,13 @@ public partial class SignUpPage : ContentPage
         {
             _amountClicked += 1;
             BuildMuscleButton.BackgroundColor = Color.FromRgb(75, 158, 227);
+            BuildMuscleButton.Background = Color.FromRgb(75, 158, 227);
         }
         else
         {
             _amountClicked -= 1;
             BuildMuscleButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+            BuildMuscleButton.Background = Color.FromRgba(0, 0, 0, 0);
         }
     }
 
@@ -274,11 +307,13 @@ public partial class SignUpPage : ContentPage
         {
             _amountClicked += 1;
             ModifyDietButton.BackgroundColor = Color.FromRgb(75, 158, 227);
+            ModifyDietButton.Background = Color.FromRgb(75, 158, 227);
         }
         else
         {
             _amountClicked -= 1;
             ModifyDietButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+            ModifyDietButton.Background = Color.FromRgba(0, 0, 0, 0);
         }
     }
 
@@ -293,11 +328,13 @@ public partial class SignUpPage : ContentPage
         {
             _amountClicked += 1;
             IncreaseActivityButton.BackgroundColor = Color.FromRgb(75, 158, 227);
+            IncreaseActivityButton.Background = Color.FromRgb(75, 158, 227);
         }
         else
         {
             _amountClicked -= 1;
             IncreaseActivityButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+            IncreaseActivityButton.Background = Color.FromRgba(0, 0, 0, 0);
         }
     }
 
@@ -312,11 +349,13 @@ public partial class SignUpPage : ContentPage
         {
             _amountClicked += 1;
             TrackHealthButton.BackgroundColor = Color.FromRgb(75, 158, 227);
+            TrackHealthButton.Background = Color.FromRgb(75, 158, 227);
         }
         else
         {
             _amountClicked -= 1;
             TrackHealthButton.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+            TrackHealthButton.Background = Color.FromRgba(0, 0, 0, 0);
         }
     }
 
@@ -375,10 +414,16 @@ public partial class SignUpPage : ContentPage
             case 0:
                 weightLbs.BackgroundColor = Color.FromRgb(75, 158, 227);
                 weightKg.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                weightLbs.Background = Color.FromRgb(75, 158, 227);
+                weightKg.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 1:
                 weightLbs.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 weightKg.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                weightLbs.Background = Color.FromRgba(0, 0, 0, 0);
+                weightKg.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -388,16 +433,28 @@ public partial class SignUpPage : ContentPage
                 drinkWaterFlOz.BackgroundColor = Color.FromRgb(75, 158, 227);
                 drinkWaterCups.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 drinkWaterML.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                drinkWaterFlOz.Background  = Color.FromRgb(75, 158, 227);
+                drinkWaterCups.Background = Color.FromRgba(0, 0, 0, 0);
+                drinkWaterML.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 1:
                 drinkWaterFlOz.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 drinkWaterCups.BackgroundColor = Color.FromRgb(75, 158, 227);
                 drinkWaterML.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                drinkWaterFlOz.Background = Color.FromRgba(0, 0, 0, 0);
+                drinkWaterCups.Background = Color.FromRgb(75, 158, 227);
+                drinkWaterML.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 2:
                 drinkWaterFlOz.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 drinkWaterCups.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 drinkWaterML.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                drinkWaterFlOz.Background = Color.FromRgba(0, 0, 0, 0);
+                drinkWaterCups.Background = Color.FromRgba(0, 0, 0, 0);
+                drinkWaterML.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -407,16 +464,28 @@ public partial class SignUpPage : ContentPage
                 energyKcal.BackgroundColor = Color.FromRgb(75, 158, 227);
                 energyCalories.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyKj.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                energyKcal.Background = Color.FromRgb(75, 158, 227);
+                energyCalories.Background = Color.FromRgba(0, 0, 0, 0);
+                energyKj.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 1:
                 energyKcal.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyCalories.BackgroundColor = Color.FromRgb(75, 158, 227);
                 energyKj.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                energyKcal.Background = Color.FromRgba(0, 0, 0, 0);
+                energyCalories.Background = Color.FromRgb(75, 158, 227);
+                energyKj.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 2:
                 energyKcal.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyCalories.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyKj.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                energyKcal.Background = Color.FromRgba(0, 0, 0, 0);
+                energyCalories.Background = Color.FromRgba(0, 0, 0, 0);
+                energyKj.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -426,16 +495,28 @@ public partial class SignUpPage : ContentPage
                 energyEKcal.BackgroundColor = Color.FromRgb(75, 158, 227);
                 energyECalories.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyEKj.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                energyEKcal.Background = Color.FromRgb(75, 158, 227);
+                energyECalories.Background = Color.FromRgba(0, 0, 0, 0);
+                energyEKj.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 1:
                 energyEKcal.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyECalories.BackgroundColor = Color.FromRgb(75, 158, 227);
                 energyEKj.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                energyEKcal.Background = Color.FromRgba(0, 0, 0, 0);
+                energyECalories.Background = Color.FromRgb(75, 158, 227);
+                energyEKj.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 2:
                 energyEKcal.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyECalories.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 energyEKj.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                energyEKcal.Background = Color.FromRgba(0, 0, 0, 0);
+                energyECalories.Background = Color.FromRgba(0, 0, 0, 0);
+                energyEKj.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -445,6 +526,11 @@ public partial class SignUpPage : ContentPage
                 dateFormatDmy.BackgroundColor = Color.FromRgb(75, 158, 227);
                 dateFormatMdy.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 dateFormatYmd.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                dateFormatDmy.Background = Color.FromRgb(75, 158, 227);
+                dateFormatMdy.Background = Color.FromRgba(0, 0, 0, 0);
+                dateFormatYmd.Background = Color.FromRgba(0, 0, 0, 0);
+
                 DateDisplay.Text = DateTime.Today.ToString("dd MMM, yyyy");
 
                 BirthdayDate.Format = "dd/MM/yyyy";
@@ -453,6 +539,10 @@ public partial class SignUpPage : ContentPage
                 dateFormatDmy.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 dateFormatMdy.BackgroundColor = Color.FromRgb(75, 158, 227);
                 dateFormatYmd.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                dateFormatDmy.Background = Color.FromRgba(0, 0, 0, 0);
+                dateFormatMdy.Background = Color.FromRgb(75, 158, 227);
+                dateFormatYmd.Background = Color.FromRgba(0, 0, 0, 0);
                 DateDisplay.Text = DateTime.Today.ToString("MMM dd, yyyy");
 
 
@@ -462,6 +552,10 @@ public partial class SignUpPage : ContentPage
                 dateFormatDmy.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 dateFormatMdy.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 dateFormatYmd.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                dateFormatDmy.Background = Color.FromRgba(0, 0, 0, 0);
+                dateFormatMdy.Background = Color.FromRgba(0, 0, 0, 0);
+                dateFormatYmd.Background = Color.FromRgb(75, 158, 227);
                 DateDisplay.Text = DateTime.Today.ToString("yyyy: MMM dd");
 
                 BirthdayDate.Format = "yyyy/MM/dd";
@@ -471,7 +565,8 @@ public partial class SignUpPage : ContentPage
         DmyButton.Text = DateTime.Today.ToString("dd/MM/yyyy");
         MdyButton.Text = DateTime.Today.ToString("MM/dd/yyyy");
         YmdButton.Text = DateTime.Today.ToString("yyyy/MM/dd");
-        BirthdayDate.MaximumDate = DateTime.Now.AddYears(-10);
+        BirthdayDate.MaximumDate = DateTime.Today;
+        BirthdayDate.Date = DateTime.Today;
     }
 
     void LbsClicked(System.Object sender, System.EventArgs e)
@@ -676,11 +771,17 @@ public partial class SignUpPage : ContentPage
             case 0:
                 male.BackgroundColor = Color.FromRgb(75, 158, 227);
                 female.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                male.Background = Color.FromRgb(75, 158, 227);
+                female.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
 
             case 1:
                 female.BackgroundColor = Color.FromRgb(75, 158, 227);
                 male.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                female.Background = Color.FromRgb(75, 158, 227);
+                male.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
         }
     }
@@ -726,6 +827,7 @@ public partial class SignUpPage : ContentPage
         UpdatePage();
     }
 
+    bool birthdaySelected = false;
 
     async void NextButton4_Clicked(System.Object sender, System.EventArgs e)
     {
@@ -733,10 +835,14 @@ public partial class SignUpPage : ContentPage
         if (weightGoal != 0) { CheckGoalWeight();}
         if (weightGoal == 0) { GoalWeight.Text = Weight.Text; }
 
-        
+
         if (sex == -4)
         {
             await DisplayAlert("Notice", "Please select your sex \n(Click 'Need Help?' if you're unsure)", "OK");
+        }
+        else if (birthdaySelected == false)
+        {
+            await DisplayAlert("Notice", "Please select your birthday.", "OK");
         }
         else if (string.IsNullOrWhiteSpace(heightCmEntry.Text))
         {
@@ -746,7 +852,7 @@ public partial class SignUpPage : ContentPage
                 await DisplayAlert("Notice", "Please enter your height", "OK");
             }
             else
-            {   
+            {
                 if (string.IsNullOrWhiteSpace(Weight.Text) || string.IsNullOrWhiteSpace(GoalWeight.Text))
                 {
                     await DisplayAlert("Notice", "Please enter your weight and goal weight", "OK");
@@ -941,24 +1047,44 @@ public partial class SignUpPage : ContentPage
                 lightActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 modActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 veryActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                sedentary.Background = Color.FromRgb(75, 158, 227);
+                lightActive.Background = Color.FromRgba(0, 0, 0, 0);
+                modActive.Background = Color.FromRgba(0, 0, 0, 0);
+                veryActive.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 1:
                 sedentary.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 lightActive.BackgroundColor = Color.FromRgb(75, 158, 227);
                 modActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 veryActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                sedentary.Background = Color.FromRgba(0, 0, 0, 0);
+                lightActive.Background = Color.FromRgb(75, 158, 227);
+                modActive.Background = Color.FromRgba(0, 0, 0, 0);
+                veryActive.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 2:
                 sedentary.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 lightActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 modActive.BackgroundColor = Color.FromRgb(75, 158, 227);
                 veryActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+                sedentary.Background = Color.FromRgba(0, 0, 0, 0);
+                lightActive.Background = Color.FromRgba(0, 0, 0, 0);
+                modActive.Background = Color.FromRgb(75, 158, 227);
+                veryActive.Background = Color.FromRgba(0, 0, 0, 0);
                 break;
             case 3:
                 sedentary.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 lightActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 modActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
                 veryActive.BackgroundColor = Color.FromRgb(75, 158, 227);
+
+                sedentary.Background = Color.FromRgba(0, 0, 0, 0);
+                lightActive.Background = Color.FromRgba(0, 0, 0, 0);
+                modActive.Background = Color.FromRgba(0, 0, 0, 0);
+                veryActive.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
         CalculateTDEE();
@@ -993,8 +1119,22 @@ public partial class SignUpPage : ContentPage
 
     void SedActiveClicked(System.Object sender, System.EventArgs e)
     {
+        var sedentary = SedentaryButton;
+        var lightActive = LightActiveButton;
+        var modActive = ModActiveButton;
+        var veryActive = VeryActiveButton;
+
         activityLevel = 0;
         UpdateActivity();
+        sedentary.BackgroundColor = Color.FromRgb(75, 158, 227);
+        lightActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+        modActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+        veryActive.BackgroundColor = Color.FromRgba(0, 0, 0, 0);
+
+        sedentary.Background = Color.FromRgb(75, 158, 227);
+        lightActive.Background = Color.FromRgba(0, 0, 0, 0);
+        modActive.Background = Color.FromRgba(0, 0, 0, 0);
+        veryActive.Background = Color.FromRgba(0, 0, 0, 0);
     }
 
     void LightActiveClicked(System.Object sender, System.EventArgs e)
@@ -1021,9 +1161,31 @@ public partial class SignUpPage : ContentPage
         UpdatePage();
     }
 
+    int waterGoal;
+
     void NextButton5_Clicked(System.Object sender, System.EventArgs e)
     {
         stage = 6;
+        waterGoal = CalculateWaterGoal();
+
+        switch (unitWater)
+        {
+            case 0:
+                var flOzWater = Math.Round(waterGoal / 29.574, 0);
+                WaterNumber.Text = $"{flOzWater} fl oz";
+                break;
+
+            case 1:
+                var cupsWater = Math.Round(waterGoal / 236.6, 0);
+                WaterNumber.Text = $"{cupsWater} cups";
+                break;
+
+            case 2:
+                
+                WaterNumber.Text = $"{waterGoal} mL";
+                break;
+        }
+
         UpdatePage();
     }
 
@@ -1037,10 +1199,51 @@ public partial class SignUpPage : ContentPage
      "OK");
 
     }
-    //Complete Signup
+
+
+
+
+
+
     void BackButton6_Clicked(System.Object sender, System.EventArgs e)
     {
         stage = 5;
+        UpdatePage();
+    }
+
+    void NextButton6_Clicked(System.Object sender, System.EventArgs e)
+    {
+        stage = 7;
+        UpdatePage();
+
+        switch (unitWater)
+        {
+            case 0:
+                if (double.TryParse(WaterNumber.Text, out double flOzWater))
+                {
+                    waterGoal = (int)Math.Round(flOzWater * 29.5735, 0);
+                }
+                break;
+
+            case 1:
+                if (double.TryParse(WaterNumber.Text, out double cupsWater))
+                    {
+                    waterGoal = (int)Math.Round(cupsWater * 236.588, 0);
+                    }
+                break;
+
+            case 2:
+                if (double.TryParse(WaterNumber.Text, out double mLWater))
+                {
+                    waterGoal = (int)Math.Round(mLWater, 0);
+                }
+                break;
+        }
+    }
+
+    void BackButton7_Clicked(System.Object sender, System.EventArgs e)
+    {
+        stage = 6;
         UpdatePage();
     }
 
@@ -1071,11 +1274,13 @@ public partial class SignUpPage : ContentPage
 
     async void SignUpButton_Clicked(System.Object sender, System.EventArgs e)
     {
+        SignUpButton.IsVisible = false;
+        SignUpLoad.IsVisible = true;
 
-        string email = EmailEntry.Text;
-        string username = UsernameEntry.Text;
-        string password = PasswordEntry.Text;
-        string confirmPassword = ConfirmPasswordEntry.Text;
+        string email = EmailEntry.Text.Trim();
+        string username = UsernameEntry.Text.TrimEnd();
+        string password = PasswordEntry.Text.Trim();
+        string confirmPassword = ConfirmPasswordEntry.Text.Trim();
 
         if (email == "") { email = null; }
         if (username == "") { username = null; }
@@ -1141,9 +1346,8 @@ public partial class SignUpPage : ContentPage
 
 
                             // Call a method to add the user to the database with email, username, and hashed password //convert lists to strings (unit maingoals)
-                            SignUpButton.IsVisible = false;
-                            SignUpLoad.IsVisible = true;
-                            bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel, calorieGoal);
+                            
+                            bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel, calorieGoal, 1234);
                             if (result)
                             {
                                 await DisplayAlert("Success", "Account created successfully", "OK");
@@ -1185,6 +1389,10 @@ public partial class SignUpPage : ContentPage
             SignUpButton.IsVisible = false;
             SignUpLoad.IsVisible = true;
         }
+        SignUpLoad.IsVisible = false;
+        SignUpButton.IsVisible = true;
+        
+
     }
 
 
@@ -1221,6 +1429,32 @@ public partial class SignUpPage : ContentPage
         return json;
     }
 
+
+    public int CalculateWaterGoal()
+    {
+        int waterGoal;
+
+        if (activityLevel == 0)
+        {
+            waterGoal = (sex == 0) ? (int)weight * 15 : (int)weight * 13;
+        }
+        else if (activityLevel == 1)
+        {
+            waterGoal = (sex == 0) ? (int)weight * 17 : (int)weight * 15;
+        }
+        else if (activityLevel == 2)
+        {
+            waterGoal = (sex == 0) ? (int)weight * 20 : (int)weight * 17;
+        }
+        else
+        {
+            waterGoal = (sex == 0) ? (int)weight * 22 : (int)weight * 20;
+        }
+
+        Debug.WriteLine($"Water Goal: {waterGoal}");
+
+        return waterGoal;
+    }
 
 
     public string ReturnUnitList()
@@ -1295,7 +1529,11 @@ public partial class SignUpPage : ContentPage
         return json;
     }
 
-  
+    void BirthdayDate_DateSelected(System.Object sender, Microsoft.Maui.Controls.DateChangedEventArgs e)
+    {
+        birthdaySelected = true;
+    }
+
 
 }
 
