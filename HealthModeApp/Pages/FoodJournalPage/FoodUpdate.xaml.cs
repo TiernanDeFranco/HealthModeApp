@@ -365,9 +365,56 @@ public partial class FoodUpdate : ContentPage
 
     async void GetMealOptions()
     {
-        var mealNames = await _localData.GetMealNames();
+        var mealNames = await _localData.GetMealNames(_date);
+        var mealNum = await _localData.SetMealNumber(_date);
+        switch (mealNum)
+        {
+            case 1:
+                mealNames.RemoveAt(1);
+                mealNames.RemoveAt(1);
+                mealNames.RemoveAt(1);
+                mealNames.RemoveAt(1);
+                mealNames.RemoveAt(1);
+                break;
+
+            case 2:
+                mealNames.RemoveAt(2);
+                mealNames.RemoveAt(2);
+                mealNames.RemoveAt(2);
+                mealNames.RemoveAt(2);
+                break;
+
+            case 3:
+                mealNames.RemoveAt(3);
+                mealNames.RemoveAt(3);
+                mealNames.RemoveAt(3);
+                break;
+
+            case 4:
+                mealNames.RemoveAt(4);
+                mealNames.RemoveAt(4);
+                break;
+            case 4.1:
+                mealNames.RemoveAt(4);
+                mealNames.RemoveAt(4);
+                break;
+            case 4.2:
+                mealNames.RemoveAt(4);
+                mealNames.RemoveAt(4);
+                break;
+
+            case 5:
+                mealNames.RemoveAt(5);
+                break;
+            case 5.1:
+                mealNames.RemoveAt(5);
+                break;
+            case 5.2:
+                mealNames.RemoveAt(5);
+                break;
+        }
         MealPicker.ItemsSource = mealNames;
-        MealPicker.SelectedIndex = _mealType;
+        MealPicker.SelectedIndex = _mealType-1;
 
     }
 
@@ -443,7 +490,7 @@ public partial class FoodUpdate : ContentPage
         var userID = await _localData.GetUserID();
         if (numberOfServings > 0)
         {
-            await _localData.UpdateLoggedFood(_loggedFoodID, userID, _date, _food.MealType, TimeSelect.Time, ServingSizePicker.SelectedIndex, numberOfServings, totalGrams, _food.FoodName, _food.Brand,
+            await _localData.UpdateLoggedFood(_loggedFoodID, userID, _date, MealPicker.SelectedIndex+1, TimeSelect.Time, ServingSizePicker.SelectedIndex, numberOfServings, totalGrams, _food.FoodName, _food.Brand,
                  _food.ServingSize, _food.ServingUnit, (decimal)_food.Grams, _food.ServingName,
                  (totalCalories / _factor), totalCarbs, totalSugar, totalAddedSugar, totalSugarAlc, totalFiber, totalNetCarb,
                  totalFat, totalSatFat, totalPUnSatFat, totalMUnSatFat, totalTransFat, totalProtein,
@@ -460,7 +507,11 @@ public partial class FoodUpdate : ContentPage
 
     async void RemoveButton_Clicked(System.Object sender, System.EventArgs e)
     {
-        await _localData.RemoveLoggedFood(_loggedFoodID);
-        await Navigation.PopToRootAsync();
+        bool yes = await DisplayAlert("WAIT", "Are you sure you want to delete this food entry?", "Yes", "No");
+        if (yes)
+        {
+            await _localData.RemoveLoggedFood(_loggedFoodID);
+            await Navigation.PopToRootAsync();
+        }
     }
 }

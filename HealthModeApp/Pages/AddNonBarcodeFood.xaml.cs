@@ -18,6 +18,9 @@ public partial class AddNonBarcodeFood : ContentPage
     DateTime _date;
     int _mealType;
 
+    bool mealSelected = false;
+    bool categorySelected = false;
+
     public AddNonBarcodeFood(IRestDataService dataService, ISQLiteDataService localData, int mealType, DateTime date)
     {
 
@@ -30,58 +33,28 @@ public partial class AddNonBarcodeFood : ContentPage
         _mealType = mealType;
 
         BindingContext = this;
-
-        var servingUnits = new List<string>();
-        servingUnits.Add("g");
-        servingUnits.Add("mL");
-        servingUnits.Add("oz");
-
-        ServingUnitPicker.ItemsSource = servingUnits;
-        ServingUnitPicker.SelectedIndex = 0;
-
-        var mealList = new List<string>();
-        mealList.Add("Select a meal");
-        mealList.Add("Breakfast");
-        mealList.Add("Lunch");
-        mealList.Add("Dinner");
-        mealList.Add("Snack");
-        mealList.Add("N/A");
+        Food.ServingUnit = "g";
+        CustomFood.ServingUnit = "g";
 
 
-        mealPicker.ItemsSource = mealList;
-        mealPicker.SelectedIndex = 0;
-
-        var primaryList = new List<string>();
-        primaryList.Add("Select a category");
-        primaryList.Add("Fruits");
-        primaryList.Add("Vegetables");
-        primaryList.Add("Grains");
-        primaryList.Add("Meats");
-        primaryList.Add("Dairy");
-        primaryList.Add("Beverage");
-        primaryList.Add("Processed/Packaged");
-        primaryList.Add("N/A");
+        Sodium.Text = "Sodium (mg):";
+        Cholesterol.Text = "Cholesterol (mg):";
 
 
 
-        CategoryPicker.ItemsSource = primaryList;
-        CategoryPicker.SelectedIndex = 0;
-
-        VitaminUnitButton.Text = "Units";
-
-        VitaminA.Text = "Vitamin A (μg/mcg):";
-        Thiamin.Text = "Vitamin B1 [Thiamin] (mg):";
-        Riboflavin.Text = "Vitamin B2 [Riboflavin] (mg):";
-        Niacin.Text = "Vitamin B3 [Niacin] (mg):";
-        PanthoAcid.Text = "Vitamin B5 [Panthothenic Acid] (mg):";
+        VitaminA.Text = "Vitamin A (μg):";
+        Thiamin.Text = "Thiamin [B1] (mg):";
+        Riboflavin.Text = "Riboflavin [B2] (mg):";
+        Niacin.Text = "Niacin [B3] (mg):";
+        PanthoAcid.Text = "Panthothenic Acid [B5] (mg):";
         Pyridoxin.Text = "Vitamin B6 [Pyridoxin] (mg):";
-        Biotin.Text = "Vitamin B7 [Biotin] (μg/mcg):";
-        FolicAcid.Text = "Vitamin B9 [Folic Acid] (μg/mcg):";
-        Cobalamin.Text = "Vitamin B12 [Cobalamin] (μg/mcg):";
+        Biotin.Text = "Biotin [B7] (μg):";
+        FolicAcid.Text = "Folic Acid/Folate [B9] (μg):";
+        Cobalamin.Text = "Vitamin B12 [Cobalamin] (μg):";
         VitaminC.Text = "Vitamin C (mg):";
-        VitaminD.Text = "Vitamin D (μg/mcg):";
+        VitaminD.Text = "Vitamin D (mg):";
         VitaminE.Text = "Vitamin E (mg):";
-        VitaminK.Text = "Vitamin K (μg/mcg):";
+        VitaminK.Text = "Vitamin K (μg):";
 
     }
 
@@ -115,21 +88,18 @@ public partial class AddNonBarcodeFood : ContentPage
         Shell.SetTabBarIsVisible(this, false);
 
 		string foodUnit = await _localData.GetFoodEnergyUnit();
-		switch (foodUnit)
-		{
-			case "kCal":
-				EnergyLabel.Text = "kCal:";
-				EnergyMacrosLabel.Text = "Kilocalories & Macros";
-				break;
+        switch (foodUnit)
+        {
+            case "kCal":
+                EnergyLabel.Text = "kCal:";
+                break;
 
             case "cal":
                 EnergyLabel.Text = "Calories:";
-                EnergyMacrosLabel.Text = "Calories & Macros";
                 break;
 
             case "kJ":
                 EnergyLabel.Text = "Kilojoules (kJ):";
-                EnergyMacrosLabel.Text = "Kilojoules & Macros";
                 break;
         }
     }
@@ -138,53 +108,49 @@ public partial class AddNonBarcodeFood : ContentPage
 
 
     bool uploading = false;
-	async void OnUploadEntryClicked(object sender, EventArgs e)
-	{
-		Debug.WriteLine("Uploading data");
-		if (BarcodeEntry.Text == null)
-		{
-			Food.Barcode = Food.FoodName;
+    async void OnUploadEntryClicked(object sender, EventArgs e)
+    {
+        Debug.WriteLine("Uploading data");
+        if (BarcodeEntry.Text == null)
+        {
+            Food.Barcode = Food.FoodName;
             CustomFood.Barcode = CustomFood.FoodName;
-		}
-		if (ServingName.Text == null)
-		{
-			Food.ServingName = "1 Serving";
+        }
+        if (ServingName.Text == null)
+        {
+            Food.ServingName = "1 Serving";
             CustomFood.ServingName = "1 Serving";
-		}
+        }
 
-
-        Food.Brand = FoodName.Text;
-        Food.Barcode = "General" + FoodName.Text;
-        Food.Barcode = Food.Barcode.Trim();
-
-        ServingName.Text = ServingName.Text.TrimEnd();
+        Food.ServingName = Food.ServingName.TrimEnd();
+        CustomFood.ServingName = Food.ServingName.TrimEnd();
 
         if (!uploading)
         {
 
-            if ((!string.IsNullOrWhiteSpace(FoodEntry.Text)) && (!string.IsNullOrWhiteSpace(ServingSizeEntry.Text)) && (!string.IsNullOrWhiteSpace(EnergyEntry.Text)) && (!string.IsNullOrWhiteSpace(CarbEntry.Text)) && (!string.IsNullOrWhiteSpace(FatEntry.Text)) && (!string.IsNullOrWhiteSpace(ProteinEntry.Text)))
+            if ((!string.IsNullOrWhiteSpace(FoodEntry.Text)) && (!string.IsNullOrWhiteSpace(BrandEntry.Text)) && (!string.IsNullOrWhiteSpace(ServingSizeEntry.Text)) && (!string.IsNullOrWhiteSpace(EnergyEntry.Text)) && (!string.IsNullOrWhiteSpace(CarbEntry.Text)) && (!string.IsNullOrWhiteSpace(FatEntry.Text)) && (!string.IsNullOrWhiteSpace(ProteinEntry.Text)))
             {
-                if ((mealPicker.SelectedItem.ToString() != "Select a meal") && (CategoryPicker.SelectedItem.ToString() != "Select a category"))
+                if ((mealSelected) && (categorySelected))
                 {
-
                     bool terms = await DisplayAlert("Notice", "Does the nutrition label match the information you provided here?", "Yes", "No");
                     if (terms)
                     {
                         AddFood.IsVisible = false;
                         Loading.IsVisible = true;
- 
+
 
                         uploading = true;
                         var foodInfo = await _dataService.GetNutritionInfoBarcodeAsync(_barcode);
                         var uploadFoodInfo = await _dataService.GetFoodUploadExistsAlready(_barcode);
                         if (foodInfo == null && uploadFoodInfo == null)
                         {
-                            if (!_isUnitMin)
-                            {
-                                _isUnitMin = true;
-                                // Assuming the weight of the food item is measured in grams
-                                // and the recommended daily intake is in milligrams or micrograms, as appropriate.
 
+                            // Assuming the weight of the food item is measured in grams
+                            // and the recommended daily intake is in milligrams or micrograms, as appropriate.
+
+
+                            if (ironPercent)
+                            {
                                 string ironText = IronEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(ironText))
                                 {
@@ -195,7 +161,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         IronEntry.Text = ironMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (calciumPercent)
+                            {
                                 string calciumText = CalciumEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(calciumText))
                                 {
@@ -206,7 +175,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         CalciumEntry.Text = calciumMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (sodiumPercent)
+                            {
                                 string sodiumText = SodiumEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(sodiumText))
                                 {
@@ -217,7 +189,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         SodiumEntry.Text = sodiumMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (potassiumPercent)
+                            {
                                 string potassiumText = PotassiumEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(potassiumText))
                                 {
@@ -228,7 +203,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         PotassiumEntry.Text = potassiumMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (cholestPercent)
+                            {
                                 string cholesterolText = CholesterolEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(cholesterolText))
                                 {
@@ -242,9 +220,10 @@ public partial class AddNonBarcodeFood : ContentPage
 
                             }
 
-                            if (!_isUnitVit)
+
+
+                            if (vitAPercent)
                             {
-                                _isUnitVit = true;
                                 string vitaminAText = VitaminAEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminAText))
                                 {
@@ -255,7 +234,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminAEntry.Text = vitaminAMicrograms.ToString();
                                     }
                                 }
+                            }
 
+                            if (vitCPercent)
+                            {
                                 string vitaminCText = VitaminCEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminCText))
                                 {
@@ -266,7 +248,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminCEntry.Text = vitaminCMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (vitDPercent)
+                            {
                                 string vitaminDText = VitaminDEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminDText))
                                 {
@@ -277,7 +262,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminDEntry.Text = vitaminDMicrograms.ToString();
                                     }
                                 }
+                            }
 
+                            if (vitEPercent)
+                            {
                                 string vitaminEText = VitaminEEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminEText))
                                 {
@@ -288,7 +276,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminEEntry.Text = vitaminEMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (vitKPercent)
+                            {
                                 string vitaminKText = VitaminKEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminKText))
                                 {
@@ -299,7 +290,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminKEntry.Text = vitaminKMicrograms.ToString();
                                     }
                                 }
+                            }
 
+                            if (thiaminPercent)
+                            {
                                 string thiaminText = ThiaminEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(thiaminText))
                                 {
@@ -310,7 +304,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         ThiaminEntry.Text = thiaminMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (riboflavinPercent)
+                            {
                                 string riboflavinText = RiboflavinEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(riboflavinText))
                                 {
@@ -321,7 +318,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         RiboflavinEntry.Text = riboflavinMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (niacinPercent)
+                            {
                                 string niacinText = NiacinEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(niacinText))
                                 {
@@ -332,7 +332,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         NiacinEntry.Text = niacinMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (b6Percent)
+                            {
                                 // Vitamin B6 - RDI: 1.3mg
                                 string pyridoxinText = PyridoxinEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(pyridoxinText))
@@ -344,7 +347,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         PyridoxinEntry.Text = pyridoxinMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (biotinPercent)
+                            {
                                 // Vitamin B7 - RDI: 30mcg
                                 string biotinText = BiotinEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(biotinText))
@@ -356,8 +362,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         BiotinEntry.Text = biotinMicrograms.ToString();
                                     }
                                 }
+                            }
 
-
+                            if (folatePercent)
+                            {
                                 // Folate - RDI: 400mcg
                                 string folateText = FolicAcidEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(folateText))
@@ -369,7 +377,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         FolicAcidEntry.Text = folateMicrograms.ToString();
                                     }
                                 }
+                            }
 
+                            if (b12Percent)
+                            {
                                 // Vitamin B12 - RDI: 2.4mcg
                                 string cobalaminText = CobalaminEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(cobalaminText))
@@ -382,56 +393,14 @@ public partial class AddNonBarcodeFood : ContentPage
                                     }
                                 }
 
-
                             }
 
-                            if (CategoryPicker.SelectedItem.ToString() == "N/A" || CategoryPicker.SelectedItem.ToString() == "Select a category")
-                            {
-                                Food.Category = null;
-                                CustomFood.Category = null;
-                            }
-                            else
-                            {
-                                Food.Category = CategoryPicker.SelectedItem.ToString();
-                                CustomFood.Category = CategoryPicker.SelectedItem.ToString();
-                            }
 
-                            switch (mealPicker.SelectedItem.ToString())
-                            {
-                                case "Select a meal":
-                                    Food.MealType = -1;
-                                    CustomFood.MealType = -1;
-                                    break;
-                                case "Breakfast":
-                                    Food.MealType = 0;
-                                    CustomFood.MealType = 0;
-                                    break;
-                                case "Lunch":
-                                    Food.MealType = 1;
-                                    CustomFood.MealType = 1;
-                                    break;
-                                case "Dinner":
-                                    Food.MealType = 2;
-                                    CustomFood.MealType = 2;
-                                    break;
-                                case "Snack":
-                                    Food.MealType = 3;
-                                    CustomFood.MealType = 3;
-                                    break;
-                                case "N/A":
-                                    Food.MealType = -1;
-                                    CustomFood.MealType = -1;
-                                    break;
-                                default:
-                                    Food.MealType = -1;
-                                    CustomFood.MealType = -1;
-                                    break;
-                            }
 
-                            if (ServingUnitPicker.SelectedIndex == 0)
-                            {
-                                GramsEntry.Text = ServingSizeEntry.Text;
-                            }
+
+
+
+
 
                             if (string.IsNullOrWhiteSpace(GramsEntry.Text))
                             {
@@ -439,6 +408,11 @@ public partial class AddNonBarcodeFood : ContentPage
                             }
 
                             Food.FoodId = null;
+
+                            if (decimal.TryParse(GramsEntry.Text, out var grams))
+                            {
+                                Food.Grams = grams;
+                            }
 
                             CustomFood.Barcode = Food.Barcode;
                             CustomFood.FoodName = Food.FoodName;
@@ -488,12 +462,8 @@ public partial class AddNonBarcodeFood : ContentPage
                         }
                         else
                         {
-                            if (!_isUnitMin)
+                            if (ironPercent)
                             {
-                                _isUnitMin = true;
-                                // Assuming the weight of the food item is measured in grams
-                                // and the recommended daily intake is in milligrams or micrograms, as appropriate.
-
                                 string ironText = IronEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(ironText))
                                 {
@@ -504,7 +474,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         IronEntry.Text = ironMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (calciumPercent)
+                            {
                                 string calciumText = CalciumEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(calciumText))
                                 {
@@ -515,7 +488,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         CalciumEntry.Text = calciumMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (sodiumPercent)
+                            {
                                 string sodiumText = SodiumEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(sodiumText))
                                 {
@@ -526,7 +502,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         SodiumEntry.Text = sodiumMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (potassiumPercent)
+                            {
                                 string potassiumText = PotassiumEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(potassiumText))
                                 {
@@ -537,7 +516,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         PotassiumEntry.Text = potassiumMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (cholestPercent)
+                            {
                                 string cholesterolText = CholesterolEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(cholesterolText))
                                 {
@@ -551,9 +533,10 @@ public partial class AddNonBarcodeFood : ContentPage
 
                             }
 
-                            if (!_isUnitVit)
+
+
+                            if (vitAPercent)
                             {
-                                _isUnitVit = true;
                                 string vitaminAText = VitaminAEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminAText))
                                 {
@@ -564,7 +547,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminAEntry.Text = vitaminAMicrograms.ToString();
                                     }
                                 }
+                            }
 
+                            if (vitCPercent)
+                            {
                                 string vitaminCText = VitaminCEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminCText))
                                 {
@@ -575,7 +561,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminCEntry.Text = vitaminCMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (vitDPercent)
+                            {
                                 string vitaminDText = VitaminDEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminDText))
                                 {
@@ -586,7 +575,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminDEntry.Text = vitaminDMicrograms.ToString();
                                     }
                                 }
+                            }
 
+                            if (vitEPercent)
+                            {
                                 string vitaminEText = VitaminEEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminEText))
                                 {
@@ -597,7 +589,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminEEntry.Text = vitaminEMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (vitKPercent)
+                            {
                                 string vitaminKText = VitaminKEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(vitaminKText))
                                 {
@@ -608,7 +603,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         VitaminKEntry.Text = vitaminKMicrograms.ToString();
                                     }
                                 }
+                            }
 
+                            if (thiaminPercent)
+                            {
                                 string thiaminText = ThiaminEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(thiaminText))
                                 {
@@ -619,7 +617,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         ThiaminEntry.Text = thiaminMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (riboflavinPercent)
+                            {
                                 string riboflavinText = RiboflavinEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(riboflavinText))
                                 {
@@ -630,7 +631,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         RiboflavinEntry.Text = riboflavinMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (niacinPercent)
+                            {
                                 string niacinText = NiacinEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(niacinText))
                                 {
@@ -641,7 +645,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         NiacinEntry.Text = niacinMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (b6Percent)
+                            {
                                 // Vitamin B6 - RDI: 1.3mg
                                 string pyridoxinText = PyridoxinEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(pyridoxinText))
@@ -653,7 +660,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         PyridoxinEntry.Text = pyridoxinMilligrams.ToString();
                                     }
                                 }
+                            }
 
+                            if (biotinPercent)
+                            {
                                 // Vitamin B7 - RDI: 30mcg
                                 string biotinText = BiotinEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(biotinText))
@@ -665,8 +675,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         BiotinEntry.Text = biotinMicrograms.ToString();
                                     }
                                 }
+                            }
 
-
+                            if (folatePercent)
+                            {
                                 // Folate - RDI: 400mcg
                                 string folateText = FolicAcidEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(folateText))
@@ -678,7 +690,10 @@ public partial class AddNonBarcodeFood : ContentPage
                                         FolicAcidEntry.Text = folateMicrograms.ToString();
                                     }
                                 }
+                            }
 
+                            if (b12Percent)
+                            {
                                 // Vitamin B12 - RDI: 2.4mcg
                                 string cobalaminText = CobalaminEntry.Text?.Trim();
                                 if (!string.IsNullOrWhiteSpace(cobalaminText))
@@ -691,60 +706,18 @@ public partial class AddNonBarcodeFood : ContentPage
                                     }
                                 }
 
-
                             }
 
-                            if (CategoryPicker.SelectedItem.ToString() == "N/A" || CategoryPicker.SelectedItem.ToString() == "Select a category")
-                            {
-                                Food.Category = null;
-                                CustomFood.Category = null;
-                            }
-                            else
-                            {
-                                Food.Category = CategoryPicker.SelectedItem.ToString();
-                                CustomFood.Category = CategoryPicker.SelectedItem.ToString();
-                            }
 
-                            switch (mealPicker.SelectedItem.ToString())
-                            {
-                                case "Select a meal":
-                                    Food.MealType = -1;
-                                    CustomFood.MealType = -1;
-                                    break;
-                                case "Breakfast":
-                                    Food.MealType = 0;
-                                    CustomFood.MealType = 0;
-                                    break;
-                                case "Lunch":
-                                    Food.MealType = 1;
-                                    CustomFood.MealType = 1;
-                                    break;
-                                case "Dinner":
-                                    Food.MealType = 2;
-                                    CustomFood.MealType = 2;
-                                    break;
-                                case "Snack":
-                                    Food.MealType = 3;
-                                    CustomFood.MealType = 3;
-                                    break;
-                                case "N/A":
-                                    Food.MealType = -1;
-                                    CustomFood.MealType = -1;
-                                    break;
-                                default:
-                                    Food.MealType = -1;
-                                    CustomFood.MealType = -1;
-                                    break;
-                            }
-
-                            if (ServingUnitPicker.SelectedIndex == 0)
-                            {
-                                GramsEntry.Text = ServingSizeEntry.Text;
-                            }
 
                             if (string.IsNullOrWhiteSpace(GramsEntry.Text))
                             {
                                 GramsEntry.Text = ServingSizeEntry.Text;
+                            }
+
+                            if (decimal.TryParse(GramsEntry.Text, out var grams))
+                            {
+                                Food.Grams = grams;
                             }
 
                             CustomFood.Barcode = Food.Barcode;
@@ -790,12 +763,12 @@ public partial class AddNonBarcodeFood : ContentPage
                             await Navigation.PopAsync();
                         }
                     }
-                    
                 }
                 else
                 {
-                    await DisplayAlert("Alert", "Please select a meal type and category", "OK");
+                    await DisplayAlert("Alert", "Please categorize the food into a meal and food group", "OK");
                 }
+
             }
             else
             {
@@ -813,99 +786,554 @@ public partial class AddNonBarcodeFood : ContentPage
 
 
 
-	public bool _isUnitVit = true;
-
-    void SwitchUnitVitClicked(System.Object sender, System.EventArgs e)
-    {
-		_isUnitVit = !_isUnitVit;
-
-		if (_isUnitVit)
-		{
-            VitaminUnitButton.Text = "Units";
-
-			VitaminA.Text = "Vitamin A (μg/mcg):";
-			Thiamin.Text = "Vitamin B1 [Thiamin] (mg):";
-			Riboflavin.Text = "Vitamin B2 [Riboflavin] (mg):";
-			Niacin.Text = "Vitamin B3 [Niacin] (mg):";
-			PanthoAcid.Text = "Vitamin B5 [Panthothenic Acid] (mg):";
-			Pyridoxin.Text = "Vitamin B6 [Pyridoxin] (mg):";
-			Biotin.Text = "Vitamin B7 [Biotin] (μg/mcg):";
-			FolicAcid.Text = "Vitamin B9 [Folic Acid] (μg/mcg):";
-			Cobalamin.Text = "Vitamin B12 [Cobalamin] (μg/mcg):";
-			VitaminC.Text = "Vitamin C (mg):";
-			VitaminD.Text = "Vitamin D (μg/mcg):";
-			VitaminE.Text = "Vitamin E (mg):";
-			VitaminK.Text = "Vitamin K (μg/mcg):";
-
-        }
-		else
-		{
-            VitaminUnitButton.Text = "%";
-
-            VitaminA.Text = "Vitamin A (%):";
-            Thiamin.Text = "Vitamin B1 [Thiamin] (%):";
-            Riboflavin.Text = "Vitamin B2 [Riboflavin] (%):";
-            Niacin.Text = "Vitamin B3 [Niacin] (%):";
-            PanthoAcid.Text = "Vitamin B5 [Panthothenic Acid] (%):";
-            Pyridoxin.Text = "Vitamin B6 [Pyridoxin] (%):";
-            Biotin.Text = "Vitamin B7 [Biotin] (%):";
-            FolicAcid.Text = "Vitamin B9 [Folic Acid] (%):";
-            Cobalamin.Text = "Vitamin B12 [Cobalamin] (%:";
-            VitaminC.Text = "Vitamin C (%):";
-            VitaminD.Text = "Vitamin D (%):";
-            VitaminE.Text = "Vitamin E (%):";
-            VitaminK.Text = "Vitamin K (%):";
-        }
-    }
-
-    public bool _isUnitMin = true;
-
-    void SwitchUnitMinClicked(System.Object sender, System.EventArgs e)
-    {
-        _isUnitMin = !_isUnitMin;
-
-        if (_isUnitMin)
-        {
-            MineralUnitButton.Text = "Units";
-
-            Iron.Text = "Iron (mg):";
-            Calcium.Text = "Calcium (mg):";
-            Potassium.Text = "Potassium (mg):";
-            Sodium.Text = "Sodium (mg):";
-            Cholesterol.Text = "Cholesterol (mg):";
-                
-        }
-        else
-        {
-            MineralUnitButton.Text = "%";
-
-            Iron.Text = "Iron (%):";
-            Calcium.Text = "Calcium (%):";
-            Potassium.Text = "Potassium (%):";
-            Sodium.Text = "Sodium (%):";
-            Cholesterol.Text = "Cholesterol (%):";
-        }
-    }
-
-    void ServingUnitPicker_SelectedIndexChanged(System.Object sender, System.EventArgs e)
-    {
-        if (ServingUnitPicker.SelectedIndex == 0)
-        {
-            TotalGrams.IsVisible = false;
-            GramsEntry.IsVisible = false;
-            GramsEntry.Text = ServingSizeEntry.Text;
-        }
-        else
-        {
-            TotalGrams.IsVisible = true;
-            GramsEntry.IsVisible = true;
-            GramsEntry.Text = "";
-        }
-    }
-
     void BarcodeEntry_TextChanged(System.Object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
     {
         BarcodeEntry.Text = "General" + BarcodeEntry.Text;
+    }
+
+    void GramsClicked(System.Object sender, System.EventArgs e)
+    {
+        GramsButton.Background = Color.FromRgb(75, 158, 227);
+        OzButton.Background = Colors.Transparent;
+        mLButton.Background = Colors.Transparent;
+
+        Food.ServingUnit = "g";
+        CustomFood.ServingUnit = "g";
+
+        TotalGrams.IsVisible = false;
+        GramsEntry.IsVisible = false;
+    }
+
+    void OzClicked(System.Object sender, System.EventArgs e)
+    {
+        GramsButton.Background = Colors.Transparent;
+        OzButton.Background = Color.FromRgb(75, 158, 227);
+        mLButton.Background = Colors.Transparent;
+
+        Food.ServingUnit = "oz";
+        CustomFood.ServingUnit = "oz";
+
+        TotalGrams.IsVisible = true;
+        GramsEntry.IsVisible = true;
+    }
+
+    void mLClicked(System.Object sender, System.EventArgs e)
+    {
+        GramsButton.Background = Colors.Transparent;
+        OzButton.Background = Colors.Transparent;
+        mLButton.Background = Color.FromRgb(75, 158, 227);
+
+        Food.ServingUnit = "mL";
+        CustomFood.ServingUnit = "mL";
+
+        TotalGrams.IsVisible = true;
+        GramsEntry.IsVisible = true;
+    }
+
+
+
+    void BreakfastButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        BreakfastButton.Background = Color.FromRgb(75, 158, 227);
+        LunchButton.Background = Colors.Transparent;
+        DinnerButton.Background = Colors.Transparent;
+        SnackButton.Background = Colors.Transparent;
+        NoMealButton.Background = Colors.Transparent;
+
+        Food.MealType = 0;
+
+        mealSelected = true;
+    }
+
+    void LunchButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        LunchButton.Background = Color.FromRgb(75, 158, 227);
+        BreakfastButton.Background = Colors.Transparent;
+        DinnerButton.Background = Colors.Transparent;
+        SnackButton.Background = Colors.Transparent;
+        NoMealButton.Background = Colors.Transparent;
+
+        Food.MealType = 1;
+
+        mealSelected = true;
+    }
+
+    void DinnerButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        DinnerButton.Background = Color.FromRgb(75, 158, 227);
+        LunchButton.Background = Colors.Transparent;
+        BreakfastButton.Background = Colors.Transparent;
+        SnackButton.Background = Colors.Transparent;
+        NoMealButton.Background = Colors.Transparent;
+
+        Food.MealType = 2;
+
+        mealSelected = true;
+    }
+
+    void SnackButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        SnackButton.Background = Color.FromRgb(75, 158, 227);
+        LunchButton.Background = Colors.Transparent;
+        DinnerButton.Background = Colors.Transparent;
+        BreakfastButton.Background = Colors.Transparent;
+        NoMealButton.Background = Colors.Transparent;
+
+        Food.MealType = 3;
+
+        mealSelected = true;
+    }
+
+    void NoMealButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        NoMealButton.Background = Color.FromRgb(75, 158, 227);
+        LunchButton.Background = Colors.Transparent;
+        DinnerButton.Background = Colors.Transparent;
+        SnackButton.Background = Colors.Transparent;
+        BreakfastButton.Background = Colors.Transparent;
+
+        Food.MealType = -1;
+
+        mealSelected = true;
+    }
+
+
+
+    void FruitsButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        FruitsButton.Background = Color.FromRgb(75, 158, 227);
+        VegButton.Background = Colors.Transparent;
+        MeatsButton.Background = Colors.Transparent;
+        GrainsButton.Background = Colors.Transparent;
+        DairyButton.Background = Colors.Transparent;
+        BeverageButton.Background = Colors.Transparent;
+        PackagedButton.Background = Colors.Transparent;
+        NoCatButton.Background = Colors.Transparent;
+
+        Food.Category = "Fruits";
+
+        categorySelected = true;
+    }
+
+    void VegButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        VegButton.Background = Color.FromRgb(75, 158, 227);
+        FruitsButton.Background = Colors.Transparent;
+        MeatsButton.Background = Colors.Transparent;
+        GrainsButton.Background = Colors.Transparent;
+        DairyButton.Background = Colors.Transparent;
+        BeverageButton.Background = Colors.Transparent;
+        PackagedButton.Background = Colors.Transparent;
+        NoCatButton.Background = Colors.Transparent;
+
+        Food.Category = "Vegetables";
+
+        categorySelected = true;
+    }
+
+    void MeatsButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        MeatsButton.Background = Color.FromRgb(75, 158, 227);
+        VegButton.Background = Colors.Transparent;
+        FruitsButton.Background = Colors.Transparent;
+        GrainsButton.Background = Colors.Transparent;
+        DairyButton.Background = Colors.Transparent;
+        BeverageButton.Background = Colors.Transparent;
+        PackagedButton.Background = Colors.Transparent;
+        NoCatButton.Background = Colors.Transparent;
+
+        Food.Category = "Meats";
+
+        categorySelected = true;
+    }
+
+    void GrainsButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        GrainsButton.Background = Color.FromRgb(75, 158, 227);
+        VegButton.Background = Colors.Transparent;
+        MeatsButton.Background = Colors.Transparent;
+        FruitsButton.Background = Colors.Transparent;
+        DairyButton.Background = Colors.Transparent;
+        BeverageButton.Background = Colors.Transparent;
+        PackagedButton.Background = Colors.Transparent;
+        NoCatButton.Background = Colors.Transparent;
+
+        Food.Category = "Grains";
+
+        categorySelected = true;
+    }
+
+    void DairyButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        DairyButton.Background = Color.FromRgb(75, 158, 227);
+        VegButton.Background = Colors.Transparent;
+        MeatsButton.Background = Colors.Transparent;
+        GrainsButton.Background = Colors.Transparent;
+        FruitsButton.Background = Colors.Transparent;
+        BeverageButton.Background = Colors.Transparent;
+        NoCatButton.Background = Colors.Transparent;
+        PackagedButton.Background = Colors.Transparent;
+
+        Food.Category = "Dairy";
+
+        categorySelected = true;
+    }
+
+    void BeverageButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        BeverageButton.Background = Color.FromRgb(75, 158, 227);
+        VegButton.Background = Colors.Transparent;
+        MeatsButton.Background = Colors.Transparent;
+        GrainsButton.Background = Colors.Transparent;
+        DairyButton.Background = Colors.Transparent;
+        FruitsButton.Background = Colors.Transparent;
+        NoCatButton.Background = Colors.Transparent;
+        PackagedButton.Background = Colors.Transparent;
+
+        Food.Category = "Beverage";
+
+        categorySelected = true;
+    }
+
+    void PackagedButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        PackagedButton.Background = Color.FromRgb(75, 158, 227);
+        VegButton.Background = Colors.Transparent;
+        MeatsButton.Background = Colors.Transparent;
+        GrainsButton.Background = Colors.Transparent;
+        DairyButton.Background = Colors.Transparent;
+        BeverageButton.Background = Colors.Transparent;
+        FruitsButton.Background = Colors.Transparent;
+        NoCatButton.Background = Colors.Transparent;
+
+        Food.Category = "Processed/Packaged";
+
+        categorySelected = true;
+    }
+
+    void NoCatButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        NoCatButton.Background = Color.FromRgb(75, 158, 227);
+        VegButton.Background = Colors.Transparent;
+        MeatsButton.Background = Colors.Transparent;
+        GrainsButton.Background = Colors.Transparent;
+        DairyButton.Background = Colors.Transparent;
+        BeverageButton.Background = Colors.Transparent;
+        FruitsButton.Background = Colors.Transparent;
+        PackagedButton.Background = Colors.Transparent;
+
+        Food.Category = null;
+
+        categorySelected = true;
+    }
+
+    bool cholestPercent = false;
+    bool sodiumPercent = false;
+
+    void CholestUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (cholestPercent)
+        {
+            CholestUnitButton.Text = "mg";
+            Cholesterol.Text = "Cholesterol (mg):";
+        }
+        else
+        {
+            CholestUnitButton.Text = " % ";
+            Cholesterol.Text = "Cholesterol (%):";
+        }
+
+        cholestPercent = !cholestPercent;
+    }
+
+    void SodiumUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (sodiumPercent)
+        {
+            SodiumUnitButton.Text = "mg";
+            Sodium.Text = "Sodium (mg):";
+        }
+        else
+        {
+            SodiumUnitButton.Text = " % ";
+            Sodium.Text = "Sodium (%):";
+        }
+
+        sodiumPercent = !sodiumPercent;
+    }
+
+    bool vitDPercent = false;
+    bool calciumPercent = false;
+    bool ironPercent = false;
+    bool potassiumPercent = false;
+    bool vitAPercent = false;
+    bool vitCPercent = false;
+    bool vitEPercent = false;
+    bool vitKPercent = false;
+    bool thiaminPercent = false;
+    bool riboflavinPercent = false;
+    bool niacinPercent = false;
+    bool b6Percent = false;
+    bool folatePercent = false;
+    bool b12Percent = false;
+    bool biotinPercent = false;
+    bool b5Percent = false;
+
+
+    void VitaminDUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (vitDPercent)
+        {
+            VitaminDUnitButton.Text = "μg";
+            VitaminD.Text = "Vitamin D (μg):";
+        }
+        else
+        {
+            VitaminDUnitButton.Text = " % ";
+            VitaminD.Text = "Vitamin D (%):";
+        }
+
+        vitDPercent = !vitDPercent;
+    }
+
+    void CalciumUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (calciumPercent)
+        {
+            CalciumUnitButton.Text = "mg";
+            Calcium.Text = "Calcium (mg):";
+        }
+        else
+        {
+            CalciumUnitButton.Text = " % ";
+            Calcium.Text = "Calcium (%):";
+        }
+
+        calciumPercent = !calciumPercent;
+    }
+
+    void IronUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (ironPercent)
+        {
+            IronUnitButton.Text = "mg";
+            Iron.Text = "Iron (mg):";
+        }
+        else
+        {
+            IronUnitButton.Text = " % ";
+            Iron.Text = "Iron (%):";
+        }
+
+        ironPercent = !ironPercent;
+    }
+
+    void PotassiumUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (potassiumPercent)
+        {
+            PotassiumUnitButton.Text = "mg";
+            Potassium.Text = "Potassium (mg):";
+        }
+        else
+        {
+            PotassiumUnitButton.Text = " % ";
+            Potassium.Text = "Potassium (%):";
+        }
+
+        potassiumPercent = !potassiumPercent;
+    }
+
+    void VitaminAUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (vitAPercent)
+        {
+            VitaminAUnitButton.Text = "μg";
+            VitaminA.Text = "Vitamin A (μg):";
+        }
+        else
+        {
+            VitaminAUnitButton.Text = " % ";
+            VitaminA.Text = "Vitamin A (%):";
+        }
+
+        vitAPercent = !vitAPercent;
+    }
+
+    void VitaminCUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (vitCPercent)
+        {
+            VitaminCUnitButton.Text = "mg";
+            VitaminC.Text = "Vitamin C (mg):";
+        }
+        else
+        {
+            VitaminCUnitButton.Text = " % ";
+            VitaminC.Text = "Vitamin C (%):";
+        }
+
+        vitCPercent = !vitCPercent;
+    }
+
+    void VitaminEUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (vitEPercent)
+        {
+            VitaminEUnitButton.Text = "mg";
+            VitaminE.Text = "Vitamin E (mg):";
+        }
+        else
+        {
+            VitaminEUnitButton.Text = " % ";
+            VitaminE.Text = "Vitamin E (%):";
+        }
+
+        vitEPercent = !vitEPercent;
+    }
+
+    void VitaminKUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (vitKPercent)
+        {
+            VitaminKUnitButton.Text = "μg";
+            VitaminK.Text = "Vitamin K (μg):";
+        }
+        else
+        {
+            VitaminKUnitButton.Text = " % ";
+            VitaminK.Text = "Vitamin K (%):";
+        }
+
+        vitKPercent = !vitKPercent;
+    }
+
+    void ThiaminUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (thiaminPercent)
+        {
+            ThiaminUnitButton.Text = "mg";
+            Thiamin.Text = "Thiamin [B1] (mg):";
+        }
+        else
+        {
+            ThiaminUnitButton.Text = " % ";
+            Thiamin.Text = "Thiamin [B1] (%):";
+        }
+
+        thiaminPercent = !thiaminPercent;
+    }
+
+    void RiboflavinUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (riboflavinPercent)
+        {
+            RiboflavinUnitButton.Text = "mg";
+            Riboflavin.Text = "Riboflavin [B2] (mg):";
+        }
+        else
+        {
+            RiboflavinUnitButton.Text = " % ";
+            Riboflavin.Text = "Riboflavin [B2] (%):";
+        }
+
+        riboflavinPercent = !riboflavinPercent;
+    }
+
+    void NiacinUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (niacinPercent)
+        {
+            NiacinUnitButton.Text = "mg";
+            Niacin.Text = "Niacin [B3] (mg):";
+        }
+        else
+        {
+            NiacinUnitButton.Text = " % ";
+            Niacin.Text = "Niacin [B3] (%):";
+        }
+
+        niacinPercent = !niacinPercent;
+    }
+
+    void B6UnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (b6Percent)
+        {
+            B6UnitButton.Text = "mg";
+            Pyridoxin.Text = "Vitamin B6 [Pyridoxin] (mg):";
+        }
+        else
+        {
+            B6UnitButton.Text = " % ";
+            Pyridoxin.Text = "Vitamin B6 [Pyridoxin] (%):";
+        }
+
+        b6Percent = !b6Percent;
+    }
+
+    void FolateUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (folatePercent)
+        {
+            FolateUnitButton.Text = "μg";
+            FolicAcid.Text = "Folic Acid/Folate [B9] (μg):";
+        }
+        else
+        {
+            FolateUnitButton.Text = " % ";
+            FolicAcid.Text = "Folic Acid/Folate [B9] (%):";
+        }
+
+        folatePercent = !folatePercent;
+    }
+
+    void B12UnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (b12Percent)
+        {
+            B12UnitButton.Text = "μg";
+            Cobalamin.Text = "Vitamin B12 [Cobalamin] (μg):";
+        }
+        else
+        {
+            B12UnitButton.Text = " % ";
+            Cobalamin.Text = "Vitamin B12 [Cobalamin] (%):";
+        }
+
+        b12Percent = !b12Percent;
+    }
+
+    void BiotinUnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (biotinPercent)
+        {
+            BiotinUnitButton.Text = "μg";
+            Biotin.Text = "Biotin [B7] (μg):";
+        }
+        else
+        {
+            BiotinUnitButton.Text = " % ";
+            Biotin.Text = "Biotin [B7] (%):";
+        }
+
+        biotinPercent = !biotinPercent;
+    }
+
+    void B5UnitButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        if (b5Percent)
+        {
+            B5UnitButton.Text = "mg";
+            PanthoAcid.Text = "Panthothenic Acid [B5] (mg):";
+        }
+        else
+        {
+            B5UnitButton.Text = " % ";
+            PanthoAcid.Text = "Panthothenic Acid [B5] (%):";
+        }
+
+        b5Percent = !b5Percent;
     }
 
 }

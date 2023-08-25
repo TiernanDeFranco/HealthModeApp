@@ -5,21 +5,12 @@
              x:Class="HealthModeApp.Pages.Workouts"
              Title="Workouts">
 
-
-    <Grid x:Name="MasterGrid" Padding="2" Margin="2" HorizontalOptions="CenterAndExpand">
-        <Grid.RowDefinitions> <RowDefinition Height="Auto"/> </Grid.RowDefinitions>
-       
     <Grid x:Name="WorkoutPageGrid">
-        <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="0.1*"/>  <RowDefinition Height="Auto"/> </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Padding="3" RowSpacing="3" IsVisible="True">
+        <Grid.RowDefinitions> <RowDefinition Height="*"/> </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Padding="3,5,3,2" RowSpacing="3" IsVisible="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
     
             <Frame x:Name="WorkoutDash" Grid.Row="0" Padding="10" CornerRadius="20">
@@ -53,226 +44,78 @@
 
             </Frame>
     
-      <ScrollView Grid.Row="1" Grid.ColumnSpan="3" VerticalOptions="Center">
-       <Grid x:Name="WorkoutGrid" ColumnSpacing="5" RowSpacing="5" Margin="3">
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
-
-           <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-           </Grid.RowDefinitions>
-
-    <!-- Left column: Progress -->
-    <Frame Grid.Column="0" Grid.Row="0"
-           x:Name="progressFrame"
-           Padding="10"
-           HorizontalOptions="FillAndExpand"
-           HeightRequest="{Binding Source={x:Reference progressFrame}, Path=Width}">
-        <StackLayout>
-            <Label Text="Progress" FontFamily="Lato-Bold" FontSize="Medium"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Start" />
-            <lvc:CartesianChart x:Name="ProgressChart" Grid.Row="2" HeightRequest="125" Grid.ColumnSpan="3"
-                    VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                    LegendTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
-                    TooltipTextPaint="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"
-                    BackgroundColor="Transparent" InputTransparent="True" AnimationsSpeed="0"/>
-            
-        </StackLayout>
-    </Frame>
-
-<!-- Right column: Workouts -->
-    <Frame Grid.Row="0"
-           Grid.Column="1"
-               Padding="10"
-               HorizontalOptions="FillAndExpand"
-               VerticalOptions="FillAndExpand"
-           HeightRequest="{Binding Source={x:Reference progressFrame}, Path=Height}">
-
-            <StackLayout>
-                <Label Text="Workouts" FontFamily="Lato-Bold" FontSize="Medium"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Start" />
-                <Image x:Name="workoutImage" Margin="0,15,0,0" Source="workoutbutton" Aspect="AspectFit" HeightRequest="75" WidthRequest="75"
-                   VerticalOptions="Center" HorizontalOptions="Center"/>
-            </StackLayout>
-        </Frame>
-
-
-
-        <Frame Grid.Row="1" Grid.Column="0" x:Name="ExerciseLibrary" HeightRequest="{Binding Source={x:Reference WarmupLibrary}, Path=Height}" >
-            <VerticalStackLayout>
-            <Label Text="Exercise Library" FontFamily="Lato-Bold" FontSize="Medium"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Start"/>
-            <Image x:Name="exerciseLibrary" Source="exerciselibrary" Margin="0,15,0,0" Aspect="AspectFit" HeightRequest="100" WidthRequest="100"
-                   VerticalOptions="Center" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Tapped="ExerciseLibraryTapped"/>
-
-            </Frame.GestureRecognizers>
-        </Frame>
-        
-        <Frame Grid.Row="1" Grid.Column="1" x:Name="WarmupLibrary" HeightRequest="{Binding Source={x:Reference WarmupLibrary}, Path=Width}" >
-            <VerticalStackLayout>
-            <Label Text="Warmups &amp; Stretches" FontFamily="Lato-Bold" FontSize="15.25"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Start"/>
-                <Image x:Name="stretchIcon" Margin="0,10,0,0" Source="stretchicon" Aspect="AspectFit" HeightRequest="120" WidthRequest="120"
-                   VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
-                </VerticalStackLayout>
-        </Frame>
-
-
-            
-        <Frame Grid.Row="2" Grid.Column="0" x:Name="RecoveryFrame" HeightRequest="{Binding Source={x:Reference RecoveryFrame}, Path=Width}" >
-            <VerticalStackLayout>
-            <Label Text="Recovery" FontFamily="Lato-Bold" FontSize="Medium"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Start"/>
-            <Image x:Name="recoveryImage" Source="personicon" Margin="0,15,0,0" Aspect="AspectFit" HeightRequest="100" WidthRequest="100"
-                   VerticalOptions="Center" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-        </Frame>
-        
-        <Frame Grid.Row="2" Grid.Column="1" x:Name="MeditationFrame" HeightRequest="{Binding Source={x:Reference MeditationFrame}, Path=Width}" >
-            <VerticalStackLayout>
-            <Label Text="Meditation" FontFamily="Lato-Bold" FontSize="Medium"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Start"/>
-                <Image x:Name="meditationIcon" Margin="0,10,0,0" Source="meditateicon" Aspect="AspectFit" HeightRequest="120" WidthRequest="120"
-                   VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
-                </VerticalStackLayout>
-        </Frame>
-
-    </Grid>
-
-
-</ScrollView>
-
-    </Grid>
-
-
-  <Button Grid.Row="1" IsVisible="True" VerticalOptions="CenterAndExpand" HeightRequest="50" Text="Start Workout" BackgroundColor="{StaticResource Accent3}"/>
-
-
-</Grid>
-
-    <Grid x:Name="ExerciseSearch" Grid.Row="0" Opacity="0" RowSpacing="8" Padding="2" Margin="2,0,0,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height=".9*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-    <Frame Grid.Row="0" Grid.Column="0">
-    <Grid ColumnSpacing="3">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" /> <!-- Row for Search Bar -->
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="*"/>
-
-        </Grid.ColumnDefinitions>
-
-        <!-- Search Bar -->
-        <SearchBar Grid.Row="0" Grid.Column="0"
-                   HorizontalOptions="Start"
-                   Placeholder="Search Exercises"
-                   BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BlueGray}}"
-                   TextColor="{AppThemeBinding Light=Black, Dark={StaticResource WSmoke}}"
-                   Keyboard="Plain"
-                   x:Name="SearchExercises"/>
-
-        <!-- Equipment Image Button -->
-        <Frame x:Name="EquipmentFrame" Margin="5,0,0,-5" Padding="-3" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Grid.Row="0" Grid.Column="1" BackgroundColor="SteelBlue" CornerRadius="10">
-            <StackLayout Padding="-3,0,-3,5" Spacing="-5" HorizontalOptions="Center">
-                <Image Source="dumbellicon" WidthRequest="55" HeightRequest="55"/>
-                <Label Text="Equipment" TextColor="WhiteSmoke" FontFamily="Lato-Bold" FontSize="Small"/>
-            </StackLayout>
-        </Frame>
-    </Grid>
-</Frame>
-
-
-
-    <Grid x:Name="BodyPartGrid"  ColumnSpacing="3" HorizontalOptions="Center" Grid.Row="1" Grid.Column="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <!-- Arms Icon Frame -->
-        <Frame x:Name="ArmsFrame" BackgroundColor="SteelBlue" CornerRadius="12" Grid.Column="0" Padding="0,-12,0,-12">
-            <Image Source="addicon" WidthRequest="45" HeightRequest="45" />
-        </Frame>
-
-        <!-- Shoulders Icon Frame -->
-        <Frame x:Name="ChestFrame" BackgroundColor="SteelBlue" CornerRadius="12" Grid.Column="1" Padding="0,-12,0,-12">
-            <Image Source="addicon" WidthRequest="45" HeightRequest="45"  />
-        </Frame>
-
-        <!-- Back Icon Frame -->
-        <Frame x:Name="BackFrame" BackgroundColor="SteelBlue" CornerRadius="12" Grid.Column="2" Padding="0,-12,0,-12">
-            <Image Source="addicon" WidthRequest="45" HeightRequest="45" />
-        </Frame>
-
-        <!-- Chest Icon Frame -->
-        <Frame x:Name="ShouldersFrame" BackgroundColor="SteelBlue" CornerRadius="12" Grid.Column="3" Padding="0,-12,0,-12">
-            <Image Source="addicon" WidthRequest="45" HeightRequest="45"  />
-        </Frame>
-
-        <!-- Core Icon Frame -->
-        <Frame x:Name="CoreFrame" BackgroundColor="SteelBlue" CornerRadius="12" Grid.Column="4" Padding="0,-12,0,-12">
-            <Image Source="addicon" WidthRequest="45" HeightRequest="45"  />
-        </Frame>
-
-        <!-- Legs Icon Frame -->
-        <Frame x:Name="LegsFrame" BackgroundColor="SteelBlue" CornerRadius="12" Grid.Column="5" Padding="0,-12,0,-12">
-            <Image Source="addicon" WidthRequest="45" HeightRequest="45" />
-        </Frame>
-    </Grid>
-
-
-
-
-
-
-    <ScrollView Grid.Row="2" Grid.Column="0">
-        <Grid>
+       <Grid Grid.Row="1" x:Name="WorkoutGrid" ColumnSpacing="5" RowSpacing="5" Margin="3" Padding="5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Content dynamically generated at runtime -->
-        </Grid>
-    </ScrollView>
+           <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+           </Grid.RowDefinitions>
 
-        <Button Text="Stop Searching" BackgroundColor="LightSkyBlue" HorizontalOptions="Center" Grid.Row="3" Clicked="StopSearchingClicked"/>
 
-</Grid>
+           <Frame Grid.Row="0" Grid.Column="0" x:Name="ProgressFrame">
+               <StackLayout>
+                   <Label Text="Progress" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                   <lvc:CartesianChart x:Name="ProgressChart" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                       BackgroundColor="Transparent" InputTransparent="True" AnimationsSpeed="0" WidthRequest="{Binding Width, Source={x:Reference ProgressFrame}}"/>
+               </StackLayout>
+               <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ProgressTapped"/>
+              </Frame.GestureRecognizers>
+           </Frame>
 
-        
-        </Grid>
+          <Frame Grid.Row="0" Grid.Column="1">
+               <StackLayout>
+                    <Label Text="Recovery" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Image Source="muscle_body" x:Name="RecoveryIcon" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
+               </StackLayout>
+              <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="RecoveryTapped"/>
+              </Frame.GestureRecognizers>
+           </Frame>
+
+
+
+           <Frame Grid.Row="1" Grid.Column="0">
+               <StackLayout>
+                    <Label Text="Warmups &amp; Stretches" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Image Source="stretchicon" x:Name="StretchIcon" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
+               </StackLayout>
+           </Frame>
+
+           <Frame Grid.Row="1" Grid.Column="1">
+               <StackLayout>
+                    <Label Text="Workout" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Image Source="workout_icon" x:Name="DumbbellIcon" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
+               </StackLayout>
+           </Frame>
+
+           <Frame Grid.Row="2" Grid.Column="0">
+               <StackLayout>
+                    <Label Text="Exercise Library" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Image Source="exercise_library" x:Name="ExerciseLibrary" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
+               </StackLayout>
+               <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ExerciseLibraryTapped"/>
+              </Frame.GestureRecognizers>
+           </Frame>
+
+           
+            <Frame Grid.Row="2" Grid.Column="1">
+               <StackLayout>
+                    <Label Text="Meditation" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Image Source="meditateicon" x:Name="MeditationIcon" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
+               </StackLayout>
+           </Frame>
+
+            </Grid>
+
+            </Grid>
+    </Grid>
 </ContentPage>
 
 

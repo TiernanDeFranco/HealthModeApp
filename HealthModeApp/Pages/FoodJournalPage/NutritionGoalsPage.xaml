@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthModeApp.Pages.FoodJournalPage.NutritionGoalsPage"
-             Title="NutritionGoals">
+             x:Class="HealthModeApp.Pages.FoodJournalPage.NutritionGoalsPage">
+
     <Grid Padding="20" RowSpacing="25">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

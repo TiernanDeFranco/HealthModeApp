@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.WorkoutPages.ProgressHub">
+    <Grid RowSpacing="15" Padding="15,35,15,35">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Frame Grid.Row="0" CornerRadius="25">
+            <HorizontalStackLayout Spacing="15">
+                <Image Source="charticon"  HeightRequest="55" WidthRequest="55" HorizontalOptions="Center"/>
+                <Label Text="Strength Records" FontFamily="Lato-Bold" FontSize="Medium" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+            </HorizontalStackLayout>
+            </Frame>
+
+        <Frame Grid.Row="1" CornerRadius="25">
+             <HorizontalStackLayout Spacing="15">
+                <Image Source="rulericon"  HeightRequest="55" WidthRequest="55" HorizontalOptions="Center"/>
+                <Label Text="Body Measurements" FontFamily="Lato-Bold" FontSize="Medium" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Grid.Row="2" CornerRadius="25">
+             <HorizontalStackLayout Spacing="15">
+                <Image Source="weightscale"  HeightRequest="55" WidthRequest="55" HorizontalOptions="Center"/>
+                <Label Text="Weight" FontFamily="Lato-Bold" FontSize="Medium" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+            </HorizontalStackLayout>
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="WeightTapped"/>
+              </Frame.GestureRecognizers>
+        </Frame>
+
+    </Grid>
+
+
+</ContentPage>

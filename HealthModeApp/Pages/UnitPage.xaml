@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthModeApp.Pages.UnitPage"
-             Title="Unit Page">
+             x:Class="HealthModeApp.Pages.UnitPage">
 
-    <Grid RowSpacing="20" Padding="10,0,10,25" VerticalOptions="Center" HeightRequest="800" x:Name="Grid3" Margin="0,20">
+    <Grid RowSpacing="20" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" x:Name="Grid3">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
              <RowDefinition Height="Auto"/>
@@ -12,10 +11,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
          
-        <Frame Grid.Row="0" CornerRadius="25">
+        <Frame Grid.Row="0" CornerRadius="25" HorizontalOptions="CenterAndExpand">
 
         <StackLayout>
-            <Label Text="Units of Measurment" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Body"/>
+            <Label Text="Units of Measurement" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Body"/>
 
             <StackLayout Orientation="Vertical">
             <Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
@@ -97,9 +96,9 @@
     </Grid.ColumnDefinitions>
 
     <Label Text="Date Format" Grid.Row="0"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
-    <Button x:Name="YmdButton" Clicked="YMDClicked" Text="YY/MM/dd" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/> 
-    <Button x:Name="MdyButton" Clicked="MDYClicked" Text="MM/dd/YY" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
-    <Button x:Name="DmyButton" Clicked="DMYClicked" Text="dd/MM/YY" Grid.Row="1" Grid.Column="2" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="YmdButton" Clicked="YMDClicked" Text="YY/MM/d" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/> 
+    <Button x:Name="MdyButton" Clicked="MDYClicked" Text="MM/d/YY" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="DmyButton" Clicked="DMYClicked" Text="d/MM/YY" Grid.Row="1" Grid.Column="2" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
     <Label x:Name="DateDisplay" Text="Date Format" Grid.Row="2"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
 </Grid>
 </StackLayout>

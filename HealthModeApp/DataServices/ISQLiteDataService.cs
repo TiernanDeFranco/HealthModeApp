@@ -24,9 +24,13 @@ namespace HealthModeApp.DataServices
         Task RemoveLoggedFood(int loggedFoodID);
         Task AddLoggedFood(int userID, DateTime date, int mealType, TimeSpan time, int servingSizeSelected, decimal servingAmount, decimal totalGrams, string foodName, string brand, decimal servingSize, string servingUnit, decimal grams, string servingName, decimal? calories, decimal? carbs, decimal? sugar, decimal? addSugar, decimal? sugarAlc, decimal? fiber, decimal? netCarb, decimal? fat, decimal? satFat, decimal? pUnSatFat, decimal? mUnSatFat, decimal? transFat, decimal? protein, decimal? iron, decimal? calcium, decimal? potassium, decimal? sodium, decimal? cholesterol, decimal? vitaminA, decimal? thiamin, decimal? riboflavin, decimal? niacin, decimal? b5, decimal? b6, decimal? b7, decimal? folicAcid, decimal? b12, decimal? vitaminC, decimal? vitaminD, decimal? vitaminE, decimal? vitaminK);
         Task UpdateLoggedFood(int loggedFoodID, int userID, DateTime date, int mealType, TimeSpan time, int servingSizeSelected, decimal servingAmount, decimal totalGrams, string foodName, string brand, decimal servingSize, string servingUnit, decimal grams, string servingName, decimal? calories, decimal? carbs, decimal? sugar, decimal? addSugar, decimal? sugarAlc, decimal? fiber, decimal? netCarb, decimal? fat, decimal? satFat, decimal? pUnSatFat, decimal? mUnSatFat, decimal? transFat, decimal? protein, decimal? iron, decimal? calcium, decimal? potassium, decimal? sodium, decimal? cholesterol, decimal? vitaminA, decimal? thiamin, decimal? riboflavin, decimal? niacin, decimal? b5, decimal? b6, decimal? b7, decimal? folicAcid, decimal? b12, decimal? vitaminC, decimal? vitaminD, decimal? vitaminE, decimal? vitaminK);
-        Task<List<string>> GetMealNames();
-        Task AddMealName(MealNames mealName);
-        Task UpdateMealName(int mealID, string mealName);
+        Task UpdateLoggedFoodMeal(int loggedFoodID, int mealNum);
+        Task<List<string>> GetMealNames(DateTime date);
+        Task AddMealName(MealNames mealName, int mealNum, DateTime date);
+        Task UpdateMealName(int mealNum, string mealName, DateTime date);
+
+        Task<double> SetMealNumber(DateTime date);
+        Task UpdateMealNumber(double mealNumber, DateTime date);
 
         Task<bool> GetPopUpSeen(string popupName);
         Task AddPopUpSeen(string popupName, bool popupSeen);

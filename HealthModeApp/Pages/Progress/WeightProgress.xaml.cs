@@ -19,6 +19,7 @@ using System.Diagnostics;
 using Microsoft.Maui.ApplicationModel;
 using System.Globalization;
 using Microsoft.Maui;
+
 public partial class WeightProgress : ContentPage
 {
     private readonly IRestDataService _dataService;
@@ -29,6 +30,8 @@ public partial class WeightProgress : ContentPage
 
     DateTime beginningDate;
     DateTime endDate;
+
+    List<WeightTable> weights;
 
     public WeightProgress(IRestDataService dataService, ISQLiteDataService localData)
     {
@@ -47,6 +50,8 @@ public partial class WeightProgress : ContentPage
 
         RangePicker.ItemsSource = rangeOptions;
         RangePicker.SelectedIndex = 0;
+
+        
     }
 
 
@@ -137,20 +142,18 @@ public partial class WeightProgress : ContentPage
                 break;
 
         }
-
-        var weights = await _localData.GetWeightsIndex(userID, index);
+        weights = null;
+        WeightEntries.ItemsSource = null;
+        weights = await _localData.GetWeightsIndex(userID, index);
 
         if (weights.Count == 0)
         {
             ChartValues = new ObservableCollection<DateTimePoint>();
-
-            Debug.WriteLine("bobobobo");
-            RangePicker.IsVisible = false;
             StartWeight.IsVisible = false;
             EndWeight.IsVisible = true;
             WeightDifference.IsVisible = false;
 
-            EndWeight.Text = "-= Enter Weight =-";
+            EndWeight.Text = "No Weights In This Range";
 
             if (weightPlan == -1)
             {
@@ -236,7 +239,6 @@ public partial class WeightProgress : ContentPage
 
             ChartValues = new ObservableCollection<DateTimePoint>();
 
-            Debug.WriteLine("bebebe");
             RangePicker.IsVisible = true;
             StartWeight.IsVisible = true;
             EndWeight.IsVisible = true;
@@ -620,6 +622,7 @@ public partial class WeightProgress : ContentPage
 
     void RangePicker_SelectedIndexChanged(System.Object sender, System.EventArgs e)
     {
+        
         FillGraph(RangePicker.SelectedIndex);
     }
 
@@ -631,6 +634,59 @@ public partial class WeightProgress : ContentPage
             await Navigation.PushAsync(new NewWeightEntry(_dataService, _localData, selectedItem.Date, selectedItem));
             WeightEntries.SelectedItem = null; // Deselect the selected item
 
+        }
+    }
+
+    async void TapGestureRecognizer_Tapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        if (weights.Count > 0)
+        {
+            var beforeWeight = weights.First();
+            var afterWeight = weights.Last();
+            await Navigation.PushAsync(new WeightComparison(beforeWeight, afterWeight, _localData));
+        }
+        else
+        {
+            await DisplayAlert("Oops", "You need to have weights and pictures stored to be able to compare and share your progress", "Ok");
+        }
+    }
+
+    async void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        WeightTable beforeWeight = new WeightTable();
+        WeightTable afterWeight = new WeightTable();
+
+        if (weights.Count > 0)
+        {
+            foreach (var weight in weights)
+            {
+                if (weight.ProgressPicture != null)
+                {
+                    beforeWeight = weight; // Set the current weight to beforeWeight
+                    break; // Exit the loop
+                }
+            }
+
+            weights.Reverse();
+
+            foreach (var weight in weights)
+            {
+                if (weight.ProgressPicture != null)
+                {
+                    afterWeight = weight; // Set the current weight to beforeWeight
+                    break; // Exit the loop
+                }
+            }
+
+            if (beforeWeight != null && afterWeight != null)
+            {
+                await Navigation.PushAsync(new WeightComparison(beforeWeight, afterWeight, _localData));
+            }
+        }
+
+        else
+        {
+            await DisplayAlert("Oops", "You need to have weights and pictures stored to be able to compare and share your progress", "Ok");
         }
     }
 }

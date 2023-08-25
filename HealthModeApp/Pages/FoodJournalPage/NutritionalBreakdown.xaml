@@ -26,7 +26,7 @@
                      <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <DatePicker Grid.Row="0" Grid.Column="1" x:Name="DateSelect" FontSize="Medium" FontFamily="Lato-Bold" Format="MM/dd/yy" HorizontalOptions="Center" VerticalOptions="Start" DateSelected="DateSelect_DateSelected"/>
-                <Button Grid.Row="0" Grid.Column="2" x:Name="TodayButton" Text="Jump to Today" IsVisible="False" Clicked="TodayButton_Clicked" HorizontalOptions="Center" VerticalOptions="Start"/>
+                <ImageButton Grid.Row="0" Grid.Column="2" x:Name="TodayButton" Source="calendaricon" WidthRequest="32" HeightRequest="32" Aspect="AspectFit" IsVisible="False" Clicked="TodayButton_Clicked" HorizontalOptions="Center" VerticalOptions="Start"/>
 
             <Grid Grid.Row="1" Grid.ColumnSpan="3" x:Name="PieGrid">
                 <Grid.RowDefinitions>
@@ -206,35 +206,35 @@
 
                 <ProgressBar x:Name="TransFatBar" Grid.Row="10" Grid.ColumnSpan="3" ProgressColor="{StaticResource Cyan100Accent}"/>
 
-                <Label Text="Iron (mg)" Grid.Row="11" Grid.Column="0"/>
-                <Label x:Name="IronValue" Grid.Row="11" Grid.Column="1" TextColor="SlateGray" HorizontalTextAlignment="Center"/>
-                <Label x:Name="IronLeft" Grid.Row="11" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+                <Label Text="Iron (mg)" Grid.Row="17" Grid.Column="0"/>
+                <Label x:Name="IronValue" Grid.Row="17" Grid.Column="1" TextColor="SlateGray" HorizontalTextAlignment="Center"/>
+                <Label x:Name="IronLeft" Grid.Row="17" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="IronBar" Grid.Row="12" Grid.ColumnSpan="3" ProgressColor="SlateGray"/>
+                <ProgressBar x:Name="IronBar" Grid.Row="18" Grid.ColumnSpan="3" ProgressColor="SlateGray"/>
 
-                <Label Text="Calcium (mg)" Grid.Row="13" Grid.Column="0"/>
-                <Label x:Name="CalciumValue" Grid.Row="13" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
-                <Label x:Name="CalciumLeft" Grid.Row="13" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+                <Label Text="Calcium (mg)" Grid.Row="15" Grid.Column="0"/>
+                <Label x:Name="CalciumValue" Grid.Row="15" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
+                <Label x:Name="CalciumLeft" Grid.Row="15" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="CalciumBar" Grid.Row="14" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
+                <ProgressBar x:Name="CalciumBar" Grid.Row="16" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
 
-                <Label Text="Potassium (mg)" Grid.Row="15" Grid.Column="0"/>
-                <Label x:Name="PotassiumValue" Grid.Row="15" Grid.Column="1" TextColor="{StaticResource Accent3}" HorizontalTextAlignment="Center"/>
-                <Label x:Name="PotassiumLeft" Grid.Row="15" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+                <Label Text="Potassium (mg)" Grid.Row="19" Grid.Column="0"/>
+                <Label x:Name="PotassiumValue" Grid.Row="19" Grid.Column="1" TextColor="{StaticResource Accent3}" HorizontalTextAlignment="Center"/>
+                <Label x:Name="PotassiumLeft" Grid.Row="19" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="PotassiumBar" Grid.Row="16" Grid.ColumnSpan="3" ProgressColor="{StaticResource Accent3}"/>
+                <ProgressBar x:Name="PotassiumBar" Grid.Row="20" Grid.ColumnSpan="3" ProgressColor="{StaticResource Accent3}"/>
 
-                <Label Text="Sodium (mg)" Grid.Row="17" Grid.Column="0"/>
-                <Label x:Name="SodiumValue" Grid.Row="17" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
-                <Label x:Name="SodiumLeft" Grid.Row="17" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+                <Label Text="Sodium (mg)" Grid.Row="13" Grid.Column="0"/>
+                <Label x:Name="SodiumValue" Grid.Row="13" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
+                <Label x:Name="SodiumLeft" Grid.Row="13" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="SodiumBar" Grid.Row="18" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
+                <ProgressBar x:Name="SodiumBar" Grid.Row="14" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
 
-                <Label Text="Cholesterol (mg)" Grid.Row="19" Grid.Column="0"/>
-                <Label x:Name="CholesterolValue" Grid.Row="19" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="Center"/>
-                <Label x:Name="CholesterolLeft" Grid.Row="19" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+                <Label Text="Cholesterol (mg)" Grid.Row="11" Grid.Column="0"/>
+                <Label x:Name="CholesterolValue" Grid.Row="11" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="Center"/>
+                <Label x:Name="CholesterolLeft" Grid.Row="11" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="CholesterolBar" Grid.Row="20" Grid.ColumnSpan="3" ProgressColor="Goldenrod"/>
+                <ProgressBar x:Name="CholesterolBar" Grid.Row="12" Grid.ColumnSpan="3" ProgressColor="Goldenrod"/>
 
                 <Label Text=" " Grid.Row="21" Grid.ColumnSpan="3" TextColor="Transparent"/>
 

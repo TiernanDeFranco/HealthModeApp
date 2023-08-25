@@ -30,7 +30,7 @@ public partial class NutritionGoalsPage : ContentPage
         {
             ProteinPicker.Items.Add($"{i}%");
         }
-
+        CalorieGoalEntry.Text = "0";
         SetDefaults();
 
 
@@ -38,7 +38,6 @@ public partial class NutritionGoalsPage : ContentPage
 
     async void SetDefaults()
     {
-        CalorieGoalEntry.Text = "0";
         var userID = await _localData.GetUserID();
         var userInfo = await _localData.GetUserAsync(userID);
         var goals = await _localData.GetNutritionGoals(userID, DateTime.Today);
@@ -83,6 +82,8 @@ public partial class NutritionGoalsPage : ContentPage
         CarbPicker.SelectedIndex = carbIndex;
         FatPicker.SelectedIndex = fatIndex;
         ProteinPicker.SelectedIndex = proteinIndex;
+
+        
     }
 
 
@@ -121,9 +122,6 @@ public partial class NutritionGoalsPage : ContentPage
 
         if (total == 100)
         {
-            bool yes = await DisplayAlert("Notice", "Your micronutrient goals will be reset in accordance with your new calorie goal.", "OK", "Cancel");
-            if (yes)
-            {
                 _userID = await _localData.GetUserID();
                 bool hasTodayGoals = await _localData.NutritionGoalDateExists(_userID, DateTime.Today);
                 var (carbGrams, fatGrams, proteinGrams) = ConvertToGrams(carbPercent, fatPercent, proteinPercent, calorieStored);
@@ -157,11 +155,8 @@ public partial class NutritionGoalsPage : ContentPage
                 SaveButton.IsVisible = false;
                 (string email, string password) = await _localData.GetUserCredentials();
                 await _dataService.UpdateUserInfoAsync(userInfo, email, password, _userID);
-                await Navigation.PopModalAsync();
-            }
-            else
-            { await Navigation.PopModalAsync(); }
-                
+                await Navigation.PopAsync();
+                  
         }
         else
         {
@@ -309,6 +304,7 @@ public partial class NutritionGoalsPage : ContentPage
             if (int.TryParse(input, out int calories))
             {
                 var (carbGrams, fatGrams, proteinGrams) = ConvertToGrams(carbIndex, fatIndex, proteinIndex, calories);
+
                 Debug.WriteLine($"{carbGrams}, {fatGrams}, {proteinGrams}");
                 CarbGrams.Text = $"{carbGrams}g";
                 FatGrams.Text = $"{fatGrams}g";

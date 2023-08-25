@@ -99,7 +99,7 @@ public partial class Dashboard : ContentPage
                         break;
 
                     case "yy/MM/dd":
-                        TodaysDate.Text = DateTime.Today.ToString("dddd, MMMM d, yyyy");
+                        TodaysDate.Text = DateTime.Today.ToString("yyyy, MMMM, d, dddd");
                         break;
                 }
 
@@ -161,18 +161,21 @@ public partial class Dashboard : ContentPage
 
     async void PopulateMealName()
     {
-        var mealNames = await _localData.GetMealNames();
-
+        var mealNames = await _localData.GetMealNames(DateTime.Today);
+       
         if (mealNames == null || mealNames.Count == 0)
         {
             // Create default meal names
-            var defaultMealNames = new List<string> { "Meal 1", "Meal 2", "Meal 3", "Meal 4", "Meal 5", "Meal 6" };
+            var defaultMealNames = new List<string> { "Breakfast", "Lunch", "Dinner", "Snack", "Meal 5", "Meal 6" };
 
             // Add the default meal names to the MealNames table
+            int mealNum = 1;
             foreach (var name in defaultMealNames)
             {
+
                 var mealName = new MealNames { MealName = name };
-                await _localData.AddMealName(mealName);
+                await _localData.AddMealName(mealName, mealNum, new DateTime(1900, 1, 1));
+                mealNum++;
             }
 
 
@@ -501,7 +504,7 @@ public partial class Dashboard : ContentPage
             ChartValues = new ObservableCollection<DateTimePoint>();
             WeightValue.IsVisible = true;
                 var latestWeight = weights.Last();
-                WeightValue.Text = latestWeight.Weight.ToString($"0.# {weightUnit}");
+                
                 var weightUnitFormat = "lbs";
                 foreach (var weight in weights)
                 {
@@ -509,13 +512,16 @@ public partial class Dashboard : ContentPage
                     {
                         weight.Weight = Math.Round(weight.Weight / (decimal)2.2, 1);
                         weightUnitFormat = "kg";
-                    }
+                        
+                }
                     else
                     {
                         weightUnitFormat = "lbs";
-                    }
+                        
+                }
+                WeightValue.Text = latestWeight.Weight.ToString($"0.# {weightUnit}");
 
-                    ChartValues.Add(new DateTimePoint(weight.Date, (double)weight.Weight));
+                ChartValues.Add(new DateTimePoint(weight.Date, (double)weight.Weight));
                 }
 
 

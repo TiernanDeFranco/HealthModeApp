@@ -205,7 +205,27 @@ namespace HealthModeApp.Models.SQLite
             [PrimaryKey, AutoIncrement]
             public int MealID { get; set; }
 
+            public int UserID { get; set; }
+
+            public DateTime MealDate { get; set; }
+
+            public int MealNum { get; set; }
+
             public string MealName { get; set; }
+
+        }
+
+        [SQLiteTable("MealNumber")]
+        public class MealNumber
+        {
+            [PrimaryKey, AutoIncrement]
+            public int MealID { get; set; }
+
+            public int UserID { get; set; }
+
+            public DateTime MealDate { get; set; }
+
+            public double MealNum { get; set; }
 
         }
 

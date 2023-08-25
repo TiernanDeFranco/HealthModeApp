@@ -38,7 +38,7 @@ namespace HealthModeApp.Pages.FoodJournalPage
 
         async void PopulateMealName()
         {
-            var mealNames = await _localData.GetMealNames();
+            var mealNames = await _localData.GetMealNames(_date);
 
             switch (_mealType)
             {

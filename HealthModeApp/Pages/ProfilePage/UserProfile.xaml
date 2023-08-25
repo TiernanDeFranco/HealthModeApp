@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.ProfilePage.UserProfile">
+
+
+
+<Grid RowSpacing="3">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0" HorizontalOptions="Center" Padding="15" RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                         <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                     <Border x:Name="PfpHolder" Grid.Row="0" Grid.Column="0" Margin="0,-5,0,0" StrokeShape="Ellipse" HeightRequest="110" WidthRequest="110" HorizontalOptions="Center"
+                             StrokeThickness="0" BackgroundColor="Transparent">
+                         <Border.Shadow>
+                             <Shadow Brush="Black"
+                                     Offset="5, 8"
+                                     Opacity=".4"
+                                 
+                                    />
+                         </Border.Shadow>
+
+                                    <Border.Clip>
+                                    <EllipseGeometry Center="55, 55" RadiusX="52" RadiusY="52"/>
+                                    </Border.Clip>
+                         <Image x:Name="ProfilePicture"
+                                WidthRequest="100"
+                                HeightRequest="100"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+
+                     </Border>
+
+                         <Label x:Name="Username" Margin="0,3,0,0" Grid.Row="1" Grid.Column="0" Text="" FontFamily="Lato-Bold" FontSize="Large" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                         <Image x:Name="TitleImage" Grid.Row="2" Grid.Column="0" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+                         <Border x:Name="FlairBG" Grid.Row="3" Grid.Column="1" StrokeShape="RoundRectangle 5" HorizontalOptions="Center"
+                             StrokeThickness="0" BackgroundColor="Transparent" Padding="8,5,8,5">
+
+                            <Label x:Name="FlairLabel" Text="       " TextColor="White" FontFamily="Lato-Regular" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                     </Border>
+
+                     </Grid>
+
+            <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" Padding="8" RowSpacing="8" ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                <Frame Grid.Column="0" Grid.Row="0" Padding="8,6" CornerRadius="8">
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="usericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Username" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+
+                    </Frame>
+
+                    <Frame Grid.Column="1" Grid.Row="0" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="usericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Password" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                        
+                    </Frame>
+
+                <Frame Grid.Column="0" Grid.Row="1" Padding="8,6" CornerRadius="8">
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="usericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Flair" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="FlairTapped"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <Frame Grid.Column="1" Grid.Row="1" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="usericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Profile Picture" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                        
+                    </Frame>
+
+            </Grid>
+
+    </Grid>
+   
+</ContentPage>

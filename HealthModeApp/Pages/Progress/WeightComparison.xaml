@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.Progress.WeightComparison">
+
+
+
+    <StackLayout>
+        <Frame Padding="2" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="15">
+            <Grid RowSpacing="8" ColumnSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                     <RowDefinition Height="Auto"/>
+                     <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                     <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="From Then To Now" Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
+                       VerticalOptions="Center" VerticalTextAlignment="Center" FontFamily="Lato-Bold" FontSize="Subtitle"/>
+
+                 <Label x:Name="BeforeDate" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                 <Label x:Name="AfterDate" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                <Image x:Name="BeforePic" Aspect="AspectFit" Grid.Row="2" Grid.Column="0"/>
+                <Image x:Name="AfterPic" Aspect="AspectFit" Grid.Row="2" Grid.Column="1"/>
+
+                <Label x:Name="StartWeightLabel" FontFamily="Lato-Bold" Grid.Row="3" Grid.Column="0" FontSize="13" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                <Label x:Name="CurrentWeightLabel" FontFamily="Lato-Bold" Grid.Row="3" Grid.Column="1" FontSize="13" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                <Label x:Name="DeltaWeightLabel" FontFamily="Lato-Bold" Grid.Row="4" Grid.ColumnSpan="2" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                <ImageButton InputTransparent="True" Source="hmlogo" WidthRequest="105" HeightRequest="55" CornerRadius="8" BackgroundColor="SteelBlue" Grid.Column="1" Grid.Row="4" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Grid>
+
+        </Frame>
+
+    
+        </StackLayout>
+</ContentPage>

@@ -85,8 +85,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        private int _pictureID; 
-        public int ProfilePictureID
+        private int? _pictureID; 
+        public int? ProfilePictureID
         {
             get => _pictureID;
             set
@@ -124,8 +124,8 @@ namespace HealthModeApp.Models
             }
         }
 
-        private int _flairID;
-        public int FlairID
+        private int? _flairID;
+        public int? FlairID
         {
             get => _flairID;
             set

@@ -3,6 +3,8 @@ using HealthModeApp.DataServices;
 using static HealthModeApp.Models.SQLite.SQLiteTables;
 using HealthModeApp.Models;
 using HealthModeApp.Pages.FoodJournalPage;
+using HealthModeApp.Pages.WorkoutPages;
+using HealthModeApp.Pages.ProfilePage;
 using System.Text.Json;
 using System.Text;
 
@@ -55,8 +57,11 @@ public partial class MorePage : ContentPage
         ProfilePicture.Source = new UriImageSource { Uri = new System.Uri(pfpSource) };
         PfpHolder.Background = Color.FromHex(userInfo.PictureBGColor);
 
-        string titleSource = cdnUrl + "/titles" + userInfo.Title;
-        TitleImage.Source = new UriImageSource { Uri = new System.Uri(titleSource) };
+        if (userInfo.Title != null)
+        {
+            string titleSource = cdnUrl + "/titles" + userInfo.Title;
+            TitleImage.Source = new UriImageSource { Uri = new System.Uri(titleSource) };
+        }
 
         FlairBG.Background = Color.FromHex(userInfo.FlairColor);
 
@@ -93,14 +98,24 @@ public partial class MorePage : ContentPage
     }
 
    
-    async void GoalButton_Clicked(System.Object sender, System.EventArgs e)
+    async void CaloriesMacrosTapped(System.Object sender, System.EventArgs e)
     {
-        await Navigation.PushModalAsync(new NutritionGoalsPage(_localData, _dataService));
+        await Navigation.PushAsync(new NutritionGoalsPage(_localData, _dataService));
     }
 
-    async void UnitButton_Clicked(System.Object sender, System.EventArgs e)
+    async void UnitsTapped(System.Object sender, System.EventArgs e)
     {
-        await Navigation.PushModalAsync(new UnitPage(_localData, _dataService));
+        await Navigation.PushAsync(new UnitPage(_localData, _dataService));
+    }
+
+    async void ProgressHubTapped(System.Object sender, System.EventArgs e)
+    {
+        await Navigation.PushAsync(new ProgressHub(_dataService, _localData));
+    }
+
+    async void NutritionBreakdownTapped(System.Object sender, System.EventArgs e)
+    {
+        await Navigation.PushAsync(new NutritionalBreakdown(_localData, DateTime.Today));
     }
 
     void BugReportClicked(System.Object sender, System.EventArgs e)
@@ -122,6 +137,70 @@ public partial class MorePage : ContentPage
     void DiscordClicked(System.Object sender, System.EventArgs e)
     {
         string url = "https://discord.gg/htb7An6SGE";
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        {
+            Task.Run(async () =>
+            {
+                await Launcher.OpenAsync(url);
+            });
+        }
+        else
+        {
+            Launcher.TryOpenAsync(url);
+        }
+    }
+
+    void RedditClicked(System.Object sender, System.EventArgs e)
+    {
+        string url = "https://www.reddit.com/r/HealthModeApp/";
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        {
+            Task.Run(async () =>
+            {
+                await Launcher.OpenAsync(url);
+            });
+        }
+        else
+        {
+            Launcher.TryOpenAsync(url);
+        }
+    }
+
+    void InstagramClicked(System.Object sender, System.EventArgs e)
+    {
+        string url = "https://www.instagram.com/healthmodeapp/";
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        {
+            Task.Run(async () =>
+            {
+                await Launcher.OpenAsync(url);
+            });
+        }
+        else
+        {
+            Launcher.TryOpenAsync(url);
+        }
+    }
+
+    void TwitterClicked(System.Object sender, System.EventArgs e)
+    {
+        string url = "https://twitter.com/HealthModeApp";
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        {
+            Task.Run(async () =>
+            {
+                await Launcher.OpenAsync(url);
+            });
+        }
+        else
+        {
+            Launcher.TryOpenAsync(url);
+        }
+    }
+
+    void YoutubeClicked(System.Object sender, System.EventArgs e)
+    {
+        string url = "https://www.youtube.com/@healthmodeapp";
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
         {
             Task.Run(async () =>
@@ -159,128 +238,43 @@ public partial class MorePage : ContentPage
 
     }
 
-    List<string> options = new List<string>
-{
-    "Remove Ads",
-    "My Profile",
-    "My Medals",
-    "Water Goal",
-    "CalMac",
-    "Micronutrients",
-    "Units",
-    "Progress",
-    "Nutrition Breakdown",
-    "Workouts"
-};
-
-    List<string> images = new List<string>
-{
-    "crownicon",
-    "usericon",
-    "medalicon",
-    "watericon",
-    "calicon",
-    "pillicon",
-    "rulericon",
-    "charticon",
-    "piechart",
-    "dumbbellicon2"
-
-    // ... Add more image file names as needed
-};
-
-    int imageIndex = 0; // Variable to keep track of the image index
-
+ 
     void CreateList()
     {
-        var firstRow = OptionsGrid.RowDefinitions[0];
+     
+                    var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
+                    var energyUnit = unitList[2];
 
-        // Clear all existing rows in the OptionsGrid
-        OptionsGrid.RowDefinitions.Clear();
+                    switch (energyUnit)
+                    {
+                        case "cal":
+                            CalMac.Text = "Calories & Macros";
+                            break;
 
-        // Add the first row back to the OptionsGrid
-        OptionsGrid.RowDefinitions.Add(firstRow);
+                        case "kCal":
+                            CalMac.Text = "Kilocalories & Macros";
+                            break;
 
-        foreach (string option in options)
-        {
-            // Create a new row definition
-            RowDefinition row = new RowDefinition();
-            row.Height = GridLength.Auto; // Set the row height as needed
-            OptionsGrid.RowDefinitions.Add(row);
+                        case "kJ":
+                            CalMac.Text = "Kilojoules & Macros";
+                            break;
+                    }
 
-            // Create the content for the new row
-            Label label = new Label();
-            label.Text = option;
-            label.FontSize = 17;
-            label.VerticalOptions = LayoutOptions.Center;
-
-            if (label.Text == "CalMac")
-            {
-                
-                var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-                var energyUnit = unitList[2];
-
-
-                switch (energyUnit)
-                {
-                    case "cal":
-                        label.Text = "Calories & Macros";
-                        break;
-
-                    case "kCal":
-                        label.Text = "Kilocalories & Macros";
-                        break;
-
-                    case "kJ":
-                        label.Text = "Kilojoules & Macros";
-                        break;
-                }
-            }
-
-            // Get the image for the current index
-            string image = images[imageIndex];
-
-            // Increment the image index
-            imageIndex++;
-            if (imageIndex >= images.Count)
-            {
-                imageIndex = 0; // Reset the index if it exceeds the image list size
-            }
-
-            Image img = new Image();
-            img.Source = image;
-            img.Aspect = Aspect.AspectFit;
-            img.WidthRequest = 25;
-            img.HeightRequest = 25;
-            img.Margin = new Thickness(12, 0, 0, 0);
-            img.VerticalOptions = LayoutOptions.Center;
-
-
-            BoxView separator = new BoxView();
-            separator.Color = Colors.LightGray;
-            separator.HeightRequest = 1;
-
-            // Add the content to the grid
-            OptionsGrid.SetRow(label, OptionsGrid.RowDefinitions.Count - 1);
-            OptionsGrid.SetColumn(label, 1);
-            OptionsGrid.Children.Add(label);
-
-            // Add the content to the grid
-            OptionsGrid.SetRow(img, OptionsGrid.RowDefinitions.Count - 1);
-            OptionsGrid.SetColumn(img, 0);
-            OptionsGrid.Children.Add(img);
-
-            RowDefinition row2 = new RowDefinition();
-            row2.Height = GridLength.Auto; // Set the row height as needed
-            OptionsGrid.RowDefinitions.Add(row2);
-
-            OptionsGrid.SetRow(separator, OptionsGrid.RowDefinitions.Count - 1);
-            OptionsGrid.SetColumnSpan(separator, 3);
-            OptionsGrid.Children.Add(separator);
-
-           
-        }
     }
+
+    async void NotImplemented(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        await DisplayAlert("Sorry", "This feature is currently not implemented but will be coming soon", "Ok");
+    }
+
+    async void MyProfileTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        var pfpSource = ProfilePicture.Source;
+
+        await Navigation.PushAsync(new UserProfile(_dataService, _localData, pfpSource));
+    }
+
+
 
 
 }

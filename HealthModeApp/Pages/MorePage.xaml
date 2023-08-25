@@ -21,7 +21,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-             <Grid RowSpacing="5" Padding="5,30" HorizontalOptions="Center">
+             <Grid Grid.Row="0" RowSpacing="5" Padding="5,30" HorizontalOptions="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -82,23 +82,159 @@
         
             </Grid>
 
-            <Frame x:Name="OptionsFrame" Grid.Row="1" Grid.Column="0" CornerRadius="0" HorizontalOptions="FillAndExpand" Padding="-2">
-                <Grid x:Name="OptionsGrid" HorizontalOptions="FillAndExpand" RowSpacing="8" ColumnSpacing="10">
+                <Grid x:Name="OptionsGrid" Grid.Row="1" HorizontalOptions="FillAndExpand" Padding="8" RowSpacing="8" ColumnSpacing="5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <BoxView HeightRequest="1" Color="LightGray" Grid.Row="0" Grid.ColumnSpan="3"/>
+                    <Frame Grid.ColumnSpan="2" Grid.Row="0" Padding="8,6" CornerRadius="8" Margin="0,0,0,5" IsVisible="False">
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="crownicon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Remove Ads" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+
+                    </Frame>
+
+                    <Frame Grid.Column="0" Grid.Row="1" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="usericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="My Profile" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                        <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MyProfileTapped"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <Frame Grid.Column="1" Grid.Row="1" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="medalicon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="My Medals" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                        <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NotImplemented"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <Frame Grid.Column="0" Grid.Row="2" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="calicon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label x:Name="CalMac" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                        <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CaloriesMacrosTapped"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                     <Frame Grid.Column="1" Grid.Row="2" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="5">
+                            <Image Source="watericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Water Goal" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                    </Frame>
+
+                     <Frame Grid.Column="0" Grid.Row="3" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="pillicon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Micronutrients" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                    </Frame>
+
+                     <Frame Grid.Column="1" Grid.Row="3" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="7">
+                            <Image Source="piechart" WidthRequest="23" HeightRequest="22" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Nutrition Breakdown" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                         <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NutritionBreakdownTapped"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                     <Frame Grid.Column="0" Grid.Row="4" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="rulericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Units" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                         <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="UnitsTapped"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                     <Frame Grid.Column="1" Grid.Row="4" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="charticon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Progress" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                         <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ProgressHubTapped"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
 
                 </Grid>
-            </Frame>
+
+
+
+            <Grid Grid.Row="2" HorizontalOptions="CenterAndExpand" RowSpacing="8" ColumnSpacing="6" Padding="5" Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    
+                    <Frame Grid.Column="0" Grid.Row="0" Padding="8,6" CornerRadius="12">
+                            <Image Source="redditicon" WidthRequest="30" HeightRequest="30" Aspect="AspectFit" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="RedditClicked"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <Frame Grid.Column="1" Grid.Row="0" Padding="8,6" CornerRadius="12">
+                            <Image Source="instagramicon" WidthRequest="30" HeightRequest="30" Aspect="AspectFit" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="InstagramClicked"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <Frame Grid.Column="2" Grid.Row="0" Padding="8,6" CornerRadius="12">
+                            <Image Source="twittericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TwitterClicked"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                <Frame Grid.Column="3" Grid.Row="0" Padding="8,6" CornerRadius="12">
+                            <Image Source="youtubeicon" WidthRequest="30" HeightRequest="30" Aspect="AspectFit" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="YoutubeClicked"/>
+                        </Frame.GestureRecognizers>
+                </Frame>
+
+                <Frame Grid.Column="4" Grid.Row="0" Padding="8,6" CornerRadius="12">
+                            <Image Source="discordicon" WidthRequest="30" HeightRequest="30" Aspect="AspectFit" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="DiscordClicked"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+
+                </Grid>
 
         </Grid>
     

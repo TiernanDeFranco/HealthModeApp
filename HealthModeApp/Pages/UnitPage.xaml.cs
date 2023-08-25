@@ -21,6 +21,7 @@ public partial class UnitPage : ContentPage
 	{
 
         InitializeComponent();
+        Shell.SetTabBarIsVisible(this, false);
         _localData = localData;
         _dataService = dataService;
         GetDefaults();
@@ -247,7 +248,7 @@ public partial class UnitPage : ContentPage
                 dateFormatDmy.Background = Color.FromRgb(75, 158, 227);
                 dateFormatMdy.Background = Color.FromRgba(0, 0, 0, 0);
                 dateFormatYmd.Background = Color.FromRgba(0, 0, 0, 0);
-                DateDisplay.Text = DateTime.Today.ToString("dd MMM, yyyy");
+                DateDisplay.Text = DateTime.Today.ToString("d MMM, yyyy");
 
                 break;
             case 1:
@@ -258,7 +259,7 @@ public partial class UnitPage : ContentPage
                 dateFormatDmy.Background = Color.FromRgba(0, 0, 0, 0);
                 dateFormatMdy.Background = Color.FromRgb(75, 158, 227);
                 dateFormatYmd.Background = Color.FromRgba(0, 0, 0, 0);
-                DateDisplay.Text = DateTime.Today.ToString("MMM dd, yyyy");
+                DateDisplay.Text = DateTime.Today.ToString("MMM d, yyyy");
 
 
                 break;
@@ -270,14 +271,14 @@ public partial class UnitPage : ContentPage
                 dateFormatDmy.Background = Color.FromRgba(0, 0, 0, 0);
                 dateFormatMdy.Background = Color.FromRgba(0, 0, 0, 0);
                 dateFormatYmd.Background = Color.FromRgb(75, 158, 227);
-                DateDisplay.Text = DateTime.Today.ToString("yyyy: MMM dd");
+                DateDisplay.Text = DateTime.Today.ToString("yyyy, MMMM, d");
 
                 break;
         }
 
-        DmyButton.Text = DateTime.Today.ToString("dd/MM/yyyy");
-        MdyButton.Text = DateTime.Today.ToString("MM/dd/yyyy");
-        YmdButton.Text = DateTime.Today.ToString("yyyy/MM/dd");
+        DmyButton.Text = DateTime.Today.ToString("d/MM/yyyy");
+        MdyButton.Text = DateTime.Today.ToString("MM/d/yyyy");
+        YmdButton.Text = DateTime.Today.ToString("yyyy/MM/d");
     }
 
     void LbsClicked(System.Object sender, System.EventArgs e)
@@ -386,7 +387,7 @@ public partial class UnitPage : ContentPage
         await _dataService.UpdateUserInfoAsync(userInfo, email, password, _userID);
         var serial = JsonSerializer.Serialize(userInfo);
         Debug.WriteLine(serial);
-        await Navigation.PopModalAsync();
+        await Navigation.PopAsync();
     }
 
     public string ReturnUnitList()

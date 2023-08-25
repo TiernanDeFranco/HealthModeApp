@@ -35,7 +35,12 @@
                         </Grid.ColumnDefinitions>
                     <Label x:Name="StartWeight" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold"  HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
                     <Label x:Name="EndWeight" Grid.Row="1" Grid.Column="1" FontFamily="Lato-Bold" HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
-                    <Label x:Name="WeightDifference" Grid.Row="1" Grid.Column="2" FontFamily="Lato-Bold"  HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
+                    <ImageButton Source="uparrowbox" Padding="5" CornerRadius="12" Clicked="ImageButton_Clicked" WidthRequest="32" HeightRequest="32" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.Column="2" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" />
+                    <Label x:Name="WeightDifference" Grid.Row="1" Grid.Column="2" FontFamily="Lato-Bold"  HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                         <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+              </Label.GestureRecognizers>
+                        </Label>
 
 
                     <Picker x:Name="RangePicker" SelectedIndexChanged="RangePicker_SelectedIndexChanged" Grid.Row="0" Grid.Column="1" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>

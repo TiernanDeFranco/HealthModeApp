@@ -553,7 +553,54 @@ public partial class FoodInfo : ContentPage
 
     async void GetMealOptions()
     {
-        var mealNames = await _localData.GetMealNames();
+        var mealNames = await _localData.GetMealNames(_date);
+        var mealNum = await _localData.SetMealNumber(_date);
+        switch (mealNum)
+        {
+            case 1:
+                mealNames.RemoveAt(1);
+                mealNames.RemoveAt(1);
+                mealNames.RemoveAt(1);
+                mealNames.RemoveAt(1);
+                mealNames.RemoveAt(1);
+                break;
+
+            case 2:
+                mealNames.RemoveAt(2);
+                mealNames.RemoveAt(2);
+                mealNames.RemoveAt(2);
+                mealNames.RemoveAt(2);
+                break;
+
+            case 3:
+                mealNames.RemoveAt(3);
+                mealNames.RemoveAt(3);
+                mealNames.RemoveAt(3);
+                break;
+
+            case 4:
+                mealNames.RemoveAt(4);
+                mealNames.RemoveAt(4);
+                break;
+            case 4.1:
+                mealNames.RemoveAt(4);
+                mealNames.RemoveAt(4);
+                break;
+            case 4.2:
+                mealNames.RemoveAt(4);
+                mealNames.RemoveAt(4);
+                break;
+
+            case 5:
+                mealNames.RemoveAt(5);
+                break;
+            case 5.1:
+                mealNames.RemoveAt(5);
+                break;
+            case 5.2:
+                mealNames.RemoveAt(5);
+                break;
+        }
         MealPicker.ItemsSource = mealNames;
         MealPicker.SelectedIndex = _mealType;
 

@@ -32,6 +32,7 @@ namespace HealthModeApp.DataServices
                 await db.CreateTableAsync<NutritionGoals>();
 
                 await db.CreateTableAsync<MealNames>();
+                await db.CreateTableAsync<MealNumber>();
 
                 await db.CreateTableAsync<WeightTable>();
 
@@ -375,28 +376,50 @@ namespace HealthModeApp.DataServices
             await db.UpdateAsync(loggedFoodInfo);
         }
 
+        public async Task UpdateLoggedFoodMeal(int loggedFoodID, int mealNum)
+        {
+            var loggedFoodInfo = await db.Table<LoggedFoodTable>().FirstOrDefaultAsync(m => m.LoggedFoodID == loggedFoodID);
 
+            if (loggedFoodInfo == null)
+            {
+                throw new ArgumentException("Logged food not found");
+            }
 
-        public async Task<List<string>> GetMealNames()
+            loggedFoodInfo.MealType = mealNum;
+
+            await db.UpdateAsync(loggedFoodInfo);
+        }
+
+        public async Task<List<string>> GetMealNames(DateTime date)
         {
             List<string> mealNames = new List<string>();
 
-            var meals = await db.Table<MealNames>().ToListAsync();
+            int userID = await GetUserID();
+
+            var closestEntry = await db.Table<MealNames>().Where(x => x.UserID == userID && x.MealDate <= date).OrderByDescending(x => x.MealDate)
+                                                                                          .FirstOrDefaultAsync();
+            if (closestEntry != null)
+            {
+                var meals = await db.Table<MealNames>().Where(x => x.MealDate == closestEntry.MealDate).ToListAsync();
 
             foreach (var meal in meals)
-            {
-                mealNames.Add(meal.MealName);
+                {
+                    mealNames.Add(meal.MealName);
+                }
+                return mealNames;
             }
 
-            return mealNames;
+            return null;
         }
 
 
-        public async Task AddMealName(MealNames mealName)
+        public async Task AddMealName(MealNames mealName, int mealNum, DateTime date)
         {
+            int userID = await GetUserID();
+
             try
             {
-                var meal = new MealNames { MealName = mealName.MealName};
+                var meal = new MealNames { MealNum = mealNum, MealName = mealName.MealName, MealDate = date, UserID = userID};
                 await db.InsertAsync(meal);
             }
             catch (Exception ex)
@@ -406,12 +429,14 @@ namespace HealthModeApp.DataServices
         }
 
 
-        public async Task UpdateMealName(int mealID, string mealName)
+        public async Task UpdateMealName(int mealNum, string mealName, DateTime date)
         {
+            int userID = await GetUserID();
             try
             {
-                // Find the existing MealNames object in the database with the matching MealID and UserID
-                var existingMeal = await db.Table<MealNames>().FirstOrDefaultAsync(m => m.MealID == mealID);
+                // Check if there's an existing MealNames object with the matching mealNum and date
+                var existingMeal = await db.Table<MealNames>()
+                    .FirstOrDefaultAsync(x => x.UserID == userID && x.MealNum == mealNum && x.MealDate == date);
 
                 if (existingMeal != null)
                 {
@@ -421,12 +446,109 @@ namespace HealthModeApp.DataServices
                     // Update the record in the database
                     await db.UpdateAsync(existingMeal);
                 }
+                else
+                {
+                    // If no existing entry, create a new MealNames object
+                    var newMeal = new MealNames
+                    {
+                        MealNum = mealNum,
+                        MealName = mealName,
+                        MealDate = date,
+                        UserID = userID
+                        
+                    };
+
+                    // Insert the new record into the database
+                    await db.InsertAsync(newMeal);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
+
+
+
+        public async Task<double> SetMealNumber(DateTime date)
+        {
+            try
+            {
+                var userID = await GetUserID();
+
+                // Check if an entry with the userID already exists
+                var existingEntry = await db.Table<MealNumber>()
+                                      .Where(x => x.UserID == userID && x.MealDate <= date)
+                                      .OrderByDescending(x => x.MealDate)
+                                      .FirstOrDefaultAsync();
+
+                if (existingEntry == null)
+                {
+                    // If no entry exists with the userID, then add the new entry
+                    var mealNum = new MealNumber
+                    {
+                        UserID = userID,
+                        MealNum = 4.1
+                    };
+                    await db.InsertAsync(mealNum);
+                    return 4.1;
+                }
+                // If an entry with the userID already exists, you can handle it as needed
+                else
+                {
+                   
+                    return existingEntry.MealNum;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return 4.1;
+            }
+        }
+
+
+        public async Task UpdateMealNumber(double mealNumber, DateTime date)
+        {
+            try
+            {
+                var userID = await GetUserID();
+
+                // Find the entry with the matching userID and date
+                var existingEntry = await db.Table<MealNumber>()
+                    .Where(entry => entry.UserID == userID && entry.MealDate == date)
+                    .FirstOrDefaultAsync();
+
+                if (existingEntry != null)
+                {
+                    // Update the existing entry's MealNum with the new value
+                    existingEntry.MealNum = mealNumber;
+
+                    // Update the entry in the database
+                    await db.UpdateAsync(existingEntry);
+                    Debug.WriteLine("Updated to " + mealNumber + " Meals");
+                }
+                else
+                {
+                    // If no entry with the userID and date exists, create a new row
+                    var newEntry = new MealNumber
+                    {
+                        UserID = userID,
+                        MealDate = date,
+                        MealNum = mealNumber
+                    };
+
+                    // Insert the new record into the database
+                    await db.InsertAsync(newEntry);
+                    Debug.WriteLine("Added new entry for " + date + " with " + mealNumber + " Meals");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
 
 
 

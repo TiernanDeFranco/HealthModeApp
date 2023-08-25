@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
 
        <AbsoluteLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
-    <Image Source="meditateicon" Aspect="AspectFit"
+    <Image Source="muscle_body" Aspect="AspectFit"
            AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All" />
 
     <Button x:Name="Button1"

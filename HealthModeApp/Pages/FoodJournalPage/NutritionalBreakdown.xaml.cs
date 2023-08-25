@@ -54,7 +54,10 @@ public partial class NutritionalBreakdown : ContentPage
     public NutritionalBreakdown(ISQLiteDataService localData, DateTime setDate)
     {
         Shell.SetTabBarIsVisible(this, false);
+       
         InitializeComponent();
+
+       
         _localData = localData;
         
       
@@ -98,41 +101,17 @@ public partial class NutritionalBreakdown : ContentPage
         CobalaminLeft.IsVisible = true;
         CobalaminBar.IsVisible = true;
 
-        totalCal = 0;
-        totalCarb = 0;
-        totalFat = 0;
-        totalProtein = 0;
-        goalCal = 0;
 
-        totalSugar = 0;
-        totalSatFat = 0;
-        totalPUnSatFat = 0;
-        totalMUnSatFat = 0;
-        totalTransFat = 0;
-
-        totalIron = 0;
-        totalCalcium = 0;
-        totalPotassium = 0;
-        totalSodium = 0;
-        totalCholesterol = 0;
-
-        totalVitaminA = 0;
-        totalThiamin = 0;
-        totalRiboflavin = 0;
-        totalNiacin = 0;
-        totalB5 = 0;
-        totalB6 = 0;
-        totalBiotin = 0;
-        totalFolicAcid = 0;
-        totalCobalamin = 0;
-        totalVitaminC = 0;
-        totalVitaminD = 0;
-        totalVitaminE = 0;
-        totalVitaminK = 0;
-
-        DateSelect.Date = setDate;
-        PopulateFoodInfo();
         SeesAds();
+        if (setDate != DateTime.Today)
+        {
+            DateSelect.Date = setDate;
+        }
+        else
+        {
+            PopulateFoodInfo();
+        }
+
     }
 
     async void DateHandler()
@@ -260,7 +239,7 @@ public partial class NutritionalBreakdown : ContentPage
                     totalFat += Math.Round((decimal)food.Fat, 5);
                     totalProtein += Math.Round((decimal)food.Protein, 5);
 
-                totalSugar += Math.Round((double)(food.Sugar + food.AddSugar ?? 0), 3);
+                totalSugar += Math.Round((double)(food.Sugar ?? 0), 3);
                 totalSatFat += Math.Round((double)(food.SatFat ?? 0), 3);
                 totalPUnSatFat += Math.Round((double)(food.PUnSatFat ?? 0), 3);
                 totalMUnSatFat += Math.Round((double)(food.MUnSatFat ?? 0), 3);

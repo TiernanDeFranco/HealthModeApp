@@ -21,11 +21,11 @@
 
             </Grid.ColumnDefinitions>
 
-        <Frame Grid.Row="0" Grid.Column="0" CornerRadius="25" HorizontalOptions="Center"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}">
+        <Frame Grid.Row="0" Grid.Column="0" CornerRadius="25" HorizontalOptions="FillAndExpand"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}">
              <Image x:Name="Logo" Source="hmlogo" WidthRequest="275" HeightRequest="150" HorizontalOptions="Center"/>
         </Frame>
        
-    <Frame x:Name="LoginFrame" Grid.Row="1" Grid.Column="0" CornerRadius="20" HorizontalOptions="CenterAndExpand">
+    <Frame x:Name="LoginFrame" Grid.Row="1" Grid.Column="0" CornerRadius="20" HorizontalOptions="FillAndExpand">
         <Grid RowSpacing="12" HorizontalOptions="CenterAndExpand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

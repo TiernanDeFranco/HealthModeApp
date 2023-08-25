@@ -193,6 +193,28 @@
 	  <None Remove="Resources\Images\foodplate.svg" />
 	  <None Remove="Resources\Images\meditateicon.svg" />
 	  <None Remove="Pages\WorkoutPages\" />
+	  <None Remove="Resources\Images\piechart %28copy%29.svg" />
+	  <None Remove="Resources\Images\stretchicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\weightscale.svg" />
+	  <None Remove="Resources\Images\discordicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\discordicon %28another copy%29.svg" />
+	  <None Remove="Resources\Images\instagramicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\twittericon %28copy%29.svg" />
+	  <None Remove="Resources\Images\muscle_body.svg" />
+	  <None Remove="Resources\Images\workout_icon.svg" />
+	  <None Remove="Resources\Images\exercise_library.svg" />
+	  <None Remove="Resources\Images\uparrowbox %28copy%29.svg" />
+	  <None Remove="Pages\ProfilePage\" />
+	  <None Remove="Resources\Images\6Meals.png" />
+	  <None Remove="Resources\Images\5MealsMid.png" />
+	  <None Remove="Resources\Images\2Meals.png" />
+	  <None Remove="Resources\Images\4MealsTop.png" />
+	  <None Remove="Resources\Images\1Meal.png" />
+	  <None Remove="Resources\Images\3Meals.png" />
+	  <None Remove="Resources\Images\5MealsBottom.png" />
+	  <None Remove="Resources\Images\4MealsBottom.png" />
+	  <None Remove="Resources\Images\5MealsTop.png" />
+	  <None Remove="Resources\Images\4MealsMid.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
@@ -206,6 +228,7 @@
 	  <Folder Include="Pages\Progress\" />
 	  <Folder Include="Resources\AppIcon\" />
 	  <Folder Include="Pages\WorkoutPages\" />
+	  <Folder Include="Pages\ProfilePage\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#3f80b6" />
@@ -327,7 +350,6 @@
 	  <BundleResource Include="Resources\AppIcon\appicon_round.jpg" />
 	  <BundleResource Include="Resources\Images\workoutbutton.svg" />
 	  <BundleResource Include="Resources\Images\personicon.svg" />
-	  <BundleResource Include="Resources\Images\exerciselibrary.svg" />
 	  <BundleResource Include="Resources\Images\stretchicon.svg" />
 	  <BundleResource Include="Resources\Images\watericon.svg" />
 	  <BundleResource Include="Resources\Images\wateradd.svg" />
@@ -345,6 +367,27 @@
 	  <BundleResource Include="Resources\Images\piechart.svg" />
 	  <BundleResource Include="Resources\Images\foodplate.svg" />
 	  <BundleResource Include="Resources\Images\meditateicon.svg" />
+	  <BundleResource Include="Resources\Images\weightscale.svg" />
+	  <BundleResource Include="Resources\Images\weightscale.svg" />
+	  <BundleResource Include="Resources\Images\discordicon.svg" />
+	  <BundleResource Include="Resources\Images\redditicon.svg" />
+	  <BundleResource Include="Resources\Images\instagramicon.svg" />
+	  <BundleResource Include="Resources\Images\twittericon.svg" />
+	  <BundleResource Include="Resources\Images\youtubeicon.svg" />
+	  <BundleResource Include="Resources\Images\muscle_body.svg" />
+	  <BundleResource Include="Resources\Images\workout_icon.svg" />
+	  <BundleResource Include="Resources\Images\exercise_library.svg" />
+	  <BundleResource Include="Resources\Images\uparrowbox.svg" />
+	  <BundleResource Include="Resources\Images\p6meals.png" />
+	  <BundleResource Include="Resources\Images\p5mealsmid.png" />
+	  <BundleResource Include="Resources\Images\p2meals.png" />
+	  <BundleResource Include="Resources\Images\p4mealstop.png" />
+	  <BundleResource Include="Resources\Images\p1meal.png" />
+	  <BundleResource Include="Resources\Images\p3meals.png" />
+	  <BundleResource Include="Resources\Images\p5mealsbottom.png" />
+	  <BundleResource Include="Resources\Images\p4mealsbottom.png" />
+	  <BundleResource Include="Resources\Images\p5mealstop.png" />
+	  <BundleResource Include="Resources\Images\p4mealsmid.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiFont Remove="Resources\Fonts\Lato-Bold.ttf" />

@@ -13,6 +13,7 @@ namespace HealthModeApp.Pages;
 public partial class Workouts : ContentPage
 {
     private readonly ISQLiteDataService _localData;
+    private readonly IRestDataService _dataService;
 
     public Workouts()
     {
@@ -39,9 +40,25 @@ public partial class Workouts : ContentPage
     {
         InitializeComponent();
         _localData = localData;
-        SeesAds();
 
-       
+        var scale = DeviceDisplay.MainDisplayInfo.Width * .13;
+
+        ProgressChart.HeightRequest = scale * .93;
+
+        MeditationIcon.WidthRequest = scale;
+        MeditationIcon.HeightRequest = scale;
+
+        StretchIcon.WidthRequest = scale;
+        StretchIcon.HeightRequest = scale * .98;
+
+        DumbbellIcon.WidthRequest = scale;
+        DumbbellIcon.HeightRequest = scale;
+
+        ExerciseLibrary.WidthRequest = scale;
+        ExerciseLibrary.HeightRequest = scale;
+
+        RecoveryIcon.WidthRequest = scale;
+        RecoveryIcon.HeightRequest = scale;
 
         ProgressChart.XAxes = new[]
             {
@@ -64,40 +81,18 @@ public partial class Workouts : ContentPage
         ProgressChart.Series = Series;
     }
 
-    protected override void OnDisappearing()
+    void ProgressTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
-        WorkoutPageGrid.FadeTo(1, 100);
-        ExerciseSearch.FadeTo(0, 100);
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        SeesAds();
-    }
-
-    async void SeesAds()
-    {
-        
+        Navigation.PushAsync(new ProgressHub(_dataService, _localData));
     }
 
     void ExerciseLibraryTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
-        BodyPartGrid.WidthRequest = ExerciseSearch.Width * .98;
-        BodyPartGrid.HeightRequest = BodyPartGrid.Width / 4.5;
-
-        WorkoutPageGrid.FadeTo(0, 250);
-        ExerciseSearch.FadeTo(1, 220);
-
+        Navigation.PushAsync(new ExerciseSearch());
     }
 
-    void StopSearchingClicked(System.Object sender, System.EventArgs e)
-    {
-        WorkoutPageGrid.FadeTo(1, 220);
-        ExerciseSearch.FadeTo(0, 250);
-    }
 
-    void RecoveryClicked(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    void RecoveryTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
         Navigation.PushAsync(new Recovery());
     }

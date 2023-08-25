@@ -36,6 +36,8 @@ public partial class FoodJournal : ContentPage
 
     string _waterUnit;
 
+    double numberOfMeals;
+
     List<int> meal1FoodIDs = new List<int>();
     List<int> meal2FoodIDs = new List<int>();
     List<int> meal3FoodIDs = new List<int>();
@@ -68,14 +70,7 @@ public partial class FoodJournal : ContentPage
 
         ToolbarItems.Add(logFoodToolbarItem);
 
-        ListFrame.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * .2;
-
-        Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
-        Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
-        Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
-        Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
-        Meal5Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
-        Meal6Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+       
 
 
         // _localData.AddLoggedFood(4, DateTime.Today, 1, DateTime.Today, 1, 24, 1, "1", "Food Name That Is Very Long Yeah", "Brand", 24, "Name", 94, 6, 2, 3, 1, 1, 1, 2, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1);
@@ -84,25 +79,655 @@ public partial class FoodJournal : ContentPage
         dateSelected = DateTime.Today;
         SeesAds();
 
+        
        
     }
 
     async void PopulateMealNames()
     {
+        
+
+        MealsGrid.RowDefinitions.Clear();
+
+        numberOfMeals = await _localData.SetMealNumber(DatePicker.Date);
+        Debug.WriteLine(numberOfMeals);
+
+        userID = await _localData.GetUserID();
+
+        var loggedFoods = await _localData.GetLoggedFoods(userID, DatePicker.Date);
+
+        
+
+        switch (numberOfMeals)
+        {
+            case 1:
+                
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = false;
+                Meal3Frame.IsVisible = false;
+                Meal4Frame.IsVisible = false;
+                Meal5Frame.IsVisible = false;
+                Meal6Frame.IsVisible = false;
+
+                MealsGrid.Margin = new Thickness(8,12,8,3);
+
+                MealsGrid.SetRowSpan(BaseFrame, 3);
+                MealsGrid.SetColumnSpan(BaseFrame, 2);
+
+                MealsGrid.SetRowSpan(Meal1Frame, 3);
+                MealsGrid.SetColumnSpan(Meal1Frame, 2);
+
+              
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .18;
+
+                meal1CalLabel.FontSize = 23.5;
+                Meal1Name.FontSize = 23;
+
+                var updateableFoods1 = loggedFoods.Where(f => f.MealType > 1);
+
+                foreach (var food in updateableFoods1)
+                {
+                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 1);
+                }
+
+                break;
+
+            case 2:
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = true;
+                Meal3Frame.IsVisible = false;
+                Meal4Frame.IsVisible = false;
+                Meal5Frame.IsVisible = false;
+                Meal6Frame.IsVisible = false;
+
+                MealsGrid.Margin = new Thickness(8, 12, 8, 3);
+
+                MealsGrid.SetRowSpan(BaseFrame, 1);
+                MealsGrid.SetColumnSpan(BaseFrame, 2);
+                MealsGrid.SetRow(BaseFrame, 0);
+                MealsGrid.SetColumn(BaseFrame, 0);
+
+                MealsGrid.SetRow(Meal1Frame, 0);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+                MealsGrid.SetColumn(Meal1Frame, 0);
+                MealsGrid.SetColumnSpan(Meal1Frame, 2);
+
+                MealsGrid.SetRow(Meal2Frame, 1);
+                MealsGrid.SetRowSpan(Meal2Frame, 1);
+                MealsGrid.SetColumnSpan(Meal2Frame, 2);
+                MealsGrid.SetColumn(Meal2Frame, 0);
 
 
-        var mealNames = await _localData.GetMealNames();
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .12;
+                Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .12;
+
+                meal1CalLabel.FontSize = 21;
+                Meal1Name.FontSize = 20;
+
+                meal2CalLabel.FontSize = 21;
+                Meal2Name.FontSize = 20;
+
+                var updateableFoods = loggedFoods.Where(f => f.MealType > 2);
+                foreach (var food in updateableFoods)
+                {
+                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 2);
+                }
+
+                break;
+
+            case 3:
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = true;
+                Meal3Frame.IsVisible = true;
+                Meal4Frame.IsVisible = false;
+                Meal5Frame.IsVisible = false;
+                Meal6Frame.IsVisible = false;
+
+                MealsGrid.Margin = new Thickness(8, 12, 8, 3);
+
+                MealsGrid.SetRowSpan(BaseFrame, 1);
+                MealsGrid.SetColumnSpan(BaseFrame, 2);
+                MealsGrid.SetRow(BaseFrame, 0);
+
+                MealsGrid.SetRow(Meal1Frame, 0);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+                MealsGrid.SetColumnSpan(Meal1Frame, 2);
+
+                MealsGrid.SetRow(Meal2Frame, 1);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+                MealsGrid.SetColumn(Meal2Frame, 0);
+                MealsGrid.SetColumnSpan(Meal2Frame, 2);
+
+                MealsGrid.SetRow(Meal3Frame, 2);
+                MealsGrid.SetRowSpan(Meal3Frame, 1);
+                MealsGrid.SetColumnSpan(Meal3Frame, 2);
+
+                meal1CalLabel.FontSize = 20;
+                Meal1Name.FontSize = 19;
+
+                meal2CalLabel.FontSize = 20;
+                Meal2Name.FontSize = 19;
+
+                meal3CalLabel.FontSize = 20;
+                Meal3Name.FontSize = 19;
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+
+                var meal3Greater = loggedFoods.Where(f => f.MealType > 3);
+                foreach (var food in meal3Greater)
+                {
+                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 3);
+                }
+
+                break;
+
+            case 4:
+
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = true;
+                Meal3Frame.IsVisible = true;
+                Meal4Frame.IsVisible = true;
+                Meal5Frame.IsVisible = false;
+                Meal6Frame.IsVisible = false;
+
+                MealsGrid.Margin = new Thickness(8, 12, 8, 3);
+
+                MealsGrid.SetRow(BaseFrame, 2);
+                MealsGrid.SetRowSpan(BaseFrame, 1);
+                MealsGrid.SetColumn(BaseFrame, 0);
+                MealsGrid.SetColumnSpan(BaseFrame, 1);
+
+                MealsGrid.SetRow(Meal1Frame, 0);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+                MealsGrid.SetColumnSpan(Meal1Frame, 2);
+
+                MealsGrid.SetRow(Meal2Frame, 1);
+                MealsGrid.SetRowSpan(Meal2Frame, 1);
+                MealsGrid.SetColumn(Meal2Frame, 0);
+                MealsGrid.SetColumnSpan(Meal2Frame, 2);
+
+                MealsGrid.SetRow(Meal3Frame, 2);
+                MealsGrid.SetRowSpan(Meal3Frame, 1);
+                MealsGrid.SetColumn(Meal3Frame, 0);
+
+                MealsGrid.SetRow(Meal4Frame, 2);
+                MealsGrid.SetRowSpan(Meal4Frame, 1);
+                MealsGrid.SetColumn(Meal4Frame, 1);
+
+
+                meal1CalLabel.FontSize = meal4CalLabel.FontSize; 
+                Meal1Name.FontSize = Meal4Name.FontSize;
+
+                meal2CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal2Name.FontSize = Meal4Name.FontSize;
+
+                meal3CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal3Name.FontSize = Meal4Name.FontSize;
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+
+                var meal4Greater = loggedFoods.Where(f => f.MealType > 4);
+                foreach (var food in meal4Greater)
+                {
+                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 4);
+                }
+
+                break;
+
+            case 4.1:
+
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = true;
+                Meal3Frame.IsVisible = true;
+                Meal4Frame.IsVisible = true;
+                Meal5Frame.IsVisible = false;
+                Meal6Frame.IsVisible = false;
+
+                MealsGrid.Margin = new Thickness(8, 12, 8, 3);
+
+                MealsGrid.SetRow(BaseFrame, 2);
+                MealsGrid.SetColumn(BaseFrame, 0);
+                MealsGrid.SetRowSpan(BaseFrame, 1);
+                MealsGrid.SetColumnSpan(BaseFrame, 1);
+
+                MealsGrid.SetRow(Meal1Frame, 0);
+                MealsGrid.SetColumn(Meal1Frame, 0);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+                MealsGrid.SetColumnSpan(Meal1Frame, 1);
+
+                MealsGrid.SetRow(Meal2Frame, 0);
+                MealsGrid.SetColumn(Meal2Frame, 1);
+                MealsGrid.SetRowSpan(Meal2Frame, 1);
+                MealsGrid.SetColumnSpan(Meal2Frame, 1);
+
+                MealsGrid.SetRow(Meal3Frame, 1);
+                MealsGrid.SetColumnSpan(Meal3Frame, 2);
+                MealsGrid.SetRowSpan(Meal3Frame, 1);
+               
+
+                MealsGrid.SetRow(Meal4Frame, 2);
+                MealsGrid.SetRowSpan(Meal4Frame, 1);
+                MealsGrid.SetColumn(Meal4Frame, 0);
+                MealsGrid.SetColumnSpan(Meal4Frame, 2);
+
+                meal1CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal1Name.FontSize = Meal4Name.FontSize;
+
+                meal2CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal2Name.FontSize = Meal4Name.FontSize;
+
+                meal3CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal3Name.FontSize = Meal4Name.FontSize;
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+
+                var meal4Greater1 = loggedFoods.Where(f => f.MealType > 4);
+                foreach (var food in meal4Greater1)
+                {
+                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 4);
+                }
+
+                break;
+
+            case 4.2:
+
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = true;
+                Meal3Frame.IsVisible = true;
+                Meal4Frame.IsVisible = true;
+                Meal5Frame.IsVisible = false;
+                Meal6Frame.IsVisible = false;
+
+                MealsGrid.Margin = new Thickness(8, 12, 8, 3);
+
+                MealsGrid.SetRow(BaseFrame, 2);
+                MealsGrid.SetRowSpan(BaseFrame, 1);
+                MealsGrid.SetColumnSpan(BaseFrame, 1);
+                MealsGrid.SetColumn(BaseFrame, 0);
+
+                MealsGrid.SetRow(Meal1Frame, 0);
+                MealsGrid.SetColumnSpan(Meal1Frame, 2);
+                MealsGrid.SetColumn(Meal1Frame, 0);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+      
+
+                MealsGrid.SetRow(Meal2Frame, 1);
+                MealsGrid.SetColumn(Meal2Frame, 0);
+                MealsGrid.SetRowSpan(Meal2Frame, 1);
+                MealsGrid.SetColumnSpan(Meal2Frame, 1);
+
+                MealsGrid.SetRow(Meal3Frame, 1);
+                MealsGrid.SetColumn(Meal3Frame, 1);
+                MealsGrid.SetRowSpan(Meal3Frame, 1);
+                MealsGrid.SetColumnSpan(Meal3Frame, 1);
+
+                MealsGrid.SetRow(Meal4Frame, 2);
+                MealsGrid.SetColumn(Meal4Frame, 0);
+                MealsGrid.SetColumnSpan(Meal4Frame, 2);
+                MealsGrid.SetRowSpan(Meal4Frame, 1);
+
+                meal1CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal1Name.FontSize = Meal4Name.FontSize;
+
+                meal2CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal2Name.FontSize = Meal4Name.FontSize;
+
+                meal3CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal3Name.FontSize = Meal4Name.FontSize;
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+
+                var meal4Greater2 = loggedFoods.Where(f => f.MealType > 4);
+                foreach (var food in meal4Greater2)
+                {
+                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 4);
+                }
+
+                break;
+
+
+            case 5:
+
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = true;
+                Meal3Frame.IsVisible = true;
+                Meal4Frame.IsVisible = true;
+                Meal5Frame.IsVisible = true;
+                Meal6Frame.IsVisible = false;
+
+                MealsGrid.Margin = new Thickness(8, 12, 8, 3);
+
+                MealsGrid.SetRow(BaseFrame, 2);
+                MealsGrid.SetColumn(BaseFrame, 0);
+                MealsGrid.SetRowSpan(BaseFrame, 1);
+                MealsGrid.SetColumnSpan(BaseFrame, 1);
+
+                MealsGrid.SetRow(Meal1Frame, 0);
+                MealsGrid.SetColumnSpan(Meal1Frame, 2);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+                MealsGrid.SetColumn(Meal1Frame, 0);
+
+                MealsGrid.SetRow(Meal2Frame, 1);
+                MealsGrid.SetColumn(Meal2Frame, 0);
+                MealsGrid.SetRowSpan(Meal2Frame, 1);
+                MealsGrid.SetColumnSpan(Meal2Frame, 1);
+
+                MealsGrid.SetRow(Meal3Frame, 1);
+                MealsGrid.SetColumn(Meal3Frame, 1);
+                MealsGrid.SetRowSpan(Meal3Frame, 1);
+                MealsGrid.SetColumnSpan(Meal3Frame, 1);
+
+                MealsGrid.SetRow(Meal4Frame, 2);
+                MealsGrid.SetColumn(Meal4Frame, 0);
+                MealsGrid.SetRowSpan(Meal4Frame, 1);
+                MealsGrid.SetColumnSpan(Meal4Frame, 1);
+
+                MealsGrid.SetRow(Meal5Frame, 2);
+                MealsGrid.SetColumn(Meal5Frame, 1);
+                MealsGrid.SetRowSpan(Meal5Frame, 1);
+                MealsGrid.SetColumnSpan(Meal5Frame, 1);
+
+                meal1CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal1Name.FontSize = Meal4Name.FontSize;
+
+                meal2CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal2Name.FontSize = Meal4Name.FontSize;
+
+                meal3CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal3Name.FontSize = Meal4Name.FontSize;
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+
+                var meal5Greater = loggedFoods.Where(f => f.MealType > 5);
+                foreach (var food in meal5Greater)
+                {
+                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 5);
+                }
+
+                break;
+
+            case 5.1:
+
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = true;
+                Meal3Frame.IsVisible = true;
+                Meal4Frame.IsVisible = true;
+                Meal5Frame.IsVisible = true;
+                Meal6Frame.IsVisible = false;
+
+                MealsGrid.Margin = new Thickness(8, 12, 8, 8);
+
+                MealsGrid.SetRow(BaseFrame, 2);
+                MealsGrid.SetColumn(BaseFrame, 0);
+                MealsGrid.SetRowSpan(BaseFrame, 1);
+                MealsGrid.SetColumnSpan(BaseFrame, 1);
+
+                MealsGrid.SetRow(Meal1Frame, 0);
+                MealsGrid.SetColumn(Meal1Frame, 0);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+                MealsGrid.SetColumnSpan(Meal1Frame, 1);
+
+                MealsGrid.SetRow(Meal2Frame, 0);
+                MealsGrid.SetColumn(Meal2Frame, 1);
+                MealsGrid.SetRowSpan(Meal2Frame, 1);
+                MealsGrid.SetColumnSpan(Meal2Frame, 1);
+
+                MealsGrid.SetRow(Meal3Frame, 1);
+                MealsGrid.SetColumn(Meal3Frame, 0);
+                MealsGrid.SetRowSpan(Meal3Frame, 1);
+                MealsGrid.SetColumnSpan(Meal3Frame, 1);
+
+                MealsGrid.SetRow(Meal4Frame, 1);
+                MealsGrid.SetColumn(Meal4Frame, 1);
+                MealsGrid.SetRowSpan(Meal4Frame, 1);
+                MealsGrid.SetColumnSpan(Meal4Frame, 1);
+
+                MealsGrid.SetRow(Meal5Frame, 2);
+                MealsGrid.SetColumnSpan(Meal5Frame, 2);
+                MealsGrid.SetRowSpan(Meal5Frame, 1);
+                MealsGrid.SetColumn(Meal5Frame, 0);
+
+                meal1CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal1Name.FontSize = Meal4Name.FontSize;
+
+                meal2CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal2Name.FontSize = Meal4Name.FontSize;
+
+                meal3CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal3Name.FontSize = Meal4Name.FontSize;
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+
+                var meal5Greater1 = loggedFoods.Where(f => f.MealType > 5);
+                foreach (var food in meal5Greater1)
+                {
+                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 5);
+                }
+
+                break;
+
+            case 5.2:
+
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = true;
+                Meal3Frame.IsVisible = true;
+                Meal4Frame.IsVisible = true;
+                Meal5Frame.IsVisible = true;
+                Meal6Frame.IsVisible = false;
+
+                MealsGrid.Margin = new Thickness(8, 12, 8, 3);
+
+                MealsGrid.SetRow(BaseFrame, 2);
+                MealsGrid.SetColumn(BaseFrame, 0);
+                MealsGrid.SetRowSpan(BaseFrame, 1);
+                MealsGrid.SetColumnSpan(BaseFrame, 1);
+
+                MealsGrid.SetRow(Meal1Frame, 0);
+                MealsGrid.SetColumn(Meal1Frame, 0);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+                MealsGrid.SetColumnSpan(Meal1Frame, 1);
+
+                MealsGrid.SetRow(Meal2Frame, 0);
+                MealsGrid.SetColumn(Meal2Frame, 1);
+                MealsGrid.SetRowSpan(Meal2Frame, 1);
+                MealsGrid.SetColumnSpan(Meal2Frame, 1);
+
+                MealsGrid.SetRow(Meal3Frame, 1);
+                MealsGrid.SetColumnSpan(Meal3Frame, 2);
+                MealsGrid.SetRowSpan(Meal3Frame, 1);
+                MealsGrid.SetColumn(Meal3Frame, 0);
+
+                MealsGrid.SetRow(Meal4Frame, 2);
+                MealsGrid.SetColumn(Meal4Frame, 0);
+                MealsGrid.SetRowSpan(Meal4Frame, 1);
+                MealsGrid.SetColumnSpan(Meal4Frame, 1);
+
+                MealsGrid.SetRow(Meal5Frame, 2);
+                MealsGrid.SetColumn(Meal5Frame, 1);
+                MealsGrid.SetRowSpan(Meal5Frame, 1);
+                MealsGrid.SetColumnSpan(Meal5Frame, 1);
+
+                meal1CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal1Name.FontSize = Meal4Name.FontSize;
+
+                meal2CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal2Name.FontSize = Meal4Name.FontSize;
+
+                meal3CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal3Name.FontSize = Meal4Name.FontSize;
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+
+                var meal5Greater2 = loggedFoods.Where(f => f.MealType > 5);
+                foreach (var food in meal5Greater2)
+                {
+                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 5);
+                }
+
+                break;
+
+            case 6:
+
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MealsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+
+                Meal1Frame.IsVisible = true;
+                Meal2Frame.IsVisible = true;
+                Meal3Frame.IsVisible = true;
+                Meal4Frame.IsVisible = true;
+                Meal5Frame.IsVisible = true;
+                Meal6Frame.IsVisible = true;
+
+
+                MealsGrid.Margin = new Thickness(8, 12, 8, 3);
+
+                MealsGrid.SetRow(BaseFrame, 2);
+                MealsGrid.SetColumn(BaseFrame, 0);
+                MealsGrid.SetRowSpan(BaseFrame, 1);
+                MealsGrid.SetColumnSpan(BaseFrame, 1);
+
+                MealsGrid.SetRow(Meal1Frame, 0);
+                MealsGrid.SetColumn(Meal1Frame, 0);
+                MealsGrid.SetRowSpan(Meal1Frame, 1);
+                MealsGrid.SetColumnSpan(Meal1Frame, 1);
+
+                MealsGrid.SetRow(Meal2Frame, 0);
+                MealsGrid.SetColumn(Meal2Frame, 1);
+                MealsGrid.SetRowSpan(Meal2Frame, 1);
+                MealsGrid.SetColumnSpan(Meal2Frame, 1);
+
+                MealsGrid.SetRow(Meal3Frame, 1);
+                MealsGrid.SetColumn(Meal3Frame, 0);
+                MealsGrid.SetRowSpan(Meal3Frame, 1);
+                MealsGrid.SetColumnSpan(Meal3Frame, 1);
+
+                MealsGrid.SetRow(Meal4Frame, 1);
+                MealsGrid.SetColumn(Meal4Frame, 1);
+                MealsGrid.SetRowSpan(Meal4Frame, 1);
+                MealsGrid.SetColumnSpan(Meal4Frame, 1);
+
+                MealsGrid.SetRow(Meal5Frame, 2);
+                MealsGrid.SetColumn(Meal5Frame, 0);
+                MealsGrid.SetRowSpan(Meal5Frame, 1);
+                MealsGrid.SetColumnSpan(Meal5Frame, 1);
+
+                MealsGrid.SetRow(Meal6Frame, 2);
+                MealsGrid.SetColumn(Meal6Frame, 1);
+                MealsGrid.SetRowSpan(Meal6Frame, 1);
+                MealsGrid.SetColumnSpan(Meal6Frame, 1);
+
+                meal1CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal1Name.FontSize = Meal4Name.FontSize;
+
+                meal2CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal2Name.FontSize = Meal4Name.FontSize;
+
+                meal3CalLabel.FontSize = meal4CalLabel.FontSize;
+                Meal3Name.FontSize = Meal4Name.FontSize;
+
+                Meal1Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal5Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                Meal6Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
+                break;
+        }
+
+        var scale = 42;
+        Meal1Button.WidthRequest = scale;
+        Meal1Button.HeightRequest = scale;
+
+        Meal2Button.WidthRequest = scale;
+        Meal2Button.HeightRequest = scale;
+
+        Meal3Button.WidthRequest = scale;
+        Meal3Button.HeightRequest = scale;
+
+        Meal4Button.WidthRequest = scale;
+        Meal4Button.HeightRequest = scale;
+
+        Meal5Button.WidthRequest = scale;
+        Meal5Button.HeightRequest = scale;
+
+        Meal6Button.WidthRequest = scale;
+        Meal6Button.HeightRequest = scale;
+
+
+        var mealNames = await _localData.GetMealNames(DatePicker.Date);
 
         if (mealNames == null || mealNames.Count == 0)
         {
             // Create default meal names
-            var defaultMealNames = new List<string> { "Meal 1", "Meal 2", "Meal 3", "Meal 4", "Meal 5", "Meal 6" };
+            var defaultMealNames = new List<string> { "Breakfast", "Lunch", "Dinner", "Snack", "Meal 5", "Meal 6" };
 
             // Add the default meal names to the MealNames table
+            int mealNum = 1;
             foreach (var name in defaultMealNames)
             {
+
                 var mealName = new MealNames { MealName = name };
-                await _localData.AddMealName(mealName);
+                await _localData.AddMealName(mealName, mealNum, new DateTime(1900, 1, 1));
+                mealNum++;
             }
 
 
@@ -110,7 +735,7 @@ public partial class FoodJournal : ContentPage
         else
         {
             // Retrieve the meal names again now that they have been added
-            mealNames = await _localData.GetMealNames();
+            mealNames = await _localData.GetMealNames(DatePicker.Date);
 
             // Set the text of the labels to the corresponding meal names
             if (mealNames.Count >= 1)
@@ -152,12 +777,14 @@ public partial class FoodJournal : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        PopulateMealNames();
+        
         DateHandler();
         SeesAds();
 
-        await Task.Delay(100);
 
+
+        await Task.Delay(100);
+        
         PopulateMealGrids(DatePicker.Date);
         PopulateWater(WaterDatePicker.Date);
     }
@@ -536,7 +1163,7 @@ public partial class FoodJournal : ContentPage
     public async void PopulateMealGrids(DateTime selectedDate)
     {
 
-        
+        PopulateMealNames();
 
         userID = await _localData.GetUserID();
         var nutritionGoals = await _localData.GetNutritionGoals(userID, DatePicker.Date);
@@ -573,10 +1200,12 @@ public partial class FoodJournal : ContentPage
             meal1Grid.RowDefinitions.Clear();
 
 
-
+            
 
             foreach (var food in meal1Foods)
             {
+                
+
                 var foodName = new Label
                 {
                     Text = food.FoodName,
@@ -1787,25 +2416,7 @@ public partial class FoodJournal : ContentPage
 
 
 
-        double mealFrameWidth = Meal1Frame.Height;
-        Meal1Button.HeightRequest = mealFrameWidth / 5;
-        Meal1Button.WidthRequest = Meal1Button.HeightRequest;
         
-        Meal2Button.HeightRequest = mealFrameWidth / 5;
-        Meal2Button.WidthRequest = Meal2Button.HeightRequest;
-
-        Meal3Button.HeightRequest = mealFrameWidth / 5;
-        Meal3Button.WidthRequest = Meal3Button.HeightRequest;
-
-        Meal4Button.HeightRequest = mealFrameWidth / 5;
-        Meal4Button.WidthRequest = Meal4Button.HeightRequest;
-
-        Meal5Button.HeightRequest = mealFrameWidth / 5;
-        Meal5Button.WidthRequest = Meal5Button.HeightRequest;
-
-        Meal6Button.HeightRequest = mealFrameWidth / 5;
-        Meal6Button.WidthRequest = Meal6Button.HeightRequest;
-
     }
 
         void TodayButtonClicked(System.Object sender, System.EventArgs e)
@@ -1826,7 +2437,7 @@ public partial class FoodJournal : ContentPage
         void SettingsClicked(System.Object sender, System.EventArgs e)
         {
 
-         Navigation.PushModalAsync(new FoodJournalSettings(_localData));
+         Navigation.PushModalAsync(new FoodJournalSettings(_localData, DatePicker.Date));
 
 
         }
