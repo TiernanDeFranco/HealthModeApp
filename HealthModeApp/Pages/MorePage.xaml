@@ -95,6 +95,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Frame Grid.ColumnSpan="2" Grid.Row="0" Padding="8,6" CornerRadius="8" Margin="0,0,0,5" IsVisible="False">
@@ -128,7 +129,7 @@
                     <Frame Grid.Column="0" Grid.Row="2" Padding="8,6" CornerRadius="8" >
                         <HorizontalStackLayout Spacing="8">
                             <Image Source="calicon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
-                            <Label x:Name="CalMac" VerticalOptions="Center" FontSize="15"/>
+                            <Label Text="Nutrition Goals" VerticalOptions="Center" FontSize="15"/>
                             </HorizontalStackLayout>
                         <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CaloriesMacrosTapped"/>
@@ -142,12 +143,7 @@
                             </HorizontalStackLayout>
                     </Frame>
 
-                     <Frame Grid.Column="0" Grid.Row="3" Padding="8,6" CornerRadius="8" >
-                        <HorizontalStackLayout Spacing="8">
-                            <Image Source="pillicon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
-                            <Label Text="Micronutrients" VerticalOptions="Center" FontSize="15"/>
-                            </HorizontalStackLayout>
-                    </Frame>
+                  
 
                      <Frame Grid.Column="1" Grid.Row="3" Padding="8,6" CornerRadius="8" >
                         <HorizontalStackLayout Spacing="7">
@@ -156,6 +152,16 @@
                             </HorizontalStackLayout>
                          <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="NutritionBreakdownTapped"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <Frame Grid.Column="0" Grid.Row="3" Padding="8,6" CornerRadius="8" >
+                        <HorizontalStackLayout Spacing="8">
+                            <Image Source="weightscale" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Label Text="Goal Weight" VerticalOptions="Center" FontSize="15"/>
+                            </HorizontalStackLayout>
+                         <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoalWeightTapped"/>
                         </Frame.GestureRecognizers>
                     </Frame>
 
@@ -179,8 +185,14 @@
                         </Frame.GestureRecognizers>
                     </Frame>
 
+                     
+
 
                 </Grid>
+
+
+
+
 
 
 

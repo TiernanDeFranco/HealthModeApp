@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.ProfilePage.UpdateProfilePicture"
+             xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+                 
+             xmlns:color="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker">
+
+    <Frame x:Name="PfpFrame" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="5,15,5,0" Padding="8,12,8,12">
+            <Grid RowSpacing="5" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Text="Change Profile Picture" Grid.Row="0" FontFamily="Lato-Bold" FontSize="Large" TextColor="SteelBlue" HorizontalOptions="Center"/>
+
+                <Border x:Name="PfpHolder" Grid.Row="1" Margin="0,-5,0,0" StrokeShape="Ellipse" HeightRequest="84" WidthRequest="84" HorizontalOptions="Center"
+                             StrokeThickness="0" BackgroundColor="Transparent">
+                         <Border.Shadow>
+                             <Shadow Brush="Black"
+                                     Offset="5, 8"
+                                     Opacity=".4"
+                                 
+                                    />
+                         </Border.Shadow>
+
+                                    <Border.Clip>
+                                    <EllipseGeometry Center="42, 42" RadiusX="38" RadiusY="38"/>
+                                    </Border.Clip>
+                         <Image x:Name="ProfilePicture"
+                                WidthRequest="70"
+                                HeightRequest="70"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+
+                     </Border>
+                <StackLayout x:Name="PfpLoad" HorizontalOptions="Center" Grid.Row="2" Spacing="5" Padding="5">
+                <Label Text="Loading Profile Pictures" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAutoScalingEnabled="False"
+                       FontSize="Medium" FontFamily="Lato-Bold" TextColor="SteelBlue"/>
+
+                <ActivityIndicator IsRunning="True" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </StackLayout>
+
+               <CollectionView Margin="0,5,0,0" IsVisible="False" SelectionChanged="PfpList_SelectionChanged" SelectionMode="Single" x:Name="PfpList" Grid.Row="2" BackgroundColor="Transparent" WidthRequest="325" HorizontalOptions="Center" HeightRequest="75" VerticalOptions="Start">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="10" VerticalItemSpacing="5"/>
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+
+
+
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Grid.Row="3" Spacing="5">
+                <Frame x:Name="ColorPreview" WidthRequest="200" HeightRequest="50" Padding="2" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" CornerRadius="8" BorderColor="Transparent" BackgroundColor="Transparent">
+                    <Entry x:Name="HexCodeEntry" TextChanged="HexCodeEntry_TextChanged"  MaxLength="7" Focused="HexCodeEntry_Focused" Unfocused="HexCodeEntry_Unfocused" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                </Frame>
+
+                <color:ColorPicker x:Name="PfpColorPicker" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
+                    ColorFlowDirection="Horizontal"
+                    ColorSpectrumStyle="TintToHueToShadeStyle"
+                    PointerRingBorderUnits="0.3"
+                    PointerRingDiameterUnits="0.7"
+                    PickedColorChanged="PfpColorPicker_PickedColorChanged"
+                    HeightRequest="100"
+                    WidthRequest="200"/>
+                </StackLayout>
+
+                <ActivityIndicator x:Name="Loading" IsRunning="True" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="4"/>
+                <Button Margin="5" x:Name="ChangeButton" Text="Change Profile Picture" Clicked="ChangeButton_Clicked" HorizontalOptions="Center" Grid.Row="4"/>
+            </Grid>
+        </Frame>
+
+</mopups:PopupPage>

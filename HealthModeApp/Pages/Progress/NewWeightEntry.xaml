@@ -27,7 +27,11 @@
             </Grid.ColumnDefinitions>
 
             <Label Text="Weight" HorizontalOptions="Start" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="0"/>
-            <Entry x:Name="WeightEntry" Grid.Row="0" Grid.Column="1" Keyboard="Numeric" MaxLength="5" HorizontalOptions="End" HorizontalTextAlignment="Center" WidthRequest="75"/>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="0" Grid.Column="1" Spacing="2">
+            <Entry x:Name="WeightEntry" Keyboard="Numeric" MaxLength="5" HorizontalOptions="End" HorizontalTextAlignment="Center" WidthRequest="75"/>
+            <Label x:Name="UnitLabel" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" VerticalTextAlignment="Center" Text="Lbs"/>
+            </HorizontalStackLayout>
 
             <Label Text="Date" HorizontalOptions="Start" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="0"/>
             <DatePicker x:Name="DateSelect" Grid.Row="1" Grid.Column="1" HorizontalOptions="End"/>

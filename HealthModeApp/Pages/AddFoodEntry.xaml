@@ -92,10 +92,10 @@
             </Grid.RowDefinitions>
 
     <Label Grid.Row="0" Grid.Column="0" Text="Food Name:" VerticalTextAlignment="Center" />
-    <Entry Grid.Row="0" Grid.Column="1" x:Name="FoodEntry" Placeholder="ex. Potato Chips" Text="{Binding Path=Food.FoodName, Mode=OneWayToSource}" MaxLength="35"  />
+    <Entry Grid.Row="0" Grid.Column="1" x:Name="FoodEntry" IsSpellCheckEnabled="False" Placeholder="ex. Potato Chips" Text="{Binding Path=Food.FoodName, Mode=OneWayToSource}" MaxLength="35"  />
 
     <Label Grid.Row="1" Grid.Column="0" Text="Brand Name:" VerticalTextAlignment="Center"  />
-    <Entry Grid.Row="1" Grid.Column="1" x:Name="BrandEntry" Placeholder="ex. Lays" Text="{Binding Food.Brand, Mode=OneWayToSource}" MaxLength="50"/>
+    <Entry Grid.Row="1" Grid.Column="1" x:Name="BrandEntry" IsSpellCheckEnabled="False" Placeholder="ex. Lays" Text="{Binding Food.Brand, Mode=OneWayToSource}" MaxLength="50"/>
  
         </Grid>
     </Frame>
@@ -187,6 +187,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Grid.ColumnSpan="5" Text="Meal Category" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
@@ -203,10 +204,10 @@
 
                 <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Spacing="5">
                      <Button Text="Packaged" x:Name="PackagedButton" Clicked="PackagedButton_Clicked" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="Transparent" BorderColor="{StaticResource LightPrimary}" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderWidth="1.75"/>
-                    <Button Text="N/A" x:Name="NoCatButton" Clicked="NoCatButton_Clicked" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="Transparent" BorderColor="{StaticResource LightPrimary}" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderWidth="1.75"/>
+                    <Button Text="Other" x:Name="NoCatButton" Clicked="NoCatButton_Clicked" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="Transparent" BorderColor="{StaticResource LightPrimary}" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderWidth="1.75"/>
                     
                     </HorizontalStackLayout>
-                
+                <Entry x:Name="OtherCat" Focused="OtherCat_Focused" Grid.Row="4" MaxLength="50" Grid.ColumnSpan="3" Placeholder="Other Category" FontAutoScalingEnabled="False" FontSize="Small" TextChanged="OtherCat_TextChanged"/>
             </Grid>
 
 

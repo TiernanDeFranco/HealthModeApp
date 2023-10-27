@@ -1,18 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.FoodJournalPage.FoodJournalSettings"
-             Title="Food Journal Settings">
+             xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+             >
 
-    <Grid Padding="10" RowSpacing="15">
+
+   
+
+    <Grid Padding="8,0,8,0" RowSpacing="12" VerticalOptions="Start" x:Name="MainGrid">
         <Grid.RowDefinitions>
+            
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
 
         </Grid.RowDefinitions>
 
-        <Frame>
+        
+
+        <Frame Grid.Row="0" VerticalOptions="Start" x:Name="MealSelectFrame">
             <Grid RowSpacing="5" ColumnSpacing="10" Padding="10,3,10,2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -23,11 +30,12 @@
                 </Grid.RowDefinitions>
                  <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.1*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Number of Meals" Grid.Row="0" Grid.ColumnSpan="3" FontFamily="Lato-Bold" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                <Label Text="Number of Meals" Grid.Row="0" Grid.Column="1" FontFamily="Lato-Bold" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                <ImageButton Source="checkicon" Padding="5" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" Clicked="Button_Clicked" CornerRadius="5" Grid.Row="0" Grid.Column="2" WidthRequest="30" HeightRequest="30" Aspect="AspectFit" HorizontalOptions="End" VerticalOptions="Start"/>
 
                 <Button x:Name="Meal1Button" Grid.Row="1" Grid.Column="0" Text="1" Clicked="Meal1Button_Clicked" BackgroundColor="Transparent" BorderColor="{StaticResource LightPrimary}" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderWidth="1.75"/>
                 <Button x:Name="Meal2Button" Grid.Row="1" Grid.Column="1" Text="2" Clicked="Meal2Button_Clicked" BackgroundColor="Transparent" BorderColor="{StaticResource LightPrimary}" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderWidth="1.75"/>
@@ -40,23 +48,23 @@
 
                 <Grid Grid.Row="4" Grid.ColumnSpan="3" HorizontalOptions="CenterAndExpand" Padding="2">
 
-                <Image x:Name="Meal1Prev" HorizontalOptions="Center" Source="p1meal" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" IsVisible="False"/>
-                    <Image x:Name="Meal2Prev" HorizontalOptions="Center" Source="p2meals" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" IsVisible="False"/>
-                    <Image x:Name="Meal3Prev" HorizontalOptions="Center" Source="p3meals" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" IsVisible="False"/>
+                <Image x:Name="Meal1Prev" HorizontalOptions="Center" Source="p1meal" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" IsVisible="False"/>
+                    <Image x:Name="Meal2Prev" HorizontalOptions="Center" Source="p2meals" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" IsVisible="False"/>
+                    <Image x:Name="Meal3Prev" HorizontalOptions="Center" Source="p3meals" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" IsVisible="False"/>
 
                     <HorizontalStackLayout x:Name="Meal4Prev" HorizontalOptions="Center" IsVisible="False">
-                    <ImageButton x:Name="Meal4Top" Opacity="0" Source="p4mealstop" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" Clicked="Meal4Top_Clicked"/>
-                         <ImageButton x:Name="Meal4Mid" Opacity="0" Source="p4mealsmid" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" Clicked="Meal4Mid_Clicked"/>
-                         <ImageButton x:Name="Meal4Bottom" Opacity="0" Source="p4mealsbottom" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" Clicked="Meal4Bottom_Clicked"/>
+                    <ImageButton x:Name="Meal4Top" Opacity="0" Source="p4mealstop" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" Clicked="Meal4Top_Clicked"/>
+                         <ImageButton x:Name="Meal4Mid" Opacity="0" Source="p4mealsmid" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" Clicked="Meal4Mid_Clicked"/>
+                         <ImageButton x:Name="Meal4Bottom" Opacity="0" Source="p4mealsbottom" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" Clicked="Meal4Bottom_Clicked"/>
                         </HorizontalStackLayout>
 
                      <HorizontalStackLayout x:Name="Meal5Prev" HorizontalOptions="Center" IsVisible="False">
-                    <ImageButton x:Name="Meal5Top" Opacity="0" Source="p5mealstop" BorderColor="Transparent" BorderWidth="25" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" Clicked="Meal5Top_Clicked"/>
-                         <ImageButton x:Name="Meal5Mid" Opacity="0" Source="p5mealsmid" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" Clicked="Meal5Mid_Clicked"/>
-                         <ImageButton x:Name="Meal5Bottom" Opacity="0" Source="p5mealsbottom" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" Clicked="Meal5Bottom_Clicked"/>
+                    <ImageButton x:Name="Meal5Top" Opacity="0" Source="p5mealstop" BorderColor="Transparent" BorderWidth="25" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" Clicked="Meal5Top_Clicked"/>
+                         <ImageButton x:Name="Meal5Mid" Opacity="0" Source="p5mealsmid" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" Clicked="Meal5Mid_Clicked"/>
+                         <ImageButton x:Name="Meal5Bottom" Opacity="0" Source="p5mealsbottom" BorderColor="Transparent" BorderWidth="5" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" Clicked="Meal5Bottom_Clicked"/>
                         </HorizontalStackLayout>
 
-                    <Image x:Name="Meal6Prev" HorizontalOptions="Center" Source="p6meals" Aspect="AspectFit" WidthRequest="90" HeightRequest="120" IsVisible="False"/>
+                    <Image x:Name="Meal6Prev" HorizontalOptions="Center" Source="p6meals" Aspect="AspectFit" WidthRequest="80" HeightRequest="110" IsVisible="False"/>
 
                     
 
@@ -65,7 +73,7 @@
             </Grid>
           </Frame>
 
-        <Frame Grid.Row="1" Padding="15,10,15,10" CornerRadius="18">
+        <Frame Grid.Row="1" Padding="15,10,15,10" CornerRadius="18" VerticalOptions="Start">
             <Grid RowSpacing="5" ColumnSpacing="8" Padding="5" VerticalOptions="CenterAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -82,29 +90,29 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Text="Meal 1 Name:" VerticalOptions="Center" x:Name="Meal1Label"/>
-                <Entry Grid.Row="0" Grid.Column="1" Placeholder="Meal 1" x:Name="Meal1Name"/>
+                <Entry Grid.Row="0" Grid.Column="1" Placeholder="Meal 1" x:Name="Meal1Name" Focused="MealFocused" Unfocused="MealUnfocused"/>
 
                 <Label Grid.Row="1" Grid.Column="0" Text="Meal 2 Name:" VerticalOptions="Center" x:Name="Meal2Label"/>
-                <Entry Grid.Row="1" Grid.Column="1" Placeholder="Meal 2" x:Name="Meal2Name"/>
+                <Entry Grid.Row="1" Grid.Column="1" Placeholder="Meal 2" x:Name="Meal2Name" Focused="MealFocused" Unfocused="MealUnfocused"/>
 
                 <Label Grid.Row="2" Grid.Column="0" Text="Meal 3 Name:" VerticalOptions="Center" x:Name="Meal3Label"/>
-                <Entry Grid.Row="2" Grid.Column="1" Placeholder="Meal 3" x:Name="Meal3Name"/>
+                <Entry Grid.Row="2" Grid.Column="1" Placeholder="Meal 3" x:Name="Meal3Name" Focused="MealFocused" Unfocused="MealUnfocused"/>
 
                 <Label Grid.Row="3" Grid.Column="0" Text="Meal 4 Name:" VerticalOptions="Center" x:Name="Meal4Label"/>
-                <Entry Grid.Row="3" Grid.Column="1" Placeholder="Meal 4" x:Name="Meal4Name" />
+                <Entry Grid.Row="3" Grid.Column="1" Placeholder="Meal 4" x:Name="Meal4Name" Focused="MealFocused" Unfocused="MealUnfocused"/>
 
                 <Label Grid.Row="4" Grid.Column="0" Text="Meal 5 Name:" VerticalOptions="Center" x:Name="Meal5Label"/>
-                <Entry Grid.Row="4" Grid.Column="1" Placeholder="Meal 5" x:Name="Meal5Name"/>
+                <Entry Grid.Row="4" Grid.Column="1" Placeholder="Meal 5" x:Name="Meal5Name" Focused="MealFocused" Unfocused="MealUnfocused"/>
 
                 <Label Grid.Row="5" Grid.Column="0" Text="Meal 6 Name:" VerticalOptions="Center" x:Name="Meal6Label"/>
-                <Entry Grid.Row="5" Grid.Column="1" Placeholder="Meal 6" x:Name="Meal6Name"/>
+                <Entry Grid.Row="5" Grid.Column="1" Placeholder="Meal 6" x:Name="Meal6Name" Focused="MealFocused" Unfocused="MealUnfocused"/>
 
             </Grid>
 
         </Frame>
 
-        <Button Grid.Row="2" Text="Save" Clicked="Button_Clicked"/>
+        
 
     </Grid>
 
-</ContentPage>
+</mopups:PopupPage>

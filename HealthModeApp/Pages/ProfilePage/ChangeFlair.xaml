@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.ProfilePage.ChangeFlair"
+             xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+             >
+
+    <Frame x:Name="FlairFrame" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="5,15,5,0" Padding="8,12,8,12">
+            <Grid RowSpacing="8" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Text="Change User Flair" Grid.Row="0" Margin="0,0,0,5" FontFamily="Lato-Bold" FontSize="Large" TextColor="SteelBlue" HorizontalOptions="Center"/>
+
+               
+
+                 <Border x:Name="FlairBG" Margin="0,0,0,5" Grid.Row="1" Grid.Column="1" StrokeShape="RoundRectangle 5" HorizontalOptions="Center"
+                             StrokeThickness="0" BackgroundColor="Transparent" Padding="8,5,8,5">
+
+                            <Label x:Name="FlairLabel" Text="       " TextColor="White" FontFamily="Lato-Regular" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                     </Border>
+
+                <StackLayout x:Name="FlairLoad" HorizontalOptions="Center" Grid.Row="2" Spacing="5" Padding="5">
+                <Label Text="Loading Flairs" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAutoScalingEnabled="False"
+                       FontSize="Medium" FontFamily="Lato-Bold" TextColor="SteelBlue"/>
+
+                <ActivityIndicator IsRunning="True" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </StackLayout>
+
+               <CollectionView Margin="0,10,0,0" IsVisible="False" SelectionChanged="FlairList_SelectionChanged" SelectionMode="Single" x:Name="FlairList" Grid.Row="2" BackgroundColor="Transparent" WidthRequest="325" HorizontalOptions="Center" HeightRequest="75" VerticalOptions="Start">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="8" VerticalItemSpacing="5"/>
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+
+
+
+        
+                <ActivityIndicator x:Name="Loading" IsRunning="True" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="3"/>
+                <Button Margin="5" x:Name="ChangeButton" Text="Change Flair" Clicked="ChangeButton_Clicked" HorizontalOptions="Center" Grid.Row="3"/>
+            </Grid>
+        </Frame>
+
+</mopups:PopupPage>

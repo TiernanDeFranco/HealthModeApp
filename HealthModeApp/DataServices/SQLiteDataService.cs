@@ -16,27 +16,111 @@ namespace HealthModeApp.DataServices
         }
 
 
-        private async void SetUpDB()
-		{
+        private async Task SetUpDB()
+        {
+            try
+            {
                 string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "HealthModeDB.db3");
                 db = new SQLiteAsyncConnection(dbPath);
 
-
                 await db.CreateTableAsync<UserData>();
-
                 await db.CreateTableAsync<CustomFoods>();
                 await db.CreateTableAsync<LoggedFoodTable>();
-
+                await db.CreateTableAsync<RecentFoods>();
                 await db.CreateTableAsync<PopUpMemory>();
-
                 await db.CreateTableAsync<NutritionGoals>();
-
+                await db.CreateTableAsync<MicroPercentageGoals>();
                 await db.CreateTableAsync<MealNames>();
                 await db.CreateTableAsync<MealNumber>();
-
                 await db.CreateTableAsync<WeightTable>();
-
                 await db.CreateTableAsync<WaterTable>();
+                await db.CreateTableAsync<WaterGoalTable>();
+                await db.CreateTableAsync<Translations>();
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception
+                Console.WriteLine($"Database setup failed: {ex.Message}");
+            }
+        }
+
+        public class TranslationObject
+        {
+            public string Key { get; set; }
+            public string Translation { get; set; }
+        }
+
+       
+
+
+
+        public async Task AddTranslation(string serializedList)
+        {
+            Debug.WriteLine($"Serialized List: {serializedList}");
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+
+            // Deserialize the JSON string to a List of TranslationObject
+            List<TranslationObject> translationsFromApi = JsonSerializer.Deserialize<List<TranslationObject>>(serializedList, options);
+
+            if (translationsFromApi == null || !translationsFromApi.Any())
+            {
+                Debug.WriteLine("Deserialization failed or list is empty.");
+                return;
+            }
+
+           
+
+
+            // Iterate over the deserialized list
+            foreach (var translationObj in translationsFromApi)
+                {
+
+                    translationObj.Translation.Replace("\n", "");
+                    translationObj.Key.Replace("\n", "");
+                // Check if the key already exists in the database
+                var existingTranslation = await db.Table<Translations>().Where(t => t.Key == translationObj.Key).FirstOrDefaultAsync();
+
+                    if (existingTranslation != null)
+                    {
+                        // Update the existing record
+                        existingTranslation.Translation = translationObj.Translation;
+                        await db.UpdateAsync(existingTranslation);
+                    }
+                    else
+                    {
+                        // Insert a new record
+                        var newTranslation = new Translations
+                        {
+                            Key = translationObj.Key,
+                            Translation = translationObj.Translation
+                        };
+                        await db.InsertAsync(newTranslation);
+                    }
+                }
+        }
+
+
+        public async Task<string> GetTranslationByKey(string key)
+        {
+           
+
+            try
+            {
+                var translationEntry = await db.Table<Translations>()
+                                               .Where(t => t.Key == key)
+                                               .FirstOrDefaultAsync();
+                return translationEntry.Translation;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return key;
+            }
+                     
         }
 
 
@@ -266,7 +350,7 @@ namespace HealthModeApp.DataServices
             await db.DeleteAsync<LoggedFoodTable>(loggedFoodID);
         }
 
-        public async Task AddLoggedFood(int userID, DateTime date, int mealType, TimeSpan time, int servingSizeSelected, decimal servingAmount, decimal totalGrams, string foodName, string brand, decimal servingSize, string servingUnit, decimal grams, string servingName, decimal? calories, decimal? carbs, decimal? sugar, decimal? addSugar, decimal? sugarAlc, decimal? fiber, decimal? netCarb, decimal? fat, decimal? satFat, decimal? pUnSatFat, decimal? mUnSatFat, decimal? transFat, decimal? protein, decimal? iron, decimal? calcium, decimal? potassium, decimal? sodium, decimal? cholesterol, decimal? vitaminA, decimal? thiamin, decimal? riboflavin, decimal? niacin, decimal? b5, decimal? b6, decimal? b7, decimal? folicAcid, decimal? b12, decimal? vitaminC, decimal? vitaminD, decimal? vitaminE, decimal? vitaminK)
+        public async Task AddLoggedFood(int userID, DateTime date, int mealType, DateTime time, int servingSizeSelected, decimal servingAmount, decimal totalGrams, string foodName, string brand, decimal servingSize, string servingUnit, decimal grams, string servingName, decimal? calories, decimal? carbs, decimal? sugar, decimal? addSugar, decimal? sugarAlc, decimal? fiber, decimal? netCarb, decimal? fat, decimal? satFat, decimal? pUnSatFat, decimal? mUnSatFat, decimal? transFat, decimal? protein, decimal? iron, decimal? calcium, decimal? potassium, decimal? sodium, decimal? cholesterol, decimal? vitaminA, decimal? thiamin, decimal? riboflavin, decimal? niacin, decimal? b5, decimal? b6, decimal? b7, decimal? folicAcid, decimal? b12, decimal? vitaminC, decimal? vitaminD, decimal? vitaminE, decimal? vitaminK, bool verified)
         {
             var loggedFoodInfo = new LoggedFoodTable
             {
@@ -313,13 +397,14 @@ namespace HealthModeApp.DataServices
                 VitaminC = vitaminC,
                 VitaminD = vitaminD,
                 VitaminE = vitaminE,
-                VitaminK = vitaminK
+                VitaminK = vitaminK,
+                Verified = verified
             };
 
            await db.InsertAsync(loggedFoodInfo);
         }
 
-        public async Task UpdateLoggedFood(int loggedFoodID, int userID, DateTime date, int mealType, TimeSpan time, int servingSizeSelected, decimal servingAmount, decimal totalGrams, string foodName, string brand, decimal servingSize, string servingUnit, decimal grams, string servingName, decimal? calories, decimal? carbs, decimal? sugar, decimal? addSugar, decimal? sugarAlc, decimal? fiber, decimal? netCarb, decimal? fat, decimal? satFat, decimal? pUnSatFat, decimal? mUnSatFat, decimal? transFat, decimal? protein, decimal? iron, decimal? calcium, decimal? potassium, decimal? sodium, decimal? cholesterol, decimal? vitaminA, decimal? thiamin, decimal? riboflavin, decimal? niacin, decimal? b5, decimal? b6, decimal? b7, decimal? folicAcid, decimal? b12, decimal? vitaminC, decimal? vitaminD, decimal? vitaminE, decimal? vitaminK)
+        public async Task UpdateLoggedFood(int loggedFoodID, int userID, DateTime date, int mealType, DateTime time, int servingSizeSelected, decimal servingAmount, decimal totalGrams, string foodName, string brand, decimal servingSize, string servingUnit, decimal grams, string servingName, decimal? calories, decimal? carbs, decimal? sugar, decimal? addSugar, decimal? sugarAlc, decimal? fiber, decimal? netCarb, decimal? fat, decimal? satFat, decimal? pUnSatFat, decimal? mUnSatFat, decimal? transFat, decimal? protein, decimal? iron, decimal? calcium, decimal? potassium, decimal? sodium, decimal? cholesterol, decimal? vitaminA, decimal? thiamin, decimal? riboflavin, decimal? niacin, decimal? b5, decimal? b6, decimal? b7, decimal? folicAcid, decimal? b12, decimal? vitaminC, decimal? vitaminD, decimal? vitaminE, decimal? vitaminK)
         {
             var loggedFoodInfo = await db.Table<LoggedFoodTable>().FirstOrDefaultAsync(m => m.LoggedFoodID == loggedFoodID);
 
@@ -555,11 +640,162 @@ namespace HealthModeApp.DataServices
 
         #endregion
 
-        #region Water
+        #region RecentFood
 
+        int maxRecentFoodEntries = 100;
+
+        public async Task AddOrUpdateRecentFood(string serializedFood)
+        {
+            
+
+            // Check if this serialized food already exists in the FoodReference table
+            var existingFoodReference = await db.Table<RecentFoods>()
+                                                 .FirstOrDefaultAsync(f => f.FoodString == serializedFood);
+
+            if (existingFoodReference != null)
+            {
+                // If it exists, update its AddedDate to make it the most recent
+                existingFoodReference.DateAdded = DateTime.Now;
+                await db.UpdateAsync(existingFoodReference);
+            }
+            else
+            {
+                // If not, insert this new serialized food with the current date and time
+                var newFoodReference = new RecentFoods { FoodString = serializedFood, DateAdded = DateTime.Now };
+                await db.InsertAsync(newFoodReference);
+            }
+
+            // Ensure there are only 20 entries at most, deleting the oldest if there are more
+            var count = await db.Table<RecentFoods>().CountAsync();
+            if (count > maxRecentFoodEntries)
+            {
+                var oldestFoodReference = await db.Table<RecentFoods>()
+                                                   .OrderBy(f => f.DateAdded)
+                                                   .FirstOrDefaultAsync();
+                if (oldestFoodReference != null)
+                {
+                    await db.DeleteAsync(oldestFoodReference);
+                }
+            }
+
+            return;
+        }
+
+        public async Task<List<CustomFoods>> GetRecentFoods()
+        {
+            // Fetch the 20 most recent serialized foods
+            var foodReferences = await db.Table<RecentFoods>()
+                                          .OrderByDescending(f => f.DateAdded)
+                                          .Take(maxRecentFoodEntries)
+                                          .ToListAsync();
+
+            // Deserialize each entry to get the actual FoodTable objects
+            List<CustomFoods> recentFoods = foodReferences.Select(fr => JsonSerializer.Deserialize<CustomFoods>(fr.FoodString)).ToList();
+
+            return recentFoods;
+        }
 
 
         #endregion
+
+        #region Water
+
+        public async Task AddWaterGoal(int userID, DateTime dateSet, int waterGoalML)
+        {
+            try
+            {
+                
+
+                var waterGoal = new WaterGoalTable
+                {
+                    UserID = userID,
+                    Date = dateSet,
+                    WaterGoal = waterGoalML
+                };
+
+                await db.InsertAsync(waterGoal);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+
+        }
+
+        public async Task UpdateWaterGoal(DateTime dateSet, int waterGoalML)
+        {
+            try
+            {
+                var userID = await GetUserID();
+
+                var yesterday = dateSet.AddDays(-1);
+                var tomorrow = dateSet.AddDays(1);
+
+                var existingGoal = await db.Table<WaterGoalTable>()
+                                            .Where(g => g.UserID == userID && g.Date > yesterday && g.Date < tomorrow)
+                                            .FirstOrDefaultAsync();
+
+                existingGoal.WaterGoal = waterGoalML;
+
+                await db.UpdateAsync(existingGoal);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+        }
+
+        public async Task<int> GetWaterGoal(DateTime date)
+        {
+            try
+            {
+                var userID = await GetUserID();
+
+
+
+                var water = await db.Table<WaterGoalTable>()
+                                       .Where(x => x.UserID == userID && x.Date <= date)
+                                       .OrderByDescending(x => x.Date)
+                                       .FirstOrDefaultAsync();
+
+                return water.WaterGoal;
+   
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+            return 2000;
+        }
+
+        public async Task<bool> DoesWaterGoalExist(int userID)
+        {
+            try
+            {
+
+                var nutritionGoal = await db.Table<WaterGoalTable>()
+                                            .Where(x => x.UserID == userID)
+                                            .FirstOrDefaultAsync();
+
+
+                if (nutritionGoal != null)
+                {
+                    return true;
+                }
+                else return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                Debug.WriteLine("Get Error");
+                return false;
+            }
+        }
+        #endregion
+
+        
+
+
 
         #region UserStuff
         public async Task<int> GetUserID()
@@ -774,7 +1010,65 @@ namespace HealthModeApp.DataServices
         }
 
 
+        public async Task UpdatePFP(string pfpPath, string hexCode)
+        {
+            try
+            {
+                var user = await db.Table<UserData>().FirstOrDefaultAsync();
 
+                if (user == null)
+                {
+                    Debug.WriteLine("User not found");
+                    return;
+                }
+
+                user.PicturePath = pfpPath;
+
+                user.PictureBGColor = hexCode;
+
+                await db.UpdateAsync(user);
+
+                return;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return;
+            }
+
+
+        }
+
+        public async Task UpdateFlair(string flairName, string flairColor, bool isBlackText)
+        {
+            try
+            {
+                var user = await db.Table<UserData>().FirstOrDefaultAsync();
+
+                if (user == null)
+                {
+                    Debug.WriteLine("User not found");
+                    return;
+                }
+
+                user.Flair = flairName;
+
+                user.FlairColor = flairColor;
+
+                user.IsBlackText = isBlackText;
+
+                await db.UpdateAsync(user);
+
+                return;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return;
+            }
+
+
+        }
 
 
         public async Task UpdateSeesAdsAsync(bool seesAds)
@@ -850,12 +1144,12 @@ namespace HealthModeApp.DataServices
                 var unitsData = JsonSerializer.Deserialize<List<string>>(user.Units);
                 if (unitsData.Count >= 3) // Check if the list has at least 3 entries
                 {
-                    return unitsData[2]; // Return the 3rd entry (index 2)
+                    return unitsData[3]; // Return the 4th entry (index 3)
                 }
                 else
                 {
                     // Return a default value if the list doesn't have enough entries
-                    return "Default value";
+                    return "cal";
                 }
             }
 
@@ -865,14 +1159,16 @@ namespace HealthModeApp.DataServices
 
 
         public async Task AddNutritionGoals(int userID, DateTime dateSet, int calorieGoal, int carbGoal, int fatGoal, int proteinGoal,
-        int satdFatGoal, int pUnSatFatGoal, int mUnSatFatGoal, int transFatGoal, int sugarGoal,
+        int satdFatGoal, int pUnSatFatGoal, int mUnSatFatGoal, int transFatGoal, int sugarGoal, int fiberGoal,
         int ironGoal, int calciumGoal, int potassiumGoal, int sodiumGoal, int cholesterolGoal,
         int vitaminAGoal, int thiaminGoal, int riboflavinGoal, int niacinGoal, int vitaminB5Goal,
         int vitaminB6Goal, int biotinGoal, int cobalamineGoal, int folicAcidGoal, int vitaminCGoal,
-        int vitaminDGoal, int vitaminEGoal, int vitaminKGoal, int water)
+        int vitaminDGoal, int vitaminEGoal, int vitaminKGoal)
         {
             try
             {
+                Debug.WriteLine("ADD");
+                Debug.WriteLine(dateSet);
 
                 // A row with the given userID does not exist, add a new row
                 var newGoal = new NutritionGoals()
@@ -888,6 +1184,7 @@ namespace HealthModeApp.DataServices
                     MUnSatFatGoal = mUnSatFatGoal,
                     TransFatGoal = transFatGoal,
                     SugarGoal = sugarGoal,
+                    FiberGoal = fiberGoal,
                     IronGoal = ironGoal,
                     CalciumGoal = calciumGoal,
                     PotassiumGoal = potassiumGoal,
@@ -905,8 +1202,7 @@ namespace HealthModeApp.DataServices
                     VitaminCGoal = vitaminCGoal,
                     VitaminDGoal = vitaminDGoal,
                     VitaminEGoal = vitaminEGoal,
-                    VitaminKGoal = vitaminKGoal,
-                    WaterGoal = water
+                    VitaminKGoal = vitaminKGoal
                 };
 
                 await db.InsertAsync(newGoal);
@@ -919,16 +1215,21 @@ namespace HealthModeApp.DataServices
 
 
         public async Task UpdateNutritionGoals(int userID, DateTime date, int? calorieGoal, int? carbGoal, int? fatGoal, int? proteinGoal,
-                int? satdFatGoal, int? pUnSatFatGoal, int? mUnSatFatGoal, int? transFatGoal, int? sugarGoal,
+                int? satdFatGoal, int? pUnSatFatGoal, int? mUnSatFatGoal, int? transFatGoal, int? sugarGoal, int? fiberGoal,
                 int? ironGoal, int? calciumGoal, int? potassiumGoal, int? sodiumGoal, int? cholesterolGoal,
                 int? vitaminAGoal, int? thiaminGoal, int? riboflavinGoal, int? niacinGoal, int? vitaminB5Goal,
                 int? vitaminB6Goal, int? biotinGoal, int? cobalamineGoal, int? folicAcidGoal, int? vitaminCGoal,
-                int? vitaminDGoal, int? vitaminEGoal, int? vitaminKGoal, int? water)
+                int? vitaminDGoal, int? vitaminEGoal, int? vitaminKGoal)
         {
             try
             {
-                var yesterday = DateTime.Today.AddDays(-1);
-                var tomorrow = DateTime.Today.AddDays(1);
+                Debug.WriteLine("UPDATE");
+                Debug.WriteLine(date);
+
+
+
+                var yesterday = date.AddDays(-1);
+                var tomorrow = date.AddDays(1);
 
                 var existingGoal = await db.Table<NutritionGoals>()
                                             .Where(g => g.UserID == userID && g.DateSet > yesterday && g.DateSet < tomorrow)
@@ -946,6 +1247,7 @@ namespace HealthModeApp.DataServices
                     existingGoal.MUnSatFatGoal = mUnSatFatGoal ?? existingGoal.MUnSatFatGoal;
                     existingGoal.TransFatGoal = transFatGoal ?? existingGoal.TransFatGoal;
                     existingGoal.SugarGoal = sugarGoal ?? existingGoal.SugarGoal;
+                    existingGoal.FiberGoal = fiberGoal ?? existingGoal.FiberGoal;
                     existingGoal.IronGoal = ironGoal ?? existingGoal.IronGoal;
                     existingGoal.CalciumGoal = calciumGoal ?? existingGoal.CalciumGoal;
                     existingGoal.PotassiumGoal = potassiumGoal ?? existingGoal.PotassiumGoal;
@@ -964,7 +1266,6 @@ namespace HealthModeApp.DataServices
                     existingGoal.VitaminDGoal = vitaminDGoal ?? existingGoal.VitaminDGoal;
                     existingGoal.VitaminEGoal = vitaminEGoal ?? existingGoal.VitaminEGoal;
                     existingGoal.VitaminKGoal = vitaminKGoal ?? existingGoal.VitaminKGoal;
-                    existingGoal.WaterGoal = water ?? existingGoal.WaterGoal;
 
 
                     await db.UpdateAsync(existingGoal);
@@ -986,24 +1287,36 @@ namespace HealthModeApp.DataServices
                                       .OrderByDescending(x => x.DateSet)
                                       .FirstOrDefaultAsync();
 
+                if (nutritionGoals == null)
+                {
+                    Debug.WriteLine("No nutrition goals found.");
+                    return null;
+                }
+
+                if (nutritionGoals.FiberGoal == 0)
+                {
+                    nutritionGoals.FiberGoal = (int)Math.Round(28.0 / 2000.0 * nutritionGoals.CalorieGoal);
+                }
+
                 return nutritionGoals;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Exception: {ex.Message}");
+                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                 return null;
             }
         }
 
-        public async Task<bool> NutritionGoalDateExists(int userID, DateTime date)
+
+        public async Task<bool> NutritionGoalDateExists(int userID)
         {
             try
             {
-                var yesterday = DateTime.Today.AddDays(-1);
-                var tomorrow = DateTime.Today.AddDays(1);
+               
 
                 var nutritionGoal = await db.Table<NutritionGoals>()
-                                            .Where(x => x.UserID == userID && x.DateSet > yesterday && x.DateSet < tomorrow)
+                                            .Where(x => x.UserID == userID && x.DateSet == DateTime.Today)
                                             .FirstOrDefaultAsync();
 
 
@@ -1020,6 +1333,55 @@ namespace HealthModeApp.DataServices
                 return false;
             }
         }
+
+
+
+        public async Task ChangeMicroPercentGoals(int userID, DateTime dateSet, MicroPercentageGoals newGoal)
+        {
+            try
+            {
+                newGoal.UserID = userID;
+                newGoal.DateSet = dateSet;
+
+                var existingGoal = await db.Table<MicroPercentageGoals>()
+                                           .Where(g => g.UserID == userID && g.DateSet == dateSet)
+                                           .FirstOrDefaultAsync();
+
+                if (existingGoal != null)
+                {
+                    // Update the existing record
+                    newGoal.GoalID = existingGoal.GoalID; // Assuming 'Id' is your primary key
+                    await db.UpdateAsync(newGoal);
+                }
+                else
+                {
+                    // Insert new record
+                    await db.InsertAsync(newGoal);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task<MicroPercentageGoals> GetMicroPercentages(int userID, DateTime dateSet)
+        {
+            try
+            {
+                var existingGoal = await db.Table<MicroPercentageGoals>()
+                                           .Where(g => g.UserID == userID && g.DateSet == dateSet)
+                                           .FirstOrDefaultAsync();
+
+                return existingGoal;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
+        }
+
 
 
         public async Task<bool> GetWeightEntryExists(int userID, DateTime date)
@@ -1047,9 +1409,11 @@ namespace HealthModeApp.DataServices
             }
         }
 
+
+
         #endregion
 
-        #region Weight
+        #region BodyProgress
 
         public async Task AddWeightEntry(int userID, DateTime date, decimal weight, byte[]? progress)
         {
@@ -1070,9 +1434,152 @@ namespace HealthModeApp.DataServices
             }
         }
 
+        public async Task AddBodyFatEntry(int userID, DateTime date, decimal bodyFat)
+        {
+            try
+            {
+                var newWeight = new WeightTable
+                {
+                    UserID = userID,
+                    Date = date,
+                    BodyFat = bodyFat
+                };
+                await db.InsertAsync(newWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task AddNeckEntry(int userID, DateTime date, decimal neckCirc)
+        {
+            try
+            {
+                var newWeight = new WeightTable
+                {
+                    UserID = userID,
+                    Date = date,
+                    Neck = neckCirc
+                };
+                await db.InsertAsync(newWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task AddChestEntry(int userID, DateTime date, decimal chestCirc)
+        {
+            try
+            {
+                var newWeight = new WeightTable
+                {
+                    UserID = userID,
+                    Date = date,
+                    Chest = chestCirc
+                };
+                await db.InsertAsync(newWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task AddArmsEntry(int userID, DateTime date, decimal armCirc)
+        {
+            try
+            {
+                var newWeight = new WeightTable
+                {
+                    UserID = userID,
+                    Date = date,
+                    Arms = armCirc
+                };
+                await db.InsertAsync(newWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task AddWaistEntry(int userID, DateTime date, decimal waistCirc)
+        {
+            try
+            {
+                var newWeight = new WeightTable
+                {
+                    UserID = userID,
+                    Date = date,
+                    Waist = waistCirc
+                };
+                await db.InsertAsync(newWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task AddHipsEntry(int userID, DateTime date, decimal hipsCirc)
+        {
+            try
+            {
+                var newWeight = new WeightTable
+                {
+                    UserID = userID,
+                    Date = date,
+                    Hips = hipsCirc
+                };
+                await db.InsertAsync(newWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task AddThighsEntry(int userID, DateTime date, decimal thighCirc)
+        {
+            try
+            {
+                var newWeight = new WeightTable
+                {
+                    UserID = userID,
+                    Date = date,
+                    Thighs = thighCirc
+                };
+                await db.InsertAsync(newWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task AddCalvesEntry(int userID, DateTime date, decimal calvesCirc)
+        {
+            try
+            {
+                var newWeight = new WeightTable
+                {
+                    UserID = userID,
+                    Date = date,
+                    Calves = calvesCirc
+                };
+                await db.InsertAsync(newWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
         public async Task UpdateWeightEntry(int userID, DateTime date, decimal weight, byte[]? progress)
         {
-
             try
             {
                 var yesterday = date.AddDays(-1);
@@ -1097,6 +1604,213 @@ namespace HealthModeApp.DataServices
             }
         }
 
+        public async Task UpdateBodyFatEntry(int userID, DateTime date, decimal bodyFat)
+        {
+
+            try
+            {
+                var yesterday = date.AddDays(-1);
+                var tomorrow = date.AddDays(1);
+
+                var existingWeight = await db.Table<WeightTable>()
+                                            .Where(g => g.UserID == userID && g.Date > yesterday && g.Date < tomorrow)
+                                            .FirstOrDefaultAsync();
+
+                if (existingWeight != null)
+                {
+                    existingWeight.UserID = userID;
+                    existingWeight.Date = date;
+                    existingWeight.BodyFat = bodyFat;
+                };
+                await db.UpdateAsync(existingWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task UpdateNeckEntry(int userID, DateTime date, decimal neckCirc)
+        {
+
+            try
+            {
+                var yesterday = date.AddDays(-1);
+                var tomorrow = date.AddDays(1);
+
+                var existingWeight = await db.Table<WeightTable>()
+                                            .Where(g => g.UserID == userID && g.Date > yesterday && g.Date < tomorrow)
+                                            .FirstOrDefaultAsync();
+
+                if (existingWeight != null)
+                {
+                    existingWeight.UserID = userID;
+                    existingWeight.Date = date;
+                    existingWeight.Neck = neckCirc;
+                };
+                await db.UpdateAsync(existingWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task UpdateChestEntry(int userID, DateTime date, decimal chestCirc)
+        {
+
+            try
+            {
+                var yesterday = date.AddDays(-1);
+                var tomorrow = date.AddDays(1);
+
+                var existingWeight = await db.Table<WeightTable>()
+                                            .Where(g => g.UserID == userID && g.Date > yesterday && g.Date < tomorrow)
+                                            .FirstOrDefaultAsync();
+
+                if (existingWeight != null)
+                {
+                    existingWeight.UserID = userID;
+                    existingWeight.Date = date;
+                    existingWeight.Chest = chestCirc;
+                };
+                await db.UpdateAsync(existingWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task UpdateArmsEntry(int userID, DateTime date, decimal armsCirc)
+        {
+
+            try
+            {
+                var yesterday = date.AddDays(-1);
+                var tomorrow = date.AddDays(1);
+
+                var existingWeight = await db.Table<WeightTable>()
+                                            .Where(g => g.UserID == userID && g.Date > yesterday && g.Date < tomorrow)
+                                            .FirstOrDefaultAsync();
+
+                if (existingWeight != null)
+                {
+                    existingWeight.UserID = userID;
+                    existingWeight.Date = date;
+                    existingWeight.Arms = armsCirc;
+                };
+                await db.UpdateAsync(existingWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task UpdateWaistEntry(int userID, DateTime date, decimal waistCirc)
+        {
+
+            try
+            {
+                var yesterday = date.AddDays(-1);
+                var tomorrow = date.AddDays(1);
+
+                var existingWeight = await db.Table<WeightTable>()
+                                            .Where(g => g.UserID == userID && g.Date > yesterday && g.Date < tomorrow)
+                                            .FirstOrDefaultAsync();
+
+                if (existingWeight != null)
+                {
+                    existingWeight.UserID = userID;
+                    existingWeight.Date = date;
+                    existingWeight.Waist = waistCirc;
+                };
+                await db.UpdateAsync(existingWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task UpdateHipsEntry(int userID, DateTime date, decimal hipsCirc)
+        {
+
+            try
+            {
+                var yesterday = date.AddDays(-1);
+                var tomorrow = date.AddDays(1);
+
+                var existingWeight = await db.Table<WeightTable>()
+                                            .Where(g => g.UserID == userID && g.Date > yesterday && g.Date < tomorrow)
+                                            .FirstOrDefaultAsync();
+
+                if (existingWeight != null)
+                {
+                    existingWeight.UserID = userID;
+                    existingWeight.Date = date;
+                    existingWeight.Hips = hipsCirc;
+                };
+                await db.UpdateAsync(existingWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task UpdateThighsEntry(int userID, DateTime date, decimal thighsCirc)
+        {
+
+            try
+            {
+                var yesterday = date.AddDays(-1);
+                var tomorrow = date.AddDays(1);
+
+                var existingWeight = await db.Table<WeightTable>()
+                                            .Where(g => g.UserID == userID && g.Date > yesterday && g.Date < tomorrow)
+                                            .FirstOrDefaultAsync();
+
+                if (existingWeight != null)
+                {
+                    existingWeight.UserID = userID;
+                    existingWeight.Date = date;
+                    existingWeight.Thighs = thighsCirc;
+                };
+                await db.UpdateAsync(existingWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public async Task UpdateCalvesEntry(int userID, DateTime date, decimal calvesCirc)
+        {
+
+            try
+            {
+                var yesterday = date.AddDays(-1);
+                var tomorrow = date.AddDays(1);
+
+                var existingWeight = await db.Table<WeightTable>()
+                                            .Where(g => g.UserID == userID && g.Date > yesterday && g.Date < tomorrow)
+                                            .FirstOrDefaultAsync();
+
+                if (existingWeight != null)
+                {
+                    existingWeight.UserID = userID;
+                    existingWeight.Date = date;
+                    existingWeight.Calves = calvesCirc;
+                };
+                await db.UpdateAsync(existingWeight);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+        }
 
         public async Task<decimal> GetWeight(int userID, DateTime date)
         {
@@ -1104,7 +1818,7 @@ namespace HealthModeApp.DataServices
             {
       
                 var weight = await db.Table<WeightTable>()
-                                        .Where(x => x.UserID == userID && x.Date <= date)
+                                        .Where(x => x.UserID == userID && x.Date <= date && x.Weight != 0)
                                       .OrderByDescending(x => x.Date)
                                       .FirstOrDefaultAsync();
 
@@ -1122,6 +1836,192 @@ namespace HealthModeApp.DataServices
                 return (decimal)-0;
             }
         }
+
+        public async Task<decimal> GetBodyFat(int userID, DateTime date)
+        {
+            try
+            {
+
+                var weight = await db.Table<WeightTable>()
+                                        .Where(x => x.UserID == userID && x.Date <= date && x.BodyFat != 0)
+                                      .OrderByDescending(x => x.Date)
+                                      .FirstOrDefaultAsync();
+
+
+                if (weight != null)
+                {
+                    return weight.BodyFat;
+                }
+                return (decimal)-0;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return (decimal)-0;
+            }
+        }
+
+        public async Task<decimal> GetNeck(int userID, DateTime date)
+        {
+            try
+            {
+
+                var weight = await db.Table<WeightTable>()
+                                        .Where(x => x.UserID == userID && x.Date <= date && x.Neck != 0)
+                                      .OrderByDescending(x => x.Date)
+                                      .FirstOrDefaultAsync();
+
+
+                if (weight != null)
+                {
+                    return weight.Neck;
+                }
+                return (decimal)-0;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return (decimal)-0;
+            }
+        }
+
+        public async Task<decimal> GetChest(int userID, DateTime date)
+        {
+            try
+            {
+
+                var weight = await db.Table<WeightTable>()
+                                        .Where(x => x.UserID == userID && x.Date <= date && x.Chest != 0)
+                                      .OrderByDescending(x => x.Date)
+                                      .FirstOrDefaultAsync();
+
+
+                if (weight != null)
+                {
+                    return weight.Chest;
+                }
+                return (decimal)-0;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return (decimal)-0;
+            }
+        }
+
+        public async Task<decimal> GetArms(int userID, DateTime date)
+        {
+            try
+            {
+                var weight = await db.Table<WeightTable>()
+                    .Where(x => x.UserID == userID && x.Date <= date && x.Arms != 0)
+                    .OrderByDescending(x => x.Date)
+                    .FirstOrDefaultAsync();
+
+                if (weight != null)
+                {
+                    return weight.Arms;
+                }
+                return (decimal)-0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return (decimal)-0;
+            }
+        }
+
+        public async Task<decimal> GetWaist(int userID, DateTime date)
+        {
+            try
+            {
+                var weight = await db.Table<WeightTable>()
+                    .Where(x => x.UserID == userID && x.Date <= date && x.Waist != 0)
+                    .OrderByDescending(x => x.Date)
+                    .FirstOrDefaultAsync();
+
+                if (weight != null)
+                {
+                    return weight.Waist;
+                }
+                return (decimal)-0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return (decimal)-0;
+            }
+        }
+
+        public async Task<decimal> GetHips(int userID, DateTime date)
+        {
+            try
+            {
+                var weight = await db.Table<WeightTable>()
+                    .Where(x => x.UserID == userID && x.Date <= date && x.Hips != 0)
+                    .OrderByDescending(x => x.Date)
+                    .FirstOrDefaultAsync();
+
+                if (weight != null)
+                {
+                    return weight.Hips;
+                }
+                return (decimal)-0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return (decimal)-0;
+            }
+        }
+
+        public async Task<decimal> GetThighs(int userID, DateTime date)
+        {
+            try
+            {
+                var weight = await db.Table<WeightTable>()
+                    .Where(x => x.UserID == userID && x.Date <= date && x.Thighs != 0)
+                    .OrderByDescending(x => x.Date)
+                    .FirstOrDefaultAsync();
+
+                if (weight != null)
+                {
+                    return weight.Thighs;
+                }
+                return (decimal)-0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return (decimal)-0;
+            }
+        }
+
+        public async Task<decimal> GetCalves(int userID, DateTime date)
+        {
+            try
+            {
+                var weight = await db.Table<WeightTable>()
+                    .Where(x => x.UserID == userID && x.Date <= date && x.Calves != 0)
+                    .OrderByDescending(x => x.Date)
+                    .FirstOrDefaultAsync();
+
+                if (weight != null)
+                {
+                    return weight.Calves;
+                }
+                return (decimal)-0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return (decimal)-0;
+            }
+        }
+
 
         public async Task<bool> GetWeightForDay(int userID, DateTime date)
         {
@@ -1174,6 +2074,7 @@ namespace HealthModeApp.DataServices
         }
 
 
+
         public async Task<List<WeightTable>> GetWeightsIndex(int userID, int index)
         {
             try
@@ -1207,19 +2108,51 @@ namespace HealthModeApp.DataServices
                 if (startDate != DateTime.MinValue)
                 {
                     weights = await db.Table<WeightTable>()
-                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today)
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Weight != 0)
                         .OrderBy(x => x.Date)
                         .ToListAsync();
+
+                    // Project the results into a new list of WeightTable objects with selected properties
+                    if (weights != null)
+                    {
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Weight = x.Weight,
+                            ProgressPicture = x.ProgressPicture
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
                 }
                 else
                 {
                     weights = await db.Table<WeightTable>()
-                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today)
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Weight != 0)
                         .OrderBy(x => x.Date)
                         .ToListAsync();
+
+                    // Project the results into a new list of WeightTable objects with selected properties
+                    if (weights != null)
+                    {
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Weight = x.Weight,
+                            ProgressPicture = x.ProgressPicture
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
                 }
 
-                return weights.ToList();
+
             }
             catch (Exception ex)
             {
@@ -1227,6 +2160,674 @@ namespace HealthModeApp.DataServices
                 return null;
             }
         }
+
+
+        public async Task<List<WeightTable>> GetBodyFatIndex(int userID, int index)
+        {
+            try
+            {
+                var startDate = DateTime.MinValue;
+                switch (index)
+                {
+                    case 0:
+                        startDate = DateTime.Today.AddDays(-7);
+                        break;
+                    case 1:
+                        startDate = DateTime.Today.AddMonths(-1);
+                        break;
+                    case 2:
+                        startDate = DateTime.Today.AddMonths(-2);
+                        break;
+                    case 3:
+                        startDate = DateTime.Today.AddMonths(-3);
+                        break;
+                    case 4:
+                        startDate = DateTime.Today.AddMonths(-6);
+                        break;
+                    case 5:
+                        startDate = DateTime.Today.AddYears(-1);
+                        break;
+                    default:
+                        break;
+                }
+
+                var weights = new List<WeightTable>();
+                if (startDate != DateTime.MinValue)
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.BodyFat != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            BodyFat = x.BodyFat
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
+                }
+                else
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.BodyFat != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            BodyFat = x.BodyFat
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
+                }
+
+                
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<List<WeightTable>> GetNeckIndex(int userID, int index)
+        {
+            try
+            {
+                var startDate = DateTime.MinValue;
+                switch (index)
+                {
+                    case 0:
+                        startDate = DateTime.Today.AddDays(-7);
+                        break;
+                    case 1:
+                        startDate = DateTime.Today.AddMonths(-1);
+                        break;
+                    case 2:
+                        startDate = DateTime.Today.AddMonths(-2);
+                        break;
+                    case 3:
+                        startDate = DateTime.Today.AddMonths(-3);
+                        break;
+                    case 4:
+                        startDate = DateTime.Today.AddMonths(-6);
+                        break;
+                    case 5:
+                        startDate = DateTime.Today.AddYears(-1);
+                        break;
+                    default:
+                        break;
+                }
+
+                var weights = new List<WeightTable>();
+                if (startDate != DateTime.MinValue)
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Neck != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Neck = x.Neck
+                        }).ToList();
+                        return result;
+                    }
+
+                    return null;
+                }
+                else
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Neck != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Neck = x.Neck
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<List<WeightTable>> GetChestIndex(int userID, int index)
+        {
+            try
+            {
+                var startDate = DateTime.MinValue;
+                switch (index)
+                {
+                    case 0:
+                        startDate = DateTime.Today.AddDays(-7);
+                        break;
+                    case 1:
+                        startDate = DateTime.Today.AddMonths(-1);
+                        break;
+                    case 2:
+                        startDate = DateTime.Today.AddMonths(-2);
+                        break;
+                    case 3:
+                        startDate = DateTime.Today.AddMonths(-3);
+                        break;
+                    case 4:
+                        startDate = DateTime.Today.AddMonths(-6);
+                        break;
+                    case 5:
+                        startDate = DateTime.Today.AddYears(-1);
+                        break;
+                    default:
+                        break;
+                }
+
+                var weights = new List<WeightTable>();
+                if (startDate != DateTime.MinValue)
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Chest != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Chest = x.Chest
+                        }).ToList();
+                        return result;
+                    }
+
+                    return null;
+                }
+                else
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Chest!= 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Chest = x.Chest
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<List<WeightTable>> GetArmsIndex(int userID, int index)
+        {
+            try
+            {
+                var startDate = DateTime.MinValue;
+                switch (index)
+                {
+                    case 0:
+                        startDate = DateTime.Today.AddDays(-7);
+                        break;
+                    case 1:
+                        startDate = DateTime.Today.AddMonths(-1);
+                        break;
+                    case 2:
+                        startDate = DateTime.Today.AddMonths(-2);
+                        break;
+                    case 3:
+                        startDate = DateTime.Today.AddMonths(-3);
+                        break;
+                    case 4:
+                        startDate = DateTime.Today.AddMonths(-6);
+                        break;
+                    case 5:
+                        startDate = DateTime.Today.AddYears(-1);
+                        break;
+                    default:
+                        break;
+                }
+
+                var weights = new List<WeightTable>();
+                if (startDate != DateTime.MinValue)
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Arms != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Arms = x.Arms
+                        }).ToList();
+                        return result;
+                    }
+
+                    return null;
+                }
+                else
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Arms != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Arms = x.Arms
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<List<WeightTable>> GetWaistIndex(int userID, int index)
+        {
+            try
+            {
+                var startDate = DateTime.MinValue;
+                switch (index)
+                {
+                    case 0:
+                        startDate = DateTime.Today.AddDays(-7);
+                        break;
+                    case 1:
+                        startDate = DateTime.Today.AddMonths(-1);
+                        break;
+                    case 2:
+                        startDate = DateTime.Today.AddMonths(-2);
+                        break;
+                    case 3:
+                        startDate = DateTime.Today.AddMonths(-3);
+                        break;
+                    case 4:
+                        startDate = DateTime.Today.AddMonths(-6);
+                        break;
+                    case 5:
+                        startDate = DateTime.Today.AddYears(-1);
+                        break;
+                    default:
+                        break;
+                }
+
+                var weights = new List<WeightTable>();
+                if (startDate != DateTime.MinValue)
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Waist != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Waist = x.Waist
+                        }).ToList();
+                        return result;
+                    }
+
+                    return null;
+                }
+                else
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Waist != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Waist = x.Waist
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<List<WeightTable>> GetHipsIndex(int userID, int index)
+        {
+            try
+            {
+                var startDate = DateTime.MinValue;
+                switch (index)
+                {
+                    case 0:
+                        startDate = DateTime.Today.AddDays(-7);
+                        break;
+                    case 1:
+                        startDate = DateTime.Today.AddMonths(-1);
+                        break;
+                    case 2:
+                        startDate = DateTime.Today.AddMonths(-2);
+                        break;
+                    case 3:
+                        startDate = DateTime.Today.AddMonths(-3);
+                        break;
+                    case 4:
+                        startDate = DateTime.Today.AddMonths(-6);
+                        break;
+                    case 5:
+                        startDate = DateTime.Today.AddYears(-1);
+                        break;
+                    default:
+                        break;
+                }
+
+                var weights = new List<WeightTable>();
+                if (startDate != DateTime.MinValue)
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Hips != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Hips = x.Hips
+                        }).ToList();
+                        return result;
+                    }
+
+                    return null;
+                }
+                else
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Hips != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Hips = x.Hips
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<List<WeightTable>> GetThighsIndex(int userID, int index)
+        {
+            try
+            {
+                var startDate = DateTime.MinValue;
+                switch (index)
+                {
+                    case 0:
+                        startDate = DateTime.Today.AddDays(-7);
+                        break;
+                    case 1:
+                        startDate = DateTime.Today.AddMonths(-1);
+                        break;
+                    case 2:
+                        startDate = DateTime.Today.AddMonths(-2);
+                        break;
+                    case 3:
+                        startDate = DateTime.Today.AddMonths(-3);
+                        break;
+                    case 4:
+                        startDate = DateTime.Today.AddMonths(-6);
+                        break;
+                    case 5:
+                        startDate = DateTime.Today.AddYears(-1);
+                        break;
+                    default:
+                        break;
+                }
+
+                var weights = new List<WeightTable>();
+                if (startDate != DateTime.MinValue)
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Thighs != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Thighs = x.Thighs
+                        }).ToList();
+                        return result;
+                    }
+
+                    return null;
+                }
+                else
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Thighs != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Thighs = x.Thighs
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<List<WeightTable>> GetCalvesIndex(int userID, int index)
+        {
+            try
+            {
+                var startDate = DateTime.MinValue;
+                switch (index)
+                {
+                    case 0:
+                        startDate = DateTime.Today.AddDays(-7);
+                        break;
+                    case 1:
+                        startDate = DateTime.Today.AddMonths(-1);
+                        break;
+                    case 2:
+                        startDate = DateTime.Today.AddMonths(-2);
+                        break;
+                    case 3:
+                        startDate = DateTime.Today.AddMonths(-3);
+                        break;
+                    case 4:
+                        startDate = DateTime.Today.AddMonths(-6);
+                        break;
+                    case 5:
+                        startDate = DateTime.Today.AddYears(-1);
+                        break;
+                    default:
+                        break;
+                }
+
+                var weights = new List<WeightTable>();
+                if (startDate != DateTime.MinValue)
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Calves != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Calves = x.Calves
+                        }).ToList();
+                        return result;
+                    }
+
+                    return null;
+                }
+                else
+                {
+                    weights = await db.Table<WeightTable>()
+                        .Where(x => x.UserID == userID && x.Date >= startDate && x.Date <= DateTime.Today && x.Calves != 0)
+                        .OrderBy(x => x.Date)
+                        .ToListAsync();
+
+                    if (weights != null)
+                    {
+                        // Project the results into a new list of WeightTable objects with selected properties
+                        var result = weights.Select(x => new WeightTable
+                        {
+                            WeightID = x.WeightID,
+                            UserID = x.UserID,
+                            Date = x.Date,
+                            Calves = x.Calves
+                        }).ToList();
+
+                        return result;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
+        }
+
+
 
         public async Task DeleteWeightEntry(int weightID)
         {

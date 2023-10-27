@@ -141,6 +141,8 @@ public partial class AddFoodEntry : ContentPage
             CustomFood.ServingName = "1 Serving";
 		}
 
+        
+
         Food.ServingName = Food.ServingName.TrimEnd();
         CustomFood.ServingName = Food.ServingName.TrimEnd();
 
@@ -160,8 +162,8 @@ public partial class AddFoodEntry : ContentPage
 
                         uploading = true;
                         var foodInfo = await _dataService.GetNutritionInfoBarcodeAsync(_barcode);
-                        var uploadFoodInfo = await _dataService.GetFoodUploadExistsAlready(_barcode);
-                        if (foodInfo == null && uploadFoodInfo == null)
+                        
+                        if (foodInfo == null)
                         {
 
                             // Assuming the weight of the food item is measured in grams
@@ -413,25 +415,20 @@ public partial class AddFoodEntry : ContentPage
                                 }
 
                             }
-                            
 
 
 
 
 
+                            if (Food.ServingUnit == "g") Food.Grams = Food.ServingSize;
+                            else if (Food.ServingUnit == "mL") Food.Grams = Food.ServingSize;
+                            else if (Food.ServingUnit == "oz") Food.Grams = Food.ServingSize * (decimal)28.3495;
 
-
-                            if (string.IsNullOrWhiteSpace(GramsEntry.Text))
-                            {
-                                GramsEntry.Text = ServingSizeEntry.Text;
-                            }
 
                             Food.FoodId = null;
-
-                            if (decimal.TryParse(GramsEntry.Text, out var grams))
-                            {
-                                Food.Grams = grams;
-                            }
+                            Food.UserID = await _localData.GetUserID();
+                            Food.Category = OtherCat.Text.Trim();
+                            Food.Verified = false;
 
                             CustomFood.Barcode = Food.Barcode;
                             CustomFood.FoodName = Food.FoodName;
@@ -473,7 +470,7 @@ public partial class AddFoodEntry : ContentPage
                             var userID = await _localData.GetUserID();
 
                             await _dataService.AddNutritionInfoAsync(Food, email, password, userID);
-                            await _localData.AddCustomFood(CustomFood);
+                           // await _localData.AddCustomFood(CustomFood);
                             var currentPage = Navigation.NavigationStack.LastOrDefault();
                             Navigation.InsertPageBefore(new FoodInfo(_dataService, _localData, Food, _mealType, _date), currentPage);
                             await Navigation.PopAsync();
@@ -729,15 +726,9 @@ public partial class AddFoodEntry : ContentPage
 
 
 
-                            if (string.IsNullOrWhiteSpace(GramsEntry.Text))
-                            {
-                                GramsEntry.Text = ServingSizeEntry.Text;
-                            }
-
-                            if (decimal.TryParse(GramsEntry.Text, out var grams))
-                            {
-                                Food.Grams = grams;
-                            }
+                            if (Food.ServingUnit == "g") Food.Grams = Food.ServingSize;
+                            else if (Food.ServingUnit == "mL") Food.Grams = Food.ServingSize;
+                            else if (Food.ServingUnit == "oz") Food.Grams = Food.ServingSize * (decimal)28.3495;
 
                             CustomFood.Barcode = Food.Barcode;
                             CustomFood.FoodName = Food.FoodName;
@@ -816,8 +807,6 @@ public partial class AddFoodEntry : ContentPage
         Food.ServingUnit = "g";
         CustomFood.ServingUnit = "g";
 
-        TotalGrams.IsVisible = false;
-        GramsEntry.IsVisible = false;
     }
 
     void OzClicked(System.Object sender, System.EventArgs e)
@@ -829,8 +818,6 @@ public partial class AddFoodEntry : ContentPage
         Food.ServingUnit = "oz";
         CustomFood.ServingUnit = "oz";
 
-        TotalGrams.IsVisible = true;
-        GramsEntry.IsVisible = true;
     }
 
     void mLClicked(System.Object sender, System.EventArgs e)
@@ -842,8 +829,6 @@ public partial class AddFoodEntry : ContentPage
         Food.ServingUnit = "mL";
         CustomFood.ServingUnit = "mL";
 
-        TotalGrams.IsVisible = true;
-        GramsEntry.IsVisible = true;
     }
 
     
@@ -926,7 +911,7 @@ public partial class AddFoodEntry : ContentPage
         PackagedButton.Background = Colors.Transparent;
         NoCatButton.Background = Colors.Transparent;
 
-        Food.Category = "Fruits";
+        OtherCat.Text = "Fruits";
 
         categorySelected = true;
     }
@@ -942,7 +927,7 @@ public partial class AddFoodEntry : ContentPage
         PackagedButton.Background = Colors.Transparent;
         NoCatButton.Background = Colors.Transparent;
 
-        Food.Category = "Vegetables";
+        OtherCat.Text = "Vegetables";
 
         categorySelected = true;
     }
@@ -958,7 +943,7 @@ public partial class AddFoodEntry : ContentPage
         PackagedButton.Background = Colors.Transparent;
         NoCatButton.Background = Colors.Transparent;
 
-        Food.Category = "Meats";
+        OtherCat.Text = "Meats";
 
         categorySelected = true;
     }
@@ -974,7 +959,7 @@ public partial class AddFoodEntry : ContentPage
         PackagedButton.Background = Colors.Transparent;
         NoCatButton.Background = Colors.Transparent;
 
-        Food.Category = "Grains";
+        OtherCat.Text = "Grains";
 
         categorySelected = true;
     }
@@ -990,7 +975,7 @@ public partial class AddFoodEntry : ContentPage
         NoCatButton.Background = Colors.Transparent;
         PackagedButton.Background = Colors.Transparent;
 
-        Food.Category = "Dairy";
+        OtherCat.Text = "Dairy";
 
         categorySelected = true;
     }
@@ -1006,7 +991,7 @@ public partial class AddFoodEntry : ContentPage
         NoCatButton.Background = Colors.Transparent;
         PackagedButton.Background = Colors.Transparent;
 
-        Food.Category = "Beverage";
+        OtherCat.Text = "Beverage";
 
         categorySelected = true;
     }
@@ -1022,7 +1007,7 @@ public partial class AddFoodEntry : ContentPage
         FruitsButton.Background = Colors.Transparent;
         NoCatButton.Background = Colors.Transparent;
 
-        Food.Category = "Processed/Packaged";
+        OtherCat.Text = "Packaged";
 
         categorySelected = true;
     }
@@ -1038,7 +1023,7 @@ public partial class AddFoodEntry : ContentPage
         FruitsButton.Background = Colors.Transparent;
         PackagedButton.Background = Colors.Transparent;
 
-        Food.Category = null;
+        OtherCat.Text = null;
 
         categorySelected = true;
     }
@@ -1350,6 +1335,31 @@ public partial class AddFoodEntry : ContentPage
         }
 
         b5Percent = !b5Percent;
+    }
+
+    void OtherCat_TextChanged(System.Object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
+    {
+        categorySelected = true;
+        
+      
+    }
+
+    void OtherCat_Focused(System.Object sender, Microsoft.Maui.Controls.FocusEventArgs e)
+    {
+        NoCatButton.Background = Color.FromRgb(75, 158, 227);
+        VegButton.Background = Colors.Transparent;
+        MeatsButton.Background = Colors.Transparent;
+        GrainsButton.Background = Colors.Transparent;
+        DairyButton.Background = Colors.Transparent;
+        BeverageButton.Background = Colors.Transparent;
+        FruitsButton.Background = Colors.Transparent;
+        PackagedButton.Background = Colors.Transparent;
+
+        if (OtherCat.Text == "Fruits" || OtherCat.Text == "Vegetables" || OtherCat.Text == "Meats" || OtherCat.Text == "Grains" || OtherCat.Text == "Processed" || OtherCat.Text == "Dairy" || OtherCat.Text == "Beverage")
+        {
+            OtherCat.Text = null;
+        }
+
     }
 }
 

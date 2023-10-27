@@ -2,11 +2,13 @@
 using HealthModeApp.DataServices;
 using HealthModeApp.Pages;
 using HealthModeApp.Pages.FoodJournalPage;
+using Mopups.Hosting;
 using SQLite;
 
 using BarcodeScanner.Mobile;
 
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using HealthModeApp.Pages.Popups;
 
 namespace HealthModeApp;
 
@@ -18,6 +20,7 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
             .UseSkiaSharp(true)
+			.ConfigureMopups()
             .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -38,6 +41,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ISQLiteDataService, SQLiteDataService>();
 
+		builder.Services.AddTransient<ListPopup>();
 
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<SignUpPage>();

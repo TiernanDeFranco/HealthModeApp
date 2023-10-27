@@ -4,9 +4,7 @@
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              x:Class="HealthModeApp.Pages.Dashboard">
 
-
-  
-
+   
     <ScrollView>
         <VerticalStackLayout x:Name="DashboardPage">
             <VerticalStackLayout x:Name="LoadingPage" IsVisible="True" Padding="5" Spacing="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
@@ -98,7 +96,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Text="Weight" Grid.Column="1" FontFamily="Lato-Bold" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                        <Label x:Name="WeightText" Grid.Row="0" Text="Weight" Grid.Column="1" FontFamily="Lato-Bold" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
                         <Image Source="addicon" WidthRequest="22" HeightRequest="22" Grid.Row="0" Grid.Column="2"  HorizontalOptions="End" VerticalOptions="Center"  Margin="0,0,0,5"/>
                         <Label x:Name="WeightValue" Grid.Row="1" Grid.Column="1" Text="   " HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Caption" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}"/>
                         <lvc:CartesianChart x:Name="WeightChart" Grid.Row="2" HeightRequest="170" Grid.ColumnSpan="3"

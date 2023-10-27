@@ -65,7 +65,7 @@ public partial class BarcodeScan : ContentPage
 
                     if (customFood == null)
                     {
-                        bool shouldAddFood = await DisplayAlert("Notice", "There is currently no entry for a food with that barcode in the database.\n\nDo you want to add the correct nutritional information for it?", "Yes", "No");
+                        bool shouldAddFood = await DisplayAlert("Notice", "There is currently no entry for a food with that barcode in the database.\n\nDo you want to add the correct nutritional information?", "Yes", "No");
 
                         if (shouldAddFood)
                         {

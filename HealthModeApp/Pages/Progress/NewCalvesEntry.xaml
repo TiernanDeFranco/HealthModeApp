@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.Progress.NewCalvesEntry">
+
+             <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Update Measurement"
+                     Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        <ActivityIndicator x:Name="LoadingBar" IsVisible="False" VerticalOptions="Center" Grid.RowSpan="2" HorizontalOptions="Center" WidthRequest="100" HeightRequest="100"/>
+    <Frame x:Name="EntryFrame" Margin="15">
+        <Grid RowSpacing="8" ColumnSpacing="25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Text="Calves Circumference" HorizontalOptions="Start" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+            <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="0" Grid.Column="1" Spacing="2">
+            <Entry x:Name="MEntry" Keyboard="Numeric" MaxLength="6" HorizontalOptions="End" HorizontalTextAlignment="Center" WidthRequest="75"/>
+            <Label x:Name="UnitLabel" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" VerticalTextAlignment="Center"  Text="Inches"/>
+            </HorizontalStackLayout>
+
+            <Label Text="Date" HorizontalOptions="Start" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+            <DatePicker x:Name="DateSelect" Grid.Row="1" Grid.Column="1" HorizontalOptions="End"/>
+
+        </Grid>
+
+    </Frame>
+   </Grid>
+</ContentPage>

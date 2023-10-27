@@ -44,27 +44,44 @@ public partial class NewWeightEntry : ContentPage
         DateHandler();
         userID = await _localData.GetUserID();
         await Task.Delay(100);
+
+        GetWeight();
+
+       
+
+    }
+
+    async void GetWeight()
+    {
         var userInfo = await _localData.GetUserAsync(userID);
         var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
         var weightUnit = unitList[0];
 
+        if (weightUnit == "kg")
+        {
+            UnitLabel.Text = "Kg";
+        }
+        else
+        {
+            UnitLabel.Text = "Lbs";
+        }
 
         if (_weightEntry == null)
         {
             var number = await _localData.GetWeight(userID, _date);
+            
             if (weightUnit == "kg") number /= Math.Round((decimal)2.2, 1);
-            WeightEntry.Placeholder = number.ToString();
-            WeightEntry.Text = number.ToString();
+            WeightEntry.Placeholder = number.ToString("0.#");
+            WeightEntry.Text = number.ToString("0.#");
         }
         else
         {
             var number = Math.Round(_weightEntry.Weight, 1);
-            WeightEntry.Placeholder = number.ToString();
-            WeightEntry.Text = number.ToString();
+            WeightEntry.Placeholder = number.ToString("0.#");
+            WeightEntry.Text = number.ToString("0.#");
         }
 
-       
-
+        
     }
 
     async void DateHandler()
@@ -72,7 +89,7 @@ public partial class NewWeightEntry : ContentPage
         userID = await _localData.GetUserID();
         var userInfo = await _localData.GetUserAsync(userID);
         var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-        var dateFormat = unitList[4];
+        var dateFormat = unitList[5];
 
         DateSelect.Format = $"   {dateFormat}";
         DateSelect.Date = _date;
@@ -166,14 +183,17 @@ public partial class NewWeightEntry : ContentPage
                 UserID = userID,
                 Weight = weightLbs
             };
-            if (DateSelect.Date == DateTime.Today)
+            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
             {
-                EntryFrame.IsVisible = false;
-                PictureFrame.IsVisible = false;
-                LoadingBar.IsVisible = true;
-                LoadingBar.IsRunning = true;
-                (string email, string password) = await _localData.GetUserCredentials();
-                await _dataService.UpdateUserInfoAsync(userInfoModel, email, password, userID);
+                if (DateSelect.Date == DateTime.Today)
+                {
+                    EntryFrame.IsVisible = false;
+                    PictureFrame.IsVisible = false;
+                    LoadingBar.IsVisible = true;
+                    LoadingBar.IsRunning = true;
+                    (string email, string password) = await _localData.GetUserCredentials();
+                    await _dataService.UpdateUserInfoAsync(userInfoModel, email, password, userID);
+                }
             }
             await Navigation.PopAsync();
         }

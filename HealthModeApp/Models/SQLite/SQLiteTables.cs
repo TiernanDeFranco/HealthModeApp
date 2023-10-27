@@ -7,6 +7,15 @@ namespace HealthModeApp.Models.SQLite
 {
 	public class SQLiteTables
 	{
+        [SQLiteTable("Translations")]
+        public class Translations
+        {
+            [PrimaryKey, AutoIncrement]
+            public int KeyID { get; set; }
+            public string Key { get; set; }
+            public string Translation { get; set; }
+        }
+
         [SQLiteTable("CustomFoods")]
         public class CustomFoods
         {
@@ -14,6 +23,8 @@ namespace HealthModeApp.Models.SQLite
             public int FoodID { get; set; }
 
             public string Barcode { get; set; }
+
+            public bool Verified { get; set; }
 
             public string FoodName { get; set; }
             public string Brand { get; set; }
@@ -23,6 +34,7 @@ namespace HealthModeApp.Models.SQLite
             public decimal Grams { get; set; }
             public string ServingName { get; set; }
 
+            
             public decimal Calories { get; set; }
 
             public decimal Carbs { get; set; }
@@ -75,17 +87,22 @@ namespace HealthModeApp.Models.SQLite
 
             public int UserID { get; set; }
 
+            public bool Verified { get; set; }
+
             [Indexed]
             public DateTime Date { get; set; }
 
             public int MealType { get; set; }
 
-            public TimeSpan Time { get; set; }
+            public DateTime Time { get; set; }
+            public string ClockEmoji { get; set; }
 
             public int ServingSizeSelected { get; set; }
 
             public decimal ServingAmount { get; set; }
             public decimal TotalGrams { get; set; }
+            public string DisplayServing { get; set; }
+            public string DisplayGrams { get; set; }
 
             public int FoodID { get; set; }
 
@@ -137,9 +154,19 @@ namespace HealthModeApp.Models.SQLite
             public decimal? VitaminK { get; set; }
         }
 
+        [SQLiteTable("RecentFoods")]
+        public class RecentFoods
+        {
+            [PrimaryKey, AutoIncrement]
+            public int RecentFoodID { get; set; }
+
+            public string FoodString { get; set; }
+
+            public DateTime DateAdded { get; set; }
+        }
 
 
-        [SQLiteTable("PopUpMemory")]
+            [SQLiteTable("PopUpMemory")]
         public class PopUpMemory
         {
             [PrimaryKey, AutoIncrement]
@@ -258,6 +285,8 @@ namespace HealthModeApp.Models.SQLite
 
             public int SugarGoal { get; set; }
 
+            public int FiberGoal { get; set; }
+
             public int IronGoal { get; set; }
 
             public int CalciumGoal { get; set; }
@@ -293,10 +322,82 @@ namespace HealthModeApp.Models.SQLite
             public int VitaminEGoal { get; set; }
 
             public int VitaminKGoal { get; set; }
-
-            public int WaterGoal { get; set; }
         }
 
+
+        [SQLiteTable("MicroPercentages")]
+        public class MicroPercentageGoals
+        {
+            [PrimaryKey, AutoIncrement]
+            public int GoalID { get; set; }
+
+            public int UserID { get; set; }
+
+            public DateTime DateSet { get; set; }
+
+            public decimal CarbPercentage { get; set; }
+
+            public decimal FatPercentage { get; set; }
+
+            public decimal ProteinPercentage { get; set; }
+
+            public decimal SatdFatPercentage { get; set; }
+
+            public decimal PUnSatFatPercentage { get; set; }
+
+            public decimal MUnSatFatPercentagew{ get; set; }
+
+            public decimal TransFatPercentage { get; set; }
+
+            public decimal SugarPercentage { get; set; }
+
+            public decimal FiberPercentage { get; set; }
+
+            public decimal IronPercentage { get; set; }
+
+            public decimal CalciumPercentage { get; set; }
+
+            public decimal PotassiumPercentagew{ get; set; }
+
+            public decimal SodiumPercentage { get; set; }
+
+            public decimal CholesterolPercentage { get; set; }
+
+            public decimal VitaminAPercentage { get; set; }
+
+            public decimal ThiaminPercentage { get; set; }
+
+            public decimal RiboflavinPercentage { get; set; }
+
+            public decimal NiacinPercentage { get; set; }
+
+            public decimal VitaminB5Percentage { get; set; }
+
+            public decimal VitaminB6Percentage { get; set; }
+
+            public decimal BiotinPercentage { get; set; }
+
+            public decimal CobalaminePercentage { get; set; }
+
+            public decimal FolicAcidPercentage { get; set; }
+
+            public decimal VitaminCPercentage { get; set; }
+
+            public decimal VitaminDPercentage { get; set; }
+
+            public decimal VitaminEPercentage { get; set; }
+
+            public decimal VitaminKPercentage { get; set; }
+        }
+        [SQLiteTable("WaterGoalTable")]
+        public class WaterGoalTable
+        {
+            [PrimaryKey, AutoIncrement]
+            public int WaterGoalID { get; set; }
+            public int UserID { get; set; }
+            public DateTime Date { get; set; }
+            public int WaterGoal { get; set; }
+        }
 
         [SQLiteTable("WeightTable")]
         public class WeightTable
@@ -308,9 +409,25 @@ namespace HealthModeApp.Models.SQLite
 
             public int UserID { get; set; }
 
+            public byte[] ProgressPicture { get; set; }
+
             public decimal Weight { get; set; }
 
-            public byte[] ProgressPicture { get; set; }
+            public decimal BodyFat { get; set; }
+
+            public decimal Neck { get; set; }
+
+            public decimal Chest { get; set; }
+
+            public decimal Arms { get; set; }
+
+            public decimal Waist { get; set; }
+
+            public decimal Hips { get; set; }
+
+            public decimal Thighs { get; set; }
+
+            public decimal Calves { get; set; }
 
         }
 

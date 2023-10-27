@@ -36,8 +36,8 @@
                                     <EllipseGeometry Center="55, 55" RadiusX="52" RadiusY="52"/>
                                     </Border.Clip>
                          <Image x:Name="ProfilePicture"
-                                WidthRequest="100"
-                                HeightRequest="100"
+                                WidthRequest="98"
+                                HeightRequest="98"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"/>
 
@@ -69,23 +69,28 @@
 
                 <Frame Grid.Column="0" Grid.Row="0" Padding="8,6" CornerRadius="8">
                         <HorizontalStackLayout Spacing="8">
-                            <Image Source="usericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Image Source="usernameicon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
                             <Label Text="Username" VerticalOptions="Center" FontSize="15"/>
                             </HorizontalStackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="UsernameTapped"/>
+                        </Frame.GestureRecognizers>
 
                     </Frame>
 
-                    <Frame Grid.Column="1" Grid.Row="0" Padding="8,6" CornerRadius="8" >
+                    <Frame Grid.Column="0" Grid.Row="1" Padding="8,6" CornerRadius="8" >
                         <HorizontalStackLayout Spacing="8">
-                            <Image Source="usericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Image Source="lockicon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
                             <Label Text="Password" VerticalOptions="Center" FontSize="15"/>
                             </HorizontalStackLayout>
-                        
+                        <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="PasswordTapped"/>
+                        </Frame.GestureRecognizers>
                     </Frame>
 
-                <Frame Grid.Column="0" Grid.Row="1" Padding="8,6" CornerRadius="8">
+                <Frame Grid.Column="1" Grid.Row="1" Padding="8,6" CornerRadius="8">
                         <HorizontalStackLayout Spacing="8">
-                            <Image Source="usericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Image Source="userflairicon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
                             <Label Text="Flair" VerticalOptions="Center" FontSize="15"/>
                             </HorizontalStackLayout>
                     <Frame.GestureRecognizers>
@@ -93,13 +98,17 @@
                         </Frame.GestureRecognizers>
                     </Frame>
 
-                    <Frame Grid.Column="1" Grid.Row="1" Padding="8,6" CornerRadius="8" >
+                    <Frame Grid.Column="1" Grid.Row="0" Padding="8,6" CornerRadius="8" >
                         <HorizontalStackLayout Spacing="8">
-                            <Image Source="usericon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
+                            <Image Source="portraiticon" WidthRequest="25" HeightRequest="25" Aspect="AspectFit" VerticalOptions="Center"/>
                             <Label Text="Profile Picture" VerticalOptions="Center" FontSize="15"/>
                             </HorizontalStackLayout>
-                        
+                        <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="PfpTapped"/>
+                        </Frame.GestureRecognizers>
                     </Frame>
+
+                
 
             </Grid>
 

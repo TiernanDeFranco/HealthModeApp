@@ -1,4 +1,5 @@
 ﻿using HealthModeApp.DataServices;
+using Mopups.Services;
 
 namespace HealthModeApp.Pages.ProfilePage;
 
@@ -20,7 +21,14 @@ public partial class UserProfile : ContentPage
 
 	}
 
-    async void PopulateData()
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        PopulateData();
+    }
+
+    public async void PopulateData()
     {
         Username.Text = "      ";
         FlairLabel.TextColor = Colors.Transparent;
@@ -30,7 +38,11 @@ public partial class UserProfile : ContentPage
         userID = await _localData.GetUserID();
         var userInfo = await _localData.GetUserAsync(userID);
 
-        
+        string cdnUrl = "https://d2f1hfw011wycq.cloudfront.net";
+
+        string pfpSource = cdnUrl + "/profile-pictures" + userInfo.PicturePath;
+        ProfilePicture.Source = new UriImageSource { Uri = new System.Uri(pfpSource) };
+
         PfpHolder.Background = Color.FromHex(userInfo.PictureBGColor);
 
 
@@ -41,8 +53,33 @@ public partial class UserProfile : ContentPage
         Username.Text = userInfo.Username.ToString();
     }
 
-    void FlairTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
-    {
+    
 
+    async void FlairTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        var flairPage = new ChangeFlair(this, _dataService, _localData);
+        await MopupService.Instance.PushAsync(flairPage);
+    }
+
+    async void PasswordTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        await MopupService.Instance.PushAsync(new PasswordChange(_dataService, _localData));
+    }
+
+    async void UsernameTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        var userNameChangePage = new UsernameChange(this, _dataService, _localData);
+
+        
+
+        await MopupService.Instance.PushAsync(userNameChangePage);
+    }
+
+
+
+    async void PfpTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        var pfpPage = new UpdateProfilePicture(this, _dataService, _localData, ProfilePicture.Source);
+        await MopupService.Instance.PushAsync(pfpPage);
     }
 }

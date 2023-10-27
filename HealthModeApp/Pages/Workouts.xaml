@@ -28,16 +28,16 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="7825" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent2}, Dark={StaticResource DarkAccent2}}" HorizontalOptions="Center"/>
-                    <Label Grid.Row="1" Grid.Column="0" Text="Steps" FontSize="Medium"  HorizontalOptions="Center"/>
+                    <Label Grid.Row="0" Grid.Column="0" Text="7825" FontAutoScalingEnabled="False" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent2}, Dark={StaticResource DarkAccent2}}" HorizontalOptions="Center"/>
+                    <Label x:Name="StepLabel" FontAutoScalingEnabled="False" Grid.Row="1" Grid.Column="0" Text="Steps" FontSize="Medium"  HorizontalOptions="Center"/>
                     <ProgressBar Margin="5" Grid.Row="2" Grid.Column="0" Progress="0.78" ProgressColor="{AppThemeBinding Light={StaticResource Accent2}, Dark={StaticResource DarkAccent2}}"/> 
 
-                    <Label Grid.Row="0" Grid.Column="1" Text="540" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent1}, Dark={StaticResource DarkAccent1}}" HorizontalOptions="Center"/>
-                    <Label Grid.Row="1" Grid.Column="1" Text="Calories" FontSize="Medium" HorizontalOptions="Center"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="540" FontAutoScalingEnabled="False" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent1}, Dark={StaticResource DarkAccent1}}" HorizontalOptions="Center"/>
+                    <Label x:Name="CaloriesBurnedLabel" FontAutoScalingEnabled="False" Grid.Row="1" Grid.Column="1" Text="Calories" FontSize="Medium" HorizontalOptions="Center"/>
                     <ProgressBar Margin="5"  Grid.Row="2" Grid.Column="1" Progress="1" ProgressColor="{AppThemeBinding Light={StaticResource Accent1}, Dark={StaticResource DarkAccent1}}"/>
 
-                    <Label Grid.Row="0" Grid.Column="2" Text="30" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent3}, Dark={StaticResource DarkAccent3}}" HorizontalOptions="Center"/>
-                    <Label Grid.Row="1" Grid.Column="2" Text="Exercise" FontSize="Medium" HorizontalOptions="Center"/>
+                    <Label Grid.Row="0" Grid.Column="2" Text="30" FontAutoScalingEnabled="False" FontFamily="Lato-Bold" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Accent3}, Dark={StaticResource DarkAccent3}}" HorizontalOptions="Center"/>
+                    <Label x:Name="ExerciseMinutesLabel" FontAutoScalingEnabled="False" Grid.Row="1" Grid.Column="2" Text="Exercise" FontSize="Medium" HorizontalOptions="Center"/>
                     <ProgressBar Margin="5"  Grid.Row="2" Grid.Column="2" Progress="0.5" ProgressColor="{AppThemeBinding Light={StaticResource Accent3}, Dark={StaticResource DarkAccent3}}"/>
 
                 </Grid>
@@ -59,7 +59,7 @@
 
            <Frame Grid.Row="0" Grid.Column="0" x:Name="ProgressFrame">
                <StackLayout>
-                   <Label Text="Progress" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                   <Label x:Name="ProgressLabel" Text="Progress" FontAutoScalingEnabled="False" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
                    <lvc:CartesianChart x:Name="ProgressChart" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                                        BackgroundColor="Transparent" InputTransparent="True" AnimationsSpeed="0" WidthRequest="{Binding Width, Source={x:Reference ProgressFrame}}"/>
                </StackLayout>
@@ -70,7 +70,7 @@
 
           <Frame Grid.Row="0" Grid.Column="1">
                <StackLayout>
-                    <Label Text="Recovery" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Label x:Name="RecoveryLabel" Text="Recovery" FontAutoScalingEnabled="False" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
                     <Image Source="muscle_body" x:Name="RecoveryIcon" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
                </StackLayout>
               <Frame.GestureRecognizers>
@@ -82,21 +82,21 @@
 
            <Frame Grid.Row="1" Grid.Column="0">
                <StackLayout>
-                    <Label Text="Warmups &amp; Stretches" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Label x:Name="WarmupLabel" Text="Warmups &amp; Stretches" FontAutoScalingEnabled="False" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
                     <Image Source="stretchicon" x:Name="StretchIcon" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
                </StackLayout>
            </Frame>
 
            <Frame Grid.Row="1" Grid.Column="1">
                <StackLayout>
-                    <Label Text="Workout" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Label x:Name="WorkoutLabel" Text="Workout" FontFamily="Lato-Bold" FontAutoScalingEnabled="False" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
                     <Image Source="workout_icon" x:Name="DumbbellIcon" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
                </StackLayout>
            </Frame>
 
            <Frame Grid.Row="2" Grid.Column="0">
                <StackLayout>
-                    <Label Text="Exercise Library" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Label x:Name="ExLibrary" Text="Exercise Library" FontFamily="Lato-Bold" FontAutoScalingEnabled="False" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
                     <Image Source="exercise_library" x:Name="ExerciseLibrary" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
                </StackLayout>
                <Frame.GestureRecognizers>
@@ -107,9 +107,12 @@
            
             <Frame Grid.Row="2" Grid.Column="1">
                <StackLayout>
-                    <Label Text="Meditation" FontFamily="Lato-Bold" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+                    <Label x:Name="RelaxText" Text="Relax" FontFamily="Lato-Bold" FontSize="Caption" FontAutoScalingEnabled="False" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
                     <Image Source="meditateicon" x:Name="MeditationIcon" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
                </StackLayout>
+                <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="RelaxationTapped"/>
+              </Frame.GestureRecognizers>
            </Frame>
 
             </Grid>

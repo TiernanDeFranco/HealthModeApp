@@ -21,6 +21,21 @@ public partial class Workouts : ContentPage
         
     }
 
+    async void TranslatePage()
+    {
+        ProgressLabel.Text = await _localData.GetTranslationByKey("Progress");
+        RecoveryLabel.Text = await _localData.GetTranslationByKey("Recovery");
+        WarmupLabel.Text = await _localData.GetTranslationByKey("WarmupStretch");
+        WorkoutLabel.Text = await _localData.GetTranslationByKey("Workouts");
+        ExLibrary.Text = await _localData.GetTranslationByKey("ExerciseLibrary");
+        RelaxText.Text = await _localData.GetTranslationByKey("Relax");
+
+        StepLabel.Text = await _localData.GetTranslationByKey("Steps");
+        //Make adaptive to cal, kj
+        CaloriesBurnedLabel.Text = await _localData.GetTranslationByKey("Calories");
+        ExerciseMinutesLabel.Text = await _localData.GetTranslationByKey("Exercise");
+    }
+
     public ISeries[] Series { get; set; } =
    {
         new LineSeries<double>
@@ -81,6 +96,12 @@ public partial class Workouts : ContentPage
         ProgressChart.Series = Series;
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        TranslatePage();
+    }
+
     void ProgressTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
         Navigation.PushAsync(new ProgressHub(_dataService, _localData));
@@ -95,5 +116,10 @@ public partial class Workouts : ContentPage
     void RecoveryTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
         Navigation.PushAsync(new Recovery());
+    }
+
+    void RelaxationTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        Navigation.PushAsync(new RelaxVideo());
     }
 }

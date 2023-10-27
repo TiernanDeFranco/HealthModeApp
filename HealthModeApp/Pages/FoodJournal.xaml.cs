@@ -3,6 +3,8 @@ using System.Globalization;
 using System.Text.Json;
 using HealthModeApp.DataServices;
 using HealthModeApp.Pages.FoodJournalPage;
+using Mopups.Services;
+using HealthModeApp.CustomControls;
 using static HealthModeApp.Models.SQLite.SQLiteTables;
 
 namespace HealthModeApp.Pages;
@@ -13,6 +15,7 @@ public partial class FoodJournal : ContentPage
     private readonly IRestDataService _dataService;
 
     public int fontSize = 14;
+    public int iconSize = 10;
 
     public int meal1Cal = 0;
     public int meal2Cal = 0;
@@ -24,6 +27,8 @@ public partial class FoodJournal : ContentPage
     public int goalCal = 0000;
     public int consumedCal = 0;
     public int remainingCal = 0000;
+
+    int waterGoal;
 
     public int goalWater = 0;
     public int consumedWater = 0;
@@ -62,6 +67,7 @@ public partial class FoodJournal : ContentPage
         _dataService = dataService;
 
         InitializeComponent();
+        
         logFoodToolbarItem = new ToolbarItem
         {
             Text = "Log Food"
@@ -69,6 +75,8 @@ public partial class FoodJournal : ContentPage
         logFoodToolbarItem.Clicked += LogFoodClicked;
 
         ToolbarItems.Add(logFoodToolbarItem);
+
+        TranslatePage();
 
        
 
@@ -83,7 +91,29 @@ public partial class FoodJournal : ContentPage
        
     }
 
-    async void PopulateMealNames()
+    string carbLogo;
+    string fatLogo;
+    string proteinLogo;
+
+    async void TranslatePage()
+    {
+        GoalText.Text = await _localData.GetTranslationByKey("Goal");
+        WaterGoalText.Text = GoalText.Text;
+
+        ConsumedText.Text = await _localData.GetTranslationByKey("Consumed");
+        WaterConsumeText.Text = ConsumedText.Text;
+        
+        RemainingText.Text = await _localData.GetTranslationByKey("Remaining");
+        WaterRemainText.Text = RemainingText.Text;
+
+        carbLogo = await _localData.GetTranslationByKey("CarbIcon");
+        fatLogo = await _localData.GetTranslationByKey("FatIcon");
+        proteinLogo = await _localData.GetTranslationByKey("ProteinIcon");
+
+        logFoodToolbarItem.Text = await _localData.GetTranslationByKey("LogFood");
+    }
+
+    public async void PopulateMealNames()
     {
         
 
@@ -92,11 +122,7 @@ public partial class FoodJournal : ContentPage
         numberOfMeals = await _localData.SetMealNumber(DatePicker.Date);
         Debug.WriteLine(numberOfMeals);
 
-        userID = await _localData.GetUserID();
-
-        var loggedFoods = await _localData.GetLoggedFoods(userID, DatePicker.Date);
-
-        
+    
 
         switch (numberOfMeals)
         {
@@ -125,13 +151,7 @@ public partial class FoodJournal : ContentPage
                 meal1CalLabel.FontSize = 23.5;
                 Meal1Name.FontSize = 23;
 
-                var updateableFoods1 = loggedFoods.Where(f => f.MealType > 1);
-
-                foreach (var food in updateableFoods1)
-                {
-                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 1);
-                }
-
+               
                 break;
 
             case 2:
@@ -173,11 +193,7 @@ public partial class FoodJournal : ContentPage
                 meal2CalLabel.FontSize = 21;
                 Meal2Name.FontSize = 20;
 
-                var updateableFoods = loggedFoods.Where(f => f.MealType > 2);
-                foreach (var food in updateableFoods)
-                {
-                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 2);
-                }
+                
 
                 break;
 
@@ -225,11 +241,7 @@ public partial class FoodJournal : ContentPage
                 Meal2Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
                 Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
 
-                var meal3Greater = loggedFoods.Where(f => f.MealType > 3);
-                foreach (var food in meal3Greater)
-                {
-                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 3);
-                }
+               
 
                 break;
 
@@ -285,11 +297,7 @@ public partial class FoodJournal : ContentPage
                 Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
                 Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
 
-                var meal4Greater = loggedFoods.Where(f => f.MealType > 4);
-                foreach (var food in meal4Greater)
-                {
-                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 4);
-                }
+              
 
                 break;
 
@@ -347,11 +355,7 @@ public partial class FoodJournal : ContentPage
                 Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
                 Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
 
-                var meal4Greater1 = loggedFoods.Where(f => f.MealType > 4);
-                foreach (var food in meal4Greater1)
-                {
-                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 4);
-                }
+                
 
                 break;
 
@@ -410,11 +414,7 @@ public partial class FoodJournal : ContentPage
                 Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
                 Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
 
-                var meal4Greater2 = loggedFoods.Where(f => f.MealType > 4);
-                foreach (var food in meal4Greater2)
-                {
-                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 4);
-                }
+               
 
                 break;
 
@@ -479,11 +479,7 @@ public partial class FoodJournal : ContentPage
                 Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
                 Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
 
-                var meal5Greater = loggedFoods.Where(f => f.MealType > 5);
-                foreach (var food in meal5Greater)
-                {
-                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 5);
-                }
+                
 
                 break;
 
@@ -547,11 +543,7 @@ public partial class FoodJournal : ContentPage
                 Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
                 Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
 
-                var meal5Greater1 = loggedFoods.Where(f => f.MealType > 5);
-                foreach (var food in meal5Greater1)
-                {
-                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 5);
-                }
+               
 
                 break;
 
@@ -615,11 +607,7 @@ public partial class FoodJournal : ContentPage
                 Meal3Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
                 Meal4Scroll.HeightRequest = DeviceDisplay.MainDisplayInfo.Height * .06;
 
-                var meal5Greater2 = loggedFoods.Where(f => f.MealType > 5);
-                foreach (var food in meal5Greater2)
-                {
-                    await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 5);
-                }
+          
 
                 break;
 
@@ -758,8 +746,7 @@ public partial class FoodJournal : ContentPage
 
         }
 
-
-
+       
 
     }
 
@@ -777,7 +764,7 @@ public partial class FoodJournal : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        
+        Shell.SetTabBarIsVisible(this, true);
         DateHandler();
         SeesAds();
 
@@ -795,9 +782,9 @@ public partial class FoodJournal : ContentPage
         userID = await _localData.GetUserID();
         var userInfo = await _localData.GetUserAsync(userID);
         var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-        var dateFormat = unitList[4];
-        energyUnit = unitList[2];
-        _waterUnit = unitList[1];
+        var dateFormat = unitList[5];
+        energyUnit = unitList[3];
+        _waterUnit = unitList[2];
 
        
 
@@ -820,9 +807,12 @@ public partial class FoodJournal : ContentPage
             userID = await _localData.GetUserID();
             
             var nutritionGoals = await _localData.GetNutritionGoals(userID, dateSelected);
+            waterGoal = await _localData.GetWaterGoal(dateSelected);
             if (nutritionGoals != null)
             {
-                if (nutritionGoals.WaterGoal == 0) nutritionGoals.WaterGoal = 3000;
+
+                Debug.WriteLine(nutritionGoals.CalorieGoal);
+                if (waterGoal == 0) waterGoal = 2500;
 
                 switch (energyUnit)
                 {
@@ -845,7 +835,7 @@ public partial class FoodJournal : ContentPage
                         volume2 = 12;
                         volume3 = 16.9;
                         volume4 = 32;
-                        goalWater = (int)(Math.Round(nutritionGoals.WaterGoal / 28.574));
+                        goalWater = (int)(Math.Round(waterGoal / 28.574));
                         break;
 
                     case "cups":
@@ -853,7 +843,7 @@ public partial class FoodJournal : ContentPage
                         volume2 = 1.5;
                         volume3 = 2;
                         volume4 = 4;
-                        goalWater = (int)(Math.Round(nutritionGoals.WaterGoal / 236.6));
+                        goalWater = (int)(Math.Round(waterGoal / 236.6));
                         break;
 
                     case "mL":
@@ -861,7 +851,7 @@ public partial class FoodJournal : ContentPage
                         volume2 = 355;
                         volume3 = 500;
                         volume4 = 1000;
-                        goalWater = (int)Math.Round((decimal)nutritionGoals.WaterGoal);
+                        goalWater = (int)Math.Round((decimal)waterGoal);
                         break;
                 }
 
@@ -928,7 +918,7 @@ public partial class FoodJournal : ContentPage
 
         var mealFoods = loggedFoods.Where(f => f.MealType == 1);
         meal1FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
-        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal1FoodIDs, DatePicker.Date, 1));
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal1FoodIDs, DatePicker.Date, 1, Meal1Name.Text));
     }
 
     private async void Meal2Tapped(System.Object sender, System.EventArgs e)
@@ -938,7 +928,7 @@ public partial class FoodJournal : ContentPage
         var mealFoods = loggedFoods.Where(f => f.MealType == 2);
 
         meal2FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
-        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal2FoodIDs, DatePicker.Date, 2));
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal2FoodIDs, DatePicker.Date, 2, Meal2Name.Text));
     }
 
     private async void Meal3Tapped(System.Object sender, System.EventArgs e)
@@ -947,7 +937,7 @@ public partial class FoodJournal : ContentPage
 
         var mealFoods = loggedFoods.Where(f => f.MealType == 3);
         meal3FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
-        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal3FoodIDs, DatePicker.Date, 3));
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal3FoodIDs, DatePicker.Date, 3, Meal3Name.Text));
     }
 
     private async void Meal4Tapped(System.Object sender, System.EventArgs e)
@@ -956,7 +946,7 @@ public partial class FoodJournal : ContentPage
 
         var mealFoods = loggedFoods.Where(f => f.MealType == 4);
         meal4FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
-        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal4FoodIDs, DatePicker.Date, 4));
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal4FoodIDs, DatePicker.Date, 4, Meal4Name.Text));
     }
 
     private async void Meal5Tapped(System.Object sender, System.EventArgs e)
@@ -965,7 +955,7 @@ public partial class FoodJournal : ContentPage
 
         var mealFoods = loggedFoods.Where(f => f.MealType == 5);
         meal5FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
-        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal5FoodIDs, DatePicker.Date, 5));
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal5FoodIDs, DatePicker.Date, 5, Meal5Name.Text));
     }
 
     private async void Meal6Tapped(System.Object sender, System.EventArgs e)
@@ -974,7 +964,7 @@ public partial class FoodJournal : ContentPage
 
         var mealFoods = loggedFoods.Where(f => f.MealType == 6);
         meal6FoodIDs = mealFoods.Select(f => f.LoggedFoodID).ToList();
-        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal6FoodIDs, DatePicker.Date, 6));
+        await Navigation.PushAsync(new MealPage(_localData, _dataService, meal6FoodIDs, DatePicker.Date, 6, Meal6Name.Text));
     }
     #endregion
 
@@ -1022,9 +1012,7 @@ public partial class FoodJournal : ContentPage
             }
         }
 
-        if (nutritionGoals != null)
-        {
-            if (nutritionGoals.WaterGoal == 0) nutritionGoals.WaterGoal = 3000;
+       
 
             switch (_waterUnit)
             {
@@ -1033,7 +1021,7 @@ public partial class FoodJournal : ContentPage
                     volume2 = 12;
                     volume3 = 16.9;
                     volume4 = 32;
-                    goalWater = (int)(Math.Round(nutritionGoals.WaterGoal / 28.574));
+                    goalWater = (int)(Math.Round(waterGoal / 28.574));
                     consumedWater = (int)(Math.Round(consumedWater / 28.574));
                     break;
 
@@ -1042,7 +1030,7 @@ public partial class FoodJournal : ContentPage
                     volume2 = 1.5;
                     volume3 = 2;
                     volume4 = 4;
-                    goalWater = (int)(Math.Round(nutritionGoals.WaterGoal / 236.6));
+                    goalWater = (int)(Math.Round(waterGoal / 236.6));
                     consumedWater = (int)(Math.Round(consumedWater / 236.6));
                     break;
 
@@ -1051,7 +1039,8 @@ public partial class FoodJournal : ContentPage
                     volume2 = 355;
                     volume3 = 500;
                     volume4 = 1000;
-                    goalWater = (int)Math.Round((decimal)nutritionGoals.WaterGoal);
+                    goalWater = (int)Math.Round((decimal)waterGoal);
+                consumedWater = (int)Math.Round((decimal)consumedWater);
                     break;
             }
 
@@ -1152,7 +1141,7 @@ public partial class FoodJournal : ContentPage
 
             await WaterGoalBar.ProgressTo(((double)consumedWater/goalWater) + .001, 500, Easing.CubicInOut);
             
-        }
+        
     }
 
 
@@ -1216,11 +1205,12 @@ public partial class FoodJournal : ContentPage
                     HorizontalTextAlignment = TextAlignment.Center
                 };
 
-                var carbIcon = new Image
+                var carbIcon = new MacroIcon
                 {
-                    Source = "carbicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = carbLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(245, 166, 35)
+
 
                 };
 
@@ -1233,11 +1223,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(245, 166, 35)
                 };
 
-                var fatIcon = new Image
+                var fatIcon = new MacroIcon
                 {
-                    Source = "faticon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = fatLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(74, 144, 226)
 
                 };
 
@@ -1250,11 +1240,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(74, 144, 226)
                 };
 
-                var proteinIcon = new Image
+                var proteinIcon = new MacroIcon
                 {
-                    Source = "proteinicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = proteinLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(126, 211, 33)
 
                 };
 
@@ -1416,11 +1406,12 @@ public partial class FoodJournal : ContentPage
                     HorizontalTextAlignment = TextAlignment.Center
                 };
 
-                var carbIcon = new Image
+                var carbIcon = new MacroIcon
                 {
-                    Source = "carbicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = carbLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(245, 166, 35)
+
 
                 };
 
@@ -1433,11 +1424,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(245, 166, 35)
                 };
 
-                var fatIcon = new Image
+                var fatIcon = new MacroIcon
                 {
-                    Source = "faticon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = fatLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(74, 144, 226)
 
                 };
 
@@ -1450,11 +1441,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(74, 144, 226)
                 };
 
-                var proteinIcon = new Image
+                var proteinIcon = new MacroIcon
                 {
-                    Source = "proteinicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = proteinLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(126, 211, 33)
 
                 };
 
@@ -1613,11 +1604,12 @@ public partial class FoodJournal : ContentPage
                     HorizontalTextAlignment = TextAlignment.Center
                 };
 
-                var carbIcon = new Image
+                var carbIcon = new MacroIcon
                 {
-                    Source = "carbicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = carbLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(245, 166, 35)
+
 
                 };
 
@@ -1630,11 +1622,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(245, 166, 35)
                 };
 
-                var fatIcon = new Image
+                var fatIcon = new MacroIcon
                 {
-                    Source = "faticon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = fatLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(74, 144, 226)
 
                 };
 
@@ -1647,11 +1639,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(74, 144, 226)
                 };
 
-                var proteinIcon = new Image
+                var proteinIcon = new MacroIcon
                 {
-                    Source = "proteinicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = proteinLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(126, 211, 33)
 
                 };
 
@@ -1811,11 +1803,12 @@ public partial class FoodJournal : ContentPage
                     HorizontalTextAlignment = TextAlignment.Center
                 };
 
-                var carbIcon = new Image
+                var carbIcon = new MacroIcon
                 {
-                    Source = "carbicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = carbLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(245, 166, 35)
+
 
                 };
 
@@ -1828,11 +1821,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(245, 166, 35)
                 };
 
-                var fatIcon = new Image
+                var fatIcon = new MacroIcon
                 {
-                    Source = "faticon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = fatLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(74, 144, 226)
 
                 };
 
@@ -1845,11 +1838,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(74, 144, 226)
                 };
 
-                var proteinIcon = new Image
+                var proteinIcon = new MacroIcon
                 {
-                    Source = "proteinicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = proteinLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(126, 211, 33)
 
                 };
 
@@ -2011,11 +2004,12 @@ public partial class FoodJournal : ContentPage
                     HorizontalTextAlignment = TextAlignment.Center
                 };
 
-                var carbIcon = new Image
+                var carbIcon = new MacroIcon
                 {
-                    Source = "carbicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = carbLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(245, 166, 35)
+
 
                 };
 
@@ -2028,11 +2022,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(245, 166, 35)
                 };
 
-                var fatIcon = new Image
+                var fatIcon = new MacroIcon
                 {
-                    Source = "faticon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = fatLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(74, 144, 226)
 
                 };
 
@@ -2045,11 +2039,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(74, 144, 226)
                 };
 
-                var proteinIcon = new Image
+                var proteinIcon = new MacroIcon
                 {
-                    Source = "proteinicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = proteinLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(126, 211, 33)
 
                 };
 
@@ -2208,11 +2202,12 @@ public partial class FoodJournal : ContentPage
                     HorizontalTextAlignment = TextAlignment.Center
                 };
 
-                var carbIcon = new Image
+                var carbIcon = new MacroIcon
                 {
-                    Source = "carbicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = carbLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(245, 166, 35)
+
 
                 };
 
@@ -2225,11 +2220,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(245, 166, 35)
                 };
 
-                var fatIcon = new Image
+                var fatIcon = new MacroIcon
                 {
-                    Source = "faticon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = fatLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(74, 144, 226)
 
                 };
 
@@ -2242,11 +2237,11 @@ public partial class FoodJournal : ContentPage
                     TextColor = Color.FromRgb(74, 144, 226)
                 };
 
-                var proteinIcon = new Image
+                var proteinIcon = new MacroIcon
                 {
-                    Source = "proteinicon",
-                    WidthRequest = 16,
-                    HeightRequest = 16,
+                    Text = proteinLogo,
+                    FontSize = iconSize,
+                    IconColor = Color.FromRgb(126, 211, 33)
 
                 };
 
@@ -2434,10 +2429,10 @@ public partial class FoodJournal : ContentPage
 
         }
 
-        void SettingsClicked(System.Object sender, System.EventArgs e)
+        async void SettingsClicked(System.Object sender, System.EventArgs e)
         {
 
-         Navigation.PushModalAsync(new FoodJournalSettings(_localData, DatePicker.Date));
+         await MopupService.Instance.PushAsync(new FoodJournalSettings(this, _localData, DatePicker.Date));
 
 
         }
@@ -2649,5 +2644,7 @@ public partial class FoodJournal : ContentPage
 
         }
     }
+
+    
 }
 

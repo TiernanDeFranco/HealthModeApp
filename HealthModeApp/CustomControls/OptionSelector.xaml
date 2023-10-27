@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.CustomControls.OptionSelector">
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Tapped="OptionSelectorTapped"
+                              />
+
+    </ContentView.GestureRecognizers>
+    
+   <Border x:Name="BaseBorder" Grid.Row="0" Grid.Column="1" HorizontalOptions="CenterAndExpand"  VerticalOptions="Center" StrokeShape="RoundRectangle 5" Padding="12,5,10,5" StrokeThickness="2" Stroke="LightGray" BackgroundColor="Transparent">
+
+                        <Grid ColumnSpacing="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                 <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                             <Label x:Name="TitleLabel" Text="Title" Grid.Column="0" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                             <ImageButton x:Name="ArrowIcon" InputTransparent="True" Source="downarrowicon" BackgroundColor="SteelBlue" CornerRadius="5" Padding="1,2,1,1" Aspect="AspectFit" WidthRequest="22" HeightRequest="22" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Grid>
+                        
+                         
+  </Border>
+</ContentView>
+

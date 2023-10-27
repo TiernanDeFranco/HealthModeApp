@@ -11,6 +11,7 @@ public partial class UnitPage : ContentPage
     private readonly ISQLiteDataService _localData;
 
     public int unitWeight = 0;
+    public int unitLength = 0;
     public int unitWater = 1;
     public int unitEnergy = 1;
     public int EunitEnergy = 1;
@@ -39,11 +40,12 @@ public partial class UnitPage : ContentPage
         _unitList = unitList;
         Debug.WriteLine(unitList[0]);
             string weightUnit = unitList[0];
-            string waterUnit = unitList[1];
-            string foodUnit = unitList[2];
-            string exerciseUnit = unitList[3];
-            string dateFormat = unitList[4];
-        Debug.WriteLine(unitList[4]);
+            string lengthUnit = unitList[1];
+            string waterUnit = unitList[2];
+            string foodUnit = unitList[3];
+            string exerciseUnit = unitList[4];
+            string dateFormat = unitList[5];
+        Debug.WriteLine(unitList[5]);
             if (weightUnit == "lbs")
             {
                 unitWeight = 0;
@@ -53,6 +55,15 @@ public partial class UnitPage : ContentPage
             {
                 unitWeight = 1;
             }
+
+            if (lengthUnit == "inch")
+            {
+            unitLength = 0;
+            }
+        else
+        {
+            unitLength = 1;
+        }
 
             if (waterUnit == "fl oz")
             {
@@ -114,6 +125,8 @@ public partial class UnitPage : ContentPage
     {
         var weightLbs = LbsButton;
         var weightKg = KgButton;
+        var lengthIn = InButton;
+        var lengthCm = CmButton;
         var drinkWaterFlOz = FlOzButton;
         var drinkWaterCups = CupsButton;
         var drinkWaterML = mLButton;
@@ -142,6 +155,18 @@ public partial class UnitPage : ContentPage
 
                 weightLbs.Background = Color.FromRgba(0, 0, 0, 0);
                 weightKg.Background = Color.FromRgb(75, 158, 227);
+                break;
+        }
+
+        switch (unitLength)
+        {
+            case 0:
+                lengthIn.Background = Color.FromRgb(75, 158, 227);
+                lengthCm.Background = Color.FromRgba(0, 0, 0, 0);
+                break;
+            case 1:
+                lengthIn.Background = Color.FromRgba(0, 0, 0, 0);
+                lengthCm.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -292,6 +317,17 @@ public partial class UnitPage : ContentPage
         UpdateMeasurementButtons();
     }
 
+    void InButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        unitLength = 0;
+        UpdateMeasurementButtons();
+    }
+
+    void CmButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        unitLength = 1;
+        UpdateMeasurementButtons();
+    }
 
     void FlOzClicked(System.Object sender, System.EventArgs e)
     {
@@ -404,6 +440,16 @@ public partial class UnitPage : ContentPage
                 break;
         }
 
+        switch (unitLength)
+        {
+            case 0:
+                unitList.Add("inch");
+                break;
+            case 1:
+                unitList.Add("cm");
+                break;
+        }
+
         switch (unitWater)
         {
             case 0:
@@ -461,4 +507,6 @@ public partial class UnitPage : ContentPage
 
         return json;
     }
+
+   
 }

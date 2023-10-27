@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.ProfilePage.UsernameChange"
+             xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+
+            CloseWhenBackgroundIsClicked="True">
+
+    <Frame x:Name="UsernameFrame" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Margin="5,15,5,0" Padding="8,12,8,12">
+            <Grid RowSpacing="12" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Text="Change Username" Grid.Row="0" FontFamily="Lato-Bold" FontSize="Large" TextColor="SteelBlue" HorizontalOptions="Center"/>
+
+                <Label Text="New Username" Grid.Row="1" FontFamily="Lato-Bold" FontSize="Medium" HorizontalOptions="Center"/>
+
+                <Entry Grid.Row="2" Placeholder="New Username" Focused="UsernameField_Focused" Unfocused="UsernameField_Unfocused" FontSize="13" MaxLength="50" x:Name="UsernameField"/>
+
+                <ActivityIndicator x:Name="Loading" IsRunning="True" IsVisible="False" HorizontalOptions="Center" Grid.Row="3"/>
+                <Button Margin="5" x:Name="ChangeButton" Text="Change Username" Clicked="ChangeButton_Clicked" HorizontalOptions="Center" Grid.Row="3"/>
+            </Grid>
+        </Frame>
+
+</mopups:PopupPage>

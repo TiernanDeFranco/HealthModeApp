@@ -6,6 +6,7 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.Maui.Controls;
+using Mopups.Services;
 using SkiaSharp;
 using static HealthModeApp.Models.SQLite.SQLiteTables;
 
@@ -21,13 +22,14 @@ namespace HealthModeApp.Pages.FoodJournalPage
         int userID;
         int _mealType;
         DateTime _date;
+        List<LoggedFoodTable> foods;
 
 
-        public MealPage(ISQLiteDataService localData, IRestDataService dataService, List<int> MealIDs, DateTime date, int mealType)
+        public MealPage(ISQLiteDataService localData, IRestDataService dataService, List<int> MealIDs, DateTime date, int mealType, string mealName)
         {
             InitializeComponent();
             _localData = localData;
-            PopulateMealName();
+            MealName.Text = $"{mealName}\nDetails";
             _dataService = dataService;
             _mealType = mealType;
             _date = date;
@@ -36,32 +38,7 @@ namespace HealthModeApp.Pages.FoodJournalPage
             SeesAds();
         }
 
-        async void PopulateMealName()
-        {
-            var mealNames = await _localData.GetMealNames(_date);
-
-            switch (_mealType)
-            {
-                case 1:
-                    MealName.Text = $"{mealNames[0]}\nDetails";
-                    break;
-                case 2:
-                    MealName.Text = $"{mealNames[1]}\nDetails";
-                    break;
-                case 3:
-                    MealName.Text = $"{mealNames[2]}\nDetails";
-                    break;
-                case 4:
-                    MealName.Text = $"{mealNames[3]}\nDetails";
-                    break;
-                case 5:
-                    MealName.Text = $"{mealNames[4]}\nDetails";
-                    break;
-                case 6:
-                    MealName.Text = $"{mealNames[5]}\nDetails";
-                    break;
-            }
-        }
+        
 
         async void SeesAds()
         {
@@ -101,7 +78,7 @@ namespace HealthModeApp.Pages.FoodJournalPage
 
             var userInfo = await _localData.GetUserAsync(userID);
             var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-            energyUnit = unitList[2];
+            energyUnit = unitList[3];
 
             foreach (var food in items)
             {
@@ -110,7 +87,233 @@ namespace HealthModeApp.Pages.FoodJournalPage
                 food.Fat = Math.Round((decimal)food.Fat, 1);
                 food.Protein = Math.Round((decimal)food.Protein, 1);
                 food.TotalGrams = Math.Round((decimal)food.TotalGrams, 1);
-                food.ServingAmount = Math.Round((decimal)food.ServingAmount, 2);
+                food.DisplayGrams = food.TotalGrams.ToString("0.##");
+                food.ServingAmount = Math.Round((decimal)food.ServingAmount, 3);
+                food.DisplayServing = Math.Round((decimal)food.TotalGrams / (decimal)food.Grams, 2).ToString("0.##");
+                TimeSpan foodTime = food.Time.TimeOfDay;
+                Debug.WriteLine(food.Grams);
+                Debug.WriteLine(food.TotalGrams);
+                if (food.ServingUnit == "oz")
+                {
+                    food.DisplayGrams = Math.Round(food.TotalGrams * (decimal)28.3495, 2).ToString("0.##");
+                    food.DisplayGrams += "oz";
+                    food.DisplayServing = Math.Round(food.TotalGrams * (decimal)28.3495 / ((decimal)food.Grams), 2).ToString("0.##");
+                }
+                else if (food.ServingUnit == "mL")
+                {
+                    food.DisplayGrams = food.TotalGrams.ToString("0.##");
+                    food.DisplayGrams += "mL";
+                }
+                else if (food.ServingUnit == "g")
+                {
+                    food.DisplayGrams = food.TotalGrams.ToString("0.##");
+                    food.DisplayGrams += "g";
+                }
+
+
+                if (foodTime >= new TimeSpan(0, 0, 0) && foodTime < new TimeSpan(0, 15, 0))
+                {
+                    food.ClockEmoji = "🕛"; // 12 o'clock emoji
+                }
+                else if (foodTime >= new TimeSpan(0, 15, 0) && foodTime < new TimeSpan(0, 45, 0))
+                {
+                    food.ClockEmoji = "🕧"; // 12:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(0, 45, 0) && foodTime < new TimeSpan(1, 15, 0))
+                {
+                    food.ClockEmoji = "🕐"; // 1 o'clock emoji
+                }
+                else if (foodTime >= new TimeSpan(1, 15, 0) && foodTime < new TimeSpan(1, 45, 0))
+                {
+                    food.ClockEmoji = "🕜"; // 1:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(1, 45, 0) && foodTime < new TimeSpan(2, 15, 0))
+                {
+                    food.ClockEmoji = "🕑"; // 2:00 o'clock emoji
+                }
+                else if (foodTime >= new TimeSpan(2, 15, 0) && foodTime < new TimeSpan(2, 45, 0))
+                {
+                    food.ClockEmoji = "🕝"; // 2:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(2, 45, 0) && foodTime < new TimeSpan(3, 15, 0))
+                {
+                    food.ClockEmoji = "🕒"; // 3:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(3, 15, 0) && foodTime < new TimeSpan(3, 45, 0))
+                {
+                    food.ClockEmoji = "🕞"; // 3:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(3, 45, 0) && foodTime < new TimeSpan(4, 15, 0))
+                {
+                    food.ClockEmoji = "🕓"; // 4:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(4, 15, 0) && foodTime < new TimeSpan(4, 45, 0))
+                {
+                    food.ClockEmoji = "🕟"; // 4:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(4, 45, 0) && foodTime < new TimeSpan(5, 15, 0))
+                {
+                    food.ClockEmoji = "🕔"; // 5:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(5, 15, 0) && foodTime < new TimeSpan(5, 45, 0))
+                {
+                    food.ClockEmoji = "🕠"; // 5:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(5, 45, 0) && foodTime < new TimeSpan(6, 15, 0))
+                {
+                    food.ClockEmoji = "🕕"; // 6:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(6, 15, 0) && foodTime < new TimeSpan(6, 45, 0))
+                {
+                    food.ClockEmoji = "🕡"; // 6:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(6, 45, 0) && foodTime < new TimeSpan(7, 15, 0))
+                {
+                    food.ClockEmoji = "🕖"; // 7:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(7, 15, 0) && foodTime < new TimeSpan(7, 45, 0))
+                {
+                    food.ClockEmoji = "🕢"; // 7:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(7, 45, 0) && foodTime < new TimeSpan(8, 15, 0))
+                {
+                    food.ClockEmoji = "🕗"; // 8:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(8, 15, 0) && foodTime < new TimeSpan(8, 45, 0))
+                {
+                    food.ClockEmoji = "🕣"; // 8:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(8, 45, 0) && foodTime < new TimeSpan(9, 15, 0))
+                {
+                    food.ClockEmoji = "🕘"; // 9:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(9, 15, 0) && foodTime < new TimeSpan(9, 45, 0))
+                {
+                    food.ClockEmoji = "🕤"; // 9:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(9, 45, 0) && foodTime < new TimeSpan(10, 15, 0))
+                {
+                    food.ClockEmoji = "🕙"; // 10:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(10, 15, 0) && foodTime < new TimeSpan(10, 45, 0))
+                {
+                    food.ClockEmoji = "🕥"; // 10:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(10, 45, 0) && foodTime < new TimeSpan(11, 15, 0))
+                {
+                    food.ClockEmoji = "🕚"; // 11:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(11, 15, 0) && foodTime < new TimeSpan(11, 45, 0))
+                {
+                    food.ClockEmoji = "🕦"; // 11:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(11, 45, 0) && foodTime < new TimeSpan(12, 15, 0))
+                {
+                    food.ClockEmoji = "🕛"; // 12:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(12, 15, 0) && foodTime < new TimeSpan(12, 45, 0))
+                {
+                    food.ClockEmoji = "🕧"; // 12:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(12, 45, 0) && foodTime < new TimeSpan(13, 15, 0))
+                {
+                    food.ClockEmoji = "🕐"; // 1 o'clock emoji
+                }
+                else if (foodTime >= new TimeSpan(13, 15, 0) && foodTime < new TimeSpan(13, 45, 0))
+                {
+                    food.ClockEmoji = "🕜"; // 1:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(13, 45, 0) && foodTime < new TimeSpan(14, 15, 0))
+                {
+                    food.ClockEmoji = "🕑"; // 2:00 o'clock emoji
+                }
+                else if (foodTime >= new TimeSpan(14, 15, 0) && foodTime < new TimeSpan(14, 45, 0))
+                {
+                    food.ClockEmoji = "🕝"; // 2:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(14, 45, 0) && foodTime < new TimeSpan(15, 15, 0))
+                {
+                    food.ClockEmoji = "🕒"; // 3:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(15, 15, 0) && foodTime < new TimeSpan(15, 45, 0))
+                {
+                    food.ClockEmoji = "🕞"; // 3:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(15, 45, 0) && foodTime < new TimeSpan(16, 15, 0))
+                {
+                    food.ClockEmoji = "🕓"; // 4:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(16, 15, 0) && foodTime < new TimeSpan(16, 45, 0))
+                {
+                    food.ClockEmoji = "🕟"; // 4:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(16, 45, 0) && foodTime < new TimeSpan(17, 15, 0))
+                {
+                    food.ClockEmoji = "🕔"; // 5:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(17, 15, 0) && foodTime < new TimeSpan(17, 45, 0))
+                {
+                    food.ClockEmoji = "🕠"; // 5:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(17, 45, 0) && foodTime < new TimeSpan(18, 15, 0))
+                {
+                    food.ClockEmoji = "🕕"; // 6:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(18, 15, 0) && foodTime < new TimeSpan(18, 45, 0))
+                {
+                    food.ClockEmoji = "🕡"; // 6:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(18, 45, 0) && foodTime < new TimeSpan(19, 15, 0))
+                {
+                    food.ClockEmoji = "🕖"; // 7:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(19, 15, 0) && foodTime < new TimeSpan(19, 45, 0))
+                {
+                    food.ClockEmoji = "🕢"; // 7:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(19, 45, 0) && foodTime < new TimeSpan(20, 15, 0))
+                {
+                    food.ClockEmoji = "🕗"; // 8:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(20, 15, 0) && foodTime < new TimeSpan(20, 45, 0))
+                {
+                    food.ClockEmoji = "🕣"; // 8:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(20, 45, 0) && foodTime < new TimeSpan(21, 15, 0))
+                {
+                    food.ClockEmoji = "🕘"; // 9:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(21, 15, 0) && foodTime < new TimeSpan(21, 45, 0))
+                {
+                    food.ClockEmoji = "🕤"; // 9:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(21, 45, 0) && foodTime < new TimeSpan(22, 15, 0))
+                {
+                    food.ClockEmoji = "🕙"; // 10:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(22, 15, 0) && foodTime < new TimeSpan(22, 45, 0))
+                {
+                    food.ClockEmoji = "🕥"; // 10:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(22, 45, 0) && foodTime < new TimeSpan(23, 15, 0))
+                {
+                    food.ClockEmoji = "🕚"; // 11:00 emoji
+                }
+                else if (foodTime >= new TimeSpan(23, 15, 0) && foodTime < new TimeSpan(23, 45, 0))
+                {
+                    food.ClockEmoji = "🕦"; // 11:30 emoji
+                }
+                else if (foodTime >= new TimeSpan(23, 45, 0) && foodTime < new TimeSpan(23, 59, 59))
+                {
+                    food.ClockEmoji = "🕛"; // 12:00 emoji
+                }
+
+
+
+
+
+
+
 
                 switch (energyUnit)
                 {
@@ -135,10 +338,11 @@ namespace HealthModeApp.Pages.FoodJournalPage
                 Grid grid = new Grid
                 {
                     Margin = new Thickness(8),
-                    RowSpacing = 2,
+                    RowSpacing = 3,
                     RowDefinitions =
                     {
                         new RowDefinition { Height = GridLength.Star},
+                        new RowDefinition { Height = GridLength.Star },
                         new RowDefinition { Height = GridLength.Star },
                         new RowDefinition { Height = GridLength.Star },
                         new RowDefinition { Height = GridLength.Star }
@@ -179,7 +383,8 @@ namespace HealthModeApp.Pages.FoodJournalPage
                     VerticalTextAlignment = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Center
                 };
-                servingValueLabel.SetBinding(Label.TextProperty, new Binding("ServingAmount", stringFormat: "{0} - "));
+                servingValueLabel.SetBinding(Label.TextProperty, new Binding("DisplayServing", stringFormat: "{0} - "));
+
 
                 Label servingLabel = new Label
                 {
@@ -199,7 +404,7 @@ namespace HealthModeApp.Pages.FoodJournalPage
                     VerticalTextAlignment = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Center
                 };
-                gramsValueLabel.SetBinding(Label.TextProperty, new Binding("TotalGrams", stringFormat: "{0}g"));
+                gramsValueLabel.SetBinding(Label.TextProperty, new Binding("DisplayGrams"));
 
                 StackLayout servingLayout = new StackLayout
                 {
@@ -215,7 +420,37 @@ namespace HealthModeApp.Pages.FoodJournalPage
     }
                 };
 
+                Label timeLabel = new Label
+                {
+                    VerticalOptions = LayoutOptions.Center,
+                    VerticalTextAlignment = TextAlignment.Center,
+                    HorizontalOptions = LayoutOptions.Center,
+                    FontFamily = "Lato-Bold",
+                    TextColor = Colors.SlateGrey
+                };
 
+                // Assuming "Time" is a DateTime property
+                timeLabel.SetBinding(Label.TextProperty, new Binding("Time", stringFormat: "{0:h:mm tt}"));
+                Label clockLabel = new Label {
+                    VerticalOptions = LayoutOptions.Center,
+                    VerticalTextAlignment = TextAlignment.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+
+                clockLabel.SetBinding(Label.TextProperty, new Binding("ClockEmoji"));
+                
+
+                StackLayout timeLayout = new StackLayout
+                {
+                    Orientation = StackOrientation.Horizontal,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Spacing = 3,
+                    Children =
+                    {
+                        clockLabel,
+                        timeLabel
+                    }
+                };
 
                 var calorieIcon = new Image
                 {
@@ -346,7 +581,11 @@ namespace HealthModeApp.Pages.FoodJournalPage
                 Grid.SetColumn(servingLayout, 0);
                 grid.Children.Add(servingLayout);
 
-                Grid.SetRow(InfoLayout, 3);
+                Grid.SetRow(timeLayout, 3);
+                Grid.SetColumn(timeLayout, 0);
+                grid.Children.Add(timeLayout);
+
+                Grid.SetRow(InfoLayout, 4);
                 Grid.SetColumn(InfoLayout, 0);
                 grid.Children.Add(InfoLayout);
 
@@ -375,13 +614,13 @@ namespace HealthModeApp.Pages.FoodJournalPage
             var userID = await _localData.GetUserID();
 
 
-            var foods = new List<LoggedFoodTable>();
+            foods = new List<LoggedFoodTable>();
 
             var loggedFoods = await _localData.GetLoggedFoods(userID, _date);
 
             var userInfo = await _localData.GetUserAsync(userID);
             var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-            energyUnit = unitList[2];
+            energyUnit = unitList[3];
 
             var mealFoodIDs = loggedFoods.Where(f => f.MealType == _mealType).Select(f => f.LoggedFoodID).ToList();
 
@@ -550,6 +789,11 @@ namespace HealthModeApp.Pages.FoodJournalPage
         {
             Navigation.PushAsync(new NutritionalBreakdown(_localData, _date));
 
+        }
+
+        async void InfoButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            await MopupService.Instance.PushAsync(new MealMicroBreakdown(foods));
         }
     }
 }

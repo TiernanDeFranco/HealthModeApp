@@ -2,17 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
-
+             xmlns:controls="clr-namespace:HealthModeApp.CustomControls"
              x:Class="HealthModeApp.Pages.Progress.WeightProgress">
 
 
 
-     <ContentPage.ToolbarItems>
-    <ToolbarItem
-                 Text="Enter Weight +"
-        
-                 Clicked="AddEntryClicked"/>
-</ContentPage.ToolbarItems>
+   
 
         <Grid RowSpacing="12" Padding="12">
             <Grid.RowDefinitions>
@@ -35,15 +30,21 @@
                         </Grid.ColumnDefinitions>
                     <Label x:Name="StartWeight" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold"  HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
                     <Label x:Name="EndWeight" Grid.Row="1" Grid.Column="1" FontFamily="Lato-Bold" HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> 
-                    <ImageButton Source="uparrowbox" Padding="5" CornerRadius="12" Clicked="ImageButton_Clicked" WidthRequest="32" HeightRequest="32" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.Column="2" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" />
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.Column="2" Spacing="15">
+                    <ImageButton x:Name="WeightDifIcon" Source="uparrowbox" Padding="5" CornerRadius="10" Clicked="ImageButton_Clicked" WidthRequest="32" HeightRequest="32" HorizontalOptions="Center" VerticalOptions="Center"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" />
+                     <ImageButton x:Name="InfoButton" Source="iicon" Padding="5" CornerRadius="12" Clicked="InfoButton_Clicked" WidthRequest="27" HeightRequest="27" HorizontalOptions="Center" VerticalOptions="Center"  BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}" />
+                  </HorizontalStackLayout>
+
                     <Label x:Name="WeightDifference" Grid.Row="1" Grid.Column="2" FontFamily="Lato-Bold"  HorizontalOptions="Center" VerticalOptions="End" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
-                         <Label.GestureRecognizers>
-                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-              </Label.GestureRecognizers>
+                        
                         </Label>
 
 
-                    <Picker x:Name="RangePicker" SelectedIndexChanged="RangePicker_SelectedIndexChanged" Grid.Row="0" Grid.Column="1" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                    <controls:OptionSelector x:Name="RangePicker" SelectedIndexChanged="RangePicker_SelectedIndexChanged" DescriptionColor="SteelBlue" Description="Select a range" Grid.Row="0" Grid.Column="1" HorizontalOptions="CenterAndExpand"  VerticalOptions="Center" Padding="12,8,12,8" BackgroundColor="Transparent"/>
+
+                    <controls:OptionSelector x:Name="MeasurementPicker" SelectedIndexChanged="MeasurementPicker_SelectedIndexChanged" DescriptionColor="SteelBlue" Description="Select a measurement" Grid.Row="0" Grid.Column="0" HorizontalOptions="CenterAndExpand"  VerticalOptions="Center" Padding="12,8,12,8" BackgroundColor="Transparent"/>
+
+
 
                     <lvc:CartesianChart x:Name="WeightChart" Grid.Row="2" Grid.ColumnSpan="3"
                     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
@@ -54,11 +55,67 @@
                   </Grid>
             </Frame>
 
-            <Frame Grid.Row="1" Margin="10,0,10,0">
+            <Frame Grid.Row="1" Margin="10,0,10,0" x:Name="WeightFrame">
                 <ListView x:Name="WeightEntries" HorizontalOptions="Center" Opacity="0"
           BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
                           ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
 
+            </Frame>
+
+              <Frame Grid.Row="1" Margin="10,0,10,0" x:Name="BodyFatFrame" IsVisible="False">
+
+                    <ListView x:Name="BodyFatEntries" HorizontalOptions="Center" Opacity="0"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
+                          ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
+            </Frame>
+
+             <Frame Grid.Row="1" Margin="10,0,10,0" x:Name="NeckFrame" IsVisible="False">
+
+                    <ListView x:Name="NeckEntries" HorizontalOptions="Center" Opacity="0"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
+                          ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
+            </Frame>
+
+            <Frame Grid.Row="1" Margin="10,0,10,0" x:Name="ChestFrame" IsVisible="False">
+
+                    <ListView x:Name="ChestEntries" HorizontalOptions="Center" Opacity="0"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
+                          ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
+            </Frame>
+
+            <Frame Grid.Row="1" Margin="10,0,10,0" x:Name="ArmsFrame" IsVisible="False">
+
+                    <ListView x:Name="ArmsEntries" HorizontalOptions="Center" Opacity="0"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
+                          ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
+            </Frame>
+
+            <Frame Grid.Row="1" Margin="10,0,10,0" x:Name="WaistFrame" IsVisible="False">
+
+                    <ListView x:Name="WaistEntries" HorizontalOptions="Center" Opacity="0"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
+                          ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
+            </Frame>
+
+            <Frame Grid.Row="1" Margin="10,0,10,0" x:Name="HipsFrame" IsVisible="False">
+
+                    <ListView x:Name="HipsEntries" HorizontalOptions="Center" Opacity="0"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
+                          ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
+            </Frame>
+
+            <Frame Grid.Row="1" Margin="10,0,10,0" x:Name="ThighsFrame" IsVisible="False">
+
+                    <ListView x:Name="ThighsEntries" HorizontalOptions="Center" Opacity="0"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
+                          ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
+            </Frame>
+
+            <Frame Grid.Row="1" Margin="10,0,10,0" x:Name="CalvesFrame" IsVisible="False">
+
+                    <ListView x:Name="CalvesEntries" HorizontalOptions="Center" Opacity="0"
+          BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}" 
+                          ItemSelected="WeightEntries_ItemSelected" CachingStrategy="RecycleElement"/>
             </Frame>
 
 

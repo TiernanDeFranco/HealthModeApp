@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:HealthModeApp.CustomControls"
              x:Class="HealthModeApp.Pages.FoodJournalPage.FoodUpdate">
 
     <ContentPage.ToolbarItems>
@@ -43,6 +44,9 @@
 
                 <Label x:Name="FoodName" Grid.Row="0" Grid.Column="1" Text="FoodName" FontFamily="Lato-Bold" FontSize="Body" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
                 <Label x:Name="BrandName" Grid.Row="1" Grid.Column="1" Text="BrandName" Margin="0,0,0,10" TextColor="LightSlateGray" FontSize="Caption" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                          <ImageButton x:Name="VerifiedIcon" Grid.Column="2" Grid.RowSpan="2" Source="verifiedicon" Margin="5,0,0,-5" WidthRequest="28" HeightRequest="28" HorizontalOptions="Start" Aspect="AspectFit" VerticalOptions="Start" Clicked="VerifiedIcon_Clicked"/>
+
+
                     </Grid>
 
                 <Grid Grid.Row="2" RowSpacing="4" Padding="5,5,5,12">
@@ -59,7 +63,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label x:Name="ServingSizeLabel" Text="Serving Size" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" VerticalOptions="Center"/>
-                    <Picker x:Name="ServingSizePicker" Grid.Row="0" Grid.Column="1" SelectedIndexChanged="ServingSizeChanged"/>
+                    <controls:OptionSelector x:Name="ServingSizePicker" MinimumWidthRequest="30" Description="Serving Size" Grid.Row="0" Grid.Column="1" SelectedIndexChanged="ServingSizePicker_SelectedIndexChanged"/>
 
                     <Label x:Name="ServingNumberLabel" Text="Number of Servings" Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center" VerticalOptions="Center"/>
                     <Entry x:Name="ServingNumberEntry" Text="1" Placeholder="Enter a number" MaxLength="6" Keyboard="Numeric" Grid.Row="1" Grid.Column="1" TextChanged="ServingNumberChanged"/>
@@ -68,7 +72,8 @@
                     <TimePicker x:Name="TimeSelect" Grid.Row="2" Grid.Column="1"/>
 
                     <Label x:Name="MealLabel" Text="Meal" Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center" VerticalOptions="Center"/>
-                    <Picker x:Name="MealPicker" Grid.Row="3" Grid.Column="1"/>
+                     <controls:OptionSelector x:Name="MealPicker" Description="Select a meal" SelectedIndexChanged="MealPicker_SelectedIndexChanged" Grid.Row="3" Grid.Column="1"/>
+
 
 
                 </Grid>
@@ -160,23 +165,23 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Text="Total Carbs" Grid.Row="0" Grid.Column="0" FontFamily="Lato-Bold" FontSize="14"/>
-                <Label x:Name="TotalCarbs" Grid.Row="0" Grid.Column="1" Text="0" HorizontalTextAlignment="End"/>
+                <Label x:Name="TotalCarbs" Grid.Row="0" Grid.Column="1" Text="0" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="End"/>
 
                  <Label Text="Fiber (g):" Margin="12,0,0,0" Grid.Row="1" Grid.Column="0"/>
-                <Label x:Name="FiberLabel" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="FiberLabel" Grid.Row="1" Grid.Column="1" TextColor="RosyBrown" HorizontalTextAlignment="End"/>
 
                 <Label Text="Total Sugar (g):" Margin="12,0,0,0" Grid.Row="2" Grid.Column="0"/>
-                <Label x:Name="SugarLabel" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="SugarLabel" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="End"/>
 
                 <Label Text="Added Sugar (g):" Margin="28,0,0,0" Grid.Row="3" Grid.Column="0"/>
-                <Label x:Name="AddedSugarLabel" Grid.Row="3" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="AddedSugarLabel" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="End"/>
 
                 <Label Text="Sugar Alcohol (g):" Margin="12,0,0,0" Grid.Row="4" Grid.Column="0"/>
-                <Label x:Name="SugarAlcLabel" Grid.Row="4" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="SugarAlcLabel" Grid.Row="4" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="End"/>
 
               
                 <Label Text="Net Carbs (g):" Margin="12,0,0,0" Grid.Row="5" Grid.Column="0"/>
-                <Label x:Name="NetCarbLabel" Grid.Row="5" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="NetCarbLabel" Grid.Row="5" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="End"/>
             </Grid>
 
         </Frame>
@@ -195,20 +200,21 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Total Fat" Grid.Row="0" Grid.Column="0" FontFamily="Lato-Bold" FontSize="14"/>
-                <Label x:Name="TotalFat" Grid.Row="0" Grid.Column="1" Text="0" HorizontalTextAlignment="End"/>
+               <Label Text="Total Fat" Grid.Row="0" Grid.Column="0" FontFamily="Lato-Bold" FontSize="14"/>
+                <Label x:Name="TotalFat" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource FatLight}" Text="0" HorizontalTextAlignment="End"/>
 
                 <Label Text="Saturated Fat (g):" Margin="12,0,0,0" Grid.Row="1" Grid.Column="0"/>
-                <Label x:Name="SatFatLabel" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="SatFatLabel" Grid.Row="1" TextColor="{StaticResource FatLight}" Grid.Column="1" HorizontalTextAlignment="End"/>
 
                 <Label Text="Polyunsaturated Fat (g):" Margin="12,0,0,0" Grid.Row="2" Grid.Column="0"/>
-                <Label x:Name="PUnSatFatLabel" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="PUnSatFatLabel" Grid.Row="2" TextColor="{StaticResource Primary}" Grid.Column="1" HorizontalTextAlignment="End"/>
 
                 <Label Text="Monounsaturated Fat (g):" Margin="12,0,0,0" Grid.Row="3" Grid.Column="0"/>
-                <Label x:Name="MUnSatFatLabel" Grid.Row="3" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="MUnSatFatLabel"  Grid.Row="3" TextColor="{StaticResource Primary}" Grid.Column="1" HorizontalTextAlignment="End"/>
 
                  <Label Text="Trans Fat (g):" Margin="12,0,0,0" Grid.Row="4" Grid.Column="0"/>
-                <Label x:Name="TransFatLabel" Grid.Row="4" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="TransFatLabel" Grid.Row="4" TextColor="{StaticResource Cyan100Accent}" Grid.Column="1" HorizontalTextAlignment="End"/>
+
 
             </Grid>
 
@@ -228,20 +234,20 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Sodium (mg):" Grid.Row="0" Grid.Column="0"/>
-                <Label x:Name="SodiumLabel" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label Text="Sodium (mg):" Grid.Row="3" Grid.Column="0"/>
+                <Label x:Name="SodiumLabel" Grid.Row="3" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="End"/>
 
-                 <Label Text="Cholesterol (mg):" Grid.Row="1" Grid.Column="0"/>
-                <Label x:Name="CholesterolLabel" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End"/>
+                 <Label Text="Cholesterol (mg):" Grid.Row="4" Grid.Column="0"/>
+                <Label x:Name="CholesterolLabel" Grid.Row="4" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="End"/>
 
-                <Label Text="Calcium (mg):" Grid.Row="2" Grid.Column="0"/>
-                <Label x:Name="CalciumLabel" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label Text="Calcium (mg):" Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="CalciumLabel" Grid.Row="1" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="End"/>
 
-                <Label Text="Iron (mg)" Grid.Row="3" Grid.Column="0"/>
-                <Label x:Name="TotalIron" Grid.Row="3" Grid.Column="1" Text="0" HorizontalTextAlignment="End"/>
+                <Label Text="Iron (mg)" Grid.Row="0" Grid.Column="0"/>
+                <Label x:Name="TotalIron" Grid.Row="0" Grid.Column="1" TextColor="SlateGray" Text="0" HorizontalTextAlignment="End"/>
 
-                <Label Text="Potassium (mg):" Grid.Row="4" Grid.Column="0"/>
-                <Label x:Name="PotassiumLabel" Grid.Row="4" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label Text="Potassium (mg):" Grid.Row="2" Grid.Column="0"/>
+                <Label x:Name="PotassiumLabel" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Accent3}" HorizontalTextAlignment="End"/>
 
                 
             </Grid>
@@ -272,44 +278,45 @@
 
 
                 <Label Text="Vitamin A (µg)" Grid.Row="0" Grid.Column="0"/>
-                <Label x:Name="VitaminALabel" Grid.Row="0" Grid.Column="1" Text="0" HorizontalTextAlignment="End"/>
+                <Label x:Name="VitaminALabel" Grid.Row="0" Grid.Column="1" TextColor="Coral" Text="0" HorizontalTextAlignment="End"/>
 
                 <Label Text="Vitamin C (mg):" Grid.Row="1" Grid.Column="0"/>
-                 <Label x:Name="VitaminCLabel" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End"/>
+                 <Label x:Name="VitaminCLabel" Grid.Row="1" Grid.Column="1" TextColor="Orange" HorizontalTextAlignment="End"/>
 
                 <Label Text="Vitamin D (µg):" Grid.Row="2" Grid.Column="0"/>
-                 <Label x:Name="VitaminDLabel" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End"/>
+                 <Label x:Name="VitaminDLabel" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="End"/>
 
                 <Label Text="Vitamin E (mg):" Grid.Row="3" Grid.Column="0"/>
-                 <Label x:Name="VitaminELabel" Grid.Row="3" Grid.Column="1" HorizontalTextAlignment="End"/>
+                 <Label x:Name="VitaminELabel" Grid.Row="3" Grid.Column="1" TextColor="LightCoral" HorizontalTextAlignment="End"/>
 
                 <Label Text="Vitamin K (µg):" Grid.Row="4" Grid.Column="0"/>
-                 <Label x:Name="VitaminKLabel" Grid.Row="4" Grid.Column="1" HorizontalTextAlignment="End"/>
+                 <Label x:Name="VitaminKLabel" Grid.Row="4" Grid.Column="1" TextColor="Green" HorizontalTextAlignment="End"/>
 
                 <Label Text="Thiamin [B1] (mg):" Grid.Row="5" Grid.Column="0" Margin="0,5,0,0"/>
-                <Label x:Name="ThiaminLabel" Grid.Row="5" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="ThiaminLabel" Grid.Row="5" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="End"/>
 
                 <Label Text="Riboflavin [B2] (mg):" Grid.Row="6" Grid.Column="0"/>
-                <Label x:Name="RiboflavinLabel" Grid.Row="6" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="RiboflavinLabel" Grid.Row="6" Grid.Column="1" TextColor="Orchid" HorizontalTextAlignment="End"/>
 
                 <Label Text="Niacin [B3] (mg):" Grid.Row="7" Grid.Column="0"/>
-                <Label x:Name="NiacinLabel" Grid.Row="7" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label x:Name="NiacinLabel" Grid.Row="7" Grid.Column="1" TextColor="Orange" HorizontalTextAlignment="End"/>
 
-                 <Label Text="Vitamin B6 [Pyridoxin] (mg):" Grid.Row="8" Grid.Column="0"/>
-                 <Label x:Name="B6Label" Grid.Row="8" Grid.Column="1" HorizontalTextAlignment="End"/>
+                 <Label Text="Panthothenic Acid [B5] (mg):" Grid.Row="8" Grid.Column="0"/>
+                 <Label x:Name="B5Label" Grid.Row="8" Grid.Column="1" TextColor="LimeGreen" HorizontalTextAlignment="End"/>
 
-                 <Label Text="Folic Acid/Folate [B9] (µg):" Grid.Row="9" Grid.Column="0"/>
-                 <Label x:Name="FolateLabel" Grid.Row="9" Grid.Column="1" HorizontalTextAlignment="End"/>
+                 <Label Text="Vitamin B6 [Pyridoxin] (mg):" Grid.Row="9" Grid.Column="0"/>
+                 <Label x:Name="B6Label" Grid.Row="9" Grid.Column="1" TextColor="MediumPurple" HorizontalTextAlignment="End"/>
 
-                 <Label Text="Vitamin B12 [Cobalamin] (µg):" Grid.Row="10" Grid.Column="0"/>
-                 <Label x:Name="B12Label" Grid.Row="10" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label Text="Biotin [B7] (µg):" Grid.Row="10" Grid.Column="0"/>
+                 <Label x:Name="BiotinLabel" Grid.Row="10" Grid.Column="1" TextColor="PaleTurquoise" HorizontalTextAlignment="End"/>
 
-                 <Label Text="Biotin [B7] (µg):" Grid.Row="11" Grid.Column="0"/>
-                 <Label x:Name="BiotinLabel" Grid.Row="11" Grid.Column="1" HorizontalTextAlignment="End"/>
+                 <Label Text="Folic Acid/Folate [B9] (µg):" Grid.Row="11" Grid.Column="0"/>
+                 <Label x:Name="FolateLabel" Grid.Row="11" Grid.Column="1" TextColor="LightGreen" HorizontalTextAlignment="End"/>
 
+                 <Label Text="Vitamin B12 [Cobalamin] (µg):" Grid.Row="12" Grid.Column="0"/>
+                 <Label x:Name="B12Label" Grid.Row="12" Grid.Column="1" TextColor="RoyalBlue" HorizontalTextAlignment="End"/>
 
-                 <Label Text="Panthothenic Acid [B5] (mg):" Grid.Row="12" Grid.Column="0"/>
-                 <Label x:Name="B5Label" Grid.Row="12" Grid.Column="1" HorizontalTextAlignment="End"/>
+    
 
             </Grid>
 

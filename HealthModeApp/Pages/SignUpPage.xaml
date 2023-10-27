@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthModeApp.Pages.SignUpPage"
+             xmlns:controls="clr-namespace:HealthModeApp.CustomControls"
              Title="SignUpPage"
              BackgroundColor="{AppThemeBinding Light={StaticResource WSmoke}, Dark={StaticResource BlueGrayDark}}"
              NavigationPage.HasNavigationBar="False"
@@ -136,6 +137,21 @@
     <Label Text="Weight" Grid.Row="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center"/>
     <Button x:Name="LbsButton" Clicked="LbsClicked" Text="Lbs" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
     <Button x:Name="KgButton" Clicked="KgClicked" Text="Kg" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+</Grid>
+
+    <Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Label Text="Length" Grid.Row="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center"/>
+    <Button x:Name="InButton" Clicked="InButton_Clicked" Text="Inches" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="CmButton" Clicked="CmButton_Clicked" Text="Centimeters" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
 </Grid>
 
 <Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
@@ -277,12 +293,12 @@
 
     <Label Grid.Row="0" Text="Height" Grid.ColumnSpan="2" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
 
-    <Entry x:Name="heightFeetEntry" Grid.Row="1" Grid.Column="0" Placeholder="Feet" Keyboard="Numeric" MaxLength="1" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" />
-    <Entry x:Name="heightInchesEntry" Grid.Row="1" Grid.Column="1"  Placeholder="Inches" Keyboard="Numeric" MaxLength="4" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
+    <Entry x:Name="heightFeetEntry" Grid.Row="1" Grid.Column="0" Placeholder="Feet" Keyboard="Numeric" MaxLength="1" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" IsVisible="False"/>
+    <Entry x:Name="heightInchesEntry" Grid.Row="1" Grid.Column="1"  Placeholder="Inches" Keyboard="Numeric" MaxLength="4" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" IsVisible="False"/>
 
     <Entry x:Name="heightCmEntry" Grid.Row="1" Grid.ColumnSpan="2" HorizontalOptions="Center" HorizontalTextAlignment="Center"  Placeholder="Centimeters" Keyboard="Numeric" MaxLength="5" IsVisible="False" />
 
-    <Button Grid.Row="2" Grid.ColumnSpan="2" x:Name="SwitchButton" Text="Switch to Metric" Clicked="SwitchButton_Clicked" Margin="5" HorizontalOptions="Center"  />
+    
 </Grid>
 
 
@@ -399,11 +415,12 @@
 
         <Label Text="Water Goal" Margin="10" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Body" Grid.Row="0"/>
 
-        <Image Source="waterbottle" WidthRequest="52" HeightRequest="52" Grid.Row="1"/>
+        <Image Source="waterbottle" WidthRequest="52" HeightRequest="52" Grid.Row="1" Margin="0,0,0,5"/>
 
-        <Entry x:Name="WaterNumber" Text="WaterNumber" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Large" Grid.Row="2">
-</Entry>
-
+        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Grid.Row="2" Spacing="8">
+        <Entry x:Name="WaterNumber" Text="WaterNumber" FontFamily="Lato-Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Large" MinimumWidthRequest="75" MaximumWidthRequest="300"/>
+        <Label x:Name="WaterLabel" FontFamily="Lato-Regular" HorizontalOptions="Center" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Medium"/>
+        </HorizontalStackLayout>
 
     </Grid>
         </Frame>
@@ -427,7 +444,7 @@
         </Frame>
        
        <Frame Grid.Row="1" CornerRadius="20" >
-        <Grid RowSpacing="10" Padding="10,0,10,0">
+        <Grid RowSpacing="10" Padding="10,0,10,0" HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -437,10 +454,11 @@
                     <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
                             <Label Grid.Row="0" Text="Complete Registration" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Body" FontFamily="Lato-Bold"/>
-             <Entry Grid.Row="1" Placeholder="Email" Keyboard="Email" FontSize="Body" x:Name="EmailEntry" MaxLength="50" />
-               <Entry Grid.Row="2" Placeholder="Username" FontSize="Body" x:Name="UsernameEntry" MaxLength="50"/>
-             <Entry Grid.Row="3" Placeholder="Password" IsPassword="True" FontSize="Body" x:Name="PasswordEntry"/>
-                <Entry Grid.Row="4" Placeholder="Confirm Password" IsPassword="True" FontSize="Body" x:Name="ConfirmPasswordEntry"/>
+             <Entry Grid.Row="1"  Placeholder="Email" Keyboard="Email" FontSize="Body" x:Name="EmailEntry" MaxLength="50" />
+               <Entry Grid.Row="2"  Placeholder="Username" FontSize="Body" x:Name="UsernameEntry" MaxLength="50"/>
+
+            <controls:PasswordEntry Grid.Row="3"  Placeholder="Password" FontSize="16" Spacing="15" IconSize="32" x:Name="PasswordEntry"/>
+             <controls:PasswordEntry Grid.Row="4"  Placeholder="Confirm Password" FontSize="16" Spacing="15" IconSize="32" x:Name="ConfirmPasswordEntry"/>
             <ActivityIndicator x:Name="SignUpLoad" IsRunning="True" IsVisible="False" Grid.Row="5"/>
              <Button x:Name="SignUpButton" Grid.Row="5" Text="Sign Up" FontSize="Body" Clicked="SignUpButton_Clicked" Margin="0" HorizontalOptions="Center" WidthRequest="200"/>
         </Grid>

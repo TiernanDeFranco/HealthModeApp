@@ -31,6 +31,20 @@
     <Button x:Name="LbsButton" Clicked="LbsClicked" Text="Lbs" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
     <Button x:Name="KgButton" Clicked="KgClicked" Text="Kg" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
 </Grid>
+                <Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Label Text="Length" Grid.Row="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center"/>
+    <Button x:Name="InButton" Clicked="InButton_Clicked" Text="Inches" Grid.Row="1" Grid.Column="0" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+    <Button x:Name="CmButton" Clicked="CmButton_Clicked" Text="Centimeters" Grid.Row="1" Grid.Column="1" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+</Grid>
 
 <Grid ColumnSpacing="15" RowSpacing="8" Margin="5">
     <Grid.RowDefinitions>

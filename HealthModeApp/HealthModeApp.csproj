@@ -10,16 +10,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>HealthMode</ApplicationTitle>
-
-		<!-- App Identifier -->
-		<ApplicationId>app.healthmode.healthmodeapp</ApplicationId>
-		<ApplicationIdGuid>5384bb5d-7324-4542-a256-ddee0db0f002</ApplicationIdGuid>
-
-		<!-- Versions -->
-		<ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>6</ApplicationVersion>
-
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
@@ -27,6 +17,9 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<Configurations>Release;Debug</Configurations>
+		<ApplicationTitle>HealthMode</ApplicationTitle>
+		<ApplicationId>app.healthmode.healthmode</ApplicationId>
+		<ApplicationDisplayVersion>01.</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
@@ -34,6 +27,8 @@
 	 	  <CodesignKey>iPhone Developer: Tiernan DeFranco (FZJ7MX33UK)</CodesignKey>
 	  <MtouchLink>SdkOnly</MtouchLink>
 	  <CodesignProvision>Automatic</CodesignProvision>
+	  <MtouchInterpreter>-all</MtouchInterpreter>
+	  <MtouchArch>ARMv7</MtouchArch>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
@@ -215,6 +210,22 @@
 	  <None Remove="Resources\Images\4MealsBottom.png" />
 	  <None Remove="Resources\Images\5MealsTop.png" />
 	  <None Remove="Resources\Images\4MealsMid.png" />
+	  <None Remove="Resources\Images\barcodeicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\eyeicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\eyeblindicon.svg" />
+	  <None Remove="Resources\Images\eyeicon.svg" />
+	  <None Remove="Pages\Popups\" />
+	  <None Remove="CustomControls\" />
+	  <None Remove="Resources\Images\gearicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\faticon %28copy%29.svg" />
+	  <None Remove="Resources\Images\usernameicon %28copy%29.svg" />
+	  <None Remove="Resources\Images\userflairicon.svg" />
+	  <None Remove="Resources\Images\portraiticon.svg" />
+	  <None Remove="Resources\Images\lockicon.svg" />
+	  <None Remove="Resources\Images\iicon.svg" />
+	  <None Remove="Resources\Images\usernameicon.svg" />
+	  <None Remove="Resources\Images\settingtab.svg" />
+	  <None Remove="Resources\Images\wateradd %28copy%29.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
@@ -229,6 +240,8 @@
 	  <Folder Include="Resources\AppIcon\" />
 	  <Folder Include="Pages\WorkoutPages\" />
 	  <Folder Include="Pages\ProfilePage\" />
+	  <Folder Include="Pages\Popups\" />
+	  <Folder Include="CustomControls\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#3f80b6" />
@@ -388,6 +401,26 @@
 	  <BundleResource Include="Resources\Images\p4mealsbottom.png" />
 	  <BundleResource Include="Resources\Images\p5mealstop.png" />
 	  <BundleResource Include="Resources\Images\p4mealsmid.png" />
+	  <BundleResource Include="Resources\Images\checkicon.svg" />
+	  <BundleResource Include="Resources\Images\backarrow.svg" />
+	  <BundleResource Include="Resources\Images\eyeicon.svg" />
+	  <BundleResource Include="Resources\Images\eyeblindicon.svg" />
+	  <BundleResource Include="Resources\Images\eyeblindicon.svg" />
+	  <BundleResource Include="Resources\Images\eyeicon.svg" />
+	  <BundleResource Include="Resources\Images\downarrowicon.svg" />
+	  <BundleResource Include="Resources\Images\iicon.svg" />
+	  <BundleResource Include="Resources\Images\settingtab.svg" />
+	  <BundleResource Include="Resources\Images\lockicon.svg" />
+	  <BundleResource Include="Resources\Images\portraiticon.svg" />
+	  <BundleResource Include="Resources\Images\usernameicon.svg" />
+	  <BundleResource Include="Resources\Images\userflairicon.svg" />
+	  <BundleResource Include="Resources\Images\userflairicon.svg" />
+	  <BundleResource Include="Resources\Images\portraiticon.svg" />
+	  <BundleResource Include="Resources\Images\lockicon.svg" />
+	  <BundleResource Include="Resources\Images\iicon.svg" />
+	  <BundleResource Include="Resources\Images\usernameicon.svg" />
+	  <BundleResource Include="Resources\Images\settingtab.svg" />
+	  <BundleResource Include="Resources\Images\verifiedicon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiFont Remove="Resources\Fonts\Lato-Bold.ttf" />
@@ -402,6 +435,8 @@
 	  <PackageReference Include="Xamarin.Google.iOS.UserMessagingPlatform" Version="1.2.0.5" />
 	  <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="7.0.0.1-pre" />
 	  <PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-beta.800" />
+	  <PackageReference Include="Mopups" Version="1.1.1" />
+	  <PackageReference Include="nor0x.Maui.ColorPicker" Version="1.0.1" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Remove="Resources\Styles\Styles.xaml" />
@@ -437,13 +472,6 @@
   </PropertyGroup>
   
 	 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
-	   <AndroidLinkMode>None</AndroidLinkMode>
-	   <AndroidSigningKeyStore>..\key.keystore</AndroidSigningKeyStore>
-	   <AndroidSigningStorePass>TiernanDeFranco3170!</AndroidSigningStorePass>
-	   <AndroidSigningKeyPass>TiernanDeFranco3170!</AndroidSigningKeyPass>
-	   <AndroidDexTool>d8</AndroidDexTool>
-	   <AndroidKeyStore>True</AndroidKeyStore>
-	   <AndroidSigningKeyAlias>HealthModeAlias</AndroidSigningKeyAlias>
 	 </PropertyGroup>
 	 <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 	   <DebugSymbols>true</DebugSymbols>
@@ -451,6 +479,9 @@
 	 </PropertyGroup>
 	 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
 	   <CreatePackage>false</CreatePackage>
+	 </PropertyGroup>
+	 <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	   <WarningLevel>4</WarningLevel>
 	 </PropertyGroup>
   <Target Name="_StripBitcodeFromFrameworksMasterTarget" Condition="'$(_StripBitcodeFromFrameworksMasterDependsOnTargets)'!='' AND @(_FrameworkNativeReference-&gt;Count()) != 0" AfterTargets="$(_StripBitcodeFromFrameworksMasterAfterTargets)" DependsOnTargets="$(_StripBitcodeFromFrameworksMasterDependsOnTargets)" />
 

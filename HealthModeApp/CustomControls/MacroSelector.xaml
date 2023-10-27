@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.CustomControls.MacroSelector"
+             xmlns:controls="clr-namespace:HealthModeApp.CustomControls">
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Tapped="MacroSelectorTapped"/>
+                              
+
+    </ContentView.GestureRecognizers>
+
+  <Border x:Name="BaseBorder" Grid.Row="0" Grid.Column="1" HorizontalOptions="CenterAndExpand"  VerticalOptions="Center" StrokeShape="RoundRectangle 5" Padding="2" StrokeThickness="2" Stroke="LightGray" BackgroundColor="Transparent">
+
+   <Grid ColumnSpacing="8" RowSpacing="5" HorizontalOptions="CenterAndExpand" Margin="2,0,5,0">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <!-- Carbs Row -->
+
+        <HorizontalStackLayout HorizontalOptions="Start" Spacing="0" Padding="0" Grid.Row="1" Grid.Column="0">
+        <controls:MacroIcon x:Name="CarbIcon" IconColor="{StaticResource CarbsLight}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="12"  Text="Carbos"/>
+        <Label Text="" HorizontalTextAlignment="Start" VerticalOptions="Center" TextColor="{StaticResource CarbsLight}"/>
+        </HorizontalStackLayout>
+
+           
+        <Label x:Name="CarbPercent" Margin="-1,0,0,0" Text="50%" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="{StaticResource CarbsLight}" />
+        <Label x:Name="CarbGrams" Margin="8,0,0,0"  Text="300g" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="Center" FontFamily="Lato-Bold" VerticalOptions="Center" TextColor="{StaticResource CarbsLight}" />
+
+
+    <!-- Fat Row -->
+    <HorizontalStackLayout HorizontalOptions="Start" Spacing="0" Padding="0" Grid.Row="2" Grid.Column="0">
+        <controls:MacroIcon x:Name="FatIcon" IconColor="{StaticResource FatLight}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="12"  Text="Grasa"/>
+        
+        <Label Text="" HorizontalTextAlignment="Start" VerticalOptions="Center" TextColor="{StaticResource FatLight}"/>
+        </HorizontalStackLayout>
+
+           
+        <Label x:Name="FatPercent" Margin="-1,0,0,0" Text="25%" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="{StaticResource FatLight}" />
+        <Label x:Name="FatGrams" Margin="8,0,0,0" Text="66g" Grid.Row="2" Grid.Column="2" HorizontalTextAlignment="Center" FontFamily="Lato-Bold" VerticalOptions="Center" TextColor="{StaticResource FatLight}" />
+
+
+    <!-- Protein Row -->
+    <HorizontalStackLayout HorizontalOptions="Start" Spacing="0" Padding="0" Grid.Row="3" Grid.Column="0">
+        <controls:MacroIcon x:Name="ProteinIcon" IconColor="{StaticResource ProteinLight}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="12"  Text="Proteína"/>
+        
+        <Label Text="" HorizontalTextAlignment="Start" VerticalOptions="Center" TextColor="{StaticResource ProteinLight}"/>
+        </HorizontalStackLayout>
+
+           
+        <Label x:Name="ProteinPercent" Margin="-1,0,0,0" Text="25%" Grid.Row="3" Grid.Column="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="{StaticResource ProteinLight}" />
+        <Label x:Name="ProteinGrams" Margin="8,0,0,0" Text="150g" Grid.Row="3" Grid.Column="2" HorizontalTextAlignment="Center" FontFamily="Lato-Bold" VerticalOptions="Center" TextColor="{StaticResource ProteinLight}" />
+
+
+</Grid>
+
+                        
+                         
+  </Border>
+
+   
+
+
+</ContentView>
+

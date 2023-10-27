@@ -4,8 +4,9 @@
              x:Class="HealthModeApp.Pages.FoodJournal"
              Title="Food Journal">
 
- 
-
+    <Shell.TitleView>
+        <ImageButton Source="settingtab" Clicked="SettingsClicked" HorizontalOptions="Start" Aspect="AspectFit" WidthRequest="28" HeightRequest="28"/>
+    </Shell.TitleView>
 
     <Grid Margin="3,7,3,7" Padding="0,0,0,5">
   <Grid.RowDefinitions>
@@ -33,9 +34,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
              <HorizontalStackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="End" Spacing="-10" Margin="5,0,0,0">
-                 <ImageButton Source="gearicon" Clicked="SettingsClicked" Aspect="AspectFit" WidthRequest="25" HeightRequest="25"/>
-                 <Button Text="Settings" Clicked="SettingsClicked" TextColor="{StaticResource LightPrimary}" BackgroundColor="Transparent" BorderColor="Transparent"/>
-             </HorizontalStackLayout>
+                      </HorizontalStackLayout>
 
                 <ImageButton x:Name="WaterAdd" Source="wateradd" Clicked="WaterAdd_Clicked" Grid.Row="0" Grid.Column="4" Aspect="AspectFit" WidthRequest="50" HeightRequest="35" />
             
@@ -43,11 +42,11 @@
                 <ImageButton x:Name="TodayButton" IsVisible="False" Source="calendaricon" Aspect="AspectFit" Clicked="TodayButtonClicked" Grid.Row="0" Grid.Column="3" Margin="10,2,10,2" HorizontalOptions="CenterAndExpand" HeightRequest="{Binding Height, Source={x:Reference DatePicker}}" WidthRequest="25"/>
 
                 <Label x:Name="GoalLabel" Text="2000" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold" FontSize="20" HorizontalTextAlignment="Center"/>
-                <Label Text="Goal" Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
+                <Label x:Name="GoalText" Text="Goal" Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
 
                 <Label Text="-" FontFamily="Lato-Bold" FontSize="25" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center"/>
 
-                <Label Text="Consumed" Grid.Row="2" Grid.Column="2" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
+                <Label x:Name="ConsumedText" Text="Consumed" Grid.Row="2" Grid.Column="2" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
 
                 <HorizontalStackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="Center">
                     <Image HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Source="calicon"/>
@@ -57,7 +56,7 @@
                 <Label Text="=" FontFamily="Lato-Bold" FontSize="25" Grid.Row="1" Grid.Column="3" HorizontalTextAlignment="Center"/>
 
                 <Label x:Name="RemainingLabel" Text="2000" Grid.Row="1" Grid.Column="4" FontFamily="Lato-Bold" FontSize="25" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}"/>
-                <Label Text="Remaining" Grid.Row="2" Grid.Column="4" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
+                <Label x:Name="RemainingText" Text="Remaining" Grid.Row="2" Grid.Column="4" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
 
 
                 <ProgressBar x:Name="CalorieGoalBar" ProgressColor="{StaticResource CalLight}" Grid.Row="3" Grid.ColumnSpan="5" HorizontalOptions="Center" Margin="15,0,15,5"/>
@@ -98,11 +97,11 @@
                 <ImageButton x:Name="WaterTodayButton" IsVisible="False" Source="calendaricon" Aspect="AspectFit" Clicked="TodayButtonClicked" Grid.Row="0" Grid.Column="3" Margin="10,2,10,2" HorizontalOptions="CenterAndExpand" HeightRequest="{Binding Height, Source={x:Reference WaterDatePicker}}" WidthRequest="25"/>
 
                 <Label x:Name="WaterGoalLabel" Text="2000" Grid.Row="1" Grid.Column="0" FontFamily="Lato-Bold" FontSize="20" HorizontalTextAlignment="Center"/>
-                <Label Text="Goal" Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
+                <Label x:Name="WaterGoalText" Text="Goal" Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
 
                 <Label Text="-" FontFamily="Lato-Bold" FontSize="25" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center"/>
 
-                <Label Text="Consumed" Grid.Row="2" Grid.Column="2" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
+                <Label x:Name="WaterConsumeText" Text="Consumed" Grid.Row="2" Grid.Column="2" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
 
                 <HorizontalStackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="Center">
                     <Image HeightRequest="25" WidthRequest="30" VerticalOptions="Center" Source="waterbottle"/>
@@ -112,7 +111,7 @@
                 <Label Text="=" FontFamily="Lato-Bold" FontSize="25" Grid.Row="1" Grid.Column="3" HorizontalTextAlignment="Center"/>
 
                 <Label x:Name="WaterRemainingLabel" Text="2000" Grid.Row="1" Grid.Column="4" FontFamily="Lato-Bold" FontSize="25" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightPrimary}}"/>
-                <Label Text="Remaining" Grid.Row="2" Grid.Column="4" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
+                <Label x:Name="WaterRemainText" Text="Remaining" Grid.Row="2" Grid.Column="4" HorizontalTextAlignment="Center" Margin="0,0,0,5"/>
 
 
                 <ProgressBar x:Name="WaterGoalBar" ProgressColor="{StaticResource Accent2}" Grid.Row="3" Grid.ColumnSpan="5" HorizontalOptions="Center" Margin="15,0,15,5"/>

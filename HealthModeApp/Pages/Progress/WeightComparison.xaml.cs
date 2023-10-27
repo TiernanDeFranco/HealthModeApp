@@ -29,7 +29,7 @@ public partial class WeightComparison : ContentPage
 
         var userInfo = await _localData.GetUserAsync(userID);
         var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-        var dateFormat = unitList[4];
+        var dateFormat = unitList[5];
         weightUnit = unitList[0];
 
 

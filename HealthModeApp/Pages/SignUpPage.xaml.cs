@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using HealthModeApp.DataServices;
+using Microsoft.Maui.Controls;
 
 namespace HealthModeApp.Pages;
 
@@ -387,6 +388,7 @@ public partial class SignUpPage : ContentPage
     //Measurement Choices VVVV
 
     public int unitWeight = 0;
+    public int unitLength = 0;
     public int unitWater = 1;
     public int unitEnergy = 1;
     public int EunitEnergy = 1;
@@ -396,6 +398,8 @@ public partial class SignUpPage : ContentPage
     {
         var weightLbs = LbsButton;
         var weightKg = KgButton;
+        var lengthInch = InButton;
+        var lengthCm = CmButton;
         var drinkWaterFlOz = FlOzButton;
         var drinkWaterCups = CupsButton;
         var drinkWaterML = mLButton;
@@ -424,6 +428,18 @@ public partial class SignUpPage : ContentPage
 
                 weightLbs.Background = Color.FromRgba(0, 0, 0, 0);
                 weightKg.Background = Color.FromRgb(75, 158, 227);
+                break;
+        }
+
+        switch (unitLength)
+        {
+            case 0:
+                lengthInch.Background = Color.FromRgb(75, 158, 227);
+                lengthCm.Background = Color.FromRgba(0, 0, 0, 0);
+                break;
+            case 1:
+                lengthInch.Background = Color.FromRgba(0, 0, 0, 0);
+                lengthCm.Background = Color.FromRgb(75, 158, 227);
                 break;
         }
 
@@ -580,6 +596,17 @@ public partial class SignUpPage : ContentPage
         UpdateMeasurementButtons();
     }
 
+    void InButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        unitLength = 0;
+        UpdateMeasurementButtons();
+    }
+
+    void CmButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        unitLength = 1;
+        UpdateMeasurementButtons();
+    }
 
     void FlOzClicked(System.Object sender, System.EventArgs e)
     {
@@ -662,6 +689,18 @@ public partial class SignUpPage : ContentPage
     void NextButton3_Clicked(System.Object sender, System.EventArgs e)
     {
         stage = 4;
+        if (unitLength == 0)
+        {
+            heightFeetEntry.IsVisible = true;
+            heightInchesEntry.IsVisible = true;
+            heightCmEntry.IsVisible = false;
+        }
+        else
+        {
+            heightFeetEntry.IsVisible = false;
+            heightInchesEntry.IsVisible = false;
+            heightCmEntry.IsVisible = true;
+        }
         UpdatePage();
     }
 
@@ -791,34 +830,7 @@ public partial class SignUpPage : ContentPage
         await DisplayAlert("Notice", "HealthMode uses your biological sex in the equations for metabolic rate and strength standards as these equations differ based on biological sex. If your gender identity is not the same as your sex assigned at birth, and you have not started gender-affirming medications, select your sex assigned at birth. If you've been on gender-affirming medications for a few months, selecting the option closer to your gender identity may more accurately reflect your metabolic rate and strength potential.\n(You can always change this later as you notice changes)", "OK");
     }
 
-    private bool isImperial = true;
-
-    private void SwitchButton_Clicked(object sender, EventArgs e)
-    {
-        isImperial = !isImperial;
-
-        if (isImperial)
-        {
-            // Show the imperial units
-            heightFeetEntry.IsVisible = true;
-            heightInchesEntry.IsVisible = true;
-            heightCmEntry.IsVisible = false;
-            SwitchButton.Text = "Switch to Metric";
-        }
-        else
-        {
-            // Show the metric units
-            heightFeetEntry.IsVisible = false;
-            heightInchesEntry.IsVisible = false;
-            heightCmEntry.IsVisible = true;
-            SwitchButton.Text = "Switch to Imperial";
-        }
-
-        heightCmEntry.Text = null;
-        heightFeetEntry.Text = null;
-        heightInchesEntry.Text = null;
-    }
-
+    
 
 
     void BackButton4_Clicked(System.Object sender, System.EventArgs e)
@@ -1161,28 +1173,32 @@ public partial class SignUpPage : ContentPage
         UpdatePage();
     }
 
-    int waterGoal;
+    int waterGoal = 2000;
 
     void NextButton5_Clicked(System.Object sender, System.EventArgs e)
     {
         stage = 6;
+        Debug.WriteLine(waterGoal);
         waterGoal = CalculateWaterGoal();
-
+        Debug.WriteLine(waterGoal);
         switch (unitWater)
         {
             case 0:
                 var flOzWater = Math.Round(waterGoal / 29.574, 0);
-                WaterNumber.Text = $"{flOzWater} fl oz";
+                WaterNumber.Text = flOzWater.ToString();
+                WaterLabel.Text = "fl oz";
                 break;
 
             case 1:
                 var cupsWater = Math.Round(waterGoal / 236.6, 0);
-                WaterNumber.Text = $"{cupsWater} cups";
+                WaterNumber.Text = cupsWater.ToString();
+                WaterLabel.Text = "cups";
                 break;
 
             case 2:
-                
-                WaterNumber.Text = $"{waterGoal} mL";
+
+                WaterNumber.Text = waterGoal.ToString();
+                WaterLabel.Text = "mL";
                 break;
         }
 
@@ -1214,6 +1230,7 @@ public partial class SignUpPage : ContentPage
     void NextButton6_Clicked(System.Object sender, System.EventArgs e)
     {
         stage = 7;
+        PasswordEntry.WidthRequest = UsernameEntry.Width;
         UpdatePage();
 
         switch (unitWater)
@@ -1277,7 +1294,7 @@ public partial class SignUpPage : ContentPage
         SignUpButton.IsVisible = false;
         SignUpLoad.IsVisible = true;
 
-        string email = EmailEntry.Text.Trim();
+        string email = EmailEntry.Text.Trim().ToLower();
         string username = UsernameEntry.Text.TrimEnd();
         string password = PasswordEntry.Text.Trim();
         string confirmPassword = ConfirmPasswordEntry.Text.Trim();
@@ -1347,7 +1364,7 @@ public partial class SignUpPage : ContentPage
 
                             // Call a method to add the user to the database with email, username, and hashed password //convert lists to strings (unit maingoals)
                             
-                            bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel, calorieGoal, 1234);
+                            bool result = await _dataService.AddUserAsync(email, username, hashedPassword, salt, weightGoal, ReturnGoalsList(), ReturnUnitList(), sex, height, BirthdayDate.Date, weight, goalWeight, activityLevel, calorieGoal, waterGoal);
                             if (result)
                             {
                                 await DisplayAlert("Success", "Account created successfully", "OK");
@@ -1374,6 +1391,11 @@ public partial class SignUpPage : ContentPage
                     else if (responseMessage == "UsernameTaken")
                     {
                         await DisplayAlert("Notice", "The username is already taken. :(", "OK");
+                        creatingAccount = false;
+                    }
+                    else if (responseMessage == "ForbiddenWord")
+                    {
+                        await DisplayAlert("Notice", $"You selected username of {username} may have been flagged as inappropriate.", "OK");
                         creatingAccount = false;
                     }
                     else
@@ -1432,24 +1454,37 @@ public partial class SignUpPage : ContentPage
 
     public int CalculateWaterGoal()
     {
-        int waterGoal;
+        int waterGoal = 2000;
+        if (unitWeight == 1) // Convert kg to lbs
+        {
+            decimal weightInKg = decimal.Parse(Weight.Text);
+            weight = Math.Round(weightInKg * (decimal)2.2, 1);
 
+        }
+        else if (unitWeight == 0)
+        {
+            weight = decimal.Parse(Weight.Text);
+        }
+        int roundedWeight = (int)Math.Round(weight);
+        Debug.WriteLine($"Weight{roundedWeight}");
         if (activityLevel == 0)
         {
-            waterGoal = (sex == 0) ? (int)weight * 15 : (int)weight * 13;
+            waterGoal = (sex == 0) ? roundedWeight * 15 : roundedWeight * 13;
         }
         else if (activityLevel == 1)
         {
-            waterGoal = (sex == 0) ? (int)weight * 17 : (int)weight * 15;
+            waterGoal = (sex == 0) ? roundedWeight * 17 : roundedWeight * 15;
         }
         else if (activityLevel == 2)
         {
-            waterGoal = (sex == 0) ? (int)weight * 20 : (int)weight * 17;
+            waterGoal = (sex == 0) ? roundedWeight * 20 : roundedWeight * 17;
         }
         else
         {
-            waterGoal = (sex == 0) ? (int)weight * 22 : (int)weight * 20;
+            waterGoal = (sex == 0) ? roundedWeight * 22 : roundedWeight * 20;
         }
+        Debug.WriteLine(waterGoal);
+        waterGoal = (int)Math.Round((decimal)waterGoal);
 
         Debug.WriteLine($"Water Goal: {waterGoal}");
 
@@ -1468,6 +1503,16 @@ public partial class SignUpPage : ContentPage
                 break;
             case 1:
                 unitList.Add("kg");
+                break;
+        }
+
+        switch (unitLength)
+        {
+            case 0:
+                unitList.Add("inch");
+                break;
+            case 1:
+                unitList.Add("cm");
                 break;
         }
 
@@ -1534,7 +1579,7 @@ public partial class SignUpPage : ContentPage
         birthdaySelected = true;
     }
 
-
+    
 }
 
 

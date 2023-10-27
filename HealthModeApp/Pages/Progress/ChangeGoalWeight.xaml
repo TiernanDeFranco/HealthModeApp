@@ -1,0 +1,52 @@
+﻿<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthModeApp.Pages.Progress.ChangeGoalWeight"
+             xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+             xmlns:controls="clr-namespace:HealthModeApp.CustomControls"
+             >
+
+    <Frame HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Margin="15">
+        <ScrollView>
+        <Grid Padding="5,0,5,0" RowSpacing="8" ColumnSpacing="25" HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Text="Change Goal Weight" Margin="0,0,0,5" FontAutoScalingEnabled="False" FontSize="Medium" FontFamily="Lato-Bold" Grid.Row="0" Grid.ColumnSpan="3" TextColor="SteelBlue" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/> 
+
+            <Label Text="*This will change any custom nutritional goals you have because of recalculation based on rate of change for weight*" Padding="10" FontAutoScalingEnabled="False" FontSize="Caption" Grid.Row="1" Grid.ColumnSpan="3" TextColor="SlateGrey" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/> 
+            
+
+            <Button x:Name="LoseWeightButton" Clicked="LoseWeightClicked" Text="Lose Weight" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+            <Button x:Name="MaintainWeightButton" Clicked="MaintainWeightClicked" Text="Maintain Weight" Grid.Row="3" Grid.Column="1" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+            <Button x:Name="GainWeightButton" Clicked="GainWeightClicked" Text="Gain Weight" Grid.Row="4" Grid.Column="1" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource WSmoke}}" BorderColor="{StaticResource LightPrimary}" BorderWidth="2" BackgroundColor="Transparent"/>
+
+            <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="3" Spacing="3" HorizontalOptions="Center">
+            <Entry x:Name="GoalWeightEntry" Focused="GoalWeightEntry_Focused" Unfocused="GoalWeightEntry_Unfocused" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" MaxLength="5"/>
+            <Label x:Name="WeightUnit" HorizontalOptions="Start" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <controls:OptionSelector x:Name="TimelineSelector" Description="Select a rate of change" SelectedIndexChanged="TimelineSelector_SelectedIndexChanged" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" ArrowColor="{StaticResource LightPrimary}" Grid.Row="6" Grid.ColumnSpan="3"/>
+
+            <ActivityIndicator IsRunning="True" IsVisible="False" x:Name="Loading" Grid.Row="7" Grid.Column="1"/>
+            <Button x:Name="UpdateGoalWeight" Clicked="UpdateGoalWeight_Clicked" Text="Update Goal Weight" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="7" Grid.Column="1"/>
+
+        </Grid>
+
+            </ScrollView>
+    </Frame>
+
+</mopups:PopupPage>

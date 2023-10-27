@@ -173,151 +173,157 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Text="Nutrient" Grid.Row="0" Grid.Column="0" FontFamily="Lato-Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}"/>
-                <Label Text="Total" Grid.Row="0" Grid.Column="1" FontFamily="Lato-Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}"/>
+                <Label Text="Total" Grid.Row="0" Grid.Column="1" FontFamily="Lato-Bold" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}"/>
                 <Label Text="Remaining" Grid.Row="0" Grid.Column="2" FontFamily="Lato-Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" HorizontalTextAlignment="End"/>
 
                 <Label Text="Total Sugar (g)" Grid.Row="1" Grid.Column="0"/>
-                <Label x:Name="SugarValue" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="Center"/>
-                <Label x:Name="SugarLeft" Grid.Row="1" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label x:Name="SugarValue" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="Center"/>
+<Label x:Name="SugarLeft" Grid.Row="1" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="SugarBar" Grid.Row="2" Grid.ColumnSpan="3" ProgressColor="{StaticResource CarbsLight}"/>
+<ProgressBar x:Name="SugarBar" Grid.Row="2" Grid.ColumnSpan="3" ProgressColor="{StaticResource CarbsLight}"/>
 
-                <Label Text="Saturated Fat (g)" Grid.Row="3" Grid.Column="0"/>
-                <Label x:Name="SatFatValue" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource FatLight}" HorizontalTextAlignment="Center"/>
-                <Label x:Name="SatFatLeft" Grid.Row="3" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text="Dietary Fiber (g)" Grid.Row="3" Grid.Column="0"/>
+<Label x:Name="FiberValue" Grid.Row="3" Grid.Column="1" TextColor="RosyBrown" HorizontalTextAlignment="Center"/>
+<Label x:Name="FiberLeft" Grid.Row="3" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="SatFatBar" Grid.Row="4" Grid.ColumnSpan="3" ProgressColor="{StaticResource FatLight}"/>
+<ProgressBar x:Name="FiberBar" Grid.Row="4" Grid.ColumnSpan="3" ProgressColor="RosyBrown"/>
 
-                <Label Text="Polyunsaturated Fat (g)" Grid.Row="5" Grid.Column="0"/>
-                <Label x:Name="PUnSatFatValue" Grid.Row="5" Grid.Column="1" TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center"/>
-                <Label x:Name="PUnSatFatLeft" Grid.Row="5" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text="Saturated Fat (g)" Grid.Row="5" Grid.Column="0"/>
+<Label x:Name="SatFatValue" Grid.Row="5" Grid.Column="1" TextColor="{StaticResource FatLight}" HorizontalTextAlignment="Center"/>
+<Label x:Name="SatFatLeft" Grid.Row="5" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="PUnSatFatBar" Grid.Row="6" Grid.ColumnSpan="3" ProgressColor="{StaticResource Primary}"/>
+<ProgressBar x:Name="SatFatBar" Grid.Row="6" Grid.ColumnSpan="3" ProgressColor="{StaticResource FatLight}"/>
 
-                <Label Text="Monounsaturated Fat (g)" Grid.Row="7" Grid.Column="0"/>
-                <Label x:Name="MUnSatFatValue" Grid.Row="7" Grid.Column="1" TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center"/>
-                <Label x:Name="MUnSatFatLeft" Grid.Row="7" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text="Polyunsaturated Fat (g)" Grid.Row="7" Grid.Column="0"/>
+<Label x:Name="PUnSatFatValue" Grid.Row="7" Grid.Column="1" TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center"/>
+<Label x:Name="PUnSatFatLeft" Grid.Row="7" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="MUnSatFatBar" Grid.Row="8" Grid.ColumnSpan="3" ProgressColor="{StaticResource LightPrimary}"/>
+<ProgressBar x:Name="PUnSatFatBar" Grid.Row="8" Grid.ColumnSpan="3" ProgressColor="{StaticResource Primary}"/>
 
-                <Label Text="Trans Fat (g)" Grid.Row="9" Grid.Column="0"/>
-                <Label x:Name="TransFatValue" Grid.Row="9" Grid.Column="1" TextColor="{StaticResource Cyan100Accent}" HorizontalTextAlignment="Center"/>
-                <Label x:Name="TransFatLeft" Grid.Row="9" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text="Monounsaturated Fat (g)" Grid.Row="9" Grid.Column="0"/>
+<Label x:Name="MUnSatFatValue" Grid.Row="9" Grid.Column="1" TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center"/>
+<Label x:Name="MUnSatFatLeft" Grid.Row="9" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="TransFatBar" Grid.Row="10" Grid.ColumnSpan="3" ProgressColor="{StaticResource Cyan100Accent}"/>
+<ProgressBar x:Name="MUnSatFatBar" Grid.Row="10" Grid.ColumnSpan="3" ProgressColor="{StaticResource LightPrimary}"/>
 
-                <Label Text="Iron (mg)" Grid.Row="17" Grid.Column="0"/>
-                <Label x:Name="IronValue" Grid.Row="17" Grid.Column="1" TextColor="SlateGray" HorizontalTextAlignment="Center"/>
-                <Label x:Name="IronLeft" Grid.Row="17" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text="Trans Fat (g)" Grid.Row="11" Grid.Column="0"/>
+<Label x:Name="TransFatValue" Grid.Row="11" Grid.Column="1" TextColor="{StaticResource Cyan100Accent}" HorizontalTextAlignment="Center"/>
+<Label x:Name="TransFatLeft" Grid.Row="11" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="IronBar" Grid.Row="18" Grid.ColumnSpan="3" ProgressColor="SlateGray"/>
+<ProgressBar x:Name="TransFatBar" Grid.Row="12" Grid.ColumnSpan="3" ProgressColor="{StaticResource Cyan100Accent}"/>
 
-                <Label Text="Calcium (mg)" Grid.Row="15" Grid.Column="0"/>
-                <Label x:Name="CalciumValue" Grid.Row="15" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
-                <Label x:Name="CalciumLeft" Grid.Row="15" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text="Iron (mg)" Grid.Row="19" Grid.Column="0"/>
+<Label x:Name="IronValue" Grid.Row="19" Grid.Column="1" TextColor="SlateGray" HorizontalTextAlignment="Center"/>
+<Label x:Name="IronLeft" Grid.Row="19" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="CalciumBar" Grid.Row="16" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
+<ProgressBar x:Name="IronBar" Grid.Row="20" Grid.ColumnSpan="3" ProgressColor="SlateGray"/>
 
-                <Label Text="Potassium (mg)" Grid.Row="19" Grid.Column="0"/>
-                <Label x:Name="PotassiumValue" Grid.Row="19" Grid.Column="1" TextColor="{StaticResource Accent3}" HorizontalTextAlignment="Center"/>
-                <Label x:Name="PotassiumLeft" Grid.Row="19" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text="Calcium (mg)" Grid.Row="17" Grid.Column="0"/>
+<Label x:Name="CalciumValue" Grid.Row="17" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
+<Label x:Name="CalciumLeft" Grid.Row="17" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="PotassiumBar" Grid.Row="20" Grid.ColumnSpan="3" ProgressColor="{StaticResource Accent3}"/>
+<ProgressBar x:Name="CalciumBar" Grid.Row="18" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
 
-                <Label Text="Sodium (mg)" Grid.Row="13" Grid.Column="0"/>
-                <Label x:Name="SodiumValue" Grid.Row="13" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
-                <Label x:Name="SodiumLeft" Grid.Row="13" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text="Potassium (mg)" Grid.Row="21" Grid.Column="0"/>
+<Label x:Name="PotassiumValue" Grid.Row="21" Grid.Column="1" TextColor="{StaticResource Accent3}" HorizontalTextAlignment="Center"/>
+<Label x:Name="PotassiumLeft" Grid.Row="21" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="SodiumBar" Grid.Row="14" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
+<ProgressBar x:Name="PotassiumBar" Grid.Row="22" Grid.ColumnSpan="3" ProgressColor="{StaticResource Accent3}"/>
 
-                <Label Text="Cholesterol (mg)" Grid.Row="11" Grid.Column="0"/>
-                <Label x:Name="CholesterolValue" Grid.Row="11" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="Center"/>
-                <Label x:Name="CholesterolLeft" Grid.Row="11" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text="Sodium (mg)" Grid.Row="15" Grid.Column="0"/>
+<Label x:Name="SodiumValue" Grid.Row="15" Grid.Column="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center"/>
+<Label x:Name="SodiumLeft" Grid.Row="15" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <ProgressBar x:Name="CholesterolBar" Grid.Row="12" Grid.ColumnSpan="3" ProgressColor="Goldenrod"/>
+<ProgressBar x:Name="SodiumBar" Grid.Row="16" Grid.ColumnSpan="3" ProgressColor="LightSlateGray"/>
 
-                <Label Text=" " Grid.Row="21" Grid.ColumnSpan="3" TextColor="Transparent"/>
+<Label Text="Cholesterol (mg)" Grid.Row="13" Grid.Column="0"/>
+<Label x:Name="CholesterolValue" Grid.Row="13" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="Center"/>
+<Label x:Name="CholesterolLeft" Grid.Row="13" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
+<ProgressBar x:Name="CholesterolBar" Grid.Row="14" Grid.ColumnSpan="3" ProgressColor="Goldenrod"/>
 
-                <Label Text="Vitamin A (μg)" Grid.Row="22" Grid.Column="0"/>
-                <Label x:Name="VitaminAValue" Grid.Row="22" Grid.Column="1" TextColor="Coral" HorizontalTextAlignment="Center"/>
-                <Label x:Name="VitaminALeft" Grid.Row="22" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text=" " Grid.Row="23" Grid.ColumnSpan="3" TextColor="Transparent"/>
 
-                <ProgressBar x:Name="VitaminABar" Grid.Row="23" Grid.ColumnSpan="3" ProgressColor="Coral"/>
+<Label Text="Vitamin A (μg)" Grid.Row="24" Grid.Column="0"/>
+<Label x:Name="VitaminAValue" Grid.Row="24" Grid.Column="1" TextColor="Coral" HorizontalTextAlignment="Center"/>
+<Label x:Name="VitaminALeft" Grid.Row="24" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label Text="Vitamin C (mg)" Grid.Row="24" Grid.Column="0"/>
-                <Label x:Name="VitaminCValue" Grid.Row="24" Grid.Column="1" TextColor="Orange" HorizontalTextAlignment="Center"/>
-                <Label x:Name="VitaminCLeft" Grid.Row="24" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<ProgressBar x:Name="VitaminABar" Grid.Row="25" Grid.ColumnSpan="3" ProgressColor="Coral"/>
 
-                <ProgressBar x:Name="VitaminCBar" Grid.Row="25" Grid.ColumnSpan="3" ProgressColor="Orange"/>
+<Label Text="Vitamin C (mg)" Grid.Row="26" Grid.Column="0"/>
+<Label x:Name="VitaminCValue" Grid.Row="26" Grid.Column="1" TextColor="Orange" HorizontalTextAlignment="Center"/>
+<Label x:Name="VitaminCLeft" Grid.Row="26" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label Text="Vitamin D (μg)" Grid.Row="26" Grid.Column="0"/>
-                <Label x:Name="VitaminDValue" Grid.Row="26" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="Center"/>
-                <Label x:Name="VitaminDLeft" Grid.Row="26" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<ProgressBar x:Name="VitaminCBar" Grid.Row="27" Grid.ColumnSpan="3" ProgressColor="Orange"/>
 
-                <ProgressBar x:Name="VitaminDBar" Grid.Row="27" Grid.ColumnSpan="3" ProgressColor="{StaticResource CarbsLight}"/>
+<Label Text="Vitamin D (μg)" Grid.Row="28" Grid.Column="0"/>
+<Label x:Name="VitaminDValue" Grid.Row="28" Grid.Column="1" TextColor="{StaticResource CarbsLight}" HorizontalTextAlignment="Center"/>
+<Label x:Name="VitaminDLeft" Grid.Row="28" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label Text="Vitamin E (mg)" Grid.Row="28" Grid.Column="0"/>
-                <Label x:Name="VitaminELeft" Grid.Row="28" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
-                <Label x:Name="VitaminEValue" Grid.Row="28" Grid.Column="1" TextColor="LightCoral" HorizontalTextAlignment="Center"/>
+<ProgressBar x:Name="VitaminDBar" Grid.Row="29" Grid.ColumnSpan="3" ProgressColor="{StaticResource CarbsLight}"/>
 
-                <ProgressBar x:Name="VitaminEBar" Grid.Row="29" Grid.ColumnSpan="3" ProgressColor="LightCoral"/>
+<Label Text="Vitamin E (mg)" Grid.Row="30" Grid.Column="0"/>
+<Label x:Name="VitaminELeft" Grid.Row="30" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label x:Name="VitaminEValue" Grid.Row="30" Grid.Column="1" TextColor="LightCoral" HorizontalTextAlignment="Center"/>
 
-                <Label Text="Vitamin K (μg)" Grid.Row="30" Grid.Column="0"/>
-                <Label x:Name="VitaminKLeft" Grid.Row="30" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
-                <Label x:Name="VitaminKValue" Grid.Row="30" Grid.Column="1" TextColor="Green" HorizontalTextAlignment="Center"/>
+<ProgressBar x:Name="VitaminEBar" Grid.Row="31" Grid.ColumnSpan="3" ProgressColor="LightCoral"/>
 
-                <ProgressBar x:Name="VitaminKBar" Grid.Row="31" Grid.ColumnSpan="3" ProgressColor="Green"/>
+<Label Text="Vitamin K (μg)" Grid.Row="32" Grid.Column="0"/>
+<Label x:Name="VitaminKLeft" Grid.Row="32" Grid.Column="2" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label x:Name="VitaminKValue" Grid.Row="32" Grid.Column="1" TextColor="Green" HorizontalTextAlignment="Center"/>
 
-                <Label Text=" " Grid.Row="32" Grid.ColumnSpan="3" TextColor="Transparent"/>
+<ProgressBar x:Name="VitaminKBar" Grid.Row="33" Grid.ColumnSpan="3" ProgressColor="Green"/>
 
-                <Label x:Name="ThaiminName" Text="Thiamin (mg)" Grid.Row="33" Grid.Column="0" IsVisible="False"/>
-                <Label x:Name="ThiaminValue" Grid.Row="33" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="Center" IsVisible="False"/>
-                <Label x:Name="ThiaminLeft" Grid.Row="33" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<Label Text=" " Grid.Row="34" Grid.ColumnSpan="3" TextColor="Transparent"/>
 
-                <ProgressBar x:Name="ThiaminBar" Grid.Row="34" Grid.ColumnSpan="3" ProgressColor="Goldenrod" IsVisible="False"/>
+<Label x:Name="ThaiminName" Text="Thiamin (mg)" Grid.Row="35" Grid.Column="0" IsVisible="False"/>
+<Label x:Name="ThiaminValue" Grid.Row="35" Grid.Column="1" TextColor="Goldenrod" HorizontalTextAlignment="Center" IsVisible="False"/>
+<Label x:Name="ThiaminLeft" Grid.Row="35" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label x:Name="RiboName" Text="Riboflavin (mg)" Grid.Row="35" Grid.Column="0" IsVisible="False"/>
-                <Label x:Name="RiboflavinValue" Grid.Row="35" Grid.Column="1" TextColor="Orchid" HorizontalTextAlignment="Center" IsVisible="False"/>
-                <Label x:Name="RiboflavinLeft" Grid.Row="35" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<ProgressBar x:Name="ThiaminBar" Grid.Row="36" Grid.ColumnSpan="3" ProgressColor="Goldenrod" IsVisible="False"/>
 
-                <ProgressBar x:Name="RiboflavinBar" Grid.Row="36" Grid.ColumnSpan="3" ProgressColor="Orchid" IsVisible="False"/>
+<Label x:Name="RiboName" Text="Riboflavin (mg)" Grid.Row="37" Grid.Column="0" IsVisible="False"/>
+<Label x:Name="RiboflavinValue" Grid.Row="37" Grid.Column="1" TextColor="Orchid" HorizontalTextAlignment="Center" IsVisible="False"/>
+<Label x:Name="RiboflavinLeft" Grid.Row="37" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label x:Name="NiacinName" Text="Niacin (mg)" Grid.Row="37" Grid.Column="0" IsVisible="False"/>
-                <Label x:Name="NiacinValue" Grid.Row="37" Grid.Column="1" TextColor="Orange" HorizontalTextAlignment="Center" IsVisible="False"/>
-                <Label x:Name="NiacinLeft" Grid.Row="37" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<ProgressBar x:Name="RiboflavinBar" Grid.Row="38" Grid.ColumnSpan="3" ProgressColor="Orchid" IsVisible="False"/>
 
-                 <ProgressBar x:Name="NiacinBar" Grid.Row="38" Grid.ColumnSpan="3" ProgressColor="Orange" IsVisible="False"/>
+<Label x:Name="NiacinName" Text="Niacin (mg)" Grid.Row="39" Grid.Column="0" IsVisible="False"/>
+<Label x:Name="NiacinValue" Grid.Row="39" Grid.Column="1" TextColor="Orange" HorizontalTextAlignment="Center" IsVisible="False"/>
+<Label x:Name="NiacinLeft" Grid.Row="39" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label x:Name="B5Name" Text="Panthothenic Acid (mg)" Grid.Row="39" Grid.Column="0" Margin="0,0,5,0" IsVisible="False"/>
-                <Label x:Name="B5Value" Grid.Row="39" Grid.Column="1" TextColor="LimeGreen" HorizontalTextAlignment="Center" IsVisible="False"/>
-                <Label x:Name="B5Left" Grid.Row="39" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<ProgressBar x:Name="NiacinBar" Grid.Row="40" Grid.ColumnSpan="3" ProgressColor="Orange" IsVisible="False"/>
 
-                <ProgressBar x:Name="B5Bar" Grid.Row="40" Grid.ColumnSpan="3" ProgressColor="LimeGreen" IsVisible="False"/>
+<Label x:Name="B5Name" Text="Panthothenic Acid (mg)" Grid.Row="41" Grid.Column="0" Margin="0,0,5,0" IsVisible="False"/>
+<Label x:Name="B5Value" Grid.Row="41" Grid.Column="1" TextColor="LimeGreen" HorizontalTextAlignment="Center" IsVisible="False"/>
+<Label x:Name="B5Left" Grid.Row="41" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label x:Name="B6Name" Text="Pyridoxin (mg)" Grid.Row="41" Grid.Column="0" IsVisible="False"/>
-                <Label x:Name="B6Value" Grid.Row="41" Grid.Column="1" TextColor="MediumPurple" HorizontalTextAlignment="Center" IsVisible="False"/>
-                <Label x:Name="B6Left" Grid.Row="41" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<ProgressBar x:Name="B5Bar" Grid.Row="42" Grid.ColumnSpan="3" ProgressColor="LimeGreen" IsVisible="False"/>
 
-                <ProgressBar x:Name="B6Bar" Grid.Row="42" Grid.ColumnSpan="3" ProgressColor="MediumPurple" IsVisible="False"/>
+<Label x:Name="B6Name" Text="Pyridoxin (mg)" Grid.Row="43" Grid.Column="0" IsVisible="False"/>
+<Label x:Name="B6Value" Grid.Row="43" Grid.Column="1" TextColor="MediumPurple" HorizontalTextAlignment="Center" IsVisible="False"/>
+<Label x:Name="B6Left" Grid.Row="43" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label x:Name="BiotinName" Text="Biotin (μg)" Grid.Row="43" Grid.Column="0" IsVisible="False"/>
-                <Label x:Name="BiotinValue" Grid.Row="43" Grid.Column="1" TextColor="PaleTurquoise" HorizontalTextAlignment="Center" IsVisible="False"/>
-                <Label x:Name="BiotinLeft" Grid.Row="43" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<ProgressBar x:Name="B6Bar" Grid.Row="44" Grid.ColumnSpan="3" ProgressColor="MediumPurple" IsVisible="False"/>
 
-                <ProgressBar x:Name="BiotinBar" Grid.Row="44" Grid.ColumnSpan="3" ProgressColor="PaleTurquoise" IsVisible="True"/>
+<Label x:Name="BiotinName" Text="Biotin (μg)" Grid.Row="45" Grid.Column="0" IsVisible="False"/>
+<Label x:Name="BiotinValue" Grid.Row="45" Grid.Column="1" TextColor="PaleTurquoise" HorizontalTextAlignment="Center" IsVisible="False"/>
+<Label x:Name="BiotinLeft" Grid.Row="45" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label x:Name="FolicName" Text="Folic Acid (μg)" Grid.Row="45" Grid.Column="0" IsVisible="False"/>
-                <Label x:Name="FolicAcidValue" Grid.Row="45" Grid.Column="1" TextColor="LightGreen" HorizontalTextAlignment="Center" IsVisible="False"/>
-                <Label x:Name="FolicAcidLeft" Grid.Row="45" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<ProgressBar x:Name="BiotinBar" Grid.Row="46" Grid.ColumnSpan="3" ProgressColor="PaleTurquoise" IsVisible="True"/>
 
-                <ProgressBar x:Name="FolicAcidBar" Grid.Row="46" Grid.ColumnSpan="3" ProgressColor="LightGreen" IsVisible="False"/>
+<Label x:Name="FolicName" Text="Folic Acid (μg)" Grid.Row="47" Grid.Column="0" IsVisible="False"/>
+<Label x:Name="FolicAcidValue" Grid.Row="47" Grid.Column="1" TextColor="LightGreen" HorizontalTextAlignment="Center" IsVisible="False"/>
+<Label x:Name="FolicAcidLeft" Grid.Row="47" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
 
-                <Label x:Name="CobalaminName" Text="Cobalamin (μg)" Grid.Row="47" Grid.Column="0" IsVisible="False"/>
-                <Label x:Name="CobalaminValue" Grid.Row="47" Grid.Column="1" TextColor="RoyalBlue" HorizontalTextAlignment="Center" IsVisible="False"/>
-                <Label x:Name="CobalaminLeft" Grid.Row="47" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+<ProgressBar x:Name="FolicAcidBar" Grid.Row="48" Grid.ColumnSpan="3" ProgressColor="LightGreen" IsVisible="False"/>
 
-                <ProgressBar x:Name="CobalaminBar" Grid.Row="48" Grid.ColumnSpan="3" ProgressColor="RoyalBlue" IsVisible="False"/>
+<Label x:Name="CobalaminName" Text="Cobalamin (μg)" Grid.Row="49" Grid.Column="0" IsVisible="False"/>
+<Label x:Name="CobalaminValue" Grid.Row="49" Grid.Column="1" TextColor="RoyalBlue" HorizontalTextAlignment="Center" IsVisible="False"/>
+<Label x:Name="CobalaminLeft" Grid.Row="49" Grid.Column="2" IsVisible="False" TextColor="{AppThemeBinding Light=SlateGray, Dark=WhiteSmoke}" HorizontalTextAlignment="End"/>
+
+<ProgressBar x:Name="CobalaminBar" Grid.Row="50" Grid.ColumnSpan="3" ProgressColor="RoyalBlue" IsVisible="False"/>
+
 
    </Grid>
 

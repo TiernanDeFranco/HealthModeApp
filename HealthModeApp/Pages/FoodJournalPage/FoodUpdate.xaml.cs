@@ -2,6 +2,8 @@
 using System.Text.RegularExpressions;
 using HealthModeApp.DataServices;
 using HealthModeApp.Models;
+using HealthModeApp.Pages.Popups;
+using Mopups.Services;
 using static HealthModeApp.Models.SQLite.SQLiteTables;
 
 namespace HealthModeApp.Pages.FoodJournalPage;
@@ -20,6 +22,9 @@ public partial class FoodUpdate : ContentPage
     int _loggedFoodID;
     decimal baseServings;
     decimal baseGrams;
+    int selectedMeal;
+    Dictionary<string, decimal> descriptionToGrams;
+    List<string> descriptionOptions;
 
     public FoodUpdate(ISQLiteDataService localData, LoggedFoodTable food)
     {
@@ -27,7 +32,7 @@ public partial class FoodUpdate : ContentPage
         
         _localData = localData;
         _food = food;
-        TimeSelect.Time = _food.Time;
+        TimeSelect.Time = _food.Time.TimeOfDay;
         _date = _food.Date;
         _mealType = _food.MealType;
         baseServings = _food.ServingAmount;
@@ -35,6 +40,7 @@ public partial class FoodUpdate : ContentPage
         _servingUnit = _food.ServingUnit;
         _loggedFoodID = _food.LoggedFoodID;
         ServingNumberEntry.Text = baseServings.ToString();
+        VerifiedIcon.IsVisible = food.Verified;
 
         switch (_servingUnit)
         {
@@ -42,7 +48,7 @@ public partial class FoodUpdate : ContentPage
                 servingSizeOptions = new List<ServingSizeOption>
                 {
                     new ServingSizeOption { Grams = food.ServingSize, Description = food.ServingName },
-                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize)}g" },
+                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Math.Round(food.ServingSize, 2):0.##}g" },
                     new ServingSizeOption { Grams = 1, Description = "1g" }
                 };
                 break;
@@ -50,29 +56,37 @@ public partial class FoodUpdate : ContentPage
                 servingSizeOptions = new List<ServingSizeOption>
                 {
                     new ServingSizeOption { Grams = food.ServingSize, Description = food.ServingName },
-                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize)}mL" },
+                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Math.Round(food.ServingSize, 2):0.##}mL" },
                     new ServingSizeOption { Grams = 1, Description = "1mL" },
 
-                    new ServingSizeOption { Grams = (decimal)food.Grams, Description = $"{Convert.ToInt32(food.Grams)}g" },
-                    new ServingSizeOption { Grams = (decimal)food.Grams/food.ServingSize, Description = "1g" }
                 };
                 break;
             case "oz":
                 servingSizeOptions = new List<ServingSizeOption>
                 {
                     new ServingSizeOption { Grams = food.ServingSize, Description = food.ServingName },
-                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize)}oz" },
+                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{food.ServingSize:0.##}oz" },
                     new ServingSizeOption { Grams = 1, Description = "1oz" },
 
-                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Convert.ToInt32(food.ServingSize*(decimal)28.3495)}g" },
+                    new ServingSizeOption { Grams = food.ServingSize, Description = $"{Math.Round(food.ServingSize * (decimal)28.3495, 1):0.##}g" },
                     new ServingSizeOption { Grams = 1/(decimal)28.3495, Description = "1g" }
                 };
                 break;
         }
 
-        ServingSizePicker.ItemsSource = servingSizeOptions;
-        ServingSizePicker.ItemDisplayBinding = new Binding("Description");
-        ServingSizePicker.SelectedIndex = _food.ServingSizeSelected;
+        descriptionOptions = servingSizeOptions.Select(o => o.Description).ToList();
+
+        ServingSizePicker.ItemSource = descriptionOptions;
+        ServingSizePicker.Title = descriptionOptions[0];
+        descriptionToGrams = servingSizeOptions.ToDictionary(o => o.Description, o => o.Grams);
+
+
+
+        if (descriptionToGrams.TryGetValue(descriptionOptions[0], out decimal value))
+        {
+            servingSizeSelected = value;
+
+        }
 
         PopulateFoodInfo(_food);
         GetMealOptions();  
@@ -164,11 +178,7 @@ public partial class FoodUpdate : ContentPage
         }
 
 
-        var selectedOption = ServingSizePicker.SelectedItem as ServingSizeOption;
-        if (selectedOption != null)
-        {
-            servingSizeSelected = selectedOption.Grams;
-        }
+        
 
 
        numberOfServings = decimal.Parse(ServingNumberEntry.Text);
@@ -413,8 +423,9 @@ public partial class FoodUpdate : ContentPage
                 mealNames.RemoveAt(5);
                 break;
         }
-        MealPicker.ItemsSource = mealNames;
-        MealPicker.SelectedIndex = _mealType-1;
+        MealPicker.ItemSource = mealNames;
+        MealPicker.Title = mealNames[_mealType-1];
+        selectedMeal = _mealType;
 
     }
 
@@ -490,7 +501,8 @@ public partial class FoodUpdate : ContentPage
         var userID = await _localData.GetUserID();
         if (numberOfServings > 0)
         {
-            await _localData.UpdateLoggedFood(_loggedFoodID, userID, _date, MealPicker.SelectedIndex+1, TimeSelect.Time, ServingSizePicker.SelectedIndex, numberOfServings, totalGrams, _food.FoodName, _food.Brand,
+            DateTime mealDate = DateTime.Today + TimeSelect.Time;
+            await _localData.UpdateLoggedFood(_loggedFoodID, userID, _date, selectedMeal, mealDate, servingIndex, numberOfServings, totalGrams, _food.FoodName, _food.Brand,
                  _food.ServingSize, _food.ServingUnit, (decimal)_food.Grams, _food.ServingName,
                  (totalCalories / _factor), totalCarbs, totalSugar, totalAddedSugar, totalSugarAlc, totalFiber, totalNetCarb,
                  totalFat, totalSatFat, totalPUnSatFat, totalMUnSatFat, totalTransFat, totalProtein,
@@ -512,6 +524,50 @@ public partial class FoodUpdate : ContentPage
         {
             await _localData.RemoveLoggedFood(_loggedFoodID);
             await Navigation.PopToRootAsync();
+        }
+    }
+
+    
+
+    void MealPicker_SelectedIndexChanged(System.Object sender, System.Int32 e)
+    {
+        selectedMeal = e + 1;
+        Debug.WriteLine($"Meal {e}");
+    }
+
+    async void VerifiedIcon_Clicked(System.Object sender, System.EventArgs e)
+    {
+        await MopupService.Instance.PushAsync(new InfoPopup("Verified Food", "This food has been verified and should be accurate to the nutrition label!"));
+    }
+
+    int servingIndex;
+
+    void ServingSizePicker_SelectedIndexChanged(System.Object sender, System.Int32 e)
+    {
+        string key = descriptionOptions[e];
+        Debug.WriteLine($"Key: {key} - Title:{ServingSizePicker.Title}");
+        if (descriptionToGrams.TryGetValue(key, out decimal value))
+        {
+            servingSizeSelected = value;
+            Debug.WriteLine($"Value: {value}");
+        }
+        else
+        {
+            // Handle the case where the key is not found in the dictionary
+        }
+
+        servingIndex = e;
+
+
+        if (string.IsNullOrWhiteSpace(ServingNumberEntry.Text))
+        {
+            ServingNumberEntry.Text = "1";
+        }
+        else
+        {
+
+         PopulateFoodInfo(_food);
+
         }
     }
 }

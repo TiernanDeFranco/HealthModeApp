@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+             x:Class="HealthModeApp.Pages.Popups.LinkPopup"
+
+             CloseWhenBackgroundIsClicked="True">
+
+    <Frame HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Padding="15" Margin="15, -15, 15, 15">
+        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Spacing="8">
+            <Label x:Name="TitleLabel" Text="Title" FontFamily="Lato-Bold" FontSize="Title" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
+            <Label Text="May be affiliate links that earn a commission with your purchase" TextColor="LightSlateGray" FontSize="Caption" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
+            <ActivityIndicator x:Name="Loading" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+            <ListView x:Name="LinkList" ItemSelected="LinkList_ItemSelected" BackgroundColor="Transparent" IsVisible="False" CachingStrategy="RecycleElement"/>
+        </StackLayout>
+
+    </Frame>
+</mopups:PopupPage>

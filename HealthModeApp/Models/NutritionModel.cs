@@ -19,6 +19,34 @@ namespace HealthModeApp.Models
             }
         }
 
+        int? _userID;
+        public int? UserID
+        {
+            get => _userID;
+            set
+            {
+                if (_userID == value)
+                    return;
+
+                _userID = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserID)));
+            }
+        }
+
+        bool _verified;
+        public bool Verified
+        {
+            get => _verified;
+            set
+            {
+                if (_verified == value)
+                    return;
+
+                _verified = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Verified)));
+            }
+        }
+
         string _barcode;
         public string Barcode { get => _barcode; set { if (_barcode == value) return; _barcode = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Barcode))); } }
 

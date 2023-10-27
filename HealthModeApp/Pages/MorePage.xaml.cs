@@ -7,6 +7,9 @@ using HealthModeApp.Pages.WorkoutPages;
 using HealthModeApp.Pages.ProfilePage;
 using System.Text.Json;
 using System.Text;
+using Mopups.Services;
+using HealthModeApp.Pages.Popups;
+using HealthModeApp.Pages.Progress;
 
 namespace HealthModeApp.Pages;
 
@@ -40,40 +43,58 @@ public partial class MorePage : ContentPage
     {
         base.OnAppearing();
 
-        string cdnUrl = "https://d2f1hfw011wycq.cloudfront.net";
-        
-
-        
-
-        Username.Text = "      ";
-        FlairLabel.TextColor = Colors.Transparent;
-        FlairLabel.Text = "Flair";
-        FlairBG.Background = Colors.Transparent;
-
-        userID = await _localData.GetUserID();
-        userInfo = await _localData.GetUserAsync(userID);
-
-        string pfpSource = cdnUrl + "/profile-pictures" + userInfo.PicturePath;
-        ProfilePicture.Source = new UriImageSource { Uri = new System.Uri(pfpSource) };
-        PfpHolder.Background = Color.FromHex(userInfo.PictureBGColor);
-
-        if (userInfo.Title != null)
+        if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
         {
-            string titleSource = cdnUrl + "/titles" + userInfo.Title;
-            TitleImage.Source = new UriImageSource { Uri = new System.Uri(titleSource) };
+            MasterGrid.IsVisible = false;
+            await MopupService.Instance.PushAsync(new InfoPopup("No Internet", "You need to be connected to the internet to view this page :("));
+            // In your page code behind, you can access the TabBar like this:
+            var shell = Shell.Current;
+            var tabBar = shell.FindByName<TabBar>("TabBar");
+
+            // To change the selected tab, you can set the CurrentItem property of the TabBar:
+            tabBar.CurrentItem = tabBar.Items[2];
         }
+        else
+        {
+            MasterGrid.IsVisible = true;
+            string cdnUrl = "https://d2f1hfw011wycq.cloudfront.net";
 
-        FlairBG.Background = Color.FromHex(userInfo.FlairColor);
 
-        FlairLabel.TextColor = userInfo.IsBlackText ? Colors.Black : Colors.White;
-        FlairLabel.Text = userInfo.Flair.ToString();
-        Username.Text = userInfo.Username.ToString();
 
-        
-        CreateList();
 
-        SeesAds();
+            Username.Text = "      ";
+            FlairLabel.TextColor = Colors.Transparent;
+            FlairLabel.Text = "Flair";
+            FlairBG.Background = Colors.Transparent;
 
+            userID = await _localData.GetUserID();
+            userInfo = await _localData.GetUserAsync(userID);
+
+            string pfpSource = cdnUrl + "/profile-pictures" + userInfo.PicturePath;
+
+            Debug.WriteLine(userInfo.PicturePath);
+            Debug.WriteLine(pfpSource);
+
+            ProfilePicture.Source = new UriImageSource { Uri = new System.Uri(pfpSource) };
+            PfpHolder.Background = Color.FromHex(userInfo.PictureBGColor);
+
+            if (userInfo.Title != null)
+            {
+                string titleSource = cdnUrl + "/titles" + userInfo.Title;
+                TitleImage.Source = new UriImageSource { Uri = new System.Uri(titleSource) };
+            }
+
+            FlairBG.Background = Color.FromHex(userInfo.FlairColor);
+
+            FlairLabel.TextColor = userInfo.IsBlackText ? Colors.Black : Colors.White;
+            FlairLabel.Text = userInfo.Flair.ToString();
+            Username.Text = userInfo.Username.ToString();
+
+
+            CreateList();
+
+            SeesAds();
+        }
         
     }
 
@@ -242,23 +263,7 @@ public partial class MorePage : ContentPage
     void CreateList()
     {
      
-                    var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-                    var energyUnit = unitList[2];
-
-                    switch (energyUnit)
-                    {
-                        case "cal":
-                            CalMac.Text = "Calories & Macros";
-                            break;
-
-                        case "kCal":
-                            CalMac.Text = "Kilocalories & Macros";
-                            break;
-
-                        case "kJ":
-                            CalMac.Text = "Kilojoules & Macros";
-                            break;
-                    }
+                   
 
     }
 
@@ -274,6 +279,11 @@ public partial class MorePage : ContentPage
         await Navigation.PushAsync(new UserProfile(_dataService, _localData, pfpSource));
     }
 
+
+    async void GoalWeightTapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        await MopupService.Instance.PushAsync(new ChangeGoalWeight(_dataService, _localData));
+    }
 
 
 

@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using HealthModeApp.Models;
 
 namespace HealthModeApp.DataServices
@@ -15,11 +16,14 @@ namespace HealthModeApp.DataServices
         private readonly string _baseAddress;
         private readonly string _url;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
+        private readonly ISQLiteDataService _localData;
+
+        string cVersion = "0.1.0"; //<------ This is the version number of the app, it must be updated with each subsequent app store new version launch along with the API's version and they need to match
 
         public RestDataService()
         {
             _httpClient = new HttpClient();
-            _baseAddress = "https://5vw1lstyzd.execute-api.us-east-2.amazonaws.com/beta";
+           _baseAddress = "https://5vw1lstyzd.execute-api.us-east-2.amazonaws.com/beta";
             _url = $"{_baseAddress}/api/healthmode";
 
 
@@ -41,6 +45,46 @@ namespace HealthModeApp.DataServices
             public bool IsBlackText { get; set; }
 
             public string PicturePath { get; set; }
+        }
+
+        public class TranslationObject
+        {
+            public string Key { get; set; }
+            public string Translation { get; set; }
+        }
+
+        public async Task<string> GetTranslations(int newLanguage)
+        {
+            
+            
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return "";
+            }
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/getTranslations/{newLanguage}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                   
+                    return content;
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+
+            }
+            return "";
+
         }
 
 
@@ -66,7 +110,7 @@ namespace HealthModeApp.DataServices
                 Debug.WriteLine(jsonNutrition);
 
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/uploadedfood/userinfo/{email}/{password}/{userID}", content);
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/food/auth/3FhSsE3LFDTVcvRxbW4ED8fyAPwuBuQimJvWnv7QuE", content);
 
 
                 if (response.IsSuccessStatusCode)
@@ -103,8 +147,9 @@ namespace HealthModeApp.DataServices
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-
+                    Debug.WriteLine(content);
                     nutritionList = JsonSerializer.Deserialize<List<NutritionModel>>(content, _jsonSerializerOptions);
+                    
                 }
                 else
                 {
@@ -194,7 +239,7 @@ namespace HealthModeApp.DataServices
         #endregion
 
         #region Password Recovery
-        public async Task PasswordRecovery(string email)
+        public async Task PasswordRecovery(string email, int language)
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
@@ -212,7 +257,7 @@ namespace HealthModeApp.DataServices
                 string jsonUserInfo = JsonSerializer.Serialize<UserInfo>(userInfo, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonUserInfo, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/passwordRecovery/{email}", content);
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/passwordRecovery/{email}/{language}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -289,6 +334,45 @@ namespace HealthModeApp.DataServices
             catch (Exception ex)
             {
                 Debug.WriteLine($"Whoops, exception: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> InternalPasswordChange(string email, string oldPassword, string newPassword)
+        {
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return false;
+            }
+
+            try
+            {
+                UserInfo userInfo = new UserInfo()
+                {
+                    Email = email,
+                    Password = newPassword
+                };
+
+                string jsonUserInfo = JsonSerializer.Serialize<UserInfo>(userInfo, _jsonSerializerOptions);
+                StringContent content = new StringContent(jsonUserInfo, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/passwordChange/{email}/{oldPassword}/{newPassword}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Successfully changed password");
+                    return true;
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+                return false;
             }
         }
 
@@ -381,12 +465,12 @@ namespace HealthModeApp.DataServices
             return;
         }
 
-        public async Task UpdateUserInfoAsync(UserInfo userInfoModel, string email, string password, int userID)
+        public async Task<bool> UpdateUserInfoAsync(UserInfo userInfoModel, string email, string password, int userID)
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
                 Debug.WriteLine("------> No Internet");
-                return;
+                return false;
             }
 
             try
@@ -408,7 +492,9 @@ namespace HealthModeApp.DataServices
                     ActivityLevel = userInfoModel.ActivityLevel,
                     CalorieGoal = userInfoModel.CalorieGoal,
                     WaterGoal = userInfoModel.WaterGoal,
-                    FlairID = userInfoModel.FlairID
+                    FlairID = userInfoModel.FlairID,
+                    ProfilePictureID = userInfoModel.ProfilePictureID,
+                    PictureBGColor = userInfoModel.PictureBGColor
                 };
 
                 string jsonUserInfo = JsonSerializer.Serialize<UserInfo>(userInfo, _jsonSerializerOptions);
@@ -419,15 +505,70 @@ namespace HealthModeApp.DataServices
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Successfully updated user information");
+                    return true;
                 }
                 else
                 {
                     Debug.WriteLine("-----> Non-Http 2xx Response");
+                    return false;
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Whoops, exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<string> UpdateUsername(string email, string password, string newUsername)
+        {
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return "No internet :(";
+            }
+
+            try
+            {
+                UserInfo userInfo = new UserInfo()
+                {
+                    Email = email
+                };
+
+                string jsonUserInfo = JsonSerializer.Serialize<UserInfo>(userInfo, _jsonSerializerOptions);
+                StringContent content = new StringContent(jsonUserInfo, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/usernameChange/{email}/{password}/{newUsername}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    if (responseContent.Contains("UsernameChanged"))
+                    {
+                        Debug.WriteLine("Successfully updated username");
+                        return "Success";
+                    }
+                    else if (responseContent.Contains("ForbiddenWord"))
+                    {
+                        return $"Your selected username of\n{newUsername}\nmay have been flagged as inappropriate and cannot be changed";
+                    }
+                    else if (responseContent.Contains("UsernameTaken"))
+                    {
+                        return $"{newUsername} already belongs to another user on the app and cannot be changed";
+                    }
+                    return "Error: Should've returned either Success, Contains Forbidden Word, or Username Taken";
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                    return $"You are not authorized to do this";
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+                return ex.Message;
             }
         }
 
@@ -464,7 +605,136 @@ namespace HealthModeApp.DataServices
             }
         }
 
+        public async Task<int> GetPfpID(int userID)
+        {
+            int pfpID = 0;
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return pfpID;
+            }
 
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userinfo/profilePicID/{userID}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    pfpID = int.Parse(responseContent);
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                    return pfpID;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+            }
+            return pfpID;
+        }
+
+        public async Task<string> GetPfpPath(int pfpID)
+        {
+            string pfpPath = "/default/defaultuser.png";
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return pfpPath;
+            }
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/profilePicPath/{pfpID}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    pfpPath = responseContent;
+                    pfpPath = pfpPath.Replace("\"", "");
+                    return pfpPath;
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                    return pfpPath;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+            }
+            return pfpPath;
+        }
+
+
+        public async Task<List<ProfilePictures>> GetPfpList(int userID)
+        {
+            List<ProfilePictures> pfpList = new List<ProfilePictures>();
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return pfpList;
+            }
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userInfo/getProfilePics/{userID}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine(content);
+                    pfpList = JsonSerializer.Deserialize<List<ProfilePictures>>(content, _jsonSerializerOptions);
+
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+
+            }
+            return pfpList;
+        }
+
+        public async Task<List<FlairTable>> GetFlairList(int userID)
+        {
+            List<FlairTable> flairList = new List<FlairTable>();
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return flairList;
+            }
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userInfo/getFlairs/{userID}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine(content);
+                    flairList = JsonSerializer.Deserialize<List<FlairTable>>(content, _jsonSerializerOptions);
+
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+
+            }
+            return flairList;
+        }
 
         public async Task<string> CheckUserUniqueAsync(string email, string username)
         {
@@ -499,7 +769,6 @@ namespace HealthModeApp.DataServices
             {
                 Debug.WriteLine($"Whoops, exception: {ex.Message}");
             }
-
             return result;
         }
 
@@ -637,29 +906,44 @@ namespace HealthModeApp.DataServices
         }
 
 
-        public async Task<string> LoginAsync(string email, string hashedPassword)
+        public async Task<(string,string)> LoginAsync(string email, string hashedPassword)
         {
             string result = "";
 
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                result = "NoInternet";
+                return (result, cVersion);
+            }
+
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/login/{email}/{hashedPassword}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/login/{email}/{hashedPassword}/{cVersion}");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    result = "AllClear";
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    var deserializedObject = JsonSerializer.Deserialize<Dictionary<string, string>>(content, _jsonSerializerOptions);
+
+                    if (deserializedObject.TryGetValue("message", out string message))
+                    {
+                        result = message;
+                    }
                 }
                 else
                 {
                     result = "Unauthorized";
                 }
+                
             }
             catch (Exception ex)
             {
                 result = ex.Message;
             }
 
-            return result;
+            return (result, cVersion);
         }
 
         #endregion
@@ -697,6 +981,39 @@ namespace HealthModeApp.DataServices
             return exerciseList;
         }
         #endregion
+
+        public async Task<List<URLModel>> GetLink(int linkCategory)
+        {
+            List<URLModel> linkList = new List<URLModel>();
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("------> No Internet");
+                return linkList;
+            }
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/URLs/{linkCategory}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    linkList = JsonSerializer.Deserialize<List<URLModel>>(content, _jsonSerializerOptions);
+                }
+                else
+                {
+                    Debug.WriteLine("-----> Non-Http 2xx Response");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Whoops, exception: {ex.Message}");
+
+            }
+            return linkList;
+        }
+
 
     }
 }

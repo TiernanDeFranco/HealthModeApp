@@ -47,31 +47,31 @@ namespace HealthModeApp.Models
             }
         }
 
-        byte[] _thumbnail;
-        public byte[] Thumbnail
+        string _thumbnailURL;
+        public string ThumbnailURL
         {
-            get => _thumbnail;
+            get => _thumbnailURL;
             set
             {
-                if (_thumbnail == value)
+                if (_thumbnailURL == value)
                     return;
 
-                _thumbnail = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Thumbnail)));
+                _thumbnailURL = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ThumbnailURL)));
             }
         }
 
-        byte[] _video;
-        public byte[] Video
+        string _videoURL;
+        public string VideoURL
         {
-            get => _video;
+            get => _videoURL;
             set
             {
-                if (_video == value)
+                if (_videoURL == value)
                     return;
 
-                _video = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Video)));
+                _videoURL = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoURL)));
             }
         }
 

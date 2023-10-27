@@ -31,19 +31,21 @@ public partial class Dashboard : ContentPage
     public string success;
     int _userID;
     string _dateFormat;
-
+    
 
     public Dashboard(IRestDataService dataService, ISQLiteDataService localData)
     {
         _dataService = dataService;
         _localData = localData;
         Shell.SetTabBarIsVisible(this, false);
-
         TryLogin();
+
+        
         InitializeComponent();
         
+        LoadPage();
+        
 
-      
 
     }
 
@@ -57,6 +59,36 @@ public partial class Dashboard : ContentPage
         
     }
 
+    async void LoadPage()
+    {
+        await LoadingPage.FadeTo(0, 250);
+        LoadingPage.IsVisible = false;
+        dashboardGrid.IsVisible = true;
+        dashboardGrid.FadeTo(1, 200);
+        
+        Shell.SetTabBarIsVisible(this, true);
+        string serializedList = await _dataService.GetTranslations(1);
+        Debug.WriteLine($"Content: {serializedList}");
+        await _localData.AddTranslation(serializedList);
+        TranslatePage();
+    }
+
+    async void TranslatePage()
+    {
+        var shell = Shell.Current;
+        var tabBar = shell.FindByName<TabBar>("TabBar");
+
+        tabBar.Items[0].Title = await _localData.GetTranslationByKey("FoodJournalTab");
+        tabBar.Items[1].Title = await _localData.GetTranslationByKey("WorkoutTab");
+        tabBar.Items[2].Title = await _localData.GetTranslationByKey("DashboardTab");
+        tabBar.Items[3].Title = "???";
+        tabBar.Items[4].Title = await _localData.GetTranslationByKey("MoreTab");
+
+        WeightText.Text = await _localData.GetTranslationByKey("Weight");
+        RemainingCalLabel.Text = (goalCal - totalCal).ToString("0\n") + await _localData.GetTranslationByKey("Remaining");
+
+    }
+
     
     double volume1;
     double volume2;
@@ -65,25 +97,44 @@ public partial class Dashboard : ContentPage
 
     string _waterUnit;
 
+    int unitMod = 0;
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
+        DashboardAppear();
+
+    }
+
+    public async void DashboardAppear()
+    {
         Debug.WriteLine("-------> Appear");
+
+
+
         var userExists = await _localData.DoesUserTableExist();
 
         if (userExists)
         {
 
-        var userID = await _localData.GetUserID();
+            var userID = await _localData.GetUserID();
 
             if (userID != -1)
             {
                 Debug.WriteLine("-------> User Exists");
-                
+
                 var userInfo = await _localData.GetUserAsync(userID);
+                Debug.WriteLine(userInfo.Units);
                 var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-                var dateFormat = unitList[4];
-                var waterUnit = unitList[1];
+                //weight [0], length [1], water[2], food[3], exercise[4], date[5]
+                if (unitList.Count != 6)
+                {
+                    unitMod = 1;
+                }
+                else { unitMod = 0; }
+                var dateFormat = unitList[5 - unitMod];
+                var waterUnit = unitList[2 - unitMod];
                 _waterUnit = waterUnit;
 
                 Debug.WriteLine("-------> Made it past the variable settings");
@@ -140,7 +191,7 @@ public partial class Dashboard : ContentPage
                 PopulateFoodInfo();
                 PopulateMealName();
                 FillGraph();
-                
+
 
                 Debug.WriteLine("-------> This is after fillgraph");
 
@@ -148,8 +199,6 @@ public partial class Dashboard : ContentPage
             }
 
         }
-        
-
     }
 
     async void SeesAds()
@@ -166,7 +215,7 @@ public partial class Dashboard : ContentPage
         if (mealNames == null || mealNames.Count == 0)
         {
             // Create default meal names
-            var defaultMealNames = new List<string> { "Breakfast", "Lunch", "Dinner", "Snack", "Meal 5", "Meal 6" };
+            var defaultMealNames = new List<string> { await _localData.GetTranslationByKey("Breakfast"), await _localData.GetTranslationByKey("Lunch"), await _localData.GetTranslationByKey("Dinner"), await _localData.GetTranslationByKey("Snack"), await _localData.GetTranslationByKey("Meals"), await _localData.GetTranslationByKey("Meals") };
 
             // Add the default meal names to the MealNames table
             int mealNum = 1;
@@ -182,8 +231,57 @@ public partial class Dashboard : ContentPage
         }
     }
 
+    async void AutoLogin(string email, string password)
+    {
+        Debug.WriteLine("AutoLogin");
+        int userID = await _localData.GetUserID();
+        Debug.WriteLine("UserID gotten");
+        (var userInfo, bool seesAds, string flair, string flairColor, bool isBlackText, string picturePath) = await _dataService.GetUserInfoOnLoginAsync(userID, email, password);
+        Debug.WriteLine("Info on login");
+        _userID = userID;
+        Debug.WriteLine($"{userInfo.Units}");
+        try
+        {
+            await _localData.UpdateUserAsync(userID, userInfo.Email, userInfo.Username, userInfo.Password, seesAds, userInfo.WeightPlan, userInfo.MainGoals, userInfo.Units, userInfo.Sex, userInfo.HeightCm, userInfo.Birthday, (decimal)userInfo.Weight, (decimal)userInfo.GoalWeight, userInfo.ActivityLevel, flair, flairColor, isBlackText, userInfo.PictureBGColor, picturePath, userInfo.Title);
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
+        Debug.WriteLine("Before test if goals");
+        var nutritionGoals = await _localData.GetNutritionGoals(userID, DateTime.Today);
+        bool hasWaterGoal = await _localData.DoesWaterGoalExist(userID);
+
+        if (!hasWaterGoal)
+        {
+            if (userInfo.WaterGoal == null) userInfo.WaterGoal = 2200;
+            await _localData.AddWaterGoal(userID, DateTime.Today, (int)userInfo.WaterGoal);
+        }
+
+
+        if (nutritionGoals == null)
+        {
+            Dictionary<string, int> nutrientGoals = await CalculateNutrientGoals((int)userInfo.CalorieGoal);
+            await _localData.AddNutritionGoals(userID, DateTime.Today, (int)userInfo.CalorieGoal, nutrientGoals["carb"], nutrientGoals["fat"], nutrientGoals["protein"],
+            nutrientGoals["satfat"], nutrientGoals["punsatfat"], nutrientGoals["munsatfat"], 0, nutrientGoals["sugar"], nutrientGoals["fiber"],
+            nutrientGoals["iron"], nutrientGoals["calcium"], nutrientGoals["potassium"], nutrientGoals["sodium"], nutrientGoals["cholesterol"],
+            nutrientGoals["vitaminA"], nutrientGoals["thiamin"], nutrientGoals["riboflavin"], nutrientGoals["niacin"], nutrientGoals["b5"],
+            nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
+            nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"]);
+        }
+
+       
+
+        DashboardAppear();
+
+    }
+
+    string cVersion;
+
     async void TryLogin()
     {
+       
+
         bool doesTableExist = await _localData.DoesUserTableExist();
         string email = null;
         string password = null;
@@ -193,13 +291,13 @@ public partial class Dashboard : ContentPage
         }
         if (email != null && password != null)
         {
-            success = await _dataService.LoginAsync(email, password);
+            (success, cVersion) = await _dataService.LoginAsync(email, password);
         }
         else
         {
             Debug.WriteLine("1st Else");
             await Navigation.PopAsync();
-            await Navigation.PushModalAsync(new LoginPage(_dataService, _localData));
+            await Navigation.PushModalAsync(new LoginPage(this, _dataService, _localData));
             LoadingPage.IsVisible = false;
             dashboardGrid.IsVisible = true;
             Shell.SetTabBarIsVisible(this, true);
@@ -207,48 +305,63 @@ public partial class Dashboard : ContentPage
         }
         if (success == "AllClear")
         {
-            Debug.WriteLine("AutoLogin");
-            int userID = await _dataService.GetUserIDByEmailAsync(email);
-            (var userInfo, bool seesAds, string flair, string flairColor, bool isBlackText, string picturePath) = await _dataService.GetUserInfoOnLoginAsync(userID, email, password);
-            _userID = userID;
-            try
-            {
-                await _localData.UpdateUserAsync(userID, userInfo.Email, userInfo.Username, userInfo.Password, seesAds, userInfo.WeightPlan, userInfo.MainGoals, userInfo.Units, userInfo.Sex, userInfo.HeightCm, userInfo.Birthday, (decimal)userInfo.Weight, (decimal)userInfo.GoalWeight, userInfo.ActivityLevel, flair, flairColor, isBlackText, userInfo.PictureBGColor, picturePath, userInfo.Title);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
-            var nutritionGoals = await _localData.GetNutritionGoals(userID, DateTime.Today);
-
-            if (nutritionGoals == null)
-            {
-                Dictionary<string, int> nutrientGoals = await CalculateNutrientGoals((int)userInfo.CalorieGoal);
-                await _localData.AddNutritionGoals(userID, DateTime.Today, (int)userInfo.CalorieGoal, nutrientGoals["carb"], nutrientGoals["fat"], nutrientGoals["protein"],
-                nutrientGoals["satfat"], nutrientGoals["punsatfat"], nutrientGoals["munsatfat"], 0, nutrientGoals["sugar"],
-                nutrientGoals["iron"], nutrientGoals["calcium"], nutrientGoals["potassium"], nutrientGoals["sodium"], nutrientGoals["cholesterol"],
-                nutrientGoals["vitaminA"], nutrientGoals["thiamin"], nutrientGoals["riboflavin"], nutrientGoals["niacin"], nutrientGoals["b5"],
-                nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
-                nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"], 2000);
-            }
-
-
-            LoadingPage.FadeTo(0, 250);
-            dashboardGrid.IsVisible = true;
-            dashboardGrid.FadeTo(1, 200);
-            LoadingPage.IsVisible = false;
-
-
+            Debug.WriteLine("Auto Login");
+            AutoLogin(email, password);
             Shell.SetTabBarIsVisible(this, true);
 
-           
+
+
+        }
+        else if (success == "NoInternet")
+        {
+            Debug.WriteLine("No Internet");
+            DisplayAlert("No Internet", "You are not currently connected to the internet.\nFunctions that require internet access with not work.", "Ok");
+        }
+        else if (success == "Maintenance")
+        {
+            
+            Debug.WriteLine("Maintenance");
+            AutoLogin(email, password);
+            
+            LoadingPage.FadeTo(0, 250);
+            LoadingPage.IsVisible = false;
+
+            _userID = await _localData.GetUserID();
+            Debug.WriteLine($"UserID: {_userID}");
+            if (_userID == 12)
+            {
+                LoadingPage.FadeTo(0, 250);
+                dashboardGrid.IsVisible = true;
+                dashboardGrid.FadeTo(1, 200);
+                LoadingPage.IsVisible = false;
+
+
+                Shell.SetTabBarIsVisible(this, true);
+                DisplayAlert("Maintenance", "Maintenance mode is active", "Got it");
+            }
+            else
+            {
+                await Navigation.PushModalAsync(new MaintenancePage());
+            }
+
+
+        }
+        else if (success == "Update")
+        {
+            Debug.WriteLine("Need to update");
+            AutoLogin(email, password);
+
+            LoadingPage.FadeTo(0, 250);
+            LoadingPage.IsVisible = false;
+            await Navigation.PushModalAsync(new UpdatePage(cVersion));
+
             
         }
         else
         {
             Debug.WriteLine("2nd Else");
             await Navigation.PopAsync();
-            await Navigation.PushModalAsync(new LoginPage(_dataService, _localData));
+            await Navigation.PushModalAsync(new LoginPage(this, _dataService, _localData));
 
 
 
@@ -305,6 +418,7 @@ public partial class Dashboard : ContentPage
         int polyunsaturatedFatRDV = (int)Math.Round(22.0 / 2000.0 * calorieGoal);
         int monounsaturatedFatRDV = (int)Math.Round(33.0 / 2000.0 * calorieGoal);
         int sugarRDV = (int)Math.Round(50.0 / 2000.0 * calorieGoal);
+        int fiberRDV = (int)Math.Round(28.0 / 2000.0 * calorieGoal);
         int ironRDV = (int)Math.Round(30.0 / 2000.0 * calorieGoal);
         int calciumRDV = (int)Math.Round(1300.0 / 2000.0 * calorieGoal);
         int potassiumRDV = (int)Math.Round(4700.0 / 2000.0 * calorieGoal);
@@ -335,6 +449,7 @@ public partial class Dashboard : ContentPage
         { "punsatfat", polyunsaturatedFatRDV },
         { "munsatfat", monounsaturatedFatRDV },
         { "sugar", sugarRDV },
+            {"fiber", fiberRDV },
         { "iron", ironRDV },
         { "calcium", calciumRDV },
         { "potassium", potassiumRDV },
@@ -371,9 +486,14 @@ public partial class Dashboard : ContentPage
             var userInfo = await _localData.GetUserAsync(userID);
 
             var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
+        if (unitList.Count != 6)
+        {
+            unitMod = 1;
+        }
+        else { unitMod = 0; }
 
-            var dateFormat = unitList[4];
-            var weightUnit = unitList[0];
+        var dateFormat = unitList[5-unitMod];
+            var weightUnit = unitList[0-unitMod];
             var weightPlan = userInfo.WeightPlan;
 
         Debug.WriteLine("-------> Fill Graph 2nd Checkpoint");
@@ -418,7 +538,9 @@ public partial class Dashboard : ContentPage
         if (weights.Count == 0)
             {
             ChartValues = new ObservableCollection<DateTimePoint>();
-            WeightValue.Text = "-= Enter Weight =-";
+            string enterWeight = await _localData.GetTranslationByKey("EnterWeight");
+            WeightValue.Text = $"-= {enterWeight} =-";
+            WeightValue.Text.Replace("\n", "");
 
                 if (weightPlan == -1)
                 {
@@ -610,7 +732,7 @@ public partial class Dashboard : ContentPage
         var loggedFoods = await _localData.GetLoggedFoods(userID, DateTime.Today);
         var userInfo = await _localData.GetUserAsync(userID);
         var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-        energyUnit = unitList[2];
+        energyUnit = unitList[3];
 
 
 
@@ -711,7 +833,7 @@ public partial class Dashboard : ContentPage
 
                 };
 
-            RemainingCalLabel.Text = (goalCal - totalCal).ToString("0\nRemaining");
+            RemainingCalLabel.Text = (goalCal - totalCal).ToString("0\n") + await _localData.GetTranslationByKey("Remaining");
             CalorieLabel.Text = totalCal.ToString();
 
             if (totalCal < 100) { CalorieLabel.FontSize = 32; CalIcon.WidthRequest = 30; CalIcon.HeightRequest = 30; }
@@ -889,4 +1011,6 @@ public partial class Dashboard : ContentPage
 
         
     }
+
+   
 }

@@ -1,20 +1,24 @@
 ﻿using HealthModeApp.DataServices;
+using Mopups.Services;
 
 namespace HealthModeApp.Pages.FoodJournalPage;
 
-public partial class FoodJournalSettings : ContentPage
+public partial class FoodJournalSettings
 {
 	private readonly ISQLiteDataService _localData;
 
     double mealLayout;
     DateTime _date;
+    FoodJournal _sender;
 
-	public FoodJournalSettings(ISQLiteDataService localData, DateTime date)
+	public FoodJournalSettings(FoodJournal sender, ISQLiteDataService localData, DateTime date)
 	{
 		InitializeComponent();
        
 		_localData = localData;
         _date = date;
+        _sender = sender;
+        MainGrid.TranslateTo(MainGrid.X, -25, 100, Easing.CubicInOut);
         PopulateCurrentNames();
 
     }
@@ -217,7 +221,7 @@ public partial class FoodJournalSettings : ContentPage
         }
 
         Shell.SetTabBarIsVisible(this, false);
-        NavigationPage.SetHasNavigationBar(this, false);
+       
 
     }
 
@@ -281,12 +285,89 @@ public partial class FoodJournalSettings : ContentPage
             await _localData.UpdateMealName(6, meal6Name, _date);
 
             await _localData.UpdateMealNumber(mealLayout, _date);
+
+            var userID = await _localData.GetUserID();
+            var loggedFoods = await _localData.GetLoggedFoods(userID, _date);
+
+            switch (mealLayout)
+            {
+                case 1:
+                    var more1Foods = loggedFoods.Where(x => x.MealType > 1);
+                    foreach (var food in more1Foods)
+                    {
+                        await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 1);
+                    }
+                    break;
+
+                case 2:
+                    var more2Foods = loggedFoods.Where(x => x.MealType > 2);
+                    foreach (var food in more2Foods)
+                    {
+                        await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 2);
+                    }
+                    break;
+
+                case 3:
+                    var more3Foods = loggedFoods.Where(x => x.MealType > 3);
+                    foreach (var food in more3Foods)
+                    {
+                        await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 3);
+                    }
+                    break;
+
+                case 4:
+                    var more4Foods1 = loggedFoods.Where(x => x.MealType > 4);
+                    foreach (var food in more4Foods1)
+                    {
+                        await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 4);
+                    }
+                    break;
+                case 4.1:
+                    var more4Foods2 = loggedFoods.Where(x => x.MealType > 4);
+                    foreach (var food in more4Foods2)
+                    {
+                        await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 4);
+                    }
+                    break;
+                case 4.2:
+                    var more4Foods3 = loggedFoods.Where(x => x.MealType > 4);
+                    foreach (var food in more4Foods3)
+                    {
+                        await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 4);
+                    }
+                    break;
+
+                case 5:
+                    var more5Foods1 = loggedFoods.Where(x => x.MealType > 5);
+                    foreach (var food in more5Foods1)
+                    {
+                        await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 5);
+                    }
+                    break;
+                case 5.1:
+                    var more5Foods2 = loggedFoods.Where(x => x.MealType > 5);
+                    foreach (var food in more5Foods2)
+                    {
+                        await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 5);
+                    }
+                    break;
+                case 5.2:
+                    var more5Foods3 = loggedFoods.Where(x => x.MealType > 5);
+                    foreach (var food in more5Foods3)
+                    {
+                        await _localData.UpdateLoggedFoodMeal(food.LoggedFoodID, 5);
+                    }
+                    break;
+            }
+
+
         }
         catch (Exception ex)
         {
             await DisplayAlert("Error", ex.Message, "OK");
         }
-         await Navigation.PopModalAsync();
+        await MopupService.Instance.PopAsync();
+        _sender.PopulateMealNames();
     }
 
     async void Meal1Button_Clicked(System.Object sender, System.EventArgs e)
@@ -653,5 +734,31 @@ public partial class FoodJournalSettings : ContentPage
         Meal5Mid.FadeTo(.25, 50);
         Meal5Bottom.FadeTo(1, 100);
 
+    }
+
+    void Button_Clicked_1(System.Object sender, System.EventArgs e)
+    {
+        MopupService.Instance.PopAsync();
+    }
+
+
+    void MealFocused(System.Object sender, Microsoft.Maui.Controls.FocusEventArgs e)
+    {
+ 
+
+        MainGrid.TranslateTo(MainGrid.X, -355, 500, Easing.CubicOut);
+        MealSelectFrame.FadeTo(0.25, 500, Easing.CubicInOut);
+
+        CloseWhenBackgroundIsClicked = false;
+    }
+
+    void MealUnfocused(System.Object sender, Microsoft.Maui.Controls.FocusEventArgs e)
+    {
+        MainGrid.TranslateTo(MainGrid.X, -25, 500, Easing.CubicOut);
+        MealSelectFrame.FadeTo(1, 500, Easing.CubicInOut);
+
+        CloseWhenBackgroundIsClicked = true;
+
+        
     }
 }

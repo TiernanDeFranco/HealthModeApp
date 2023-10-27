@@ -42,6 +42,8 @@
                    TextColor="{AppThemeBinding Light=Black, Dark={StaticResource WSmoke}}"
                    Keyboard="Plain"
                    SearchButtonPressed="SearchButtonPressed"
+                   TextChanged="SearchFoods_TextChanged"
+                   IsSpellCheckEnabled="False"
                    x:Name="SearchFoods"/>
 
         <!-- Button -->
@@ -67,11 +69,16 @@
         <Frame Grid.Row="2" Padding="10" Margin="15,10,15,10">
             <Grid BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
 
                 </Grid.RowDefinitions>
-                <ActivityIndicator Grid.Row="0"
+
+                <Label x:Name="SearchLabel" Margin="0,0,0,3" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource WSmoke}}"
+                       FontAutoScalingEnabled="False" FontFamily="Lato-Bold"/>
+
+                <ActivityIndicator Grid.Row="1"
                     x:Name="LoadingBar"
                     IsRunning="False"
                     IsVisible="False"
@@ -79,14 +86,16 @@
                     HorizontalOptions="CenterAndExpand"/>
 
             <ListView
-                HorizontalOptions="Center" Grid.Row="0" CachingStrategy="RecycleElement"
+                HorizontalOptions="Center" Grid.Row="1" CachingStrategy="RecycleElement"
                 BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource BlueGray}}"
                 x:Name="SearchResultList"
                 IsVisible="False"
                 ItemSelected="SearchResultList_ItemSelected"/>
 
+           
 
-                 <Button x:Name="LoadMore" IsVisible="False" Grid.Row="1" BackgroundColor="Transparent" TextColor="{StaticResource LightPrimary}" BorderColor="Transparent" Text="Load More..." Clicked="LoadMore_Clicked"/>
+
+                 <Button x:Name="LoadMore" IsVisible="False" Grid.Row="2" BackgroundColor="Transparent" TextColor="{StaticResource LightPrimary}" BorderColor="Transparent" Text="Load More..." Clicked="LoadMore_Clicked"/>
                 </Grid>
 
            

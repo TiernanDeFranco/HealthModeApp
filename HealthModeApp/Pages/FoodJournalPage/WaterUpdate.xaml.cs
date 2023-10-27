@@ -38,7 +38,7 @@ public partial class WaterUpdate : ContentPage
         userID = await _localData.GetUserID();
         var userInfo = await _localData.GetUserAsync(userID);
         var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-        _waterUnit = unitList[1];
+        _waterUnit = unitList[2];
         decimal mLVolume = 0;
 
         switch (_waterUnit)

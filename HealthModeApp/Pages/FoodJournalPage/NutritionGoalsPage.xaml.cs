@@ -11,25 +11,10 @@ public partial class NutritionGoalsPage : ContentPage
     public NutritionGoalsPage(ISQLiteDataService localData, IRestDataService dataService)
     {
         InitializeComponent();
+        Shell.SetTabBarIsVisible(this, false);
         _localData = localData;
         _dataService = dataService;
-        // Populate CarbPicker with percentages from 0% to 100%
-        for (int i = 0; i <= 100; i++)
-        {
-            CarbPicker.Items.Add($"{i}%");
-        }
-
-        // Populate FatPicker with percentages from 0% to 100%
-        for (int i = 0; i <= 100; i++)
-        {
-            FatPicker.Items.Add($"{i}%");
-        }
-
-        // Populate ProteinPicker with percentages from 0% to 100%
-        for (int i = 0; i <= 100; i++)
-        {
-            ProteinPicker.Items.Add($"{i}%");
-        }
+        
         CalorieGoalEntry.Text = "0";
         SetDefaults();
 
@@ -79,9 +64,7 @@ public partial class NutritionGoalsPage : ContentPage
         
         await Task.Delay(100);
         CalorieGoalEntry.Text = calGoal.ToString();
-        CarbPicker.SelectedIndex = carbIndex;
-        FatPicker.SelectedIndex = fatIndex;
-        ProteinPicker.SelectedIndex = proteinIndex;
+        
 
         
     }
@@ -91,80 +74,7 @@ public partial class NutritionGoalsPage : ContentPage
     int carbPercent;
     int fatPercent;
     int proteinPercent;
-    async void Button_Clicked(System.Object sender, System.EventArgs e)
-    {
-        int carbIndex = CarbPicker.SelectedIndex;
-        int fatIndex = FatPicker.SelectedIndex;
-        int proteinIndex = ProteinPicker.SelectedIndex;
-        int total = carbIndex + fatIndex + proteinIndex;
-
-        int calorieStored = 0;
-
-        string foodUnit = await _localData.GetFoodEnergyUnit();
-        switch (foodUnit)
-        {
-            case "kCal":
-                calorieStored = Convert.ToInt32(CalorieGoalEntry.Text);
-                break;
-
-            case "cal":
-                calorieStored = Convert.ToInt32(CalorieGoalEntry.Text);
-                break;
-
-            case "kJ":
-                calorieStored = (int)Math.Round(Convert.ToInt32(CalorieGoalEntry.Text) / 4.148);
-                break;
-        }
-
-        carbPercent = carbIndex;
-        fatPercent = fatIndex;
-        proteinPercent = proteinIndex;
-
-        if (total == 100)
-        {
-                _userID = await _localData.GetUserID();
-                bool hasTodayGoals = await _localData.NutritionGoalDateExists(_userID, DateTime.Today);
-                var (carbGrams, fatGrams, proteinGrams) = ConvertToGrams(carbPercent, fatPercent, proteinPercent, calorieStored);
-                Dictionary<string, int> nutrientGoals = await CalculateNutrientGoals(calorieStored);
-                if (hasTodayGoals)
-                {
-                    await _localData.UpdateNutritionGoals(_userID, DateTime.Today, calorieStored, carbGrams, fatGrams, proteinGrams, nutrientGoals["satfat"], nutrientGoals["punsatfat"], nutrientGoals["munsatfat"], 0, nutrientGoals["sugar"],
-                                    nutrientGoals["iron"], nutrientGoals["calcium"], nutrientGoals["potassium"], nutrientGoals["sodium"], nutrientGoals["cholesterol"],
-                                    nutrientGoals["vitaminA"], nutrientGoals["thiamin"], nutrientGoals["riboflavin"], nutrientGoals["niacin"], nutrientGoals["b5"],
-                                    nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
-                                    nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"], 2000);
-                }
-                else
-                {
-                    
-                    await _localData.AddNutritionGoals(_userID, DateTime.Today, calorieStored, carbGrams, fatGrams, proteinGrams,
-                                    nutrientGoals["satfat"], nutrientGoals["punsatfat"], nutrientGoals["munsatfat"], 0, nutrientGoals["sugar"],
-                                    nutrientGoals["iron"], nutrientGoals["calcium"], nutrientGoals["potassium"], nutrientGoals["sodium"], nutrientGoals["cholesterol"],
-                                    nutrientGoals["vitaminA"], nutrientGoals["thiamin"], nutrientGoals["riboflavin"], nutrientGoals["niacin"], nutrientGoals["b5"],
-                                    nutrientGoals["b6"], nutrientGoals["biotin"], nutrientGoals["cobalamine"], nutrientGoals["folicacid"],
-                                    nutrientGoals["vitaminC"], nutrientGoals["vitaminD"], nutrientGoals["vitaminE"], nutrientGoals["vitaminK"], 2000);
-                }
-                Debug.WriteLine($"{carbGrams}, {fatGrams}, {proteinGrams}");
-                UserInfo userInfo = new UserInfo
-                {
-                    UserID = _userID,
-                    CalorieGoal = calorieStored
-                };
-                LoadingBar.IsVisible = true;
-                LoadingBar.IsRunning = true;
-                SaveButton.IsVisible = false;
-                (string email, string password) = await _localData.GetUserCredentials();
-                await _dataService.UpdateUserInfoAsync(userInfo, email, password, _userID);
-                await Navigation.PopAsync();
-                  
-        }
-        else
-        {
-            await DisplayAlert("Notice", "Your macro percentages must total 100%", "OK");
-            LoadingBar.IsVisible = false;
-            SaveButton.IsVisible = true;
-        }
-    }
+   
 
     public (int carbs, int fat, int protein) ConvertToGrams(int carbPercent, int fatPercent, int proteinPercent, int calories)
     {
@@ -211,6 +121,7 @@ public partial class NutritionGoalsPage : ContentPage
         int polyunsaturatedFatRDV = (int)Math.Round(22.0 / 2000.0 * calorieGoal);
         int monounsaturatedFatRDV = (int)Math.Round(33.0 / 2000.0 * calorieGoal);
         int sugarRDV = (int)Math.Round(50.0 / 2000.0 * calorieGoal);
+        int fiberRDV = (int)Math.Round(28.0 / 2000.0 * calorieGoal);
         int ironRDV = (int)Math.Round(30.0 / 2000.0 * calorieGoal);
         int calciumRDV = (int)Math.Round(1300.0 / 2000.0 * calorieGoal);
         int potassiumRDV = (int)Math.Round(4700.0 / 2000.0 * calorieGoal);
@@ -241,6 +152,7 @@ public partial class NutritionGoalsPage : ContentPage
         { "punsatfat", polyunsaturatedFatRDV },
         { "munsatfat", monounsaturatedFatRDV },
         { "sugar", sugarRDV },
+        { "fiber", fiberRDV },
         { "iron", ironRDV },
         { "calcium", calciumRDV },
         { "potassium", potassiumRDV },
@@ -266,63 +178,7 @@ public partial class NutritionGoalsPage : ContentPage
 
 
 
-    async void PercentChanged(System.Object sender, System.EventArgs e)
-    {
-        int carbIndex = CarbPicker.SelectedIndex;
-        int fatIndex = FatPicker.SelectedIndex;
-        int proteinIndex = ProteinPicker.SelectedIndex;
-
-        int calorieStored = 0;
-
-        
-
-        if (!string.IsNullOrWhiteSpace(CalorieGoalEntry.Text))
-        {
-            string input = CalorieGoalEntry.Text;
-            if (input.Contains("."))
-            {
-                input = input.Replace(".", "0");
-                CalorieGoalEntry.Text = input;
-            }
-
-            string foodUnit = await _localData.GetFoodEnergyUnit();
-            switch (foodUnit)
-            {
-                case "kCal":
-                    calorieStored = Convert.ToInt32(CalorieGoalEntry.Text);
-                    break;
-
-                case "cal":
-                    calorieStored = Convert.ToInt32(CalorieGoalEntry.Text);
-                    break;
-
-                case "kJ":
-                    calorieStored = (int)Math.Round(Convert.ToInt32(CalorieGoalEntry.Text) / 4.148);
-                    break;
-            }
-
-            if (int.TryParse(input, out int calories))
-            {
-                var (carbGrams, fatGrams, proteinGrams) = ConvertToGrams(carbIndex, fatIndex, proteinIndex, calories);
-
-                Debug.WriteLine($"{carbGrams}, {fatGrams}, {proteinGrams}");
-                CarbGrams.Text = $"{carbGrams}g";
-                FatGrams.Text = $"{fatGrams}g";
-                ProteinGrams.Text = $"{proteinGrams}g";
-                int total = carbIndex + fatIndex + proteinIndex;
-                PercentCheck.Text = $"{total}%";
-                if (total != 100)
-                {
-                    PercentCheck.TextColor = Color.FromRgb(247, 23, 53);
-                }
-                else PercentCheck.TextColor = Color.FromRgb(116, 165, 127);
-            }
-            else
-            {
-                CalorieGoalEntry.Text = Convert.ToInt32(CalorieGoalEntry.Text).ToString();
-            }
-        }
-    }
+   
 
 
 }

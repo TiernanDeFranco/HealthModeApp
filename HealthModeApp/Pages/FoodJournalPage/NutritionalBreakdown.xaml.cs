@@ -26,6 +26,7 @@ public partial class NutritionalBreakdown : ContentPage
     public string energyUnit;
 
     double totalSugar;
+    double totalFiber;
     double totalSatFat;
     double totalMUnSatFat;
     double totalPUnSatFat;
@@ -136,7 +137,7 @@ public partial class NutritionalBreakdown : ContentPage
         var  userID = await _localData.GetUserID();
         var userInfo = await _localData.GetUserAsync(userID);
         var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-        var dateFormat = unitList[4];
+        var dateFormat = unitList[5];
 
         if (DeviceInfo.Platform == DevicePlatform.Android)
         {
@@ -166,6 +167,7 @@ public partial class NutritionalBreakdown : ContentPage
         goalCal = 0;
 
         totalSugar = 0;
+        totalFiber = 0;
         totalSatFat = 0;
         totalPUnSatFat = 0;
         totalMUnSatFat = 0;
@@ -200,7 +202,7 @@ public partial class NutritionalBreakdown : ContentPage
         var loggedFoods = await _localData.GetLoggedFoods(userID, DateSelect.Date);
         var userInfo = await _localData.GetUserAsync(userID);
         var unitList = JsonSerializer.Deserialize<List<string>>(userInfo.Units);
-        energyUnit = unitList[2];
+        energyUnit = unitList[3];
 
 
         var mealFoodIDs = loggedFoods.Select(f => f.LoggedFoodID).ToList();
@@ -240,6 +242,7 @@ public partial class NutritionalBreakdown : ContentPage
                     totalProtein += Math.Round((decimal)food.Protein, 5);
 
                 totalSugar += Math.Round((double)(food.Sugar ?? 0), 3);
+                totalFiber += Math.Round((double)(food.Fiber ?? 0), 3);
                 totalSatFat += Math.Round((double)(food.SatFat ?? 0), 3);
                 totalPUnSatFat += Math.Round((double)(food.PUnSatFat ?? 0), 3);
                 totalMUnSatFat += Math.Round((double)(food.MUnSatFat ?? 0), 3);
@@ -393,6 +396,9 @@ public partial class NutritionalBreakdown : ContentPage
             SugarValue.Text = totalSugar.ToString("0.#g");
             SugarLeft.Text = (nutritionGoals.SugarGoal - totalSugar).ToString("0.#g");
 
+            FiberValue.Text = totalFiber.ToString("0.#g");
+            FiberLeft.Text = (nutritionGoals.FiberGoal - totalFiber).ToString("0.#g");
+
             SatFatValue.Text = totalSatFat.ToString("0.#g");
             SatFatLeft.Text = (nutritionGoals.SatdFatGoal - totalSatFat).ToString("0.#g");
 
@@ -463,11 +469,12 @@ public partial class NutritionalBreakdown : ContentPage
 
 
             SugarBar.ProgressTo((totalSugar/nutritionGoals.SugarGoal) + .02, 1500, Easing.CubicOut);
+            FiberBar.ProgressTo((totalFiber / nutritionGoals.FiberGoal) + .02, 1500, Easing.CubicOut);
 
             SatFatBar.ProgressTo((totalSatFat / nutritionGoals.SatdFatGoal) + .02, 1500, Easing.CubicOut);
             PUnSatFatBar.ProgressTo((totalPUnSatFat / nutritionGoals.PUnSatFatGoal) + .02, 1500, Easing.CubicOut);
             MUnSatFatBar.ProgressTo((totalMUnSatFat / nutritionGoals.MUnSatFatGoal) + .02, 1500, Easing.CubicOut);
-            TransFatBar.ProgressTo((totalTransFat) + .02, 1500, Easing.CubicOut);
+            TransFatBar.ProgressTo((totalTransFat + .1) / (nutritionGoals.TransFatGoal + .1), 1500, Easing.CubicOut);
 
             IronBar.ProgressTo((totalIron / nutritionGoals.IronGoal) + .02, 1500, Easing.CubicOut);
             CalciumBar.ProgressTo((totalCalcium / nutritionGoals.CalciumGoal) + .02, 1500, Easing.CubicOut);
