@@ -18,12 +18,12 @@ namespace HealthModeApp.DataServices
         private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly ISQLiteDataService _localData;
 
-        string cVersion = "0.1.0"; //<------ This is the version number of the app, it must be updated with each subsequent app store new version launch along with the API's version and they need to match
-
+        string cVersion = "0.1.0";
+        
         public RestDataService()
         {
             _httpClient = new HttpClient();
-           _baseAddress = "https://5vw1lstyzd.execute-api.us-east-2.amazonaws.com/beta";
+           _baseAddress = "[REDACTED For Security]";
             _url = $"{_baseAddress}/api/healthmode";
 
 
@@ -110,7 +110,7 @@ namespace HealthModeApp.DataServices
                 Debug.WriteLine(jsonNutrition);
 
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/food/auth/3FhSsE3LFDTVcvRxbW4ED8fyAPwuBuQimJvWnv7QuE", content);
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/food/", content);
 
 
                 if (response.IsSuccessStatusCode)
