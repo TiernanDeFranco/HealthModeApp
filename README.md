@@ -1,4 +1,4 @@
-# .NET MAUI HealthMode application (deprecated/moved to Uno Platform)
+# .NET MAUI HealthMode application (deprecated/moved to React)
 
 I utilized .NET Maui to create a prototype native application for iOS and Android which was entitled HealthMode:
 
@@ -13,7 +13,7 @@ I utilized .NET Maui to create a prototype native application for iOS and Androi
 #
 <br />
 
-This was a simple protoype of a food and weight tracking app, with features for leaderboards/challenges and workouts not added since I've since moved to Uno Platform.
+This was a simple protoype of a food and weight tracking app, with features for leaderboards/challenges and workouts not added yet.
 
 The app is utilizing an ASP.NET Core Web API connecting to an RDS MSSQL Server DB on AWS which contains 500,000 food records with the required nutritional information.
 
